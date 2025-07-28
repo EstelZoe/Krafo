@@ -7,7 +7,7 @@ import BlogPage from "./pages/BlogPage";
 import YouthCyberEd from "./pages/YouthCyberEd";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
-// import BookingPage from "./pages/BookingPage";
+import Consultation from "./pages/Consultation";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
   { path: "/youth-cyber-ed", element: <YouthCyberEd /> },
   { path: "/signup", element: <SignUp /> },
   { path: "/login", element: <LogIn /> },
-  // { path: "/booking-page", element: <BookingPage /> },
+  { path: "/consultation", element: <Consultation /> },
 ]);
 
 function App() {
