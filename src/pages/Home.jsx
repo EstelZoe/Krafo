@@ -46,10 +46,11 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+      
+      {/* Who We Serve */}
       <section className="py-6 bg-brand-dark bg-black text-[#F2600B] text-brand-dark-foreground px-8 md:px-16">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-brand-orange">Who We Serve</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-brand-orange">Our Services</h2>
           <p className="text-xl text-muted-foreground mb-16 max-w-3xl mx-auto text-white">
             We provide cybersecurity education and consultation to various sectors across Africa
           </p>
