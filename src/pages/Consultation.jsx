@@ -42,7 +42,7 @@ export default function Consultation() {
                             <div className="mt-8 space-y-5 text-gray-300 text-lg">
                                 <p>Your security is our priority. Our experts are ready to provide tailored guidance to meet your specific challenges and help you:</p>
                                 <ul className="list-disc list-inside space-y-2 pl-2">
-                                    <li>
+                                    <li> 
                                         <span className="text-orange-600 font-medium">Fortify</span> your organization's defenses against modern threats.
                                     </li>
                                     <li>
