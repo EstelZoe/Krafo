@@ -82,7 +82,36 @@ nav{
   }
 }
 
-.animate-float {
+.animate-float-medium {
   animation: float 3s ease-in-out infinite;
 }
 
+.animate-float-slow {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes rotate-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-counter-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-rotate-slow {
+  animation: rotate-clockwise 40s linear infinite;
+}
+
+.animate-rotate-medium {
+  animation: rotate-counter-clockwise 30s linear infinite;
+}
