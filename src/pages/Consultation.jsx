@@ -33,7 +33,7 @@ export default function Consultation() {
 
                     <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
                         <div className="lg:sticky lg:top-24 text-left">
-                            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
+                            <h2 className="text-4xl md:text-5xl font-extrabold font-proxon tracking-tight text-white mb-4">
                                 Schedule Your Session
                             </h2>
                             <p className="mt-4 text-xl text-gray-300">
