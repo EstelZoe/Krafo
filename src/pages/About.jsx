@@ -1,6 +1,6 @@
 import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
-import Krafoimage from "../assets/images/KRAFO ORIGINAL MARKAsset 73@2x.png";
+// import Krafoimage from "../assets/images/KRAFO ORIGINAL MARKAsset 73@2x.png";
 import Aml from "../assets/images/aml.jpg";
 import Ks from "../assets/images/ks.jpg";
 import Sl from "../assets/images/studentlearning.png";
@@ -8,22 +8,11 @@ import Ms from "../assets/images/ms.jpg";
 import Cl from "../assets/images/cl.jpg";
 import HeroVid from "../assets/videos/Vid2.mp4";
 import { motion } from "framer-motion";
-
-import {
-  Shield,
-  GraduationCapIcon,
-  Lightbulb,
-  FileText,
-  Lock,
-  Home,
-  ShieldCheck,
-  Globe,
-  SchoolIcon,
-  Building2,
-  Briefcase,
-} from "lucide-react";
+import { Shield, GraduationCapIcon, Lightbulb, FileText, Lock, Home, ShieldCheck, Globe, SchoolIcon, Building2, Briefcase, } from "lucide-react";
 import { image } from "framer-motion/client";
-
+import pic1 from "../assets/images/origilogo.png";
+import pic2 from "../assets/images/krafoashanti.png";
+import pic3 from "../assets/images/bgremover2.png";
 
 
 const journeyData = [
@@ -88,16 +77,12 @@ export default function About() {
 
           {/* Floating Image Tiles */}
           <div className="grid grid-cols-2 gap-4">
-            {/* <img src={Aml} alt="Team" className="rounded-xl object-cover w-40 h-52 shadow-lg hover:scale-105 transition duration-300" />
-            <img src={Ks} alt="Workshop" className="rounded-xl object-cover w-40 h-32 shadow-lg hover:scale-105 transition duration-300" />
-            <img src={Sl} alt="Community" className="rounded-xl object-cover w-40 h-36 shadow-lg hover:scale-105 transition duration-300" /> */}
-            {/* <img src={Krafoimage} alt="Students" className="rounded-xl object-cover w-50 h-50 shadow-lg hover:scale-105 transition duration-300" /> */}
           </div>
         </div>
       </section>
 
 
-      {/* Our Achievements Section */}
+      {/* /* Our Achievements Section */} 
       <section className="overflow-hidden pb-12 pt-20 lg:pb-16 lg:pt-24 relative bg-black">
         {/* Pattern Background */}
 
@@ -109,16 +94,16 @@ export default function About() {
               <div className="-mx-3 flex items-center sm:-mx-4">
                 <div className="w-full px-3 sm:px-4 xl:w-1/2">
                   <div className="py-3 sm:py-4">
-                    <div className="relative overflow-hidden rounded-2xl shadow-xl">
-                      <div className=" bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl w-full h-64"></div>
+                    <div className="relative overflow-hidden rounded-2xl shadow-xl w-50 h-50">
+                      <img src={pic1} alt="Cybersecurity training" className="w-full h-50 object-cover" />
                       <div
                         className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"
-                      ></div>
+                      ></div> 
                     </div>
                   </div>
                   <div className="py-3 sm:py-4">
                     <div className="relative overflow-hidden rounded-2xl shadow-xl">
-                      <div className=" bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55]rounded-xl w-full h-64"></div>
+                      <img src={pic2} alt="Krafo Systems team" className="w-full h-64 object-cover" />
                       <div
                         className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"
                       ></div>
@@ -128,7 +113,7 @@ export default function About() {
                 <div className="w-full px-3 sm:px-4 xl:w-1/2">
                   <div className="relative z-10 my-4">
                     <div className="relative overflow-hidden rounded-2xl shadow-xl">
-                      <div className=" bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl w-full h-80"></div>
+                      <img src={pic3} alt="Student learning cybersecurity" className="w-full h-80 object-cover" />
                       <div
                         className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"
                       ></div>
@@ -356,7 +341,7 @@ export default function About() {
         </div>
       </section>
 
-{/* Who We Serve Section */}
+      {/* Who We Serve Section */}
       <section className="py-6 bg-brand-dark bg-black text-[#F2600B] text-brand-dark-foreground px-8 md:px-16">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-brand-orange">Who We Serve</h2>
@@ -466,7 +451,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="bg-black text-white py-20 px-4 md:px-20 overflow-hidden">
+    <section className="bg-black text-white py-20 px-4 md:px-20 overflow-hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 md:grid-rows-5 gap-6">
           {/* Text Block */}
           <div className="col-span-3 row-span-3 flex flex-col justify-center items-start p-6 bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] rounded-xl shadow-lg relative overflow-hidden">
@@ -494,7 +479,7 @@ export default function About() {
               repeatType: "reverse",
               ease: "easeInOut",
             }}
-            className="bg-[#1A1A1C] rounded-xl shadow-md flex items-center justify-center col-start-4 row-start-1 row-span-2 md:flex"
+            className="bg-[#1A1A1C] rounded-xl shadow-md hidden items-center justify-center col-start-4 row-start-1 row-span-2 md:flex"
           >
             <motion.img
               src={Ks}
@@ -513,7 +498,7 @@ export default function About() {
               repeatType: "reverse",
               ease: "easeInOut",
             }}
-            className="bg-[#1A1A1C] rounded-xl shadow-md flex items-center justify-center col-start-5 row-start-1 row-span-1 md:flex"
+            className="bg-[#1A1A1C] rounded-xl shadow-md hidden items-center justify-center col-start-5 row-start-1 row-span-1 md:flex"
           >
             <motion.img
               src={Ms}
@@ -532,7 +517,7 @@ export default function About() {
               repeatType: "reverse",
               ease: "easeInOut",
             }}
-            className="bg-[#1A1A1C] rounded-xl shadow-md flex items-center justify-center col-start-4 row-start-3 row-span-1 md:flex"
+            className="bg-[#1A1A1C] rounded-xl shadow-md hidden items-center justify-center col-start-4 row-start-3 row-span-1 md:flex"
           >
             <motion.img
               src={Aml}
@@ -551,7 +536,7 @@ export default function About() {
               repeatType: "reverse",
               ease: "easeInOut",
             }}
-            className="bg-[#1A1A1C] rounded-xl shadow-md flex items-center justify-center col-start-5 row-start-2 row-span-2 md:flex"
+            className="bg-[#1A1A1C] rounded-xl shadow-md hidden items-center justify-center col-start-5 row-start-2 row-span-2 md:flex"
           >
             <motion.img
               src={Cl}
@@ -585,7 +570,6 @@ export default function About() {
           </div>
         </div>
       </section>
-
 
       <Footer variant="orange" />
 

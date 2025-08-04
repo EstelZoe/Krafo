@@ -51,7 +51,7 @@ export default function YouthCyberEducation() {
 
 
             {/* Hero Section */}
-            <section className="relative bg-black text-white">
+            <section className="relative bg-black text-white pt-10">
                 <div className="flex flex-col md:flex-row h-auto md:h-[34rem]">
 
                     {/* Text Side */}
@@ -61,10 +61,12 @@ export default function YouthCyberEducation() {
                             <p className="max-w-md text-lg text-orange-500 mb-6">
                                 Empowering young minds with knowledge, tools, and support to stay safe and thrive in the digital age.
                             </p>
-                            <div className="flex justify-center md:justify-start space-x-4">
-                                <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-lg transition">
-                                    View Curriculum
-                                </button>
+                            <div className="flex justify-center md:justify-start space-x-4 pointer-cursor">
+                                <a href=" https://mycyberbytes.africa/" target="_blank" rel="noopener noreferrer"  >
+                                    <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-lg transition">
+                                        Visit Website
+                                    </button>
+                                </a>
                                 <button className="bg-white text-black font-semibold px-6 py-2 rounded-lg hover:bg-gray-200 transition">
                                     Request Demo
                                 </button>
@@ -178,51 +180,51 @@ export default function YouthCyberEducation() {
 
 
             {/* Outreach Impact Section */}
-            
-            <section className="py-16 bg-gray-100 dark:bg-black text-center">
-    <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-12">Our Outreach Impact</h2>
 
-    <motion.div
-        variants={{
-            hidden: { opacity: 0, y: 20 },
-            show: {
-                opacity: 1,
-                y: 0,
-                transition: {
-                    staggerChildren: 0.15,
-                    delayChildren: 0.2,
-                    duration: 0.5,
-                    ease: "easeOut"
-                }
-            }
-        }}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.4 }}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4"
-    >
-        {OutreachStats.map(({ end, label, Icon }, idx) => (
-            <motion.div
-                key={idx}
-                variants={{
-                    hidden: { opacity: 0, y: 30 },
-                    show: { opacity: 1, y: 0 }
-                }}
-                className="group bg-gradient-to-r from-orange-500 to-yellow-400 bg-clip-text text-transparent backdrop-blur-xl p-8 rounded-2xl border border-orange-500/20 hover:shadow-[0_0_30px_#F2600B33] transition duration-300"
-            >
-                <div className="w-16 h-16 mb-4 mx-auto flex items-center justify-center rounded-full bg-black border-2 border-orange-500 shadow-inner group-hover:shadow-orange-500/40 transition-all">
-                    <Icon className="text-orange-500 w-7 h-7 group-hover:scale-110 transition-transform" />
-                </div>
-                <h3 className="text-4xl font-bold text-orange-600 text-center group-hover:scale-105 transition-transform">
-                    <CountUp end={end} duration={2} separator="," />+
-                </h3>
-                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2 text-center">
-                    {label}
-                </p>
-            </motion.div>
-        ))}
-    </motion.div>
-</section>
+            <section className="py-16 bg-gray-100 dark:bg-black text-center">
+                <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-12">Our Outreach Impact</h2>
+
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 20 },
+                        show: {
+                            opacity: 1,
+                            y: 0,
+                            transition: {
+                                staggerChildren: 0.15,
+                                delayChildren: 0.2,
+                                duration: 0.5,
+                                ease: "easeOut"
+                            }
+                        }
+                    }}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, amount: 0.4 }}
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4"
+                >
+                    {OutreachStats.map(({ end, label, Icon }, idx) => (
+                        <motion.div
+                            key={idx}
+                            variants={{
+                                hidden: { opacity: 0, y: 30 },
+                                show: { opacity: 1, y: 0 }
+                            }}
+                            className="group bg-gradient-to-r from-orange-500 to-yellow-400 bg-clip-text text-transparent backdrop-blur-xl p-8 rounded-2xl border border-orange-500/20 hover:shadow-[0_0_30px_#F2600B33] transition duration-300"
+                        >
+                            <div className="w-16 h-16 mb-4 mx-auto flex items-center justify-center rounded-full bg-black border-2 border-orange-500 shadow-inner group-hover:shadow-orange-500/40 transition-all">
+                                <Icon className="text-orange-500 w-7 h-7 group-hover:scale-110 transition-transform" />
+                            </div>
+                            <h3 className="text-4xl font-bold text-orange-600 text-center group-hover:scale-105 transition-transform">
+                                <CountUp end={end} duration={2} separator="," />+
+                            </h3>
+                            <p className="text-sm text-gray-700 dark:text-gray-300 mt-2 text-center">
+                                {label}
+                            </p>
+                        </motion.div>
+                    ))}
+                </motion.div>
+            </section>
 
             {/* Impact Section */}
             <section className="py-16 px-6 md:px-20 bg-orange-50">

@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../assets/components/Navbar';
 import Footer from '../assets/components/Footer';
 import Logo from "../assets/images/signuplogo.png";
+import { apiClient } from '../api/client';
+import { form } from 'framer-motion/client';
+import { toast } from 'react-toastify';
 
 export default function SignUp() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         firstName: '',
+        lastName: '',
         email: '',
         password: '',
         confirmPassword: '',
-        agreedToTerms: false,
+        // agreedToTerms: false,
     });
+
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -21,23 +32,40 @@ export default function SignUp() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
+
+        const payload = {firstName, lastName, email, password, confirmPassword}
+
+        //api integration
+        try {
+            const response = await apiClient.post("auth/signup", payload, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                });
+                console.log(response.data)
+                toast.success("Account Created Successffully")
+                navigate("/login")
+        } catch (error) {
+            console.log(error)
+        }
         // TODO: Implement actual sign-up logic (e.g., API call)
         console.log('Form data submitted:', formData);
-        alert('Account created successfully! (simulation)');
+        // alert('Account created successfully! (simulation)');
     };
 
     const isFormValid =
         formData.firstName &&
+        formData.lastName &&
         formData.email &&
         formData.password &&
-        formData.confirmPassword &&
-        formData.agreedToTerms;
+        formData.confirmPassword;
+        // formData.agreedToTerms;
 
     return (
         <div className="bg-white text-black">
@@ -67,8 +95,21 @@ export default function SignUp() {
                                     required
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                     placeholder="First Name"
-                                    value={formData.firstName}
-                                    onChange={handleChange}
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="firstName" className="sr-only">Last Name</label>
+                                <input
+                                    id="lastName"
+                                    name="lastName"
+                                    type="text"
+                                    required
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                    placeholder="First Name"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
                                 />
                             </div>
                             <div>
@@ -81,8 +122,8 @@ export default function SignUp() {
                                     required
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                     placeholder="Email address"
-                                    value={formData.email}
-                                    onChange={handleChange}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <div>
@@ -95,8 +136,8 @@ export default function SignUp() {
                                     required
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                     placeholder="Password"
-                                    value={formData.password}
-                                    onChange={handleChange}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                             <div>
@@ -109,8 +150,8 @@ export default function SignUp() {
                                     required
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                     placeholder="Confirm Password"
-                                    value={formData.confirmPassword}
-                                    onChange={handleChange}
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -118,9 +159,9 @@ export default function SignUp() {
                         <div className="flex items-center">
                             <input
                                 id="agreedToTerms"
-                                name="agreedToTerms"
+                                // name="agreedToTerms"
                                 type="checkbox"
-                                checked={formData.agreedToTerms}
+                                // checked={formData.agreedToTerms}
                                 onChange={handleChange}
                                 className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
                             />
@@ -139,7 +180,7 @@ export default function SignUp() {
                         <div>
                             <button
                                 type="submit"
-                                disabled={!isFormValid}
+                                // disabled={!isFormValid}
                                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:bg-orange-300 disabled:cursor-not-allowed"
                             >
                                 Sign up

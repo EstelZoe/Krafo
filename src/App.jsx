@@ -8,6 +8,7 @@ import YouthCyberEd from "./pages/YouthCyberEd";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import Consultation from "./pages/Consultation";
+import { ToastContainer, toast } from "react-toastify";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
+    <ToastContainer/>
       <RouterProvider router={router} />
     </>
   )

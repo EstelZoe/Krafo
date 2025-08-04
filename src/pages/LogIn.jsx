@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../assets/components/Navbar';
 import Footer from '../assets/components/Footer';
 import Logo from "../assets/images/signuplogo.png";
+import { apiClient } from '../api/client';
+import { toast } from 'react-toastify';
 
 export default function LogIn() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -18,11 +21,25 @@ export default function LogIn() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // TODO: Implement actual login logic (e.g., API call)
+         //api integration
+                try {
+                    const response = await apiClient.post("auth/login", formData, {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        });
+                        console.log(response.data)
+                        localStorage.setItem("token", response.data.token)
+                    toast.success("Login Successfull")
+                navigate("/")
+                } catch (error) {
+                    console.log(error)
+                }
         console.log('Login data submitted:', formData);
-        alert('Signed in successfully! (simulation)');
+        // alert('Signed in successfully! (simulation)');
     };
 
     return (

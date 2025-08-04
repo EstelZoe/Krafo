@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, User2Icon, X } from 'lucide-react';
 import krafoLogo from '../images/KRAFO ORIGINAL WHITEAsset 70-8.png';
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { div } from 'framer-motion/client';
 
 const navLinks = [
     // { name: "Home", path: "/" },
@@ -15,10 +16,16 @@ const navLinks = [
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const token = localStorage.getItem("token")
+    const navigate = useNavigate()
 
+    const LogOut = () => {
+        localStorage.removeItem("token")
+        navigate("/login")
+    }
     return (
-        <nav className="bg-black text-white fixed w-full z-50 mb-8">
-            <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+        <nav className="bg-black text-white fixed w-full z-50 mb-8 flex items-center">
+            <div className="max-w-7xl mx-auto px-4 py-2 flex gap-30 items-center">
                 {/* Logo */}
                 <Link to="/" className="flex items-center">
                 <div>
@@ -50,12 +57,31 @@ export default function Navbar() {
                     </div>
 
                     {/* Auth Buttons */}
-                    <Link to="/signup" className="ml-4 px-4 py-1 border border-white rounded hover:bg-orange-500 hover:border-orange-500 transition-colors">
-                        Sign Up
-                    </Link>
-                    <Link to="/login" className="ml-2 px-4 py-1 bg-orange-500 border border-orange-500 rounded hover:bg-orange-600 transition-colors">
-                        Login
-                    </Link>
+                    { token ?
+                            <div className='flex space-x-2 pt-2'>
+                                <div>
+                                  <Link to="/login" className="text-center w-full bg-orange-500 border-orange-500 py-2 px-2 rounded hover:bg-orange-600" onClick={LogOut}>
+                               Contact
+                            </Link>
+                            </div>
+                                <div>
+                                  <Link to="/login" className="text-center w-full bg-orange-500 border-orange-500 py-2 px-2 rounded hover:bg-orange-600" onClick={LogOut}>
+                               LogOut
+                            </Link>
+                            </div>
+                            </div>
+                        : (
+                           
+                               <div className="flex space-x-2 pt-2">
+                            <Link to="/signup" className="text-center w-full border whitespace-nowrap border-white py-1 px-2 rounded hover:text-orange-500 " onClick={() => setIsOpen(false)}>
+                                Sign Up
+                            </Link>
+                            <Link to="/login" className="text-center w-full bg-orange-500 border-orange-500 py-1 rounded px-2 hover:bg-orange-600" onClick={() => setIsOpen(false)}>
+                                Login
+                            </Link>
+                        </div>
+                        )
+                        }
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -92,7 +118,15 @@ export default function Navbar() {
 
 
                         {/* Auth Buttons */}
-                        <div className="flex space-x-2 pt-2">
+                        { token ?
+                                <div>
+                                  <Link to="/login" className="text-center w-full bg-orange-500 border-orange-500 py-1 rounded hover:bg-orange-600" onClick={() => setIsOpen(false)}>
+                                Login
+                            </Link>
+                            </div>
+                        : (
+                           
+                               <div className="flex space-x-2 pt-2">
                             <Link to="/signup" className="text-center w-full border border-white py-1 rounded hover:text-orange-500 " onClick={() => setIsOpen(false)}>
                                 Sign Up
                             </Link>
@@ -100,8 +134,23 @@ export default function Navbar() {
                                 Login
                             </Link>
                         </div>
+                        )
+                        }
+                  
                     </div>
+                
                 )
+            }
+
+            { token &&
+                 <div className="flex mr-3 cursor-pointer">
+            <div className='bg-white rounded-2xl p-1'>
+                <User2Icon color='#000000'/> 
+            </div>
+            <div className='mt-1'>
+                <ChevronDown/>
+            </div>
+            </div>
             }
         </nav >
     );
