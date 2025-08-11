@@ -424,7 +424,7 @@ export default function Consultation() {
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
 
                             </div>
-                            </div>
+                        </div>
                     </motion.div>
 
                     <motion.div

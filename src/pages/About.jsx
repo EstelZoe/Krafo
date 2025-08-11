@@ -141,10 +141,10 @@ export default function About() {
                   PROTECTING AFRICA'S <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f2600b] to-[#ffb142]">CYBER FUTURE</span>
                 </h2>
                 <p className="mb-5 text-base text-gray-300 leading-relaxed">
-                  At Krafo Systems, we blend ancestral wisdom with cutting-edge technology to create cybersecurity solutions designed specifically for Africa's unique challenges.
+                 Krafo Systems comes from the Akan word “KRA,” meaning the soul—divine in origin, holding life, consciousness, and destiny. “KRAFO” means “Togetherness of souls,” and “Systems” symbolizes unity toward a higher goal. Our mission is to protect Africa physically and spiritually, using cybersecurity to guard against threats online and offline.
                 </p>
                 <p className="mb-8 text-base text-gray-300 leading-relaxed">
-                  Our name, derived from the soul washers of the Ashanti Kingdom, reflects our mission to be Africa's digital immune system - protecting businesses, institutions, and communities from evolving cyber threats.
+                 Our motto, “Let’s Connect & Protect,” draws from Ubuntu: “I am because we are.” This philosophy values community over individuality, recognizing that relationships shape identity. In an increasingly divided world, we promote interdependence, empathy, and responsibility—connecting people to strengthen collective defenses for a safer, more harmonious, and sustainable future.
                 </p>
 
                 {/* Stats Section */}
