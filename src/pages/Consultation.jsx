@@ -75,22 +75,22 @@ import studyGroup from "../assets/images/studygroup2.jpg"
 
 const testimonials = [
     {
-        name: "Dr. Kwame Mensah",
-        role: "CTO, Ghana National Bank",
-        quote: "Krafo's consultation identified critical vulnerabilities we'd overlooked for years. Their strategic roadmap transformed our security posture.",
-        avatar: "👩🏿‍⚕️"
+        name: "Diana D. Osei",
+        role: "",
+        quote: "This course has been very useful to my career development as a young African technology professional. It has taught me that Africans need to be cybersecurity aware because there's strength in each one of us knowing how to defend ourselves online, instead of working independently to mitigate cyber risks. I've gained very practical skills in protecting data and assets, for myself and for others. Thank you, Krafo Systems.",
+        avatar: ""
     },
     {
-        name: "Ama Serwaa",
-        role: "Director, HealthTech Solutions",
-        quote: "The incident response planning saved us during a ransomware attack. We contained the breach in under 2 hours thanks to their playbook.",
-        avatar: "👩🏿‍⚕️"
+        name: "Godswill Akuffo",
+        role: "",
+        quote: "I'll say Krafo System is a perfect institution for both beginners and advanced learners, joining and taking the Krafo Cybersecurity Capacity Building Course has been one of the best decisions I have ever made, loving the fact that I get to accumulate more knowledge from experienced facilitators, I'll definitely recommend Krafo as a solid choice for those looking to enter or want to advance in the cybersecurity field.",
+        avatar: ""
     },
     {
-        name: "Kojo Ankomah",
-        role: "CEO, E-Commerce Ghana",
-        quote: "Achieving PCI-DSS compliance seemed impossible until Krafo streamlined our processes. Their expertise is unparalleled in West Africa.",
-        avatar: "👨🏿‍💻"
+        name: "Lawada HLM",
+        role: "",
+        quote: "So far so good I Raphael Kwadzo Awazi, I am okay with class so far, just that we in Africa so please modify the mentioning of the words please that's to Mr Elikem Komla and miss Fafali mamagah I am very okay with yours",
+        avatar: ""
     }
 ];
 
@@ -98,7 +98,7 @@ const testimonials = [
 const faqs = [
     {
         question: "How quickly can we start after requesting consultation?",
-        answer: "We typically schedule initial discovery calls within 24-48 hours of receiving your request. For urgent security matters, we offer expedited scheduling."
+        answer: "We typically schedule after receiving your request. For urgent security matters, we can offer expedited scheduling."
     },
     {
         question: "What information do I need to prepare for the consultation?",
@@ -267,7 +267,7 @@ export default function Consultation() {
                     </div>
 
                     <div className="flex justify-center mb-12">
-                        <div className="inline-flex p-1 bg-gray-900 rounded-lg">
+                        <div className="inline-flex p-1 bg-black border border-orange-800  text-900 rounded-lg">
                             {["services", "testimonials"].map((tab) => (
                                 <button
                                     key={tab}
@@ -370,7 +370,7 @@ export default function Consultation() {
                                     {testimonials.map((testimonial, idx) => (
                                         <motion.div
                                             key={idx}
-                                            className="bg-gradient-to-br from-[#0d0400] to-[#1a0a00] rounded-xl p-6 border border-gray-800 shadow-xl"
+                                            className="bg-gradient-to-br from-[#0d0400] to-[#1a0a00] rounded-xl p-6 border border-gray-800 shadow-xl py-3 px-8 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-orange-600/40"
                                             initial={{ opacity: 0, y: 20 }}
                                             whileInView={{ opacity: 1, y: 0 }}
                                             viewport={{ once: true, margin: "0px 0px -100px 0px" }}
@@ -424,7 +424,7 @@ export default function Consultation() {
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
 
                             </div>
-                            </div>
+                        </div>
                     </motion.div>
 
                     <motion.div
