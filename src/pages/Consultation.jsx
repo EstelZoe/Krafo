@@ -303,17 +303,17 @@ export default function Consultation() {
                                                 {
                                                     title: "Network Monitoring",
                                                     desc: "Always on. Always aware. We alert you before vulnerabilities become breaches — with predictive insights.",
-                                                    img: data4,
+                                                    img: data1,
                                                 },
                                                 {
                                                     title: "Risk & Vulnerability Assessment",
                                                     desc: "Identify, analyze, and close the security gaps in your digital infrastructure before attackers do.",
-                                                    img: data1,
+                                                    img: data2,
                                                 },
                                                 {
                                                     title: "Awareness Training",
                                                     desc: "Empower your team to recognize and respond to threats. We build a security-first culture from the inside out.",
-                                                    img: data2,
+                                                    img: data4,
                                                 },
                                                 {
                                                     title: "Policy Management",
