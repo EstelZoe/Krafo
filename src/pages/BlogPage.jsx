@@ -6,7 +6,9 @@ import DOMPurify from "dompurify";
 import FilterButton from "../assets/components/FilterButton";
 import BlogCard from "../assets/components/BlogCard";
 import BgPic from "../assets/images/gradientbackground.jpg";
-import { X } from "react-feather"; // Import an icon library
+import { X, User } from "react-feather";
+import Admin from "../assets/images/KRAFO ORIGINAL MARKAsset 73@3x.png";
+
 
 // Helper function to format author name
 const formatAuthor = (author) => {
@@ -77,16 +79,16 @@ export default function BlogPage() {
             <div className="bg-white min-h-screen text-black">
                 {/* Hero Section */}
                 <div
-                    className="relative flex items-center justify-center text-center px-4 md:px-0 bg-cover bg-center scale-105 animate-zoom bg-no-repeat text-white h-120"
+                    className="relative flex items-center justify-center text-center bg-cover bg-center bg-no-repeat text-white h-[380px] md:h-[480px]"
                     style={{
                         backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)), url(${BgPic})`,
                     }}
                 >
-                    <div className="relative z-10">
-                        <h1 className="text-3xl md:text-5xl font-bold text-white mb-8">
-                            Thoughts from the <span className="text-[#F2600B]">Cyber</span><span />  Frontline
+                    <div className="relative z-10 p-4">
+                        <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 md:mb-8">
+                            Thoughts from the <span className="text-[#F2600B]">Cyber</span> Frontline
                         </h1>
-                        <p className="text-gray-400 max-w-xl mx-auto">
+                        <p className="text-base md:text-lg text-gray-300 max-w-xl mx-auto">
                             Stay informed with the latest cybersecurity insights, tips, and security news from our expert team.
                         </p>
                     </div>
@@ -174,7 +176,17 @@ export default function BlogPage() {
 
                                     {/* Author */}
                                     <div className="flex items-center mb-6">
-                                        <div className="bg-gray-200 border-2 border-dashed rounded-xl w-10 h-10" />
+                                        {selectedPost.author?.avatar ? (
+                                            <img
+                                                src={selectedPost.author.avatar}
+                                                alt={formatAuthor(selectedPost.author)}
+                                                className="w-10 h-10 rounded-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">
+                                                <img src={Admin} alt="User Icon" size={20} className="text-gray-400" />
+                                            </div>
+                                        )}
                                         <div className="ml-3">
                                             <p className="font-medium text-white">
                                                 {formatAuthor(selectedPost.author)}
@@ -199,9 +211,9 @@ export default function BlogPage() {
                                         : 'Quick read'}
                                 </div>
                                 <div className="flex space-x-3">
-                                    <button className="text-gray-400 hover:text-blue-400 transition-colors">
-                                        <TwitterIcon />
-                                    </button>
+                                    {/* <button className="text-gray-400 hover:text-blue-400 transition-colors">
+                                        <InstagramIcon />
+                                    </button> */}
                                     <button className="text-gray-400 hover:text-blue-600 transition-colors">
                                         <LinkedInIcon />
                                     </button>
@@ -221,18 +233,27 @@ export default function BlogPage() {
 }
 
 // Simple icon components (replace with actual icons if available)
-const TwitterIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
-    </svg>
-);
-
 const LinkedInIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-        <rect x="2" y="9" width="4" height="12" />
-        <circle cx="4" cy="4" r="2" />
-    </svg>
+    <a
+        href="https://www.linkedin.com/company/krafo-systems/?originalSubdomain=gh"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Visit our LinkedIn page"
+        className="inline-block hover:opacity-80 transition-opacity"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="text-[#0A66C2]" // LinkedIn brand blue
+        >
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+            <rect x="2" y="9" width="4" height="12" />
+            <circle cx="4" cy="4" r="2" />
+        </svg>
+    </a>
 );
 
 const LinkIcon = () => (
