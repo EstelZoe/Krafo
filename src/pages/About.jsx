@@ -137,6 +137,8 @@ export default function About() {
                 <span className="mb-4 block text-lg font-semibold text-[#f2600b] tracking-wider">
                   WHAT OUR NAME REPRESENTS
                 </span>
+                
+                
                 <h2 className="mb-5 text-3xl font-bold text-white sm:text-[40px]/[48px] uppercase">
                   PROTECTING AFRICA'S <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f2600b] to-[#ffb142]">CYBER FUTURE</span>
                 </h2>

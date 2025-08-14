@@ -1,5 +1,5 @@
 import React from "react";
-import phoneImage from "../assets/images/oldphonekrafo.jpg";
+import phoneImage from "../assets/images/tired.jpg";
 import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 
@@ -25,7 +25,7 @@ export default function ContactUs() {
                     {/* Right side - Form */}
                     <div className="md:w-1/2 p-8 flex flex-col justify-center bg-gradient-to-br from-[#0a0a0a] to-[#111] ">
                         <h2 className="text-2xl font-bold text-orange-500 mb-2">
-                            Need support?
+                            Even If We Are Tired..We Still Got You!!!
                         </h2>
                         <p className="text-gray-300 mb-6">
                             Contact us if you need further assistance.

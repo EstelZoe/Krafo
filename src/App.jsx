@@ -10,6 +10,7 @@ import YouthCyberEd from "./pages/YouthCyberEd";
 import Consultation from "./pages/Consultation";
 import ContactUs from "./pages/ContactUs";
 import { ToastContainer, toast } from "react-toastify";
+import NotFound from "./pages/NotFound"
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
   // { path: "/login", element: <LogIn /> },
   { path: "/consultation", element: <Consultation /> },
    { path: "/contact", element: <ContactUs /> },
+   { path: '*', element: <NotFound /> },
 ]);
 
 function App() {
