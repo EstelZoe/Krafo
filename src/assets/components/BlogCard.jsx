@@ -1,30 +1,31 @@
-import React from "react";
-import { User, CalendarDays } from "lucide-react";
 
-export default function BlogCard({ title, description, category, author, date, image }) {
-    return (
-        <div className="bg-white text-black rounded-xl overflow-hidden shadow-md hover:shadow-lg transition h-80">
-            {/* Image Placeholder */}
-            <div className="h-48 bg-gok but the card ray-300 flex items-center justify-center">
-                <span className="text-gray-500">Image Placeholder</span>
-            </div>
+export default function BlogCard({ title, description, image, onReadMore }) {
+  return (
+    <div className="group bg-white/5 p-6 rounded-2xl border border-[#F2600B22] shadow-xl hover:shadow-[0_20px_40px_rgba(242,96,11,0.3)] backdrop-blur-lg hover:-translate-y-2 transition-all duration-300">
+      {/* Thumbnail */}
+      <div className="bg-gradient-to-br from-[#F2600B22] to-[#ffffff0d] h-32 rounded-xl flex items-center justify-center text-xs text-orange-200 mb-4 overflow-hidden">
+        {image ? (
+          <img src={image} alt={title} className="h-full w-full object-cover rounded-xl" />
+        ) : (
+          "Article Thumbnail"
+        )}
+      </div>
 
-            {/* Content */}
-            <div className="p-4">
-                <p className="text-xs uppercase text-orange-500 mb-1">{category}</p>
-                <h2 className="text-lg font-semibold mb-2">{title}</h2>
-                <p className="text-sm text-gray-700 mb-4">{description}</p>
-                <div className="flex justify-between text-xs text-gray-500">
-                    <span className="flex items-center gap-1">
-                        <User className="w-4 h-4" />
-                        {author}
-                    </span>
-                    <span className="flex items-center gap-1">
-                        <CalendarDays className="w-4 h-4" />
-                        {date}
-                    </span>
-                </div>
-            </div>
-        </div>
-    );
+      {/* Title */}
+      <h3 className="font-semibold text-lg text-white group-hover:text-[#F2600B] transition-colors duration-300">
+        {title}
+      </h3>
+
+      {/* Description */}
+      <p className="text-sm text-gray-300 mt-2">{description}</p>
+
+      {/* Read More Button */}
+      <button
+        onClick={onReadMore}
+        className="mt-4 px-4 py-2 text-sm font-medium text-white bg-[#F2600B] rounded-lg hover:bg-[#d84e09] focus:outline-none focus:ring-2 focus:ring-[#F2600B] focus:ring-offset-2 focus:ring-offset-black transition-all duration-300"
+      >
+        Read More →
+      </button>
+    </div>
+  );
 }
