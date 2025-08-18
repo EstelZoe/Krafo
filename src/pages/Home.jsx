@@ -15,6 +15,11 @@ import data2 from "../assets/images/data2.jpg";
 import data3 from "../assets/images/data3.jpg";
 import data4 from "../assets/images/data4.jpg";
 import Countdown from "../assets/components/Countdown";
+import { Link } from "react-router";
+import ccbc from "../assets/images/ccbc.png"
+import studyGroup from "../assets/images/consultationpic.jpg"
+import PartnershipCarousel from "../assets/components/PartnershipCarousel";
+
 
 
 
@@ -45,12 +50,16 @@ export default function Home() {
           </p>
 
           <div className="flex flex-wrap gap-4 animate-fadein-up delay-200">
-            <button className="bg-[#F2600B] hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-md shadow-md transition-transform hover:scale-105">
-              Explore Courses
-            </button>
-            <button className="border border-[#F2600B] hover:bg-[#F2600B] text-white px-6 py-2 rounded-md transition-transform hover:scale-105">
-              Book Consultation
-            </button>
+            <Link to="/courses">
+              <button className="bg-[#F2600B] hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-md shadow-md transition-transform hover:scale-105">
+                Explore Courses
+              </button>
+            </Link>
+            <Link to="/consultation">
+              <button className="border border-[#F2600B] hover:bg-[#F2600B] text-white px-6 py-2 rounded-md transition-transform hover:scale-105">
+                Book Consultation
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -120,17 +129,17 @@ export default function Home() {
               {
                 title: "Network Monitoring",
                 desc: "Always on. Always aware. We alert you before vulnerabilities become breaches — with predictive insights.",
-                img: data4,
+                img: data1,
               },
               {
                 title: "Risk & Vulnerability Assessment",
                 desc: "Identify, analyze, and close the security gaps in your digital infrastructure before attackers do.",
-                img: data1,
+                img: data2,
               },
               {
                 title: "Awareness Training",
                 desc: "Empower your team to recognize and respond to threats. We build a security-first culture from the inside out.",
-                img: data2,
+                img: data4,
               },
               {
                 title: "Policy Management",
@@ -202,6 +211,8 @@ export default function Home() {
               tierColor: "text-[#F2600B]",
               bg: "bg-[#1A1A1A]/60",
               ring: "ring-[#F2600B33]",
+              image: ccbc.png,
+
               features: [
                 "✓ Threat basics and safe online behavior",
                 "✓ Lifetime access & resources",
@@ -209,6 +220,7 @@ export default function Home() {
               ],
               icon: "",
             },
+
             {
               title: "Cyber Pro",
               price: "$149",
@@ -445,59 +457,99 @@ export default function Home() {
         </style>
       </section>
 
+      <section className="py-16 bg-black">
+        <div className="container mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+           <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-sm font-semibold text-orange-500 mb-2 flex items-center gap-2">
+              <span className="w-4 h-4 border border-orange-500 rounded-full flex items-center justify-center">i</span>
+              BOOK A CONSULTAION WITH US
+            </p>
 
+            <h2 className="text-3xl lg:text-4xl font-bold text-white leading-snug mb-4">
+             Get A Personalized Cybersecurity Guidance <span className="text-orange-600">Tailored To Your Organization's Needs</span>
+            </h2>
 
+            <p className="text-gray-400 mb-6">
+             We do more than spot risks — we help you design a complete security plan that fits your business goals and comfort with risk.
+            </p>
 
-      <section
-        className="relative px-6 md:px-20 py-20 pt-0 bg-black text-white overflow-hidden font-body"
-        style={{
-          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.98))`,
-        }}
-      >
-        {/* 🔹 Grid Background Animation */}
-        <div className="absolute inset-0 z-0 opacity-5 [mask-image:radial-gradient(white,transparent)] pointer-events-none">
-          <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,transparent_99%,#F2600B11_100%),linear-gradient(to_bottom,transparent_99%,#F2600B11_100%)] bg-[size:50px_50px] animate-[pulse_12s_infinite]" />
-        </div>
+            <ul className="space-y-3 mb-6">
+              <motion.li
+                className="flex items-start gap-3"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+              >
+                <span className="text-orange-500 mt-1">⦿</span>
+                <div>
+                  <span className="text-white font-medium">Threat-Centric Methodology:</span>
+                  <span className="text-gray-400"> Focused on your specific adversary landscape</span>
+                </div>
+              </motion.li>
+              <motion.li
+                className="flex items-start gap-3"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                <span className="text-orange-500 mt-1">⦿</span>
+                <div>
+                  <span className="text-white font-medium">Business-Aligned Security:</span>
+                  <span className="text-gray-400"> Solutions that support your operational goals</span>
+                </div>
+              </motion.li>
+              <motion.li
+                className="flex items-start gap-3"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
+                <span className="text-orange-500 mt-1">⦿</span>
+                <div>
+                  <span className="text-white font-medium">Measurable Outcomes:</span>
+                  <span className="text-gray-400"> Clear metrics to track security ROI</span>
+                </div>
+              </motion.li>
+            </ul>
 
-        {/* 🔸 Glow Particle */}
-        <div className="absolute top-1/3 left-[45%] w-96 h-96 bg-orange-600/10 blur-3xl rounded-full animate-ping -z-10"></div>
+            
+              <Link to="/consultation">
+            <div  className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-orange-600/40 inline-flex items-center" >
+              Book a Session Now
+              </div>
+               </Link>
+          </motion.div>
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="relative rounded-xl overflow-hidden shadow-2xl border border-orange-500/20">
+              <div className="bg-gradient-to-br from-gray-900 to-black w-full h-96 flex items-center justify-center">
+                {/* Left: Images */}
+                <div className="relative">
+                  {/* Main Image */}
+                  <img
+                    src={studyGroup}
+                    alt="Students learning"
+                    className="rounded-lg shadow-lg"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
 
-        {/* 🔻 Decorative Radial Gradient Blob */}
-        <div
-          className="absolute -top-20 left-1/2 transform -translate-x-1/2 blur-3xl opacity-30 -z-10"
-          style={{
-            width: "600px",
-            height: "600px",
-            background: "radial-gradient(circle at center, #F2600B55 0%, transparent 70%)",
-          }}
-        />
-
-        {/* 📌 Foreground Content */}
-        <div className="text-center space-y-6 relative z-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[#F2600B] drop-shadow-lg">
-            Book a Consultation
-          </h2>
-          <p className="text-md md:text-lg text-gray-300 max-w-xl mx-auto">
-            Get personalized cybersecurity guidance tailored to your organization’s needs.
-          </p>
-
-          {/* 🧊 Animated Card */}
-          <div className="relative max-w-2xl mx-auto mt-10 bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-[#F2600B33] shadow-xl overflow-hidden group transition-all hover:scale-[1.015] hover:shadow-[0_0_40px_#F2600B44]">
-
-            {/* 🔥 Shine Animation */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse pointer-events-none"></div>
-
-            {/* Placeholder Panel */}
-            <div className="h-56 md:h-64 flex items-center justify-center rounded-lg border border-dashed border-[#F2600B66] bg-gradient-to-br from-[#F2600B22] to-[#ffffff0d] text-sm text-orange-200 italic">
-              Calendly Scheduler Embed
+              </div>
             </div>
+          </motion.div>
 
-            {/* CTA Button */}
-            <button className="mt-6 relative z-10 bg-[#F2600B] hover:bg-orange-600 text-white px-6 py-3 rounded-md text-sm font-semibold shadow-lg transition duration-300 hover:shadow-[0_0_20px_#F2600B88] hover:scale-[1.03] focus:outline-none">
-              <span className="relative z-10">Schedule Now</span>
-              <span className="absolute inset-0 rounded-md animate-pulse bg-orange-500 opacity-10"></span>
-            </button>
-          </div>
+         
         </div>
       </section>
 
@@ -551,7 +603,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-6 md:px-20 py-20 bg-[#0B0B0C] text-white font-body">
+      {/* Partnership Section */}
+      <PartnershipCarousel />
+
+
+      {/* <section className="px-6 md:px-20 py-20 bg-[#0B0B0C] text-white font-body">
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <h2 className="text-3xl md:text-4xl font-extrabold text-[#F2600B]">What Our Partners Say</h2>
           <p className="text-base md:text-lg text-gray-300">
@@ -595,7 +651,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
 
       <Footer />
