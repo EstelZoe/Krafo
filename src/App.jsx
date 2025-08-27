@@ -12,6 +12,8 @@ import ContactUs from "./pages/ContactUs";
 import { ToastContainer, toast } from "react-toastify";
 import NotFound from "./pages/NotFound"
 
+// import ScrollToHashElement from "./components/ScrollToHashElement.jsx";
+
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/about", element: <About /> },
@@ -30,6 +32,7 @@ function App() {
   return (
     <>
     <ToastContainer/>
+        {/* <ScrollToHashElement /> */}
       <RouterProvider router={router} />
     </>
   )

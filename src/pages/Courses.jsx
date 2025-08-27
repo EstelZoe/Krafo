@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 import CourseFilter from "../assets/components/CourseFilter";
@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ccbc from "../assets/images/ccbc.png"
 import ai from "../assets/images/AI&Cyber.png"
 import ceo from "../assets/images/ceo.png"
+import { div } from "framer-motion/client";
 
 
 
@@ -29,12 +30,12 @@ const checklistItems = [
     "High operational standards and leadership"
 ];
 
-
 export default function Course() {
     const [expandedIndex, setExpandedIndex] = useState(-1);
-
     const courses = [
         {
+
+            id: "cybersecurity-course",
             title: "Cybersecurity Capacity Building Course (CCBC)",
             description:
                 "A comprehensive program designed to build a strong foundation in cybersecurity principles, from network defense to incident response.",
@@ -48,6 +49,7 @@ export default function Course() {
             ],
         },
         {
+            id: "ai-cybersecurity-course",
             title: "AI & Cybersecurity",
             description:
                 "Explore the dual role of AI in cybersecurity, learning to leverage it for defense and to protect against AI-driven threats.",
@@ -61,6 +63,7 @@ export default function Course() {
             ],
         },
         {
+            id: "cyber-ceo",
             title: "Cyber CEO",
             description:
                 "Equip yourself with the strategic knowledge to lead your organization through complex cyber challenges and manage digital risk effectively.",
@@ -74,41 +77,25 @@ export default function Course() {
             ],
         },
     ];
-
+    useEffect(() => {
+        if (window.location.hash) {
+            const element = document.querySelector(window.location.hash);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, []);
 
     return (
         <>
             <Navbar />
-
             <section className="relative text-center py-28 px-4 pt-40 overflow-hidden backdrop-blur-3xl bg-black text-white">
-                {/* <div
-                    aria-hidden="true"
-                    className="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl left-0 w-full h-24 bg-gradient-to-t from-black to-transparent"
-                > */}
-                {/* <div
-                        className="mx-auto aspect-[1155/678] w-[1155px] opacity-30"
-                        style={{
-                            background: "linear-gradient(to top right, #F2600B, #F2600B55)",
-                            clipPath:
-                                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-                        }}
-                    ></div> */}
-                {/* </div> */}
                 {/* Background Video */}
-                <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                >
+                <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0">
                     <source src={Vid1} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
-
                 {/* Optional Dark Overlay */}
-                {/* <div className="absolute inset-0 bg-black/60 z-0"></div> */}
-
                 {/* Floating Icons - Hidden on Mobile */}
                 <div className="absolute left-[10%] top-16 animate-float-slow z-10 hidden sm:block">
                     <img
@@ -117,7 +104,6 @@ export default function Course() {
                         className="w-10 sm:w-12 h-10 sm:h-12 opacity-60 rounded-lg animate-rotate-slow"
                     />
                 </div>
-
                 <div className="absolute left-[80%] bottom-16 animate-float-medium z-10 hidden sm:block">
                     <img
                         src={exchangeGif}
@@ -125,7 +111,6 @@ export default function Course() {
                         className="w-10 sm:w-12 h-10 sm:h-12 opacity-60 rounded-lg animate-antirotate-slow"
                     />
                 </div>
-
                 <div className="absolute right-[15%] top-20 animate-float-medium z-10 hidden sm:block">
                     <img
                         src={palmGif}
@@ -133,7 +118,6 @@ export default function Course() {
                         className="w-10 sm:w-12 h-10 sm:h-12 opacity-60 rounded-lg animate-rotate-slow"
                     />
                 </div>
-
                 <div className="absolute right-[80%] bottom-14 animate-float-slow z-10 hidden sm:block">
                     <img
                         src={malwareGif}
@@ -141,7 +125,6 @@ export default function Course() {
                         className="w-10 sm:w-12 h-10 sm:h-12 opacity-60 rounded-lg animate-antirotate-slow"
                     />
                 </div>
-
                 <div className="absolute left-1/2 top-20 transform -translate-x-1/2 animate-pulse-slow z-10 hidden sm:block">
                     <img
                         src={dataGif}
@@ -149,8 +132,6 @@ export default function Course() {
                         className="w-10 sm:w-12 h-10 sm:h-12 opacity-60 rounded-lg animate-antirotate-slow"
                     />
                 </div>
-
-
                 {/* Optional Gradient Glow on top of the video */}
                 <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-blue-100/10 to-indigo-200/10 opacity-30 blur-3xl pointer-events-none z-0"></div>
 
@@ -162,7 +143,6 @@ export default function Course() {
                     <p className="text-gray-300 text-base md:text-lg mb-8 max-w-2xl mx-auto">
                         Our cutting-edge courses are your gateway to the world of cybersecurity. Learn to <span className="font-medium text-orange-600">protect</span> systems, <span className="font-medium text-orange-600">detect</span> vulnerabilities, and <span className="font-medium text-orange-600">respond</span> to modern cyber threats.
                     </p>
-
                     <a
                         href="https://krafocapacitybuilder.learnworlds.com/pages/home?preview=true"
                         target="_blank"
@@ -173,8 +153,6 @@ export default function Course() {
                     </a>
                 </div>
             </section>
-
-
             {/* About Section For Courses */}
             <section className="bg-black text-white py-16">
                 <div className="container mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -247,8 +225,6 @@ export default function Course() {
                 </div>
             </section>
 
-
-
             {/* Featured Courses Section */}
             <section className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-gradient-to-br from-black via-[#000000] to-[#1d0b00] text-white overflow-hidden">
                 {/* Animated Particle Background */}
@@ -269,247 +245,223 @@ export default function Course() {
                 {/* Card Grid */}
                 {/* Enhanced Card Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {courses.map((course, idx) => (
-                        <motion.div
-                            key={idx}
-                            layout
-                            className={`relative bg-white/5 rounded-2xl overflow-hidden border border-white/10 shadow-lg cursor-pointer h-full ${expandedIndex === idx ? "lg:col-span-2" : ""
-                                }`}
-                            transition={{ duration: 0.4, ease: "easeInOut" }}
-                            whileHover={expandedIndex !== idx ? {
-                                y: -5,
-                                boxShadow: "0 20px 25px -5px rgba(242, 96, 11, 0.1), 0 10px 10px -5px rgba(242, 96, 11, 0.04)"
-                            } : {}}
-                        >
-                            <div className="h-full flex flex-col lg:flex-row">
-                                {/* Main Card Content */}
-                                <div
-                                    className={`flex-grow ${expandedIndex === idx ? "lg:w-1/2" : ""}`}
-                                    onClick={() => expandedIndex !== idx && setExpandedIndex(idx)}
-                                >
-                                    {/* Enhanced Image Container */}
-                                    <div className="relative overflow-hidden">
-                                        <motion.img
+                    {courses.map((course, idx) => (<motion.div key={idx}  id= {course.id} layout
+                        className={`relative bg-white/5 rounded-2xl overflow-hidden border border-white/10 shadow-lg cursor-pointer h-full ${expandedIndex === idx ? "lg:col-span-2" : ""
+                            }`} transition={{ duration: 0.4, ease: "easeInOut" }} whileHover={expandedIndex !== idx ? { y: -5, boxShadow: "0 20px 25px -5px rgba(242, 96, 11, 0.1), 0 10px 10px -5px rgba(242, 96, 11, 0.04)" } : {}} >
+                        <div className="h-full flex flex-col lg:flex-row">
+                            {/* Main Card Content */}
+                            <div className={`flex-grow ${expandedIndex === idx ? "lg:w-1/2" : ""}`} onClick={() => expandedIndex !== idx && setExpandedIndex(idx)} >
+                                {/* Enhanced Image Container */}
+                                <div className="relative overflow-hidden">
+                                    <motion.img layout="position" src={course.image} alt={course.title}
+                                        className="h-52 w-full object-cover" whileHover={{ scale: expandedIndex !== idx ? 1.05 : 1 }} transition={{ duration: 0.3 }} />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-70"></div>
+                                    <span className="absolute top-4 left-4 px-3 py-1 text-xs font-semibold bg-[#F2600B] text-black rounded-full">
+                                        {course.price}
+                                    </span>
+                                </div>
+                                {/* Content Area */}
+                                <div className="p-6 flex flex-col flex-grow">
+                                    <div className="flex-grow">
+                                        <motion.h3
                                             layout="position"
-                                            src={course.image}
-                                            alt={course.title}
-                                            className="h-52 w-full object-cover"
-                                            whileHover={{ scale: expandedIndex !== idx ? 1.05 : 1 }}
-                                            transition={{ duration: 0.3 }}
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-70"></div>
-                                        <span className="absolute top-4 left-4 px-3 py-1 text-xs font-semibold bg-[#F2600B] text-black rounded-full">
-                                            {course.price}
-                                        </span>
+                                            className="text-xl font-bold group-hover:text-[#F2600B]"
+                                        >
+                                            {course.title}
+                                        </motion.h3>
 
-                                        {/* Professional Corner Accent */}
-                                        {/* <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-8 bg-[#F2600B] transform rotate-45 translate-y-[-50%]"></div>
-            </div> */}
+                                        <AnimatePresence mode="wait">
+                                            <motion.p
+                                                key={expandedIndex === idx ? 'expanded' : 'collapsed'}
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                exit={{ opacity: 0 }}
+                                                className="text-gray-400 text-sm mt-2"
+                                            >
+                                                {course.description}
+                                            </motion.p>
+                                        </AnimatePresence>
                                     </div>
 
-                                    {/* Content Area */}
-                                    <div className="p-6 flex flex-col flex-grow">
-                                        <div className="flex-grow">
-                                            <motion.h3
-                                                layout="position"
-                                                className="text-xl font-bold group-hover:text-[#F2600B]"
-                                            >
-                                                {course.title}
-                                            </motion.h3>
-
-                                            <AnimatePresence mode="wait">
-                                                <motion.p
-                                                    key={expandedIndex === idx ? 'expanded' : 'collapsed'}
-                                                    initial={{ opacity: 0 }}
-                                                    animate={{ opacity: 1 }}
-                                                    exit={{ opacity: 0 }}
-                                                    className="text-gray-400 text-sm mt-2"
-                                                >
-                                                    {course.description}
-                                                </motion.p>
-                                            </AnimatePresence>
+                                    {/* Action Area */}
+                                    <div className="mt-4">
+                                        <div className="relative w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                            <div className="absolute h-full w-1/2 bg-gradient-to-r from-[#F2600B] to-orange-300 animate-indeterminate-progress"></div>
                                         </div>
 
-                                        {/* Action Area */}
-                                        <div className="mt-4">
-                                            <div className="relative w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                                                <div className="absolute h-full w-1/2 bg-gradient-to-r from-[#F2600B] to-orange-300 animate-indeterminate-progress"></div>
-                                            </div>
-
-                                            <motion.button
-                                                layout="position"
-                                                className="mt-4 w-full py-2.5 text-sm bg-gradient-to-r from-black/30 to-black/60 hover:from-black/40 hover:to-black/70 rounded-lg transition-all font-medium flex items-center justify-center group border border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setExpandedIndex(expandedIndex === idx ? -1 : idx);
-                                                }}
-                                                whileHover={{
-                                                    boxShadow: "0 0 20px rgba(242, 96, 11, 0.4)",
-                                                    borderColor: "rgba(242, 96, 11, 0.3)"
-                                                }}
-                                            >
-                                                {expandedIndex === idx ? (
-                                                    <span className="flex items-center">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5 text-[#F2600B] group-hover:rotate-180 transition-transform" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
-                                                        </svg>
-                                                        <span className="bg-gradient-to-r from-[#F2600B] to-orange-300 bg-clip-text text-transparent font-semibold">
-                                                            Show Less
-                                                        </span>
+                                        <motion.button
+                                            layout="position"
+                                            className="mt-4 w-full py-2.5 text-sm bg-gradient-to-r from-black/30 to-black/60 hover:from-black/40 hover:to-black/70 rounded-lg transition-all font-medium flex items-center justify-center group border border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setExpandedIndex(expandedIndex === idx ? -1 : idx);
+                                            }}
+                                            whileHover={{
+                                                boxShadow: "0 0 20px rgba(242, 96, 11, 0.4)",
+                                                borderColor: "rgba(242, 96, 11, 0.3)"
+                                            }}
+                                        >
+                                            {expandedIndex === idx ? (
+                                                <span className="flex items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5 text-[#F2600B] group-hover:rotate-180 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
+                                                    </svg>
+                                                    <span className="bg-gradient-to-r from-[#F2600B] to-orange-300 bg-clip-text text-transparent font-semibold">
+                                                        Show Less
                                                     </span>
-                                                ) : (
-                                                    <span className="flex items-center">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5 text-[#F2600B] group-hover:translate-y-0.5 transition-transform" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                                                        </svg>
-                                                        <span className="bg-gradient-to-r from-[#F2600B] to-orange-300 bg-clip-text text-transparent font-semibold">
-                                                            More Info
-                                                        </span>
+                                                </span>
+                                            ) : (
+                                                <span className="flex items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5 text-[#F2600B] group-hover:translate-y-0.5 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                                                    </svg>
+                                                    <span className="bg-gradient-to-r from-[#F2600B] to-orange-300 bg-clip-text text-transparent font-semibold">
+                                                        More Info
                                                     </span>
-                                                )}
-                                            </motion.button>
-                                        </div>
+                                                </span>
+                                            )}
+                                        </motion.button>
                                     </div>
-
-                                    {/* Glow Hover Effect */}
-                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#F2600B]/30 via-transparent to-transparent pointer-events-none"></div>
                                 </div>
 
-                                {/* Premium Details Panel */}
-                                <AnimatePresence>
-                                    {expandedIndex === idx && (
-                                        <motion.div
-                                            initial={{ opacity: 0, x: 20 }}
-                                            animate={{
-                                                opacity: 1,
-                                                x: 0,
-                                                transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
-                                            }}
-                                            exit={{
-                                                opacity: 0,
-                                                x: -20,
-                                                transition: { duration: 0.3, ease: "easeIn" }
-                                            }}
-                                            className="lg:w-1/2 p-6 bg-gradient-to-br from-[#1a0a00] to-[#0d0400] border-l border-[#F2600B]/30 relative"
+                                {/* Glow Hover Effect */}
+                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#F2600B]/30 via-transparent to-transparent pointer-events-none"></div>
+                            </div>
+
+                            {/* Premium Details Panel */}
+                            <AnimatePresence>
+                                {expandedIndex === idx && (
+                                    <motion.div
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{
+                                            opacity: 1,
+                                            x: 0,
+                                            transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+                                        }}
+                                        exit={{
+                                            opacity: 0,
+                                            x: -20,
+                                            transition: { duration: 0.3, ease: "easeIn" }
+                                        }}
+                                        className="lg:w-1/2 p-6 bg-gradient-to-br from-[#1a0a00] to-[#0d0400] border-l border-[#F2600B]/30 relative"
+                                    >
+                                        {/* Close Button */}
+                                        <button
+                                            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors bg-black/30 rounded-full p-1.5 z-10"
+                                            onClick={() => setExpandedIndex(-1)}
+                                            aria-label="Close details"
                                         >
-                                            {/* Close Button */}
-                                            <button
-                                                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors bg-black/30 rounded-full p-1.5 z-10"
-                                                onClick={() => setExpandedIndex(-1)}
-                                                aria-label="Close details"
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                                                </svg>
-                                            </button>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                            </svg>
+                                        </button>
 
-                                            {/* Panel Content */}
-                                            <div className="h-full flex flex-col">
-                                                <div>
-                                                    <h4 className="text-lg font-semibold mb-4 text-[#F2600B]">Course Breakdown</h4>
+                                        {/* Panel Content */}
+                                        <div className="h-full flex flex-col">
+                                            <div>
+                                                <h4 className="text-lg font-semibold mb-4 text-[#F2600B]">Course Breakdown</h4>
 
-                                                    {/* Metadata Card */}
-                                                    <div className="mb-5 p-4 bg-black/20 rounded-xl border border-white/10 backdrop-blur-sm">
-                                                        <div className="grid grid-cols-2 gap-3">
-                                                            <div className="flex items-center text-sm">
-                                                                <div className="flex-shrink-0 w-8 h-8 rounded-md bg-[#F2600B]/10 flex items-center justify-center mr-2">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#F2600B]" viewBox="0 0 20 20" fill="currentColor">
-                                                                        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div>
-                                                                    <div className="text-gray-400 text-xs">Duration</div>
-                                                                    <div className="text-gray-300">16 weeks</div>
-                                                                </div>
+                                                {/* Metadata Card */}
+                                                <div className="mb-5 p-4 bg-black/20 rounded-xl border border-white/10 backdrop-blur-sm">
+                                                    <div className="grid grid-cols-2 gap-3">
+                                                        <div className="flex items-center text-sm">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-md bg-[#F2600B]/10 flex items-center justify-center mr-2">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#F2600B]" viewBox="0 0 20 20" fill="currentColor">
+                                                                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                                                                </svg>
                                                             </div>
-                                                            <div className="flex items-center text-sm">
-                                                                <div className="flex-shrink-0 w-8 h-8 rounded-md bg-[#F2600B]/10 flex items-center justify-center mr-2">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#F2600B]" viewBox="0 0 20 20" fill="currentColor">
-                                                                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                                                                        <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div>
-                                                                    <div className="text-gray-400 text-xs">Format</div>
-                                                                    <div className="text-gray-300">Hybrid</div>
-                                                                </div>
+                                                            <div>
+                                                                <div className="text-gray-400 text-xs">Duration</div>
+                                                                <div className="text-gray-300">16 weeks</div>
                                                             </div>
-                                                            <div className="flex items-center text-sm">
-                                                                <div className="flex-shrink-0 w-8 h-8 rounded-md bg-[#F2600B]/10 flex items-center justify-center mr-2">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#F2600B]" viewBox="0 0 20 20" fill="currentColor">
-                                                                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div>
-                                                                    <div className="text-gray-400 text-xs">Tuition per Head</div>
-                                                                    <div className="text-gray-300">{course.price}</div>
-                                                                </div>
+                                                        </div>
+                                                        <div className="flex items-center text-sm">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-md bg-[#F2600B]/10 flex items-center justify-center mr-2">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#F2600B]" viewBox="0 0 20 20" fill="currentColor">
+                                                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                                    <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                                                                </svg>
                                                             </div>
-                                                            <div className="flex items-center text-sm">
-                                                                <div className="flex-shrink-0 w-8 h-8 rounded-md bg-[#F2600B]/10 flex items-center justify-center mr-2">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#F2600B]" viewBox="0 0 20 20" fill="currentColor">
-                                                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div>
-                                                                    <div className="text-gray-400 text-xs">Support</div>
-                                                                    <div className="text-gray-300">24/7 Mentors</div>
-                                                                </div>
+                                                            <div>
+                                                                <div className="text-gray-400 text-xs">Format</div>
+                                                                <div className="text-gray-300">Hybrid</div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex items-center text-sm">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-md bg-[#F2600B]/10 flex items-center justify-center mr-2">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#F2600B]" viewBox="0 0 20 20" fill="currentColor">
+                                                                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                                                                </svg>
+                                                            </div>
+                                                            <div>
+                                                                <div className="text-gray-400 text-xs">Tuition per Head</div>
+                                                                <div className="text-gray-300">{course.price}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex items-center text-sm">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-md bg-[#F2600B]/10 flex items-center justify-center mr-2">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#F2600B]" viewBox="0 0 20 20" fill="currentColor">
+                                                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                                                                </svg>
+                                                            </div>
+                                                            <div>
+                                                                <div className="text-gray-400 text-xs">Support</div>
+                                                                <div className="text-gray-300">24/7 Mentors</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                                {/* Curriculum Section */}
-                                                <div className="flex-grow mb-5">
-                                                    <h5 className="font-medium mb-3 text-[#F2600B]/90"> Highlights:</h5>
-                                                    <ul className="space-y-3">
-                                                        {course.details.map((detail, i) => (
-                                                            <motion.li
-                                                                key={i}
-                                                                initial={{ opacity: 0, x: 10 }}
-                                                                animate={{ opacity: 1, x: 0 }}
-                                                                transition={{ delay: i * 0.1 }}
-                                                                className="flex items-start p-3 bg-black/20 rounded-lg border border-white/5 hover:border-[#F2600B]/30 transition-colors"
-                                                            >
-                                                                <span className="text-[#F2600B] mr-2 mt-1.5 text-lg">•</span>
-                                                                <span className="text-gray-300 text-sm">{detail}</span>
-                                                            </motion.li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
+                                            {/* Curriculum Section */}
+                                            <div className="flex-grow mb-5">
+                                                <h5 className="font-medium mb-3 text-[#F2600B]/90"> Highlights:</h5>
+                                                <ul className="space-y-3">
+                                                    {course.details.map((detail, i) => (
+                                                        <motion.li
+                                                            key={i}
+                                                            initial={{ opacity: 0, x: 10 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            transition={{ delay: i * 0.1 }}
+                                                            className="flex items-start p-3 bg-black/20 rounded-lg border border-white/5 hover:border-[#F2600B]/30 transition-colors"
+                                                        >
+                                                            <span className="text-[#F2600B] mr-2 mt-1.5 text-lg">•</span>
+                                                            <span className="text-gray-300 text-sm">{detail}</span>
+                                                        </motion.li>
+                                                    ))}
+                                                </ul>
+                                            </div>
 
-                                                {/* CTA Section */}
-                                                <div className="mt-auto">
-                                                    <a
-                                                        href={course.link}
-                                                        className="block text-center py-3 bg-gradient-to-r from-[#F2600B] to-orange-500 text-black font-bold rounded-lg hover:from-orange-500 hover:to-[#F2600B] transition-all shadow-lg hover:shadow-orange-500/40 relative overflow-hidden group"
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
-                                                        <span className="relative z-10">Enroll Now - Limited Seats!</span>
-                                                        <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-[#F2600B] opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                                        <div className="absolute top-0 left-0 w-full h-0.5 bg-white/30"></div>
-                                                    </a>
-                                                    {/* <p className="text-center text-gray-400 text-xs mt-2">
+                                            {/* CTA Section */}
+                                            <div className="mt-auto">
+                                                <a
+                                                    href={course.link}
+                                                    className="block text-center py-3 bg-gradient-to-r from-[#F2600B] to-orange-500 text-black font-bold rounded-lg hover:from-orange-500 hover:to-[#F2600B] transition-all shadow-lg hover:shadow-orange-500/40 relative overflow-hidden group"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    <span className="relative z-10">Enroll Now - Limited Seats!</span>
+                                                    <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-[#F2600B] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                                    <div className="absolute top-0 left-0 w-full h-0.5 bg-white/30"></div>
+                                                </a>
+                                                {/* <p className="text-center text-gray-400 text-xs mt-2">
                                                         Registration closes 
                                                         August 26, 2025
                                                     </p> */}
-                                                </div>
                                             </div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
 
-                            {/* Expert Badge - Only shows when expanded */}
-                            {expandedIndex === idx && (
-                                <div className="absolute top-4 right-4 bg-[#F2600B] text-black text-xs font-bold px-2 py-1 rounded-full z-10">
-                                    EXPERT LEVEL
-                                </div>
-                            )}
-                        </motion.div>
+                        {/* Expert Badge - Only shows when expanded */}
+                        {expandedIndex === idx && (
+                            <div className="absolute top-4 right-4 bg-[#F2600B] text-black text-xs font-bold px-2 py-1 rounded-full z-10">
+                                EXPERT LEVEL
+                            </div>
+                        )}
+                    </motion.div>
                     ))}
                 </div></section>
 
@@ -605,10 +557,7 @@ export default function Course() {
                             <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-transparent group-hover:via-orange-400"></div>
                         </motion.a>
 
-                        {/* Hacker Skill Meter */}
-                        {/* <div className="mt-10 p-5 bg-black/30 backdrop-blur-sm rounded-xl border border-white/10">
-                            
-                        </div> */}
+
                     </motion.div>
 
                     {/* Right Side - Cyber Enhanced Video Showcase */}
@@ -631,8 +580,7 @@ export default function Course() {
 
                         {/* Video Container */}
                         <div className="relative rounded-xl overflow-hidden shadow-2xl border border-orange-500/20 transform translate-z-0">
-                            {/* Video Glitch Effect Overlay */}
-                            {/* <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnPjxkZWZzPjxyYW5kb21pemUgaWQ9J2cnIHg9JzAlJyB5PScwJScgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgLz48L2RlZnM+PHJlY3QgeD0nMCUnIHk9JzAlJyB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyBmaWxsPSd0cmFuc3BhcmVudCcgc3R5bGU9J2ZpbHRlcjogdXJsKCNnKScgb3BhY2l0eT0nMC4wMyc+PC9yZWN0Pjwvc3ZnPg==')] opacity-20 pointer-events-none"></div> */}
+
 
                             <iframe
                                 className="w-full h-72 md:h-[28rem] rounded-xl"
@@ -642,15 +590,7 @@ export default function Course() {
                                 allowFullScreen
                             ></iframe>
 
-                            {/* Animated Play Button Overlay */}
-                            {/* <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-transparent"></div>
-                                <div className="relative w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center shadow-lg animate-pulse">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black ml-1" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                                    </svg>
-                                </div>
-                            </div> */}
+
                         </div>
 
 

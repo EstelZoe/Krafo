@@ -13,7 +13,8 @@ import { image } from "framer-motion/client";
 import pic1 from "../assets/images/origilogo.png";
 import pic2 from "../assets/images/krafoashanti.png";
 import pic3 from "../assets/images/bgremover2.png";
-
+import { HashLink } from "react-router-hash-link";
+import BenPic from "../assets/images/benkrafopic2.jpeg";
 
 const journeyData = [
   {
@@ -30,13 +31,34 @@ const journeyData = [
   },
 ];
 
+const missionImages = [
+  {
+    src: Ks,
+    alt: "Workshop",
+    className: "md:col-start-4 md:col-span-2",
+    duration: 3,
+  },
+  {
+    src: Cl,
+    alt: "Collaboration",
+    className: "md:col-start-6 md:row-span-2",
+    duration: 3.5,
+  },
+  {
+    src: Ms,
+    alt: "Mission",
+    className: "md:col-start-4 md:row-start-2",
+    duration: 4,
+  },
+  { src: Aml, alt: "Awareness", className: "md:col-start-5 md:row-start-2", duration: 3.2 },
+];
+
 export default function About() {
   return (
     <>
       <Navbar />
 
-      <section className=" text-white pt-28 pb-20 px-4 md:px-20 relative font-body overflow-hidden">
-
+      <section className="text-white min-h-screen flex items-center justify-center px-4 md:px-20 relative font-body overflow-hidden">
         {/* 🎥 Background Video */}
         <video
           className="absolute inset-0 w-full h-full object-cover -z-20"
@@ -49,81 +71,118 @@ export default function About() {
           Your browser does not support the video tag.
         </video>
 
-        {/* 🌌 Black Overlay on Top of Video */}
+        {/* 🌌 Black Overlay */}
         <div className="absolute inset-0 bg-black/70 -z-10"></div>
 
-        {/* 💫 Optional Glow */}
-        <div className="absolute inset-0 -z-10 opacity-20 blur-3xl" style={{ background: "radial-gradient(circle at 30% 30%, #F2600B22, transparent 70%)" }}></div>
+        {/* 💫 Glow */}
+        <div
+          className="absolute inset-0 -z-10 opacity-20 blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle at 30% 30%, #F2600B22, transparent 70%)",
+          }}
+        ></div>
 
-        {/* Content Layout */}
-        <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-12 relative z-10 ">
+        {/* Content */}
+        <div className="max-w-7xl mx-auto flex flex-col items-center justify-center text-center gap-12 relative z-10 w-full">
           {/* Text Side */}
-          <div className="max-w-xl space-y-6 text-center md:text-left bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border border-orange-700/40 rounded-xl p-6 shadow-xl transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02] w-full md:w-[45%]">
-            <h2 className="text-4xl md:text-5xl font-extrabold leading-tight text-white">
+          <div className="w-full md:w-[70%] lg:w-[55%] space-y-6 text-center bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border border-orange-700/40 rounded-xl p-6 md:p-10 shadow-xl transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white">
               We’re shaping Africa’s <span className="text-[#F2600B]">cyber future</span>
             </h2>
-            <p className="text-gray-300 text-lg">
-              KRAFO empowers schools, youth, and businesses with cybersecurity training, tools, and guidance to build a digitally secure continent.
+            <p className="text-gray-300 text-base sm:text-lg md:text-xl">
+              KRAFO empowers schools, youth, and businesses with cybersecurity training,
+              tools, and guidance to build a digitally secure continent.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4">
-              <button className="bg-[#F2600B] text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-[#e05600] transition">
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <HashLink
+                smooth to="/youth-cyber-ed#outreach"
+                className="bg-[#F2600B] text-white px-6 py-3 rounded-md text-sm sm:text-base font-medium hover:bg-[#e05600] transition w-full sm:w-auto text-center">
                 Get Involved
-              </button>
-              <a href="#" className="text-sm text-gray-300 hover:text-white transition underline underline-offset-4">
+              </HashLink>
+              <HashLink
+                smooth to="/youth-cyber-ed#programs"
+                className="text-sm sm:text-base text-gray-300 hover:text-white transition underline underline-offset-4">
                 See our work →
-              </a>
+              </HashLink>
+
             </div>
           </div>
-
-          {/* Floating Image Tiles */}
-          <div className="grid grid-cols-2 gap-4">
-          </div>
         </div>
-      </section>
+      </section >
 
 
-      {/* /* Our Achievements Section */} 
+      {/* /* Our Achievements Section */}
       <section className="overflow-hidden pb-12 pt-20 lg:pb-16 lg:pt-24 relative bg-black">
         {/* Pattern Background */}
-
         <div className="container mx-auto px-4 relative z-10">
           {/* Grid Layout */}
           <div className="-mx-4 flex flex-wrap items-center">
             {/* Image Gallery Column */}
-            <div className="w-full px-4 lg:w-6/12">
-              <div className="-mx-3 flex items-center sm:-mx-4">
-                <div className="w-full px-3 sm:px-4 xl:w-1/2">
+            <div className="w-full px-4 lg:w-6/12 mb-10 lg:mb-0">
+              <div className="-mx-3 flex flex-wrap sm:-mx-4">
+                <div className="w-full px-3 sm:px-4 md:w-1/2">
                   <div className="py-3 sm:py-4">
-                    <div className="relative overflow-hidden rounded-2xl shadow-xl w-50 h-50">
-                      <img src={pic1} alt="Cybersecurity training" className="w-full h-50 object-cover" />
-                      <div
-                        className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"
-                      ></div> 
+                    <div className="relative overflow-hidden rounded-2xl shadow-xl">
+                      <img
+                        src={pic1}
+                        alt="Cybersecurity training"
+                        className="w-full h-48 sm:h-56 md:h-64 object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"></div>
                     </div>
                   </div>
                   <div className="py-3 sm:py-4">
                     <div className="relative overflow-hidden rounded-2xl shadow-xl">
-                      <img src={pic2} alt="Krafo Systems team" className="w-full h-64 object-cover" />
-                      <div
-                        className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"
-                      ></div>
+                      <img
+                        src={pic2}
+                        alt="Krafo Systems team"
+                        className="w-full h-56 sm:h-64 md:h-72 object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"></div>
                     </div>
                   </div>
                 </div>
-                <div className="w-full px-3 sm:px-4 xl:w-1/2">
+                <div className="w-full px-3 sm:px-4 md:w-1/2">
                   <div className="relative z-10 my-4">
                     <div className="relative overflow-hidden rounded-2xl shadow-xl">
-                      <img src={pic3} alt="Student learning cybersecurity" className="w-full h-80 object-cover" />
-                      <div
-                        className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"
-                      ></div>
+                      <img
+                        src={pic3}
+                        alt="Student learning cybersecurity"
+                        className="w-full h-64 sm:h-72 md:h-80 object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"></div>
                     </div>
                     <span className="absolute -bottom-7 -right-7 z-[-1]">
-                      <svg width="134" height="106" viewBox="0 0 134 106" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="1.66667" cy="104" r="1.66667" transform="rotate(-90 1.66667 104)" fill="#f2600b" />
-                        <circle cx="16.3333" cy="104" r="1.66667" transform="rotate(-90 16.3333 104)" fill="#f2600b" />
-                        <circle cx="31" cy="104" r="1.66667" transform="rotate(-90 31 104)" fill="#f2600b" />
-                        {/* Additional circles */}
+                      <svg
+                        width="134"
+                        height="106"
+                        viewBox="0 0 134 106"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="1.66667"
+                          cy="104"
+                          r="1.66667"
+                          transform="rotate(-90 1.66667 104)"
+                          fill="#f2600b"
+                        />
+                        <circle
+                          cx="16.3333"
+                          cy="104"
+                          r="1.66667"
+                          transform="rotate(-90 16.3333 104)"
+                          fill="#f2600b"
+                        />
+                        <circle
+                          cx="31"
+                          cy="104"
+                          r="1.66667"
+                          transform="rotate(-90 31 104)"
+                          fill="#f2600b"
+                        />
                       </svg>
                     </span>
                   </div>
@@ -133,63 +192,70 @@ export default function About() {
 
             {/* Content Column */}
             <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
-              <div className="mt-10 lg:mt-0">
+              <div className="mt-6 lg:mt-0">
                 <span className="mb-4 block text-lg font-semibold text-[#f2600b] tracking-wider">
                   WHAT OUR NAME REPRESENTS
                 </span>
-                
-                
-                <h2 className="mb-5 text-3xl font-bold text-white sm:text-[40px]/[48px] uppercase">
-                  PROTECTING AFRICA'S <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f2600b] to-[#ffb142]">CYBER FUTURE</span>
+
+                <h2 className="mb-5 text-2xl sm:text-3xl md:text-[40px]/[48px] font-bold text-white uppercase">
+                  PROTECTING AFRICA'S{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f2600b] to-[#ffb142]">
+                    CYBER FUTURE
+                  </span>
                 </h2>
                 <p className="mb-5 text-base text-gray-300 leading-relaxed">
-                 Krafo Systems comes from the Akan word “KRA,” meaning the soul—divine in origin, holding life, consciousness, and destiny. “KRAFO” means “Togetherness of souls,” and “Systems” symbolizes unity toward a higher goal. Our mission is to protect Africa physically and spiritually, using cybersecurity to guard against threats online and offline.
+                  Krafo Systems comes from the Akan word “KRA,” meaning the soul—
+                  divine in origin, holding life, consciousness, and destiny. “KRAFO”
+                  means “Togetherness of souls,” and “Systems” symbolizes unity toward
+                  a higher goal. Our mission is to protect Africa physically and
+                  spiritually, using cybersecurity to guard against threats online and
+                  offline.
                 </p>
                 <p className="mb-8 text-base text-gray-300 leading-relaxed">
-                 Our motto, “Let’s Connect & Protect,” draws from Ubuntu: “I am because we are.” This philosophy values community over individuality, recognizing that relationships shape identity. In an increasingly divided world, we promote interdependence, empathy, and responsibility—connecting people to strengthen collective defenses for a safer, more harmonious, and sustainable future.
+                  Our motto, “Let’s Connect & Protect,” draws from Ubuntu: “I am
+                  because we are.” This philosophy values community over
+                  individuality, recognizing that relationships shape identity. In an
+                  increasingly divided world, we promote interdependence, empathy, and
+                  responsibility—connecting people to strengthen collective defenses
+                  for a safer, more harmonious, and sustainable future.
                 </p>
 
                 {/* Stats Section */}
-                <div className="mb-10 grid grid-cols-3 gap-6">
-                  <div className="bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl text-center hover:transform hover:-translate-y-1 transition-all  border">
-                    <h3 className="mb-2 text-4xl font-bold text-[#f2600b]">
+                <div className="mb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  <div className="bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl text-center hover:transform hover:-translate-y-1 transition-all border">
+                    <h3 className="mb-2 text-3xl sm:text-4xl font-bold text-[#f2600b]">
                       500+
                     </h3>
-                    <p className="text-sm text-gray-400">
-                      SECURED ORGANIZATIONS
-                    </p>
+                    <p className="text-sm text-gray-400">SECURED ORGANIZATIONS</p>
                   </div>
-                  <div className="bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl text-center hover:transform hover:-translate-y-1 transition-all  border">
-                    <h3 className="mb-2 text-4xl font-bold text-[#f2600b]">
+                  <div className="bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl text-center hover:transform hover:-translate-y-1 transition-all border">
+                    <h3 className="mb-2 text-3xl sm:text-4xl font-bold text-[#f2600b]">
                       92%
                     </h3>
-                    <p className="text-sm text-gray-400">
-                      SATISFACTION RATE
-                    </p>
+                    <p className="text-sm text-gray-400">SATISFACTION RATE</p>
                   </div>
-                  <div className="bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl text-center hover:transform hover:-translate-y-1 transition-all  border">
-                    <h3 className="mb-2 text-4xl font-bold text-[#f2600b]">
+                  <div className="bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl text-center hover:transform hover:-translate-y-1 transition-all border">
+                    <h3 className="mb-2 text-3xl sm:text-4xl font-bold text-[#f2600b]">
                       10+
                     </h3>
-                    <p className="text-sm text-gray-400">
-                      AFRICAN COUNTRIES
-                    </p>
+                    <p className="text-sm text-gray-400">AFRICAN COUNTRIES</p>
                   </div>
                 </div>
 
-                <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-[#f2600b] px-7 py-3 text-center text-base font-medium text-white hover:bg-[#d45509] transition-colors tracking-wider uppercase">
+                {/* <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-[#f2600b] px-6 sm:px-7 py-3 text-center text-sm sm:text-base font-medium text-white hover:bg-[#d45509] transition-colors tracking-wider uppercase">
                   Get Started
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
         </div>
       </section>
 
+
       {/* Our Journey Section */}
-      <section className="relative bg-black py-24 px-4 md:px-20 text-white font-body overflow-hidden">
+      < section className="relative bg-black py-24 px-4 md:px-20 text-white font-body overflow-hidden" >
         {/* Background with fixed positioning */}
-        <div className="absolute inset-0 -z-10 overflow-hidden">
+        < div className="absolute inset-0 -z-10 overflow-hidden" >
           <div
             className="absolute inset-0 opacity-20"
             style={{
@@ -199,7 +265,7 @@ export default function About() {
               filter: "blur(50px)",
             }}
           ></div>
-        </div>
+        </div >
 
         <div className="max-w-6xl mx-auto relative z-10">
           <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-orange-500 via-yellow-400 to-red-500 bg-clip-text text-transparent">
@@ -273,15 +339,15 @@ export default function About() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Our Services Section */}
-      <section>
+      < section >
 
-      </section>
+      </section >
 
       {/* Meet Our Team Section */}
-      <section className="bg-[#000000] py-16 px-4 md:px-20 pt-0 text-white font-body relative">
+      < section className="bg-[#000000] py-16 px-4 md:px-20 pt-0 text-white font-body relative" >
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">Meet The Leadership</h2>
@@ -290,7 +356,9 @@ export default function About() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-            {[{
+            {[
+            
+              {
               name: "Komla Elikem",
               role: "CEO & Founder",
               desc: "Visionary leader with 15+ years in tech innovation.",
@@ -305,18 +373,18 @@ export default function About() {
               linkedin: "https://www.linkedin.com/in/amifafali/",
               twitter: "#"
             }, {
-              name: "Michael Chen",
-              role: "CTO",
-              desc: "Tech expert with AI and machine learning experience.",
-              image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=500&q=80",
-              linkedin: "#",
+              name: "Corwin Francis",
+              role: "Cyber Engineer Lead",
+              desc: "Has Profound Cyber Enginner Experience.",
+              image: "https://media.licdn.com/dms/image/v2/D5603AQEltZ0tnde9IQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1699287797990?e=1758153600&v=beta&t=XZ2h6uSRsmkeR_pY-wnCSatTUOJG1CuMyBsFHzskRAA",
+              linkedin: "https://www.linkedin.com/in/corwinfrancis/",
               twitter: "#"
             }, {
-              name: "Emily Rodriguez",
-              role: "Marketing Director",
-              desc: "Creative strategist focused on brand growth.",
-              image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=500&q=80",
-              linkedin: "#",
+              name: "Benjamin Derek E",
+              role: "Executive Partnership Consultant",
+              desc: "Experienced Business Development Executive.",
+              image: BenPic,
+              linkedin: "https://www.linkedin.com/in/benjamin-e-58913b61?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
               twitter: "#"
             }].map((member, idx) => (
               <div key={idx} className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[#F2600B0D] to-[#2726261a] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
@@ -327,9 +395,14 @@ export default function About() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6">
                   <div className="flex space-x-4">
-                    <a href={member.linkedin} className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5C3.88 3.5 3 4.38 3 5.48s.88 1.98 1.98 1.98c1.1 0 1.98-.88 1.98-1.98S6.08 3.5 4.98 3.5zM3 8h4v13H3V8zm7.5 0h3.4v1.8h.05c.47-.89 1.63-1.8 3.35-1.8 3.6 0 4.27 2.37 4.27 5.45V21h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.18 0-2.52 1.7-2.52 3.45V21h-4V8z" /></svg>
                     </a>
+                    {member.twitter && member.twitter !== '#' && (
+                      <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.298 1.634 4.212 3.791 4.649-.69.188-1.43.23-2.187.085.629 1.956 2.445 3.379 4.6 3.419-2.07 1.623-4.678 2.588-7.52 2.588-1.001 0-1.982-.05-2.95-.172 2.682 1.728 5.873 2.746 9.342 2.746 11.209 0 17.323-9.293 17.323-17.324 0-.264-.006-.527-.018-.788.94-.678 1.757-1.524 2.409-2.494z"/></svg>
+                      </a>
+                    )}
                   </div>
                 </div>
                 <div className="text-center px-4 py-6">
@@ -341,10 +414,10 @@ export default function About() {
             ))}
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Who We Serve Section */}
-      <section className="py-6 bg-brand-dark bg-black text-[#F2600B] text-brand-dark-foreground px-8 md:px-16">
+      < section className="py-6 bg-brand-dark bg-black text-[#F2600B] text-brand-dark-foreground px-8 md:px-16" >
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-brand-orange">Who We Serve</h2>
           <p className="text-xl text-muted-foreground mb-16 max-w-3xl mx-auto text-white">
@@ -392,10 +465,76 @@ export default function About() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
+      {/* Our Mission Section */}
+      <section className="bg-black text-white py-20 px-4 md:px-20 overflow-hidden pb-0 mb-0">
+        <div className="grid grid-cols-1 md:grid-cols-6 md:grid-rows-2 gap-6 items-stretch">
+          {/* Text Block */}
+          <div className="md:col-span-3 md:row-span-2 flex flex-col justify-center items-start p-6 bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] rounded-xl shadow-lg relative overflow-hidden">
+            {/* Glow */}
+            <div className="absolute -z-10 inset-0 bg-gradient-to-tr from-[#F2600B11] via-transparent to-transparent blur-2xl" />
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+              Join Our <span className="text-[#F2600B]">Mission</span>
+            </h2>
+            <p className="text-gray-300 text-base md:text-lg mb-6 max-w-md">
+              Be part of the cybersecurity revolution. Together, we can build a safer digital world for everyone.
+            </p>
+            <HashLink smooth to="/contact" className="bg-[#F2600B] hover:bg-orange-600 text-white px-6 py-3 rounded-md font-semibold transition">
+                Get Started Today
+            </HashLink>
+          </div>
 
-      {/* Core Values Section */}
-      <section className="bg-[#000000] py-20 px-4 md:px-20 text-white font-body relative">
+          {/* Animated Image Tiles - Desktop */}
+          <div className="hidden md:contents">
+            {missionImages.map((image) => (
+              <motion.div
+                key={image.alt}
+                initial={{ y: -5 }}
+                animate={{ y: 5 }}
+                transition={{
+                  repeat: Infinity,
+                  duration: image.duration,
+                  repeatType: "reverse",
+                  ease: "easeInOut",
+                }}
+                className={`bg-[#1A1A1C] rounded-xl shadow-md overflow-hidden group ${image.className}`}
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Animated Image Tiles - Mobile */}
+          <div className="md:hidden col-span-1 space-y-6 mt-10">
+            {missionImages.map((image, idx) => (
+            <motion.div
+              key={image.alt}
+              initial={{ y: idx % 2 === 0 ? -10 : 10 }}
+              animate={{ y: idx % 2 === 0 ? 10 : -10 }}
+              transition={{
+                repeat: Infinity,
+                duration: image.duration,
+                repeatType: "reverse",
+                ease: "easeInOut",
+              }}
+              className="bg-[#1A1A1C] rounded-xl shadow-md overflow-hidden group"
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="w-full h-60 object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Core Values Section */ }
+      < section className = "bg-[#000000] py-20 px-4 md:px-20 text-white font-body relative" >
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-orange-500 to-yellow-400 bg-clip-text text-transparent">
             Our Core Values
@@ -451,129 +590,11 @@ export default function About() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
-    <section className="bg-black text-white py-20 px-4 md:px-20 overflow-hidden">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 md:grid-rows-5 gap-6">
-          {/* Text Block */}
-          <div className="col-span-3 row-span-3 flex flex-col justify-center items-start p-6 bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] rounded-xl shadow-lg relative overflow-hidden">
-            {/* Glow */}
-            <div className="absolute -z-10 inset-0 bg-gradient-to-tr from-[#F2600B11] via-transparent to-transparent blur-2xl" />
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-              Join Our <span className="text-[#F2600B]">Mission</span>
-            </h2>
-            <p className="text-gray-300 text-base md:text-lg mb-6 max-w-md">
-              Be part of the cybersecurity revolution. Together, we can build a safer digital world for everyone.
-            </p>
-            <button className="bg-[#F2600B] hover:bg-orange-600 text-white px-6 py-3 rounded-md font-semibold transition">
-              Get Started Today
-            </button>
-          </div>
 
-          {/* Animated Image Tiles - Responsive */}
-          {/* Tile 1 */}
-          <motion.div
-            initial={{ y: -10 }}
-            animate={{ y: 10 }}
-            transition={{
-              repeat: Infinity,
-              duration: 3,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
-            className="bg-[#1A1A1C] rounded-xl shadow-md hidden items-center justify-center col-start-4 row-start-1 row-span-2 md:flex"
-          >
-            <motion.img
-              src={Ks}
-              alt="Workshop"
-              className="w-full h-80 object-cover rounded-xl"
-            />
-          </motion.div>
 
-          {/* Tile 2 */}
-          <motion.div
-            initial={{ y: 10 }}
-            animate={{ y: -10 }}
-            transition={{
-              repeat: Infinity,
-              duration: 3,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
-            className="bg-[#1A1A1C] rounded-xl shadow-md hidden items-center justify-center col-start-5 row-start-1 row-span-1 md:flex"
-          >
-            <motion.img
-              src={Ms}
-              alt="Mission"
-              className="w-full h-full object-cover rounded-xl"
-            />
-          </motion.div>
-
-          {/* Tile 3 */}
-          <motion.div
-            initial={{ y: -10 }}
-            animate={{ y: 10 }}
-            transition={{
-              repeat: Infinity,
-              duration: 3.5,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
-            className="bg-[#1A1A1C] rounded-xl shadow-md hidden items-center justify-center col-start-4 row-start-3 row-span-1 md:flex"
-          >
-            <motion.img
-              src={Aml}
-              alt="Awareness"
-              className="w-full h-full object-cover rounded-xl"
-            />
-          </motion.div>
-
-          {/* Tile 4 */}
-          <motion.div
-            initial={{ y: 10 }}
-            animate={{ y: -10 }}
-            transition={{
-              repeat: Infinity,
-              duration: 3.5,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
-            className="bg-[#1A1A1C] rounded-xl shadow-md hidden items-center justify-center col-start-5 row-start-2 row-span-2 md:flex"
-          >
-            <motion.img
-              src={Cl}
-              alt="Collaboration"
-              className="w-full h-full object-cover rounded-xl"
-            />
-          </motion.div>
-
-          {/* Mobile version tiles */}
-          <div className="md:hidden space-y-6 mt-10">
-            {[Ks, Ms, Aml, Cl].map((src, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ y: idx % 2 === 0 ? -10 : 10 }}
-                animate={{ y: idx % 2 === 0 ? 10 : -10 }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 3 + idx * 0.5,
-                  repeatType: "reverse",
-                  ease: "easeInOut",
-                }}
-                className="bg-[#1A1A1C] rounded-xl shadow-md flex items-center justify-center"
-              >
-                <motion.img
-                  src={src}
-                  alt={`Visual ${idx + 1}`}
-                  className="w-full h-60 object-cover rounded-xl"
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Footer variant="orange" />
+    <Footer variant="orange" />
 
     </>
   );

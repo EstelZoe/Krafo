@@ -292,7 +292,7 @@ export default function YouthCyberEducation() {
                 </motion.div>
             </section>
 
-            <section className="relative py-24 px-6 pt-0 bg-black text-white overflow-hidden z-10">
+            <section id="programs" className="relative py-24 px-6 pt-0 bg-black text-white overflow-hidden z-10">
 
                 {/* Decorative Particles / Starfield */}
                 <div className="absolute inset-0 -z-10 bg-[radial-gradient(#F2600B33_1px,transparent_1px)] [background-size:20px_20px] opacity-10"></div>
@@ -363,7 +363,7 @@ export default function YouthCyberEducation() {
 
 
             {/* Outreach Impact Section */}
-            <section className="py-16 bg-black">
+            <section id="outreach" className="py-16 bg-black">
                 <div className="flex flex-col items-center justify-center text-center">
                     <p className="text-5xl font-bold text-orange-500 mb-2 flex items-center gap-2">
                         <Globe2 className="w-10 h-10 pt-3" />

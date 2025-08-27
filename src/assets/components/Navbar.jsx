@@ -61,7 +61,7 @@ export default function Navbar() {
             {/* Mobile Menu */}
             {isOpen && (
                 <div className="md:hidden bg-black text-white px-4 py-3 space-y-3">
-                    <Link to="/" className="block hover:text-orange-500" onClick={toggleMenu}>Home</Link>
+                    {/* <Link to="/" className="block hover:text-orange-500" onClick={toggleMenu}>Home</Link> */}
                     <Link to="/about" className="block hover:text-orange-500" onClick={toggleMenu}>About</Link>
                     <Link to="/courses" className="block hover:text-orange-500" onClick={toggleMenu}>Courses</Link>
                     <Link to="/events" className="block hover:text-orange-500" onClick={toggleMenu}>Events</Link>

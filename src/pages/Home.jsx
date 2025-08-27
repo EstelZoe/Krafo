@@ -19,24 +19,29 @@ import { Link } from "react-router";
 import ccbc from "../assets/images/ccbc.png"
 import studyGroup from "../assets/images/consultationpic.jpg"
 import PartnershipCarousel from "../assets/components/PartnershipCarousel";
+import video from "../assets/videos/backgroundhome.mp4";
+import useBlogs from "../hooks/useBlogs"
+
 
 
 
 
 export default function Home() {
+  // const { blogs, loading } = useBlogs();
+  // if (loading) return <p className="text-center text-white">Loading...</p>;
+
+
+
   return (
     <>
       <Navbar />
 
       <section className="relative w-full max-w-[1440px] h-[650px] mx-auto overflow-hidden">
         {/* Background Layer */}
-        <div
-          className="absolute top-0 left-0 w-full h-full bg-cover bg-center scale-105 animate-zoom"
-          style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)), url(${Backimage})`
-          }}
-        ></div>
-
+        <video
+          className="absolute top-0 left-0 w-full h-full object-cover scale-105 animate-zoom"
+          src={video} autoPlay loop muted playsInline />
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 to-black"></div>
         {/* Reduced Glass Blur Overlay */}
         <div className="absolute inset-0 bg-black/10 backdrop-blur-[1.5px] z-0" />
 
@@ -192,7 +197,7 @@ export default function Home() {
 
 
         {/* Courses Section Header */}
-        <div className="mx-auto max-w-4xl text-center mb-16 pt-0">
+        <div className="mx-auto max-w-3xl text-center mb-16 pt-0">
           <h2 className="text-base font-semibold text-[#F2600B] tracking-wider uppercase animate-fade-up">Courses</h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-white sm:text-5xl animate-fade-up delay-100">
             Choose the right program for you
@@ -206,46 +211,44 @@ export default function Home() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-y-6 gap-x-6 md:grid-cols-2 lg:grid-cols-3 items-start">
           {[
             {
-              title: "Cyber Essentials",
-              price: "$49",
-              tierColor: "text-[#F2600B]",
-              bg: "bg-[#1A1A1A]/60",
-              ring: "ring-[#F2600B33]",
-              image: ccbc.png,
-
-              features: [
-                "✓ Threat basics and safe online behavior",
-                "✓ Lifetime access & resources",
-                "✓ Certificate of completion",
-              ],
-              icon: "",
-            },
-
-            {
-              title: "Cyber Pro",
-              price: "$149",
+              title: "AI & Cybersucurity",
+              price: "Coming Soon",
               tierColor: "text-orange-400",
               bg: "bg-[#0E0E0E]",
               ring: "ring-[#F2600B55]",
               features: [
-                "✓ Penetration testing techniques",
-                "✓ Real-world case simulations",
-                "✓ Community & mentorship access",
-                "✓ Exclusive digital credentials",
+                "Understand how AI is used in cyber attacks.",
+                "Build AI-powered security monitoring tools.",
+                "Explore the ethics of AI in security.",
+              ],
+              icon: "",
+            },
+            {
+              title: "Cybersecurity Capacity Building Course",
+              price: "¢5750",
+              tierColor: "text-[#F2600B]",
+              bg: "bg-[#1A1A1A]/60",
+              ring: "ring-[#F2600B33]",
+              image: ccbc.png,
+              discription: "A comprehensive program designed to build a strong foundation in cybersecurity principles, from network defense to incident response",
+
+              features: [
+                "12 months online access to resources.",
+                "Networking & a Certificate of Completion.",
+                "18 topics with quizzes & hands-on exercises.",
               ],
               icon: "",
             },
             {
               title: "Cyber Elite",
-              price: "$249",
+              price: "Coming soon",
               tierColor: "text-orange-300",
               bg: "bg-[#131313]",
               ring: "ring-[#F2600B88]",
               features: [
-                "✓ Red team/Blue team simulations",
-                "✓ Governance, risk & compliance (GRC)",
-                "✓ Incident response and leadership",
-                "✓ Private cohort and live workshops",
+                "Develop a robust cybersecurity strategy.",
+                "Learn about governance, risk, and compliance (GRC).",
+                "Manage cybersecurity budgets and investments.",
               ],
               icon: "",
             },
@@ -272,15 +275,15 @@ export default function Home() {
                   <li key={i} className="flex gap-x-3">{feat}</li>
                 ))}
               </ul>
-              <a
-                href="#"
-                className={`mt-8 block rounded-md ${index === 1 ? "bg-[#F2600B] text-white" : "text-[#F2600B] ring-1 ring-[#F2600B44] hover:bg-[#F2600B22]"
-                  } text-center text-sm font-semibold transition px-3.5 py-2.5`}
-              >
+              <Link
+                to="/courses#cybersecurity-course"
+                className={`mt-8 block rounded-md ${index === 1
+                  ? "bg-[#F2600B] text-white"
+                  : "text-[#F2600B] ring-1 ring-[#F2600B44] hover:bg-[#F2600B22]"
+                  } text-center text-sm font-semibold transition px-3.5 py-2.5`} >
                 Enroll Now
-              </a>
-            </div>
-          ))}
+              </Link>
+            </div>))}
         </div>
 
         {/* Keyframe Animations (Tailwind Plugin or Custom CSS) */}
@@ -414,12 +417,10 @@ export default function Home() {
                 We are building Africa’s cybersecurity future—one digital warrior at a time.
                 Through education, innovation, and strategy, we empower the next generation of secure tech leaders.
               </p>
-              <a
-                href="#"
-                className="inline-block mt-4 px-6 py-3 bg-[#F2600B] hover:bg-orange-600 text-white rounded-md text-sm font-semibold transition-all shadow-lg hover:scale-105 active:scale-100"
-              >
+              <Link to="/youth-cyber-ed"
+                className="inline-block mt-4 px-6 py-3 bg-[#F2600B] hover:bg-orange-600 text-white rounded-md text-sm font-semibold transition-all shadow-lg hover:scale-105 active:scale-100">
                 Learn More
-              </a>
+              </Link>
             </div>
 
             {/* Image Side */}
@@ -459,7 +460,7 @@ export default function Home() {
 
       <section className="py-16 bg-black">
         <div className="container mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-           <motion.div
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -470,11 +471,11 @@ export default function Home() {
             </p>
 
             <h2 className="text-3xl lg:text-4xl font-bold text-white leading-snug mb-4">
-             Get A Personalized Cybersecurity Guidance <span className="text-orange-600">Tailored To Your Organization's Needs</span>
+              Get A Personalized Cybersecurity Guidance <span className="text-orange-600">Tailored To Your Organization's Needs</span>
             </h2>
 
             <p className="text-gray-400 mb-6">
-             We do more than spot risks — we help you design a complete security plan that fits your business goals and comfort with risk.
+              We do more than spot risks — we help you design a complete security plan that fits your business goals and comfort with risk.
             </p>
 
             <ul className="space-y-3 mb-6">
@@ -519,12 +520,12 @@ export default function Home() {
               </motion.li>
             </ul>
 
-            
-              <Link to="/consultation">
-            <div  className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-orange-600/40 inline-flex items-center" >
-              Book a Session Now
+            <a href="https://calendly.com/krafosystems" target="_blank" rel="noopener noreferrer">
+              <div className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-orange-600/40 inline-flex items-center" >
+                Book a Session Now
               </div>
-               </Link>
+            </a>
+
           </motion.div>
           <motion.div
             className="relative"
@@ -549,7 +550,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-         
+
         </div>
       </section>
 
@@ -558,50 +559,31 @@ export default function Home() {
 
       <section className="px-6 md:px-20 py-20 pt-0 bg-[#000000] text-white font-body">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[#F2600B]">Latest Insights</h2>
-          <p className="text-base md:text-lg text-gray-300 mt-2">
-            Stay updated with the latest cybersecurity trends and stories shaping Africa’s digital future.
-          </p>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#F2600B]">Latest Insights</h2> <p className="text-base md:text-lg text-gray-300 mt-2"> Stay updated with the latest cybersecurity trends and stories shaping Africa’s digital future. </p>
         </div>
-
         <div className="mt-14 grid md:grid-cols-3 gap-8">
-          {[
-            {
-              title: "The Rise of Cyber Threats in Africa",
-              desc: "Understanding the evolving landscape of cybersecurity challenges across the continent.",
-            },
-            {
-              title: "Building Cyber Resilience in Schools",
-              desc: "How educational institutions can protect themselves from cyber attacks.",
-            },
-            {
-              title: "Youth as Cyber Champions",
-              desc: "Empowering the next generation to lead Africa's cybersecurity efforts.",
-            },
-          ].map((item, idx) => (
-            <div
-              key={idx}
-              className="group bg-white/5 p-6 rounded-2xl border border-[#F2600B22] shadow-xl  hover:shadow-[0_0_25px_#F2600B33] hover:scale-[1.02] transition-all duration-300"
-            >
-              <div className="bg-gradient-to-br from-[#F2600B22] to-[#ffffff0d] h-32 rounded-xl flex items-center justify-center text-xs text-orange-200 mb-4">
-                Article Thumbnail
-              </div>
-              <h3 className="font-semibold text-lg text-white group-hover:text-[#F2600B] transition-colors duration-300">
-                {item.title}
-              </h3>
-              <p className="text-sm text-gray-300 mt-2">
-                {item.desc}
-              </p>
-              <a
-                href="#"
-                className="inline-block mt-4 text-sm font-medium text-[#F2600B] hover:underline"
-              >
-                Read More →
-              </a>
-            </div>
+          {[{
+            title: "The Rise of Cyber Threats in Africa",
+            desc: "Understanding the evolving landscape of cybersecurity challenges across the continent.",
+          },
+          {
+            title: "Building Cyber Resilience in Schools",
+            desc: "How educational institutions can protect themselves from cyber attacks.",
+          },
+          {
+            title: "Youth as Cyber Champions", desc: "Empowering the next generation to lead Africa's cybersecurity efforts.",
+          },
+          ].map((item, idx) =>
+          (<div key={idx}
+            className="group bg-white/5 p-6 rounded-2xl border border-[#F2600B22] shadow-xl hover:shadow-[0_0_25px_#F2600B33] hover:scale-[1.02] transition-all duration-300" >
+            <div className="bg-gradient-to-br from-[#F2600B22] to-[#ffffff0d] h-32 rounded-xl flex items-center justify-center text-xs text-orange-200 mb-4"> Article Thumbnail </div>
+            <h3 className="font-semibold text-lg text-white group-hover:text-[#F2600B] transition-colors duration-300">
+              {item.title} </h3> <p className="text-sm text-gray-300 mt-2"> {item.desc} </p> <a href="#" className="inline-block mt-4 text-sm font-medium text-[#F2600B] hover:underline" > Read More → </a>
+          </div>
           ))}
         </div>
       </section>
+
 
       {/* Partnership Section */}
       <PartnershipCarousel />
