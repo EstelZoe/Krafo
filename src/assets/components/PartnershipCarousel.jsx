@@ -9,7 +9,7 @@ const DEFAULT_ITEMS = [
         company: "Krafo Systems",
         summary:
             "A Cybersecurity defendant who got her training from Krafo Systems.",
-        videoSrc: "https://www.youtube.com/watch?v=uGyWgktVfYM", // Replace with your file path
+        videoSrc: "https://www.youtube.com/watch?v=uGyWgktVfYM", 
         poster: "/posters/partner1.jpg",
     },
     {
