@@ -4,61 +4,62 @@ import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import ceo from "../assets/images/ceo.png";
+import aicc from "../assets/images/flye.jpg";
 import ccbc from "../assets/images/ccbc.png";
 
 const events = [
     {
-        date: "MAR 15",
-        title: "Tech Innovation Summit 2025",
-        description: "Join industry leaders and innovators as we explore the cutting edge of technology. This full-day summit features keynote speakers, panel discussions, and hands-on workshops.",
-        time: "9:00 AM - 5:00 PM",
-        location: "Convention Center",
+        date: "12-14 Nov",
+        title: "Hacking the Human Mind: They’re Already Inside Your Mind",
+        description: "Cybercriminals don’t just hack computers; they also hack humans. Learn the manipulation tactics targeting you daily and the methods to counter these strategic attacks. Master the psychological defenses that separate victims from defenders.",
+        time: "TBD",
+        location: "AICC, Accra",
         category: "Technology",
-        image: ceo,
-        featured: true
+        image: aicc,
+        featured: true,
+        registrationUrl: "https://gdiw.com.gh" // Add the registration link here
     },
-    {
-        date: "MAR 22",
-        title: "Startup Pitch Competition",
-        description: "Watch emerging startups present their groundbreaking ideas to a panel of investors. Network with founders and discover the next big thing in tech.",
-        time: "6:00 PM - 9:00 PM",
-        location: "Business Hub",
-        category: "Business",
-        image: ccbc
-    },
-    {
-        date: "APR 05",
-        title: "Cybersecurity Workshop",
-        description: "A hands-on workshop on ethical hacking and defense mechanisms. Learn penetration testing techniques from security experts.",
-        time: "10:00 AM - 4:00 PM",
-        location: "Online Webinar",
-        category: "Cybersecurity",
-    },
-    {
-        date: "APR 12",
-        title: "Digital Marketing Conference",
-        description: "Learn the latest trends in digital marketing from top experts. Covers SEO, social media, content strategy, and performance analytics.",
-        time: "9:00 AM - 6:00 PM",
-        location: "Grand Expo Hall",
-        category: "Marketing",
-    },
-    {
-        date: "MAY 01",
-        title: "AI in Business Summit",
-        description: "Explore the impact of Artificial Intelligence on modern businesses. Case studies from Fortune 500 companies implementing AI solutions.",
-        time: "1:00 PM - 5:00 PM",
-        location: "Tech Park Auditorium",
-        category: "AI",
-    },
-    {
-        date: "MAY 18",
-        title: "Youth Coding Challenge",
-        description: "A fun and challenging coding competition for young developers aged 12-18. Prizes include scholarships and tech gadgets.",
-        time: "10:00 AM - 2:00 PM",
-        location: "Community Center",
-        category: "Education",
-    },
+    // {
+    //     date: "MAR 22",
+    //     title: "Startup Pitch Competition",
+    //     description: "Watch emerging startups present their groundbreaking ideas to a panel of investors. Network with founders and discover the next big thing in tech.",
+    //     time: "6:00 PM - 9:00 PM",
+    //     location: "Business Hub",
+    //     category: "Business",
+    //     image: ccbc
+    // },
+    // {
+    //     date: "APR 05",
+    //     title: "Cybersecurity Workshop",
+    //     description: "A hands-on workshop on ethical hacking and defense mechanisms. Learn penetration testing techniques from security experts.",
+    //     time: "10:00 AM - 4:00 PM",
+    //     location: "Online Webinar",
+    //     category: "Cybersecurity",
+    // },
+    // {
+    //     date: "APR 12",
+    //     title: "Digital Marketing Conference",
+    //     description: "Learn the latest trends in digital marketing from top experts. Covers SEO, social media, content strategy, and performance analytics.",
+    //     time: "9:00 AM - 6:00 PM",
+    //     location: "Grand Expo Hall",
+    //     category: "Marketing",
+    // },
+    // {
+    //     date: "MAY 01",
+    //     title: "AI in Business Summit",
+    //     description: "Explore the impact of Artificial Intelligence on modern businesses. Case studies from Fortune 500 companies implementing AI solutions.",
+    //     time: "1:00 PM - 5:00 PM",
+    //     location: "Tech Park Auditorium",
+    //     category: "AI",
+    // },
+    // {
+    //     date: "MAY 18",
+    //     title: "Youth Coding Challenge",
+    //     description: "A fun and challenging coding competition for young developers aged 12-18. Prizes include scholarships and tech gadgets.",
+    //     time: "10:00 AM - 2:00 PM",
+    //     location: "Community Center",
+    //     category: "Education",
+    // },
 ];
 
 const EventPage = () => {
@@ -223,7 +224,7 @@ const EventPage = () => {
 
             {/* Main Content */}
             <section className="bg-[#0a0a0a] py-16">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
                     {/* Enhanced Category Filter */}
                     <motion.div
                         className="mb-12 overflow-x-auto pb-4"
@@ -375,17 +376,17 @@ const EventPage = () => {
             </section>
 
             {/* Enhanced CTA Section */}
-            <section
+            {/* <section
                 ref={ctaRef}
                 className="relative bg-gradient-to-r from-[#1a0a00] to-[#0d0400] py-24 overflow-hidden"
-            >
+            > */}
                 {/* Animated background elements */}
-                <div className="absolute inset-0 -z-10">
+                {/* <div className="absolute inset-0 -z-10">
                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiMyYTI4MjgiIHN0cm9rZS13aWR0aD0iMC41Ij48cGF0aCBkPSJNIDAgMCBMIDEwMCAwIDEwMCAxMDAgMCAxMDAgWiIvPjxwYXRoIGQ9Ik0gMjAgMjAgTCA4MCAyMCA4MCA4MCAyMCA4MCIvPjxwYXRoIGQ9Ik0gNDAgNDAgTCA2MCA0MCA2MCA2MCA0MCA2MCIvPjwvZz48L3N2Zz4=')] opacity-10"></div>
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(242,96,11,0.05)_0%,transparent_70%)]"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(242,96,11,0.05)_0%,transparent_70%)]"></div> */}
 
                     {/* Floating elements */}
-                    <motion.div
+                    {/* <motion.div
                         className="absolute top-20 left-1/4 w-8 h-8 bg-[#F2600B] rounded-full blur-xl opacity-20"
                         animate={{
                             y: [0, -20, 0],
@@ -449,8 +450,8 @@ const EventPage = () => {
                             </motion.button>
                         </motion.div>
                     </motion.div>
-                </div>
-            </section>
+                </div> */}
+            {/* </section> */}
 
             <Footer />
         </div>

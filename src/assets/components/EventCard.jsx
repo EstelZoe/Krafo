@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const EventCard = ({ date, title, description, time, location, category }) => {
+const EventCard = ({ date, title, description, time, location, category, registrationUrl, image }) => {
   const categoryColors = {
     Technology: "from-blue-500 to-cyan-400",
     Business: "from-purple-500 to-indigo-400",
@@ -16,13 +16,13 @@ const EventCard = ({ date, title, description, time, location, category }) => {
       className="h-full"
       whileHover={{ y: -10 }}
     >
-      <div className="h-full bg-gradient-to-br from-[#0f0f0f] to-[#0a0a0a] rounded-xl overflow-hidden border border-white/10 shadow-xl flex flex-col group">
+      <div className="h-full bg-gradient-to-br from-[#0f0f0f] to-[#0a0a0a] rounded-xl overflow-hidden border border-white/10 shadow-xl flex flex-col group hover:shadow-2xl transition-shadow">
         {/* Date Ribbon */}
         <div className="relative">
           <div className="absolute top-4 left-0 bg-gradient-to-r from-[#F2600B] to-orange-500 text-black font-bold px-4 py-2 rounded-r-lg z-10">
             {date}
           </div>
-          <div className="bg-gray-800 h-32 w-full"></div>
+          <img src={image} alt={title} className="h-32 w-full object-cover" />
         </div>
         
         {/* Content */}
@@ -62,12 +62,17 @@ const EventCard = ({ date, title, description, time, location, category }) => {
         
         {/* Footer */}
         <div className="px-6 py-4 bg-black/30 border-t border-white/10">
-          <button className="w-full py-2.5 text-sm bg-gradient-to-r from-black/30 to-black/60 hover:from-black/40 hover:to-black/70 rounded-lg transition-all font-medium flex items-center justify-center group border border-white/10">
+          <a
+            href={registrationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-2.5 text-sm bg-gradient-to-r from-black/30 to-black/60 hover:from-black/40 hover:to-black/70 rounded-lg transition-all font-medium flex items-center justify-center group border border-white/10"
+          >
             Register Now
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
-          </button>
+          </a>
         </div>
       </div>
     </motion.div>
