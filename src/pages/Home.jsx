@@ -5,9 +5,9 @@ import Book from "../assets/images/cyberart.jpg";
 import Backimage from "../assets/images/bgimage.jpg";
 import { GraduationCapIcon, SchoolIcon, Building2 } from "lucide-react";
 import cybered from "../assets/images/abstract.jpg";
-import cybersecurityFundamentals from "../assets/images/cyberyouthed1.png";
-import incidentResponse from "../assets/images/cyber.jpg";
-import networkSecurity from "../assets/images/cyberart.jpg";
+import insightes from "../assets/images/insight3.jpg";
+import insight from "../assets/images/insight1.jpg";
+import insights from "../assets/images/insight2.jpg";
 import Video from "../assets/videos/backgroundcybered.mp4";
 import { motion } from "framer-motion";
 import data1 from "../assets/images/data1.jpg";
@@ -21,6 +21,8 @@ import studyGroup from "../assets/images/consultationpic.jpg"
 import PartnershipCarousel from "../assets/components/PartnershipCarousel";
 import video from "../assets/videos/backgroundhome.mp4";
 import useBlogs from "../hooks/useBlogs"
+import { image } from "framer-motion/client";
+
 
 
 
@@ -562,23 +564,43 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-extrabold text-[#F2600B]">Latest Insights</h2> <p className="text-base md:text-lg text-gray-300 mt-2"> Stay updated with the latest cybersecurity trends and stories shaping Africa’s digital future. </p>
         </div>
         <div className="mt-14 grid md:grid-cols-3 gap-8">
-          {[{
-            title: "The Rise of Cyber Threats in Africa",
-            desc: "Understanding the evolving landscape of cybersecurity challenges across the continent.",
-          },
-          {
-            title: "Building Cyber Resilience in Schools",
-            desc: "How educational institutions can protect themselves from cyber attacks.",
-          },
-          {
-            title: "Youth as Cyber Champions", desc: "Empowering the next generation to lead Africa's cybersecurity efforts.",
-          },
+          {[
+            {
+              image: insight,
+              title: "Education in 2025: Embracing Technology for Personalized Learning",
+              desc: "Education in 2025 is characterized by the integration of technology to create personalized learning ....",
+            },
+            {
+              image: insightes,
+              title: "Protection in 2025: Advancements in Security Technologies",
+              desc: "In 2025, protection technologies have evolved to address new challenges.....",
+            },
+            {
+              image: insights,
+              title: "Data Privacy in 2025: Striking a Balance Between Innovation and Protection",
+              desc: "As data breaches become more frequent, individuals and organizations are prioritizing data privacy.....",
+            },
           ].map((item, idx) =>
           (<div key={idx}
             className="group bg-white/5 p-6 rounded-2xl border border-[#F2600B22] shadow-xl hover:shadow-[0_0_25px_#F2600B33] hover:scale-[1.02] transition-all duration-300" >
-            <div className="bg-gradient-to-br from-[#F2600B22] to-[#ffffff0d] h-32 rounded-xl flex items-center justify-center text-xs text-orange-200 mb-4"> Article Thumbnail </div>
+            {item.image ? (
+              <img
+                src={item.image}
+                alt={item.title}
+                className="w-full h-32 object-cover rounded-xl mb-4"
+              />
+            ) : (
+              <div className="bg-gradient-to-br from-[#F2600B22] to-[#ffffff0d] h-32 rounded-xl flex items-center justify-center text-xs text-orange-200 mb-4">
+                Article Thumbnail
+              </div>
+            )}
+
             <h3 className="font-semibold text-lg text-white group-hover:text-[#F2600B] transition-colors duration-300">
-              {item.title} </h3> <p className="text-sm text-gray-300 mt-2"> {item.desc} </p> <a href="#" className="inline-block mt-4 text-sm font-medium text-[#F2600B] hover:underline" > Read More → </a>
+              {item.title} </h3> <p className="text-sm text-gray-300 mt-2"> {item.desc} </p>
+            <Link
+              to="/blog-page"className="inline-block mt-4 text-sm font-medium text-[#F2600B] hover:underline" >
+              Read More →
+            </Link>
           </div>
           ))}
         </div>

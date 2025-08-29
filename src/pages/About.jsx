@@ -15,6 +15,7 @@ import pic2 from "../assets/images/krafoashanti.png";
 import pic3 from "../assets/images/bgremover2.png";
 import { HashLink } from "react-router-hash-link";
 import BenPic from "../assets/images/benkrafopic2.jpeg";
+import RuthPic from "../assets/images/Ruth.jpeg";
 
 const journeyData = [
   {
@@ -152,7 +153,8 @@ export default function About() {
                         alt="Student learning cybersecurity"
                         className="w-full h-64 sm:h-72 md:h-80 object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply">
+                      </div>
                     </div>
                     <span className="absolute -bottom-7 -right-7 z-[-1]">
                       <svg
@@ -357,61 +359,74 @@ export default function About() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             {[
-            
+
               {
-              name: "Komla Elikem",
-              role: "CEO & Founder",
-              desc: "Visionary leader with 15+ years in tech innovation.",
-              image: "https://media.licdn.com/dms/image/v2/D4E03AQFLO3cJ_SD6qg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1666098530425?e=1756944000&v=beta&t=Oyxx1M9J79uWuirrvRIuq9WB_RaGGa51ko_c_OUpYNk",
-              linkedin: "https://www.linkedin.com/in/komla-m-a2a915253/",
-              twitter: "#"
-            }, {
-              name: "Mamaga Ami Fafali Mathis",
-              role: "Co-Founder & CTO",
-              desc: "Renowned Systems Engineer and Cybersecurity Expert.",
-              image: "https://media.licdn.com/dms/image/v2/D4E03AQFNm__FaX3USw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1668438336606?e=1756944000&v=beta&t=RamtsaY9o_Tg1mgkl3ndPlh3bFZsyH6sV46dFOAZZic",
-              linkedin: "https://www.linkedin.com/in/amifafali/",
-              twitter: "#"
-            }, {
-              name: "Corwin Francis",
-              role: "Cyber Engineer Lead",
-              desc: "Has Profound Cyber Enginner Experience.",
-              image: "https://media.licdn.com/dms/image/v2/D5603AQEltZ0tnde9IQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1699287797990?e=1758153600&v=beta&t=XZ2h6uSRsmkeR_pY-wnCSatTUOJG1CuMyBsFHzskRAA",
-              linkedin: "https://www.linkedin.com/in/corwinfrancis/",
-              twitter: "#"
-            }, {
-              name: "Benjamin Derek E",
-              role: "Executive Partnership Consultant",
-              desc: "Experienced Business Development Executive.",
-              image: BenPic,
-              linkedin: "https://www.linkedin.com/in/benjamin-e-58913b61?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
-              twitter: "#"
-            }].map((member, idx) => (
-              <div key={idx} className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[#F2600B0D] to-[#2726261a] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-full aspect-[3/4] object-cover object-center transform group-hover:scale-105 transition duration-300 ease-in-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6">
-                  <div className="flex space-x-4">
-                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5C3.88 3.5 3 4.38 3 5.48s.88 1.98 1.98 1.98c1.1 0 1.98-.88 1.98-1.98S6.08 3.5 4.98 3.5zM3 8h4v13H3V8zm7.5 0h3.4v1.8h.05c.47-.89 1.63-1.8 3.35-1.8 3.6 0 4.27 2.37 4.27 5.45V21h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.18 0-2.52 1.7-2.52 3.45V21h-4V8z" /></svg>
-                    </a>
-                    {member.twitter && member.twitter !== '#' && (
-                      <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.298 1.634 4.212 3.791 4.649-.69.188-1.43.23-2.187.085.629 1.956 2.445 3.379 4.6 3.419-2.07 1.623-4.678 2.588-7.52 2.588-1.001 0-1.982-.05-2.95-.172 2.682 1.728 5.873 2.746 9.342 2.746 11.209 0 17.323-9.293 17.323-17.324 0-.264-.006-.527-.018-.788.94-.678 1.757-1.524 2.409-2.494z"/></svg>
+                name: "Komla Elikem",
+                role: "CEO & Founder",
+                desc: "Visionary leader with 15+ years in tech innovation.",
+                image: "https://media.licdn.com/dms/image/v2/D4E03AQFLO3cJ_SD6qg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1666098530425?e=1756944000&v=beta&t=Oyxx1M9J79uWuirrvRIuq9WB_RaGGa51ko_c_OUpYNk",
+                linkedin: "https://www.linkedin.com/in/komla-m-a2a915253/",
+                twitter: "#"
+              },
+              {
+                name: "Mamaga Ami Fafali Mathis",
+                role: "Co-Founder & CTO",
+                desc: "Renowned Systems Engineer and Cybersecurity Expert.",
+                image: "https://media.licdn.com/dms/image/v2/D4E03AQFNm__FaX3USw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1668438336606?e=1756944000&v=beta&t=RamtsaY9o_Tg1mgkl3ndPlh3bFZsyH6sV46dFOAZZic",
+                linkedin: "https://www.linkedin.com/in/amifafali/",
+                twitter: "#"
+              }, 
+              {
+                name: "Corwin Francis",
+                role: "Cyber Engineer Lead",
+                desc: "Has Profound Cyber Enginner Experience.",
+                image: "https://media.licdn.com/dms/image/v2/D5603AQEltZ0tnde9IQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1699287797990?e=1758153600&v=beta&t=XZ2h6uSRsmkeR_pY-wnCSatTUOJG1CuMyBsFHzskRAA",
+                linkedin: "https://www.linkedin.com/in/corwinfrancis/",
+                twitter: "#"
+              }, 
+              {
+                name: "Benjamin Derek E",
+                role: "Executive Partnership Consultant",
+                desc: "Experienced Business Development Executive.",
+                image: BenPic,
+                linkedin: "https://www.linkedin.com/in/benjamin-e-58913b61?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+                twitter: "#"
+              },
+               {
+                name: "Ruth D. Amponsah",
+                role: "Executive Administrative Assistant",
+                desc: "Virtual Assistant & Data Analyst.",
+                image: RuthPic,
+                linkedin: "https://www.linkedin.com/in/benjamin-e-58913b61?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+                twitter: "#"
+              },
+
+            ].map((member, idx) => (
+                <div key={idx} className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[#F2600B0D] to-[#2726261a] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full aspect-[3/4] object-cover object-center transform group-hover:scale-105 transition duration-300 ease-in-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6">
+                    <div className="flex space-x-4">
+                      <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5C3.88 3.5 3 4.38 3 5.48s.88 1.98 1.98 1.98c1.1 0 1.98-.88 1.98-1.98S6.08 3.5 4.98 3.5zM3 8h4v13H3V8zm7.5 0h3.4v1.8h.05c.47-.89 1.63-1.8 3.35-1.8 3.6 0 4.27 2.37 4.27 5.45V21h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.18 0-2.52 1.7-2.52 3.45V21h-4V8z" /></svg>
                       </a>
-                    )}
+                      {member.twitter && member.twitter !== '#' && (
+                        <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.298 1.634 4.212 3.791 4.649-.69.188-1.43.23-2.187.085.629 1.956 2.445 3.379 4.6 3.419-2.07 1.623-4.678 2.588-7.52 2.588-1.001 0-1.982-.05-2.95-.172 2.682 1.728 5.873 2.746 9.342 2.746 11.209 0 17.323-9.293 17.323-17.324 0-.264-.006-.527-.018-.788.94-.678 1.757-1.524 2.409-2.494z" /></svg>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-center px-4 py-6">
+                    <h3 className="text-xl font-semibold text-white">{member.name}</h3>
+                    <p className="text-orange-500 font-medium">{member.role}</p>
+                    <p className="text-gray-400 mt-2 text-sm">{member.desc}</p>
                   </div>
                 </div>
-                <div className="text-center px-4 py-6">
-                  <h3 className="text-xl font-semibold text-white">{member.name}</h3>
-                  <p className="text-orange-500 font-medium">{member.role}</p>
-                  <p className="text-gray-400 mt-2 text-sm">{member.desc}</p>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </section >
@@ -480,7 +495,7 @@ export default function About() {
               Be part of the cybersecurity revolution. Together, we can build a safer digital world for everyone.
             </p>
             <HashLink smooth to="/contact" className="bg-[#F2600B] hover:bg-orange-600 text-white px-6 py-3 rounded-md font-semibold transition">
-                Get Started Today
+              Get Started Today
             </HashLink>
           </div>
 
@@ -511,30 +526,30 @@ export default function About() {
           {/* Animated Image Tiles - Mobile */}
           <div className="md:hidden col-span-1 space-y-6 mt-10">
             {missionImages.map((image, idx) => (
-            <motion.div
-              key={image.alt}
-              initial={{ y: idx % 2 === 0 ? -10 : 10 }}
-              animate={{ y: idx % 2 === 0 ? 10 : -10 }}
-              transition={{
-                repeat: Infinity,
-                duration: image.duration,
-                repeatType: "reverse",
-                ease: "easeInOut",
-              }}
-              className="bg-[#1A1A1C] rounded-xl shadow-md overflow-hidden group"
-            >
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-60 object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </motion.div>
+              <motion.div
+                key={image.alt}
+                initial={{ y: idx % 2 === 0 ? -10 : 10 }}
+                animate={{ y: idx % 2 === 0 ? 10 : -10 }}
+                transition={{
+                  repeat: Infinity,
+                  duration: image.duration,
+                  repeatType: "reverse",
+                  ease: "easeInOut",
+                }}
+                className="bg-[#1A1A1C] rounded-xl shadow-md overflow-hidden group"
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-60 object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
-      {/* Core Values Section */ }
-      < section className = "bg-[#000000] py-20 px-4 md:px-20 text-white font-body relative" >
+      {/* Core Values Section */}
+      < section className="bg-[#000000] py-20 px-4 md:px-20 text-white font-body relative" >
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-orange-500 to-yellow-400 bg-clip-text text-transparent">
             Our Core Values
@@ -594,7 +609,7 @@ export default function About() {
 
 
 
-    <Footer variant="orange" />
+      <Footer variant="orange" />
 
     </>
   );

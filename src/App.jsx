@@ -1,41 +1,36 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ScrollToTop from "./assets/components/ScrollToTop";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Courses from "./pages/Courses";  
 import EventPage from "./pages/EventPage";
 import BlogPage from "./pages/BlogPage";
 import YouthCyberEd from "./pages/YouthCyberEd";
-// import SignUp from "./pages/SignUp";
-// import LogIn from "./pages/LogIn";
 import Consultation from "./pages/Consultation";
 import ContactUs from "./pages/ContactUs";
-import { ToastContainer, toast } from "react-toastify";
-import NotFound from "./pages/NotFound"
-
-// import ScrollToHashElement from "./components/ScrollToHashElement.jsx";
-
-const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
-  { path: "/about", element: <About /> },
-  { path: "/courses", element: <Courses /> },
-  { path: "/event-page", element: <EventPage /> },
-  { path: "/blog-page", element: <BlogPage /> },
-  { path: "/youth-cyber-ed", element: <YouthCyberEd /> },
-  // { path: "/signup", element: <SignUp /> },
-  // { path: "/login", element: <LogIn /> },
-  { path: "/consultation", element: <Consultation /> },
-   { path: "/contact", element: <ContactUs /> },
-   { path: '*', element: <NotFound /> },
-]);
+import NotFound from "./pages/NotFound";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <>
-    <ToastContainer/>
-        {/* <ScrollToHashElement /> */}
-      <RouterProvider router={router} />
+      <ToastContainer />
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/event-page" element={<EventPage />} />
+          <Route path="/blog-page" element={<BlogPage />} />
+          <Route path="/youth-cyber-ed" element={<YouthCyberEd />} />
+          <Route path="/consultation" element={<Consultation />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
