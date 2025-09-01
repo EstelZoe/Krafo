@@ -1,9 +1,10 @@
 import React from "react";
+import { useState, useEffect, } from "react";
 import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 import Book from "../assets/images/cyberart.jpg";
 import Backimage from "../assets/images/bgimage.jpg";
-import { GraduationCapIcon, SchoolIcon, Building2 } from "lucide-react";
+import { Globe2 } from "lucide-react";
 import cybered from "../assets/images/abstract.jpg";
 import insightes from "../assets/images/insight3.jpg";
 import insight from "../assets/images/insight1.jpg";
@@ -22,15 +23,63 @@ import PartnershipCarousel from "../assets/components/PartnershipCarousel";
 import video from "../assets/videos/backgroundhome.mp4";
 import useBlogs from "../hooks/useBlogs"
 import { image } from "framer-motion/client";
-
-
-
-
+import Upcoming from "../assets/images/flye2.jpeg";
+import Upcoming2 from "../assets/images/flye.jpg";
 
 
 export default function Home() {
-  // const { blogs, loading } = useBlogs();
-  // if (loading) return <p className="text-center text-white">Loading...</p>;
+  const outreachSlides = [
+    {
+      image: Upcoming,
+      title: "A Cyber-Smart Generation for a Secure Africa",
+      desc:
+        "Our mission is to equip every young African with the knowledge to navigate the digital world safely. We aim to build a strong, resilient digital future for the continent, one student at a time.",
+      bullets: [
+        {
+          title: "Expand School Partnerships:",
+          desc: " Establish cyber clubs in hundreds of schools across the continent.",
+        },
+        {
+          title: "Empower More Students:",
+          desc: " Reach and train thousands more young people in critical cybersecurity skills.",
+        },
+        {
+          title: "Grow Our Community:",
+          desc: " Recruit and support a vibrant network of volunteers and mentors.",
+        },
+      ],
+    },
+    {
+      image: Upcoming2,
+      title: "Scaling Outreach Across Communities",
+      desc:
+        "We work with schools, NGOs and partners to deliver hands-on training, mentorship and tools that empower youth to stay safe online.",
+      bullets: [
+        {
+          title: "Hands-on Workshops:",
+          desc: " Practical sessions that build real skills.",
+        },
+        {
+          title: "Volunteer Network:",
+          desc: " Train-the-trainer programs so impact keeps growing.",
+        },
+        {
+          title: "Hybrid Events:",
+          desc: " Mix of in-person and virtual sessions to reach more learners.",
+        },
+      ],
+    },
+  ];
+
+  const [outreachIndex, setOutreachIndex] = useState(0);
+
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOutreachIndex((prev) => (prev === outreachSlides.length - 1 ? 0 : prev + 1));
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [outreachSlides.length]);
 
 
 
@@ -308,83 +357,106 @@ export default function Home() {
       </section>
 
 
-      <section className="relative px-6 py-24 pt-0 bg-[#000000] text-white font-body overflow-hidden">
-        {/* Background Grid Effect */}
-        <div className="absolute inset-0 -z-10 opacity-10 animate-pulse bg-[radial-gradient(#F2600B22_1px,transparent_1px)] [background-size:20px_20px]" />
-
-        {/* Section Header */}
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#F2600B] animate-fade-up">Upcoming Events</h2>
-          <p className="text-gray-300 mt-2 text-lg animate-fade-up delay-100">
-            Join our live cybersecurity workshops, summits, and bootcamps across Africa.
+      <section className="py-16 bg-black">
+        <div className="flex flex-col items-center justify-center text-center">
+          <p className="text-5xl font-bold text-orange-500 mb-2 flex items-center gap-2 pb-4">
+            <Globe2 className="w-10 h-10 pt-3" />
+             Latest And Upcoming Events
           </p>
-
-          {/* Next Event Countdown */}
-          <div className="mt-6 text-white font-mono text-sm md:text-base flex justify-center gap-4 items-center animate-fade-up delay-200">
-            <span className="bg-[#F2600B] px-3 py-1.5 rounded text-black font-bold">Next Event:</span>
-            <Countdown targetDate="2025-03-15T10:00:00" />
-          </div>
         </div>
 
-        {/* Event Cards */}
-        <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
-          {[
-            {
-              date: "March 15, 2025",
-              title: "Cybersecurity Awareness Workshop",
-              desc: "Interactive workshop on identifying and preventing cyber threats.",
-              extra: "Speaker: Dr. Anita Mensah • Venue: Accra Digital Center",
-            },
-            {
-              date: "March 22, 2025",
-              title: "Youth Cyber Champions Summit",
-              desc: "Empowering young Africans with cybersecurity knowledge.",
-              extra: "Speaker: Kwame Opoku • Venue: University of Lagos",
-            },
-            {
-              date: "April 5, 2025",
-              title: "Enterprise Security Bootcamp",
-              desc: "Advanced security strategies for business organizations.",
-              extra: "Panel: 6 Experts • Virtual + In-Person Hybrid",
-            },
-          ].map((event, index) => (
-            <div
-              key={index}
-              className="group bg-[#131313]/60 border border-[#F2600B33] backdrop-blur-md p-6 rounded-2xl relative transform transition duration-300 hover:scale-[1.03] hover:ring-1 hover:ring-[#F2600B] hover:shadow-[0_0_25px_#F2600B55] animate-fade-up delay-[300ms]"
+        <div className="container mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left: text that changes with the slide */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-white leading-snug mb-4">
+              {outreachSlides[outreachIndex].title}
+            </h2>
+
+            <p className="text-gray-400 mb-6">
+              {outreachSlides[outreachIndex].desc}
+            </p>
+
+            <ul className="space-y-3 mb-6">
+              {outreachSlides[outreachIndex].bullets.map((b, i) => (
+                <motion.li
+                  key={i}
+                  className="flex items-start gap-3"
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.08 + i * 0.05, duration: 0.4 }}
+                >
+                  <span className="text-orange-500 mt-1">⦿</span>
+                  <div>
+                    <span className="text-white font-medium">{b.title}</span>
+                    <span className="text-gray-400"> {b.desc}</span>
+                  </div>
+                </motion.li>
+              ))}
+            </ul>
+
+            <motion.a
+              href="https://calendly.com/krafosystems"
+              className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-orange-600/40 inline-flex items-center"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
             >
+              Partner With Us
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </motion.a>
+          </motion.div>
+
+          {/* Right: auto-rotating image */}
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="relative rounded-xl overflow-hidden shadow-2xl border border-orange-500/20 scale-105">
+              {/* image with fade in on change */}
+              <motion.img
+                key={outreachIndex} // remount on index change -> runs initial->animate
+                src={outreachSlides[outreachIndex].image}
+                alt={outreachSlides[outreachIndex].title}
+                initial={{ opacity: 0, scale: 1.02 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full h-96 object-cover"
+              />
+
+              {/* subtle overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"></div>
+
+              {/* slide counter (optional) */}
               <div className="absolute top-3 right-3 text-sm bg-[#F2600B] text-black px-2 py-0.5 rounded font-bold shadow-md">
-                {event.date}
+                {outreachIndex + 1}/{outreachSlides.length}
               </div>
 
-              <h3 className="text-lg font-bold mt-8 mb-2 group-hover:text-[#F2600B] transition-colors">
-                {event.title}
-              </h3>
-              <p className="text-sm text-gray-300 mb-3">{event.desc}</p>
-              <p className="text-xs text-gray-500 italic">{event.extra}</p>
-
-              <button className="mt-6 w-full bg-[#F2600B] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-orange-600 hover:shadow-lg hover:shadow-[#F2600B55] transition duration-300">
-                Register
-              </button>
+              {/* optional progress bar */}
+              <div className="absolute left-0 right-0 bottom-0 h-1 bg-gray-800">
+                <div
+                  className="h-full bg-orange-600"
+                  style={{
+                    width: `${((outreachIndex + 1) / outreachSlides.length) * 100}%`,
+                    transition: "width 450ms linear",
+                  }}
+                />
+              </div>
             </div>
-          ))}
+          </motion.div>
         </div>
-
-        {/* Keyframes */}
-        <style>
-          {`
-      @keyframes fade-up {
-        0% { opacity: 0; transform: translateY(20px); }
-        100% { opacity: 1; transform: translateY(0); }
-      }
-      .animate-fade-up {
-        animation: fade-up 0.8s ease forwards;
-      }
-      .delay-100 { animation-delay: 0.1s; }
-      .delay-200 { animation-delay: 0.2s; }
-      .delay-[300ms] { animation-delay: 0.3s; }
-    `}
-        </style>
       </section>
+   
+
 
 
       {/* CyberEd Visual */}

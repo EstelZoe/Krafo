@@ -34,28 +34,12 @@ import img12 from "../assets/images/IMG-61.jpg";
 import img13 from "../assets/images/IMG-63.jpg";
 
 
-
-
-
-
-
-
-
-
 export default function YouthCyberEducation() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
 
     const images = [
-        img13,
-        img4,
-        img5,
-        img7,
-        img9,
-        img11,
-        img8,
-
-        // Add more images as needed
+        img13, img4, img5, img7, img9, img11, img8,
     ];
 
     const programs = [
