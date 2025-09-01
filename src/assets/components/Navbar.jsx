@@ -31,13 +31,13 @@ export default function Navbar() {
                         <Link to="/consultation" className="text-orange-600 hover:text-white">Consultation</Link>
 
                         {/* language links */}
-                        <div className="text-white">
+                        {/* <div className="text-white">
                             <span className="cursor-pointer hover:text-orange-600">ENG</span>
                             <span className="mx-2 text-orange-600">|</span>
                             <span className="cursor-pointer hover:text-orange-600">FR</span>
                             <span className="mx-2 text-orange-600">|</span>
                             <span className="cursor-pointer hover:text-orange-600">TWI</span>
-                        </div>
+                        </div> */}
 
 
                         {/* Contact Us Button */}
