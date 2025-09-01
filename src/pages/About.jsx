@@ -3,7 +3,7 @@ import Footer from "../assets/components/Footer";
 // import Krafoimage from "../assets/images/KRAFO ORIGINAL MARKAsset 73@2x.png";
 import Aml from "../assets/images/aml.jpg";
 import Ks from "../assets/images/ks.jpg";
-import Sl from "../assets/images/studentlearning.png";
+// import Sl from "../assets/images/studentlearning.png";
 import Ms from "../assets/images/ms.jpg";
 import Cl from "../assets/images/cl.jpg";
 import HeroVid from "../assets/videos/Vid2.mp4";
