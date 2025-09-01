@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
-import CourseFilter from "../assets/components/CourseFilter";
-import Courses from "../assets/images/coursespic.jpg";
-import CourseCard from "../assets/components/CourseCard";
-import Placeholder from "../assets/images/studentlearning.png";
-import bugGif from "../assets/videos/bug.gif";
+// import CourseFilter from "../assets/components/CourseFilter";
+// import Courses from "../assets/images/coursespic.jpg";
+// import CourseCard from "../assets/components/CourseCard";
+// import Placeholder from "../assets/images/studentlearning.png";
+// import bugGif from "../assets/videos/bug.gif";
 import computerGif from "../assets/videos/computer.gif";
 import exchangeGif from "../assets/videos/exchange.gif";
 import malwareGif from "../assets/videos/malware.gif";
