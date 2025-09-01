@@ -38,7 +38,7 @@ export default function Home() {
     <>
       <Navbar />
 
-      <section className="relative w-full max-w-[1440px] h-[650px] mx-auto overflow-hidden">
+      <section className="relative w-full h-[650px] overflow-hidden">
         {/* Background Layer */}
         <video
           className="absolute top-0 left-0 w-full h-full object-cover scale-105 animate-zoom"
@@ -598,7 +598,7 @@ export default function Home() {
             <h3 className="font-semibold text-lg text-white group-hover:text-[#F2600B] transition-colors duration-300">
               {item.title} </h3> <p className="text-sm text-gray-300 mt-2"> {item.desc} </p>
             <Link
-              to="/blog-page"className="inline-block mt-4 text-sm font-medium text-[#F2600B] hover:underline" >
+              to="/blog-page" className="inline-block mt-4 text-sm font-medium text-[#F2600B] hover:underline" >
               Read More →
             </Link>
           </div>
