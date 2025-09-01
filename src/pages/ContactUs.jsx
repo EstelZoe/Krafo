@@ -1,5 +1,5 @@
 import React from "react";
-import phoneImage from "../assets/images/3220.jpg";
+import phoneImage from "../assets/images/3221.jpg";
 import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 
@@ -10,7 +10,7 @@ export default function ContactUs() {
 
       <div className="min-h-screen bg-black flex items-center justify-center p-4 pt-14">
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row max-w-5xl w-full hover:shadow-orange-600/30 hover:scale-[1.02] transition-transform duration-300">
-          
+
           {/* Left side - Image */}
           <div className="md:w-1/2 bg-gradient-to-br from-orange-700 to-black">
             <img
