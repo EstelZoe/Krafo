@@ -30,9 +30,10 @@ export default function BlogPage() {
         const fetchPosts = async () => {
             try {
                 const { data } = await apiClient.get("blog");
-                console.log(data)
+                
                 const postsArray = Array.isArray(data) ? data : data.posts || [];
                 setPosts(postsArray);
+                console.log(data)
             } catch (error) {
                 console.error("Error fetching blog posts:", error);
             } finally {
