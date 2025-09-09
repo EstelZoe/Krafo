@@ -8,14 +8,16 @@ import Ms from "../assets/images/ms.jpg";
 import Cl from "../assets/images/cl.jpg";
 import HeroVid from "../assets/videos/Vid2.mp4";
 import { motion } from "framer-motion";
-import { Shield, GraduationCapIcon, Lightbulb, FileText, Lock, Home, ShieldCheck, Globe, SchoolIcon, Building2, Briefcase, } from "lucide-react";
+import { Shield, GraduationCapIcon, Lightbulb, FileText, Lock, Home, ShieldCheck, Globe, Building2, Briefcase, FactoryIcon, } from "lucide-react";
 import { image } from "framer-motion/client";
 import pic1 from "../assets/images/origilogo.png";
 import pic2 from "../assets/images/krafoashanti.png";
-import pic3 from "../assets/images/bgremover2.png";
+import pic3 from "../assets/images/africaoriginal.png";
 import { HashLink } from "react-router-hash-link";
 import BenPic from "../assets/images/benkrafopic2.jpeg";
 import RuthPic from "../assets/images/Ruth.jpeg";
+import CooPic from "../assets/images/coo.png";
+import CeoPic from "../assets/images/komla.png";
 
 const journeyData = [
   {
@@ -92,16 +94,18 @@ export default function About() {
               We’re shaping Africa’s <span className="text-[#F2600B]">cyber future</span>
             </h2>
             <p className="text-gray-300 text-base sm:text-lg md:text-xl">
-              KRAFO empowers schools, youth, and businesses with cybersecurity training,
-              tools, and guidance to build a digitally secure continent.
+              "Securing Africa's digital transformation across all sectors, delivering tailored cybersecurity solutions for schools, enterprises, and government institutions continent-wide."
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <HashLink
-                smooth to="/youth-cyber-ed#outreach"
+              <a
+                href="https://calendly.com/krafosystems"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-[#F2600B] text-white px-6 py-3 rounded-md text-sm sm:text-base font-medium hover:bg-[#e05600] transition w-full sm:w-auto text-center">
                 Get Involved
-              </HashLink>
+              </a>
+
               <HashLink
                 smooth to="/youth-cyber-ed#programs"
                 className="text-sm sm:text-base text-gray-300 hover:text-white transition underline underline-offset-4">
@@ -129,7 +133,7 @@ export default function About() {
                       <img
                         src={pic1}
                         alt="Cybersecurity training"
-                        className="w-full h-48 sm:h-56 md:h-64 object-cover"
+                        className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"></div>
                     </div>
@@ -146,7 +150,7 @@ export default function About() {
                   </div>
                 </div>
                 <div className="w-full px-3 sm:px-4 md:w-1/2">
-                  <div className="relative z-10 my-4">
+                  <div className="relative z-10 my-50">
                     <div className="relative overflow-hidden rounded-2xl shadow-xl">
                       <img
                         src={pic3}
@@ -282,39 +286,34 @@ export default function About() {
             <div className="space-y-20">
               {[
                 {
-                  date: "2019",
-                  title: "KRAFO Founded",
-                  text: "KRAFO is born with a bold vision to raise cybersecurity awareness in African schools.",
+                  date: "March 2022",
+                  title: "Incorporated in Ghana",
+                  text: "Diacentric Data Solutions GH Ltd. - Incorporated in Ghana in March 2022",
                   color: "bg-red-600",
                 },
                 {
-                  date: "2020",
-                  title: "First Program Launched",
-                  text: "Our debut school program launches across 5 regions with overwhelming reception.",
+                  date: "March 2023",
+                  title: "Rebranded to Krafo Systems",
+                  text: "Rebranded as Krafo Systems and Launched FREE Hacking The Human Mind Workshop (HTHM) in the Fall of 2023 ",
                   color: "bg-orange-500",
                 },
                 {
-                  date: "2021",
-                  title: "20+ Partners Strong",
-                  text: "Institutions, NGOs, and communities join us in spreading digital safety education.",
+                  date: "2024-Highlights(January-August)",
+                  title: "Major Achievements in Training & Capacity Building",
+                  text: "Held first in-person training: HTHM International Embassy of Suriname. Held Collaboration for Business Owners & Entrepreneurs to be Cyber Resilient.",
                   color: "bg-yellow-400",
                 },
                 {
-                  date: "2023",
-                  title: "Enterprise Services",
-                  text: "Began offering tailored training + consultancy to businesses & organizations.",
+                  date: "In the Fall of 2024",
+                  title: "Driving Cyber Resilience",
+                  text: " Launched In-person Cybersecurity Capacity Building Course CCBC. First CCBC Graduates.",
                   color: "bg-orange-600",
                 },
-                {
-                  date: "2024",
-                  title: "AI Integration",
-                  text: "AI-driven awareness and training platforms deployed in pilot schools.",
-                  color: "bg-orange-700",
-                },
+               
                 {
                   date: "2025",
-                  title: "Continental Scale",
-                  text: "KRAFO expands across 10+ African countries with localized programs.",
+                  title: "Expanding our Reach",
+                  text: "20+ Strong Partners",
                   color: "bg-red-700",
                 },
               ].map((item, index) => (
@@ -342,12 +341,6 @@ export default function About() {
           </div>
         </div>
       </section >
-
-      {/* Our Services Section */}
-      < section >
-
-      </section >
-
       {/* Meet Our Team Section */}
       < section className="bg-[#000000] py-16 px-4 md:px-20 pt-0 text-white font-body relative" >
         <div className="max-w-7xl mx-auto relative z-10">
@@ -364,7 +357,7 @@ export default function About() {
                 name: "Komla Elikem",
                 role: "CEO & Founder",
                 desc: "Visionary leader with 15+ years in tech innovation.",
-                image: "https://media.licdn.com/dms/image/v2/D4E03AQFLO3cJ_SD6qg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1666098530425?e=1756944000&v=beta&t=Oyxx1M9J79uWuirrvRIuq9WB_RaGGa51ko_c_OUpYNk",
+                image: CeoPic,
                 linkedin: "https://www.linkedin.com/in/komla-m-a2a915253/",
                 twitter: "#"
               },
@@ -372,10 +365,10 @@ export default function About() {
                 name: "Mamaga Ami Fafali Mathis",
                 role: "Co-Founder & CTO",
                 desc: "Renowned Systems Engineer and Cybersecurity Expert.",
-                image: "https://media.licdn.com/dms/image/v2/D4E03AQFNm__FaX3USw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1668438336606?e=1756944000&v=beta&t=RamtsaY9o_Tg1mgkl3ndPlh3bFZsyH6sV46dFOAZZic",
+                image: CooPic,
                 linkedin: "https://www.linkedin.com/in/amifafali/",
                 twitter: "#"
-              }, 
+              },
               {
                 name: "Corwin Francis",
                 role: "Cyber Engineer Lead",
@@ -383,7 +376,7 @@ export default function About() {
                 image: "https://media.licdn.com/dms/image/v2/D5603AQEltZ0tnde9IQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1699287797990?e=1758153600&v=beta&t=XZ2h6uSRsmkeR_pY-wnCSatTUOJG1CuMyBsFHzskRAA",
                 linkedin: "https://www.linkedin.com/in/corwinfrancis/",
                 twitter: "#"
-              }, 
+              },
               {
                 name: "Benjamin Derek E",
                 role: "Executive Partnership Consultant",
@@ -392,7 +385,7 @@ export default function About() {
                 linkedin: "https://www.linkedin.com/in/benjamin-e-58913b61?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
                 twitter: "#"
               },
-               {
+              {
                 name: "Ruth D. Amponsah",
                 role: "Executive Administrative Assistant",
                 desc: "Virtual Assistant & Data Analyst.",
@@ -402,31 +395,31 @@ export default function About() {
               },
 
             ].map((member, idx) => (
-                <div key={idx} className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[#F2600B0D] to-[#2726261a] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full aspect-[3/4] object-cover object-center transform group-hover:scale-105 transition duration-300 ease-in-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6">
-                    <div className="flex space-x-4">
-                      <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5C3.88 3.5 3 4.38 3 5.48s.88 1.98 1.98 1.98c1.1 0 1.98-.88 1.98-1.98S6.08 3.5 4.98 3.5zM3 8h4v13H3V8zm7.5 0h3.4v1.8h.05c.47-.89 1.63-1.8 3.35-1.8 3.6 0 4.27 2.37 4.27 5.45V21h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.18 0-2.52 1.7-2.52 3.45V21h-4V8z" /></svg>
+              <div key={idx} className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[#F2600B0D] to-[#2726261a] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-full aspect-[3/4] object-cover object-center transform group-hover:scale-105 transition duration-300 ease-in-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6">
+                  <div className="flex space-x-4">
+                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5C3.88 3.5 3 4.38 3 5.48s.88 1.98 1.98 1.98c1.1 0 1.98-.88 1.98-1.98S6.08 3.5 4.98 3.5zM3 8h4v13H3V8zm7.5 0h3.4v1.8h.05c.47-.89 1.63-1.8 3.35-1.8 3.6 0 4.27 2.37 4.27 5.45V21h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.18 0-2.52 1.7-2.52 3.45V21h-4V8z" /></svg>
+                    </a>
+                    {member.twitter && member.twitter !== '#' && (
+                      <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.298 1.634 4.212 3.791 4.649-.69.188-1.43.23-2.187.085.629 1.956 2.445 3.379 4.6 3.419-2.07 1.623-4.678 2.588-7.52 2.588-1.001 0-1.982-.05-2.95-.172 2.682 1.728 5.873 2.746 9.342 2.746 11.209 0 17.323-9.293 17.323-17.324 0-.264-.006-.527-.018-.788.94-.678 1.757-1.524 2.409-2.494z" /></svg>
                       </a>
-                      {member.twitter && member.twitter !== '#' && (
-                        <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.298 1.634 4.212 3.791 4.649-.69.188-1.43.23-2.187.085.629 1.956 2.445 3.379 4.6 3.419-2.07 1.623-4.678 2.588-7.52 2.588-1.001 0-1.982-.05-2.95-.172 2.682 1.728 5.873 2.746 9.342 2.746 11.209 0 17.323-9.293 17.323-17.324 0-.264-.006-.527-.018-.788.94-.678 1.757-1.524 2.409-2.494z" /></svg>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  <div className="text-center px-4 py-6">
-                    <h3 className="text-xl font-semibold text-white">{member.name}</h3>
-                    <p className="text-orange-500 font-medium">{member.role}</p>
-                    <p className="text-gray-400 mt-2 text-sm">{member.desc}</p>
+                    )}
                   </div>
                 </div>
-              ))}
+                <div className="text-center px-4 py-6">
+                  <h3 className="text-xl font-semibold text-white">{member.name}</h3>
+                  <p className="text-orange-500 font-medium">{member.role}</p>
+                  <p className="text-gray-400 mt-2 text-sm">{member.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section >
@@ -447,9 +440,9 @@ export default function About() {
                   <GraduationCapIcon className="w-8 h-8 text-[#F2600B]" />
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors">JHS/SHS Students</h3>
+              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors"> Educational Sector</h3>
               <p className="text-sm text-gray-300 leading-relaxed">
-                Building cyber awareness from early education stages to create a security-conscious generation.
+                Developing cyber awareness through education from high school foundations to advanced university programs and research initiatives to build a truly security-conscious generation.
               </p>
             </div>
 
@@ -457,12 +450,12 @@ export default function About() {
             <div className="group rounded-xl border border-[#F2600B33] bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] backdrop-blur-md p-8 transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
               <div className="flex justify-center mb-6">
                 <div className="bg-[#F2600B1A] p-4 rounded-full border border-[#F2600B33]">
-                  <SchoolIcon className="w-8 h-8 text-brand-orange" />
+                  <FactoryIcon className="w-8 h-8 text-brand-orange" />
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors">Universities</h3>
+              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors">Industries</h3>
               <p className="text-sm text-gray-300 leading-relaxed">
-                Advanced cybersecurity programs and research initiatives for higher education institutions.
+                Enterprise cybersecurity training that meets regulatory requirements while transforming employees into your strongest defense.
               </p>
             </div>
 
@@ -473,9 +466,9 @@ export default function About() {
                   <Building2 className="w-8 h-8 text-brand-orange" />
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors">Organizations</h3>
+              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors">  Government Institutions</h3>
               <p className="text-sm text-gray-300 leading-relaxed">
-                Post-breach recovery and prevention strategies for businesses and government entities.
+                Public sector cybersecurity training that safeguards government operations and builds digital trust across Africa.
               </p>
             </div>
           </div>
@@ -549,7 +542,7 @@ export default function About() {
         </div>
       </section>
       {/* Core Values Section */}
-      < section className="bg-[#000000] py-20 px-4 md:px-20 text-white font-body relative" >
+      <section className="bg-[#000000] py-20 px-4 md:px-20 text-white font-body relative">
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-orange-500 to-yellow-400 bg-clip-text text-transparent">
             Our Core Values
@@ -558,7 +551,7 @@ export default function About() {
             These values guide our mission to secure Africa's digital ecosystem.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
             {/* Card 1 - Protect */}
             <div className="bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border-y-2 border-orange-500/40 p-6 rounded-2xl transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_#F2600B44] group">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-orange-500 flex items-center justify-center bg-black">
@@ -567,47 +560,80 @@ export default function About() {
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-orange-400 group-hover:text-white transition-colors duration-300">
-                Protect
+                Afrocentricity
               </h3>
               <p className="text-gray-400 mt-2 text-sm leading-relaxed group-hover:text-white transition-colors">
-                Safeguarding digital assets and infrastructure from emerging threats.
+                Solutions designed with the African context in mind, supporting African development and self-reliance
               </p>
             </div>
 
             {/* Card 2 - Prevent */}
-            <div className="bg-gradient-to-br from-[#F2600B0D] to-[#0000001A]  border-y-2 border-yellow-500/90 p-6 rounded-2xl transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_#FFC10755] group">
+            <div className="bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border-y-2 border-yellow-500/90 p-6 rounded-2xl transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_#FFC10755] group">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-yellow-400 flex items-center justify-center bg-black">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-yellow-400 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-yellow-400 group-hover:text-white transition-colors duration-300">
-                Prevent
+                Ethical Practice
               </h3>
               <p className="text-gray-400 mt-2 text-sm leading-relaxed group-hover:text-white transition-colors">
-                Proactive measures to stop security breaches before they occur.
+                Trust-building through consistent ethics and integrity in all business dealings
               </p>
             </div>
 
             {/* Card 3 - Educate */}
             <div className="bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border-y-2 border-red-900/90 p-6 rounded-2xl transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_#FF4D4D88] group">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-red-900 flex items-center justify-center bg-black">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-red-900 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-red-500 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5V4H2v16h5m10-8l-4-4m0 0l-4 4m4-4v12" />
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-red-900 group-hover:text-white transition-colors duration-300">
-                Educate
+                Collaboration
               </h3>
               <p className="text-gray-400 mt-2 text-sm leading-relaxed group-hover:text-white transition-colors">
-                Empowering individuals with knowledge and practical skills.
+                Building long-term relationships by working together to solve complex security challenges
+              </p>
+            </div>
+
+            {/* Card 4 - Innovate */}
+            <div className="bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border-y-2 border-green-500/70 p-6 rounded-2xl transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_#22c55e55] group">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-green-500 flex items-center justify-center bg-black">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-green-500 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5V4H2v16h5m10-8l-4-4m0 0l-4 4m4-4v12" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-green-500 group-hover:text-white transition-colors duration-300">
+                Adaptability
+              </h3>
+              <p className="text-gray-400 mt-2 text-sm leading-relaxed group-hover:text-white transition-colors">
+                Responsive to changing client needs with flexible solutions that evolve with threats.
+              </p>
+            </div>
+
+            {/* Card 5 - Collaborate */}
+            <div className="bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border-y-2 border-blue-500/70 p-6 rounded-2xl transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_#3b82f655] group">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-blue-500 flex items-center justify-center bg-black">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-blue-500 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} >
+                  {/* Eye outline */}
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  {/* Pupil */}
+                  <circle cx="12" cy="12" r="3" />
+                  {/* Sparkle for foresight */}
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 3l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-blue-500 group-hover:text-white transition-colors duration-300">
+                Wisdom / Foresight
+              </h3>
+              <p className="text-gray-400 mt-2 text-sm leading-relaxed group-hover:text-white transition-colors">
+                Proactive rather than reactive security, anticipating future threats and trends
               </p>
             </div>
           </div>
         </div>
-      </section >
-
-
+      </section>
 
       <Footer variant="orange" />
 

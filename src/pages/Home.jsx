@@ -73,7 +73,7 @@ export default function Home() {
 
   const [outreachIndex, setOutreachIndex] = useState(0);
 
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       setOutreachIndex((prev) => (prev === outreachSlides.length - 1 ? 0 : prev + 1));
@@ -361,7 +361,7 @@ export default function Home() {
         <div className="flex flex-col items-center justify-center text-center">
           <p className="text-5xl font-bold text-orange-500 mb-2 flex items-center gap-2 pb-4">
             <Globe2 className="w-10 h-10 pt-3" />
-             Latest And Upcoming Events
+            Latest And Upcoming Events
           </p>
         </div>
 
@@ -455,7 +455,7 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-   
+
 
 
 
@@ -543,9 +543,15 @@ export default function Home() {
               <span className="w-4 h-4 border border-orange-500 rounded-full flex items-center justify-center">i</span>
               BOOK A CONSULTAION WITH US
             </p>
+            <p className="text-sm font-semibold text-orange-500 mb-2 flex items-center gap-2">
+              <span className="w-4 h-4 border border-orange-500 rounded-full flex items-center justify-center">i</span>
+              Build Cyber Resilience With Us Before Is Too Late
+            </p>
+
 
             <h2 className="text-3xl lg:text-4xl font-bold text-white leading-snug mb-4">
-              Get A Personalized Cybersecurity Guidance <span className="text-orange-600">Tailored To Your Organization's Needs</span>
+              Get A Personalized Cybersecurity plan or <span className="text-orange-600">collaborate for a
+                more cyber-resilient future.”</span>
             </h2>
 
             <p className="text-gray-400 mb-6">
@@ -562,7 +568,7 @@ export default function Home() {
               >
                 <span className="text-orange-500 mt-1">⦿</span>
                 <div>
-                  <span className="text-white font-medium">Threat-Centric Methodology:</span>
+                  <span className="text-white font-medium">Start a customized plan to protect your organization :</span>
                   <span className="text-gray-400"> Focused on your specific adversary landscape</span>
                 </div>
               </motion.li>
@@ -575,7 +581,7 @@ export default function Home() {
               >
                 <span className="text-orange-500 mt-1">⦿</span>
                 <div>
-                  <span className="text-white font-medium">Business-Aligned Security:</span>
+                  <span className="text-white font-medium">Collaborate with us to drive innovation and impact:</span>
                   <span className="text-gray-400"> Solutions that support your operational goals</span>
                 </div>
               </motion.li>
@@ -588,13 +594,13 @@ export default function Home() {
               >
                 <span className="text-orange-500 mt-1">⦿</span>
                 <div>
-                  <span className="text-white font-medium">Measurable Outcomes:</span>
+                  <span className="text-white font-medium">Strengthen defenses against evolving threats:</span>
                   <span className="text-gray-400"> Clear metrics to track security ROI</span>
                 </div>
               </motion.li>
             </ul>
 
-            <a href="https://calendly.com/krafosystems" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.youtube.com/embed/3Ed79CH1J2E?enablejsapi=1" target="_blank" rel="noopener noreferrer">
               <div className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-orange-600/40 inline-flex items-center" >
                 Book a Session Now
               </div>
@@ -683,51 +689,7 @@ export default function Home() {
       <PartnershipCarousel />
 
 
-      {/* <section className="px-6 md:px-20 py-20 bg-[#0B0B0C] text-white font-body">
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[#F2600B]">What Our Partners Say</h2>
-          <p className="text-base md:text-lg text-gray-300">
-            Testimonials from organizations we've helped secure
-          </p>
-        </div>
 
-        <div className="mt-12 grid md:grid-cols-2 gap-8">
-          {[
-            {
-              name: "Dr. Kwame Asante",
-              role: "University Lecturer",
-              avatar: "👨‍🏫",
-              quote:
-                "Krafo Systems transformed our approach to cybersecurity education. Their programs are comprehensive and culturally relevant.",
-            },
-            {
-              name: "Sarah Owusu",
-              role: "Tech Director, SaaS Co.",
-              avatar: "👩‍💼",
-              quote:
-                "After a security breach, Krafo Systems helped us rebuild our defenses and train our team. Highly recommended!",
-            },
-          ].map((t, idx) => (
-            <div
-              key={idx}
-              className="group bg-white/5 p-6 rounded-2xl border border-[#F2600B22] backdrop-blur-md shadow-lg hover:shadow-[0_0_25px_#F2600B33] hover:scale-[1.02] transition-all duration-300"
-            >
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-[#F2600B] text-black flex items-center justify-center rounded-full text-lg font-bold">
-                  {t.avatar}
-                </div>
-                <div>
-                  <p className="font-semibold text-white">{t.name}</p>
-                  <p className="text-sm text-gray-400">{t.role}</p>
-                </div>
-              </div>
-              <p className="text-sm text-gray-300 mt-4 italic border-l-4 border-[#F2600B] pl-4">
-                “{t.quote}”
-              </p>
-            </div>
-          ))}
-        </div>
-      </section> */}
 
 
       <Footer />

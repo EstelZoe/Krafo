@@ -25,51 +25,18 @@ export default function ContactUs() {
             <h2 className="text-2xl font-bold text-orange-500 mb-2">
               Need support?
             </h2>
-            <p className="text-gray-300 mb-6">
-              Contact us if you need further assistance.
-            </p>
-
-            <form
-              action="https://formspree.io/f/xzzadqpo"
-              method="POST"
-              className="space-y-4 text-gray-300"
-            >
-              <div>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Name and surname"
-                  required
-                  className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                />
+            <a href="https://calendly.com/krafosystems" target="_blank" rel="noopener noreferrer">
+              <div className="pt-2 pb-4 ">
+                <button type="submit" className="bg-orange-600 hover:bg-orange-500 text-white px-6 py-2 rounded-lg transition cursor-pointer">
+                  Contact Us For Any Assistance
+                </button>
               </div>
-
-              <div>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  required
-                  className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                />
-              </div>
-
-              <div>
-                <textarea
-                  name="message"
-                  placeholder="Please enter the details of your request."
-                  rows="4"
-                  required
-                  className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                ></textarea>
-              </div>
+            </a>
+            <form>
 
               {/* Optional: "How did you hear about us?" */}
               <div>
-                <select
-                  name="referral"
-                  className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white text-gray-900"
-                >
+                <select name="referral" className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white text-gray-900"  >
                   <option value="">How did you hear about us?</option>
                   <option value="search">Search Engine</option>
                   <option value="social">Social Media</option>
@@ -78,20 +45,15 @@ export default function ContactUs() {
                   <option value="other">Other</option>
                 </select>
               </div>
-
-              <div>
-                <button
-                  type="submit"
-                  className="bg-orange-600 hover:bg-orange-500 text-white px-6 py-2 rounded-lg transition"
-                >
-                  SUBMIT
+              <div className="pt-2 pb-4 ">
+                <button type="submit" className="bg-orange-600 hover:bg-orange-500 text-white px-6 py-2 rounded-lg transition cursor-pointer">
+                 Submit
                 </button>
               </div>
             </form>
           </div>
         </div>
       </div>
-
       <Footer />
     </>
   );
