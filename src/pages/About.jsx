@@ -227,7 +227,7 @@ export default function About() {
                 </p>
 
                 {/* Stats Section */}
-                <div className="mb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {/* <div className="mb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                   <div className="bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl text-center hover:transform hover:-translate-y-1 transition-all border">
                     <h3 className="mb-2 text-3xl sm:text-4xl font-bold text-[#f2600b]">
                       500+
@@ -246,7 +246,7 @@ export default function About() {
                     </h3>
                     <p className="text-sm text-gray-400">AFRICAN COUNTRIES</p>
                   </div>
-                </div>
+                </div> */}
 
                 {/* <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-[#f2600b] px-6 sm:px-7 py-3 text-center text-sm sm:text-base font-medium text-white hover:bg-[#d45509] transition-colors tracking-wider uppercase">
                   Get Started
@@ -635,7 +635,7 @@ export default function About() {
         </div>
       </section>
 
-      <Footer variant="orange" />
+      <Footer/>
 
     </>
   );

@@ -9,7 +9,7 @@ import cybered from "../assets/images/abstract.jpg";
 import insightes from "../assets/images/insight3.jpg";
 import insight from "../assets/images/insight1.jpg";
 import insights from "../assets/images/insight2.jpg";
-import Video from "../assets/videos/backgroundcybered.mp4";
+import Video from "../assets/videos/africastu.mp4";
 import { motion } from "framer-motion";
 import data1 from "../assets/images/data1.jpg";
 import data2 from "../assets/images/data2.jpg";
@@ -276,7 +276,7 @@ export default function Home() {
             },
             {
               title: "Cybersecurity Capacity Building Course",
-              price: "¢5750",
+              price: "¢6000",
               tierColor: "text-[#F2600B]",
               bg: "bg-[#1A1A1A]/60",
               ring: "ring-[#F2600B33]",
@@ -298,8 +298,8 @@ export default function Home() {
               ring: "ring-[#F2600B88]",
               features: [
                 "Develop a robust cybersecurity strategy.",
-                "Learn about governance, risk, and compliance (GRC).",
-                "Manage cybersecurity budgets and investments.",
+                "Learn about governance, risk, and compliance.",
+                "Manage cybersecurity budgets.",
               ],
               icon: "",
             },
@@ -498,13 +498,13 @@ export default function Home() {
             </div>
 
             {/* Image Side */}
-            <div className="flex justify-center animate-fade-in-up">
+            {/* <div className="flex justify-center animate-fade-in-up">
               <img
                 src={cybered}
                 alt="Cyber Visual"
                 className="w-full max-w-xs sm:max-w-sm md:max-w-md h-auto rounded-2xl border border-[#F2600B33] shadow-[0_10px_40px_rgba(242,96,11,0.25)] object-cover transition-transform duration-300 hover:scale-105"
               />
-            </div>
+            </div> */}
           </div>
         </div>
 
