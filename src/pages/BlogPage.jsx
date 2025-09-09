@@ -30,6 +30,7 @@ export default function BlogPage() {
         const fetchPosts = async () => {
             try {
                 const { data } = await apiClient.get("blog");
+                console.log(data)
                 const postsArray = Array.isArray(data) ? data : data.posts || [];
                 setPosts(postsArray);
             } catch (error) {
@@ -108,7 +109,7 @@ export default function BlogPage() {
 
                 {/* Blog Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 py-6 md:px-12 pb-16 bg-black">
-                    {loading ? (
+                    {!loading ? (
                         <p className="text-white col-span-full text-center">Loading posts...</p>
                     ) : filteredPosts.length > 0 ? (
                         filteredPosts.map((post) => (
