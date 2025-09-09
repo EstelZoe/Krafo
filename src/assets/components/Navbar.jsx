@@ -64,8 +64,8 @@ export default function Navbar() {
                     {/* <Link to="/" className="block hover:text-orange-500" onClick={toggleMenu}>Home</Link> */}
                     <Link to="/about" className="block hover:text-orange-500" onClick={toggleMenu}>About</Link>
                     <Link to="/courses" className="block hover:text-orange-500" onClick={toggleMenu}>Courses</Link>
-                    <Link to="/events" className="block hover:text-orange-500" onClick={toggleMenu}>Events</Link>
-                    <Link to="/blog" className="block hover:text-orange-500" onClick={toggleMenu}>Blog</Link>
+                    <Link to="/event-page" className="block hover:text-orange-500" onClick={toggleMenu}>Events</Link>
+                    <Link to="/blog-page" className="block hover:text-orange-500" onClick={toggleMenu}>Blog</Link>
                     <Link to="/youth-cyber-ed" className="block hover:text-orange-500" onClick={toggleMenu}>Youth Cyber Ed</Link>
                     <Link to="/consultation" className="block hover:text-orange-500" onClick={toggleMenu}>Consultation</Link>
 
