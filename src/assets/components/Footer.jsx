@@ -1,4 +1,4 @@
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhone, FaEnvelope,FaWhatsapp } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhone, FaEnvelope,FaWhatsapp,FaTiktok } from "react-icons/fa";
 
 export default function Footer({ variant = "dark" }) {
   const variants = {
@@ -44,7 +44,7 @@ export default function Footer({ variant = "dark" }) {
               <FaFacebookF />
             </a>
             <a href="#" className={`${style.socialBg} p-2 rounded-sm`}>
-              <FaTwitter />
+              <FaTiktok/>
             </a>
             <a href="#" className={`${style.socialBg} p-2 rounded-sm`}>
               <FaInstagram />
