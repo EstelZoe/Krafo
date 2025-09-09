@@ -60,31 +60,16 @@ export default function Footer({ variant = "dark" }) {
           <h3 className="text-lg font-semibold mb-4">Menu</h3>
           <div className="flex flex-wrap gap-6">
             <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Blog</a>
-            <a href="#">Blog Post</a>
-            <a href="#">Services</a>
-            {/* <a href="#">Services Single</a> */}
-            {/* <a href="#">Shop</a> */}
-            {/* <a href="#">Shop Single</a> */}
-            {/* <a href="#">Projects</a> */}
-            {/* <a href="#">Projects Single</a> */}
-            <a href="#">Contact</a>
+            <a href="/about">About</a>
+            <a href="/courses">Courses</a>
+            <a href="/events">Events</a>
+            <a href="/cyber-youth-ed">Youth Cyber Ed</a>
+            <a href="/consultation">Consultation</a>
+            <a href="/contact">Contact Us</a>
           </div>
         </div>
 
-        {/* Utility Pages */}
-        {/* <div>
-          <h3 className="font-bold mb-4">Utility Pages</h3>
-          <ul className="space-y-2">
-            <li><a href="#" className={style.link}>Start Here</a></li>
-            <li><a href="#" className={style.link}>Password Protected</a></li>
-            <li><a href="#" className={style.link}>404 Not Found</a></li>
-            <li><a href="#" className={style.link}>Licenses</a></li>
-            <li><a href="#" className={style.link}>Styleguide</a></li>
-            <li><a href="#" className={style.link}>Changelog</a></li>
-          </ul>
-        </div> */}
+       
 
         {/* Contact Us */}
         <div>
@@ -93,7 +78,7 @@ export default function Footer({ variant = "dark" }) {
             <FaWhatsapp className={`${style.accent} text-xl`} />
             <div>
               <p className="font-semibold">Send Us A Message</p>
-              <p className="text-sm">(+233) 123-456-789</p>
+              <p className="text-sm"> (+233) 59-319-600</p>
             </div>
           </div>
           <div className={`flex items-center space-x-2 p-2 border ${style.border}`}>
