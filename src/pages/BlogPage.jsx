@@ -30,7 +30,7 @@ export default function BlogPage() {
         const fetchPosts = async () => {
             try {
                 const { data } = await apiClient.get("blog");
-                
+
                 const postsArray = Array.isArray(data) ? data : data.posts || [];
                 setPosts(postsArray);
                 console.log(data)
@@ -110,23 +110,25 @@ export default function BlogPage() {
 
                 {/* Blog Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 py-6 md:px-12 pb-16 bg-black">
-                    {loading ? (
-                        <p className="text-white col-span-full text-center">Loading posts...</p>
-                    ) : filteredPosts.length > 0 ? (
-                        filteredPosts.map((post) => (
-                            <BlogCard
-                                key={post._id}
-                                title={post.title}
-                                description={post.description?.substring(0, 100) + "..."}
-                                category={post.category}
-                                author={formatAuthor(post.author)}
-                                date={new Date(post.createdAt).toLocaleDateString()}
-                                image={post.thumbnail}
-                                onReadMore={() => handleReadMore(post._id)}
-                            />
-                        ))
+                    {!loading ? (
+                        filteredPosts.length > 0 ? (
+                            filteredPosts.map((post) => (
+                                <BlogCard
+                                    key={post._id}
+                                    title={post.title}
+                                    description={post.description?.substring(0, 100) + "..."}
+                                    category={post.category}
+                                    author={formatAuthor(post.author)}
+                                    date={new Date(post.createdAt).toLocaleDateString()}
+                                    image={post.thumbnail}
+                                    onReadMore={() => handleReadMore(post._id)}
+                                />
+                            ))
+                        ) : (
+                            <p className="text-white col-span-full text-center">No posts found.</p>
+                        )
                     ) : (
-                        <p className="text-white col-span-full text-center">No posts found.</p>
+                        <p className="text-white col-span-full text-center">Loading posts...</p>
                     )}
                 </div>
 
