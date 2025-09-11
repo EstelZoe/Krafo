@@ -15,6 +15,7 @@ import data1 from "../assets/images/data1.jpg";
 import data2 from "../assets/images/data2.jpg";
 import data3 from "../assets/images/data3.jpg";
 import data4 from "../assets/images/data4.jpg";
+import ict from "../assets/images/ictConst.jpg";
 import Countdown from "../assets/components/Countdown";
 import { Link } from "react-router";
 import ccbc from "../assets/images/ccbc.png"
@@ -201,7 +202,13 @@ export default function Home() {
                 title: "Policy Management",
                 desc: "We create, update, and refine your IT policies — turning technical rules into operational clarity.",
                 img: data3,
+              },
+               {
+                title: "ICT Consulting",
+                desc: "Our expert consultants will assess your current security posture, identify vulnerabilities, and provide tailored recommendations to strengthen your defenses.",
+                img: ict,
               }
+              
             ].map((service, i) => (
               <motion.div
                 key={i}
@@ -210,6 +217,7 @@ export default function Home() {
                 transition={{ duration: 0.7, delay: i * 0.2 }}
                 viewport={{ once: true }}
                 className="group relative rounded-xl border border-[#F2600B33] bg-gradient-to-br from-[#1a1a1a] to-[#000000] backdrop-blur-md shadow-xl hover:shadow-orange-600/30 hover:scale-[1.02] transition-transform duration-300 overflow-hidden"
+                
               >
                 {/* Image */}
                 <div className="relative h-52 overflow-hidden">

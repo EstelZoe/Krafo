@@ -15,6 +15,7 @@ import data4 from "../assets/images/data4.jpg";
 import data1 from "../assets/images/data1.jpg";
 import data2 from "../assets/images/data2.jpg";
 import data3 from "../assets/images/data3.jpg";
+import ict from "../assets/images/ictConst.jpg";
 import studyGroup from "../assets/images/studygroup2.jpg"
 
 // const consultationServices = [
@@ -104,10 +105,7 @@ const faqs = [
         question: "What information do I need to prepare for the consultation?",
         answer: "We recommend having information about your current security tools, recent security incidents, compliance requirements, and business objectives. If you're not sure, our experts will guide you through the process."
     },
-    // {
-    //     question: "Do you sign NDAs before consultation?",
-    //     answer: "Absolutely. We prioritize confidentiality and are happy to sign NDAs before any information sharing. Our standard consulting agreement also includes comprehensive confidentiality clauses."
-    // },
+   
     {
         question: "Can you help implement your recommendations?",
         answer: "Yes, we offer implementation support ranging from guidance to fully managed execution, depending on your needs and resources."
@@ -319,6 +317,11 @@ export default function Consultation() {
                                                     title: "Policy Management",
                                                     desc: "We create, update, and refine your IT policies — turning technical rules into operational clarity.",
                                                     img: data3,
+                                                },
+                                                 {
+                                                    title: "ICT Consulting",
+                                                    desc: "Our expert consultants will assess your current security posture, identify vulnerabilities, and provide tailored recommendations to strengthen your defenses.",
+                                                    img: ict,
                                                 }
                                             ].map((service, i) => (
                                                 <motion.div
@@ -575,7 +578,7 @@ export default function Consultation() {
 
             {/* Floating Consultation Button */}
             <a
-                href="#consultation-form"
+                href="https://calendly.com/krafosystems"
                 className="fixed bottom-6 right-6 bg-gradient-to-r from-orange-600 to-orange-700 text-white p-4 rounded-full shadow-lg z-50 hover:from-orange-700 hover:to-orange-800 transition-all transform hover:scale-105"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

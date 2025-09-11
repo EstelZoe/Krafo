@@ -1,4 +1,4 @@
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhone, FaEnvelope,FaWhatsapp,FaTiktok, FaFacebook } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhone, FaEnvelope, FaWhatsapp, FaTiktok, FaFacebook } from "react-icons/fa";
 
 export default function Footer({ variant = "dark" }) {
   const variants = {
@@ -40,18 +40,18 @@ export default function Footer({ variant = "dark" }) {
             Empowering the future with cybersecurity education and awareness.
           </p>
           <div className="flex space-x-3 mt-6">
-           <a href="https://www.linkedin.com/company/krafo-systems/posts/?feedView=all" target="_blank" rel="noopener noreferrer"  className={`${style.socialBg} p-2 rounded-sm`}>
-              <FaLinkedinIn/> 
-              </a>
-           <a href="  https://www.instagram.com/krafosystems/?hl=en" target="_blank" rel="noopener noreferrer"  className={`${style.socialBg} p-2 rounded-sm`}>
-              <FaInstagram/> 
-              </a>
-            <a href="https://www.tiktok.com/@krafosystems?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer"  className={`${style.socialBg} p-2 rounded-sm`}>
-              <FaTiktok/> 
-              </a>
-           <a href=" https://web.facebook.com/KrafoSystems/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer"  className={`${style.socialBg} p-2 rounded-sm`}>
-              <FaFacebook/> 
-              </a>
+            <a href="https://www.linkedin.com/company/krafo-systems/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className={`${style.socialBg} p-2 rounded-sm`}>
+              <FaLinkedinIn />
+            </a>
+            <a href="  https://www.instagram.com/krafosystems/?hl=en" target="_blank" rel="noopener noreferrer" className={`${style.socialBg} p-2 rounded-sm`}>
+              <FaInstagram />
+            </a>
+            <a href="http://tiktok.com/@krafosystems3" target="_blank" rel="noopener noreferrer" className={`${style.socialBg} p-2 rounded-sm`}>
+              <FaTiktok />
+            </a>
+            <a href=" https://web.facebook.com/KrafoSystems/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer" className={`${style.socialBg} p-2 rounded-sm`}>
+              <FaFacebook />
+            </a>
           </div>
         </div>
 
@@ -69,7 +69,7 @@ export default function Footer({ variant = "dark" }) {
           </div>
         </div>
 
-       
+
 
         {/* Contact Us */}
         <div>
@@ -78,14 +78,20 @@ export default function Footer({ variant = "dark" }) {
             <FaWhatsapp className={`${style.accent} text-xl`} />
             <div>
               <p className="font-semibold">Send Us A Message</p>
-              <p className="text-sm"> (+233) 59-319-600</p>
+              <a href="https://wa.me/233593196002" target="_blank" rel="noopener noreferrer"
+                className="text-sm text-white hover:underline" >
+                (+233) 59-319-6002
+              </a>
             </div>
           </div>
           <div className={`flex items-center space-x-2 p-2 border ${style.border}`}>
             <FaEnvelope className={`${style.accent} text-xl`} />
             <div>
               <p className="font-semibold">Email us</p>
-              <p className="text-sm">info@krafosystems.com</p>
+              <a href="mailto:info@krafosystems.com"
+                className="text-sm text-white" >
+                info@krafosystems.com
+              </a>
             </div>
           </div>
         </div>
