@@ -103,7 +103,7 @@ export default function About() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#F2600B] text-white px-6 py-3 rounded-md text-sm sm:text-base font-medium hover:bg-[#e05600] transition w-full sm:w-auto text-center">
-                Get Involved
+                Book A Consultation
               </a>
 
               <HashLink

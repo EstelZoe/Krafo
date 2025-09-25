@@ -530,12 +530,12 @@ export default function Course() {
                         </div>
 
                         <h2 className="text-4xl md:text-5xl font-bold leading-tight bg-gradient-to-r from-orange-300 via-orange-400 to-orange-500 bg-clip-text text-transparent">
-                            <span className="text-white block">Beyond the Code:</span>
-                            Master the Hacker Mindset
+                            <span className="text-white block">Meet The Instructors:</span>
+                            Wisdom For A Secure Future
                         </h2>
 
                         <p className="text-lg text-gray-300 max-w-md border-l-4 border-orange-500 pl-4 py-2 bg-black/20 backdrop-blur-sm rounded-r-lg">
-                            This is where strategy meets skill. Our curriculum is built on a 'mind-first' approach, teaching you to analyze threats, understand attacker motivations, and build a proactive security posture.
+                            Learn from experts who bring deep knowledge and experience to solving today’s toughest security challenges. They’re here to guide the next generation in building strong defenses and creating a safer digital world.
                         </p>
 
                         {/* Interactive Cyber Terminal Button */}
@@ -584,7 +584,7 @@ export default function Course() {
 
                             <iframe
                                 className="w-full h-72 md:h-[28rem] rounded-xl"
-                                src="https://www.youtube.com/embed/3Ed79CH1J2E?enablejsapi=1"
+                                src="https://www.youtube.com/embed/0ynUhZDA_D4"
                                 title="YouTube video"
                                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen

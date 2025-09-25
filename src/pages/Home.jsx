@@ -26,10 +26,36 @@ import useBlogs from "../hooks/useBlogs"
 import { image } from "framer-motion/client";
 import Upcoming from "../assets/images/flye2.jpeg";
 import Upcoming2 from "../assets/images/flye.jpg";
+import boldminds from "../assets/images/bold minds.jpeg";
 
 
 export default function Home() {
+
   const outreachSlides = [
+
+    {
+      image: boldminds,
+      title: "A Cyber-Smart Generation for a Secure Africa",
+      desc:
+        "Our mission is to equip every young African with the knowledge to navigate the digital world safely. We aim to build a strong, resilient digital future for the continent, one student at a time.",
+      bullets: [
+        {
+          title: "Expand School Partnerships:",
+          desc: " Establish cyber clubs in hundreds of schools across the continent.",
+        },
+        {
+          title: "Empower More Students:",
+          desc: " Reach and train thousands more young people in critical cybersecurity skills.",
+        },
+        {
+          title: "Grow Our Community:",
+          desc: " Recruit and support a vibrant network of volunteers and mentors.",
+        },
+      ],
+    },
+
+
+
     {
       image: Upcoming,
       title: "A Cyber-Smart Generation for a Secure Africa",
@@ -82,7 +108,20 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [outreachSlides.length]);
 
+  const heroVideo = "https://player.vimeo.com/video/1120651736";
 
+  const [showPlayer, setShowPlayer] = useState(false);
+
+  const openPlayer = () => setShowPlayer(true);
+  const closePlayer = () => setShowPlayer(false);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") closePlayer();
+    };
+    if (showPlayer) window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showPlayer]);
 
   return (
     <>
@@ -118,7 +157,24 @@ export default function Home() {
               </button>
             </Link>
           </div>
+          <button
+            onClick={openPlayer}
+            className="mt-6 flex items-center justify-center bg-white/20 hover:bg-white/30 text-[#F2600B] p-4 rounded-full shadow-md transition-transform hover:scale-110"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </button>
+
         </div>
+
+
+
 
         {/* Scroll Cue */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 animate-bounce text-white text-sm opacity-75">
@@ -163,6 +219,32 @@ export default function Home() {
       animation-delay: 0.2s;
     }
   `}</style>
+
+        {/* Video Modal */}
+        {showPlayer && (
+          <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+            <div className="relative w-full max-w-4xl aspect-video bg-black rounded-lg overflow-hidden">
+              <iframe
+                src="https://player.vimeo.com/video/1120651736?autoplay=1"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowFullScreen
+                title="Intro Video"
+              ></iframe>
+
+              {/* Close Button */}
+              <button
+                onClick={closePlayer}
+                className="absolute top-3 right-3 bg-white text-black px-3 py-1 rounded-full hover:bg-gray-200"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
+
       </section>
 
 
@@ -203,12 +285,12 @@ export default function Home() {
                 desc: "We create, update, and refine your IT policies — turning technical rules into operational clarity.",
                 img: data3,
               },
-               {
+              {
                 title: "ICT Consulting",
                 desc: "Our expert consultants will assess your current security posture, identify vulnerabilities, and provide tailored recommendations to strengthen your defenses.",
                 img: ict,
               }
-              
+
             ].map((service, i) => (
               <motion.div
                 key={i}
@@ -217,7 +299,7 @@ export default function Home() {
                 transition={{ duration: 0.7, delay: i * 0.2 }}
                 viewport={{ once: true }}
                 className="group relative rounded-xl border border-[#F2600B33] bg-gradient-to-br from-[#1a1a1a] to-[#000000] backdrop-blur-md shadow-xl hover:shadow-orange-600/30 hover:scale-[1.02] transition-transform duration-300 overflow-hidden"
-                
+
               >
                 {/* Image */}
                 <div className="relative h-52 overflow-hidden">
