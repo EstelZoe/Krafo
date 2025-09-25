@@ -108,7 +108,8 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [outreachSlides.length]);
 
-  const heroVideo = "https://player.vimeo.com/video/1120651736";
+  const heroVideo = "https://www.youtube.com/embed/ClMdzYOS1d0";
+
 
   const [showPlayer, setShowPlayer] = useState(false);
 
@@ -225,7 +226,7 @@ export default function Home() {
           <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
             <div className="relative w-full max-w-4xl aspect-video bg-black rounded-lg overflow-hidden">
               <iframe
-                src="https://player.vimeo.com/video/1120651736?autoplay=1"
+                src={`${heroVideo}?autoplay=1`}
                 width="100%"
                 height="100%"
                 frameBorder="0"

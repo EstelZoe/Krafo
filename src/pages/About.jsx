@@ -13,11 +13,14 @@ import { image } from "framer-motion/client";
 import pic1 from "../assets/images/origilogo.png";
 import pic2 from "../assets/images/krafoashanti.png";
 import pic3 from "../assets/images/africaoriginal.png";
+import pic4 from "../assets/images/cyberdefense.jpeg";
+import pic5 from "../assets/images/africadefense.jpeg";
 import { HashLink } from "react-router-hash-link";
 import BenPic from "../assets/images/benkrafopic2.jpeg";
 import RuthPic from "../assets/images/Ruth.jpeg";
 import CooPic from "../assets/images/coo.png";
 import CeoPic from "../assets/images/komla.png";
+import Corwin from "../assets/images/corwinfrancis.jpg";
 
 const journeyData = [
   {
@@ -141,9 +144,9 @@ export default function About() {
                   <div className="py-3 sm:py-4">
                     <div className="relative overflow-hidden rounded-2xl shadow-xl">
                       <img
-                        src={pic2}
+                        src={pic4}
                         alt="Krafo Systems team"
-                        className="w-full h-56 sm:h-64 md:h-72 object-cover"
+                        className="w-full aspect-[4/3] object-cover rounded-2xl"
                       />
                       <div className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"></div>
                     </div>
@@ -153,7 +156,7 @@ export default function About() {
                   <div className="relative z-10 my-50">
                     <div className="relative overflow-hidden rounded-2xl shadow-xl">
                       <img
-                        src={pic3}
+                        src={pic5}
                         alt="Student learning cybersecurity"
                         className="w-full h-64 sm:h-72 md:h-80 object-cover"
                       />
@@ -373,7 +376,7 @@ export default function About() {
                 name: "Corwin Francis",
                 role: "Cyber Engineer Lead",
                 desc: "Has Profound Cyber Enginner Experience.",
-                image: "https://media.licdn.com/dms/image/v2/D5603AQEltZ0tnde9IQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1699287797990?e=1758153600&v=beta&t=XZ2h6uSRsmkeR_pY-wnCSatTUOJG1CuMyBsFHzskRAA",
+                image: Corwin,
                 linkedin: "https://www.linkedin.com/in/corwinfrancis/",
                 twitter: "#"
               },
