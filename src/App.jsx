@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const Courses = lazy(() => import("./pages/Courses"));
+const CourseDetails = lazy(() => import("./pages/CourseDetails"));
 const EventPage = lazy(() => import("./pages/EventPage"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
 const YouthCyberEd = lazy(() => import("./pages/YouthCyberEd"));
@@ -36,6 +37,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/courses" element={<Courses />} />
+            <Route path="/courses/:slug" element={<CourseDetails />} />
             <Route path="/event-page" element={<EventPage />} />
             <Route path="/blog-page" element={<BlogPage />} />
             <Route path="/youth-cyber-ed" element={<YouthCyberEd />} />

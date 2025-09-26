@@ -15,10 +15,12 @@ import Vid1 from "../assets/videos/Vid2.mp4";
 import vr from "../assets/images/vr.jpg";
 import studyGroup from "../assets/images/studygroup.jpg";
 import { motion, AnimatePresence } from "framer-motion";
-import ccbc from "../assets/images/ccbc.png"
-import ai from "../assets/images/AI&Cyber.png"
-import ceo from "../assets/images/ceo.png"
-import { div } from "framer-motion/client";
+// Images come from centralized course catalog; local demo imports removed
+import { Link } from "react-router-dom";
+// Course data consolidated locally - no external dependencies
+import ccbc from "../assets/images/ccbc.png";
+import ai from "../assets/images/AI&Cyber.png";
+import ceo from "../assets/images/ceo.png";
 
 
 
@@ -30,53 +32,52 @@ const checklistItems = [
     "High operational standards and leadership"
 ];
 
+// Local course data for Courses page
+const coursesData = [
+  {
+    id: "cybersecurity-course",
+    slug: "cybersecurity-capacity-building-course-ccbc",
+    title: "Cybersecurity Capacity Building Course (CCBC)",
+    description: "A comprehensive program designed to build a strong foundation in cybersecurity principles, from network defense to incident response.",
+    image: ccbc,
+    price: "GHC 5,750",
+    details: [
+      "12 months online access to resources.",
+      "Networking & a Certificate of Completion.",
+      "18 topics with quizzes & hands-on exercises.",
+    ],
+  },
+  {
+    id: "ai-cybersecurity-course",
+    slug: "ai-and-cybersecurity", 
+    title: "AI & Cybersecurity",
+    description: "Explore the dual role of AI in cybersecurity, learning to leverage it for defense and to protect against AI-driven threats.",
+    image: ai,
+    price: "Free",
+    details: [
+      "Understand how AI is used in cyber attacks.",
+      "Build AI-powered security monitoring tools.", 
+      "Explore the ethics of AI in security.",
+    ],
+  },
+  {
+    id: "cyber-ceo",
+    slug: "cyber-ceo",
+    title: "Cyber CEO", 
+    description: "Equip yourself with the strategic knowledge to lead your organization through complex cyber challenges and manage digital risk effectively.",
+    image: ceo,
+    price: "Free",
+    details: [
+      "Develop a robust cybersecurity strategy.",
+      "Learn about governance, risk, and compliance (GRC).",
+      "Manage cybersecurity budgets and investments.",
+    ],
+  },
+];
+
 export default function Course() {
     const [expandedIndex, setExpandedIndex] = useState(-1);
-    const courses = [
-        {
-
-            id: "cybersecurity-course",
-            title: "Cybersecurity Capacity Building Course (CCBC)",
-            description:
-                "A comprehensive program designed to build a strong foundation in cybersecurity principles, from network defense to incident response.",
-            image: ccbc,
-            price: "GHC 5,750",
-            link: "https://chat.whatsapp.com/G86UT6B9BrCF51nExXybV5",
-            details: [
-                "12 months online access to resources.",
-                "Networking & a Certificate of Completion.",
-                "18 topics with quizzes & hands-on exercises.",
-            ],
-        },
-        {
-            id: "ai-cybersecurity-course",
-            title: "AI & Cybersecurity",
-            description:
-                "Explore the dual role of AI in cybersecurity, learning to leverage it for defense and to protect against AI-driven threats.",
-            image: ai,
-            price: "Free",
-            link: "https://example.com/courses/ai-cybersecurity",
-            details: [
-                "Understand how AI is used in cyber attacks.",
-                "Build AI-powered security monitoring tools.",
-                "Explore the ethics of AI in security.",
-            ],
-        },
-        {
-            id: "cyber-ceo",
-            title: "Cyber CEO",
-            description:
-                "Equip yourself with the strategic knowledge to lead your organization through complex cyber challenges and manage digital risk effectively.",
-            image: ceo,
-            price: "Free",
-            link: "https://example.com/courses/cyber-ceo",
-            details: [
-                "Develop a robust cybersecurity strategy.",
-                "Learn about governance, risk, and compliance (GRC).",
-                "Manage cybersecurity budgets and investments.",
-            ],
-        },
-    ];
+    const courses = coursesData;
     useEffect(() => {
         if (window.location.hash) {
             const element = document.querySelector(window.location.hash);
@@ -434,16 +435,14 @@ export default function Course() {
 
                                             {/* CTA Section */}
                                             <div className="mt-auto">
-                                                <a
-                                                    href={course.link}
+                                                <Link
+                                                    to={`/courses/${course.slug}`}
                                                     className="block text-center py-3 bg-gradient-to-r from-[#F2600B] to-orange-500 text-black font-bold rounded-lg hover:from-orange-500 hover:to-[#F2600B] transition-all shadow-lg hover:shadow-orange-500/40 relative overflow-hidden group"
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
                                                 >
-                                                    <span className="relative z-10">Enroll Now - Limited Seats!</span>
+                                                    <span className="relative z-10">View Details & Enroll</span>
                                                     <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-[#F2600B] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                                     <div className="absolute top-0 left-0 w-full h-0.5 bg-white/30"></div>
-                                                </a>
+                                                </Link>
                                                 {/* <p className="text-center text-gray-400 text-xs mt-2">
                                                         Registration closes 
                                                         August 26, 2025
