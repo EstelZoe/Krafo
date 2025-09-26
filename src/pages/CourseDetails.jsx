@@ -119,9 +119,9 @@ const courses = [
       {
         id: "recorded-only",
         label: "CCBC365 Subscription",
-        price: "350",
+        price: "165",
         currency: "GHS/mo",
-        priceNote: "Monthly subscription • Recorded only",
+        priceNote: "Monthly subscription • Recorded only • Starting November",
         bg: "bg-[#0E0E0E]",
         ring: "ring-[#65A30D44]",
         tierColor: "text-green-400",
