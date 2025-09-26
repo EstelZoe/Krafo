@@ -42,7 +42,7 @@ const coursesData = [
     image: ccbc,
     price: "GHC 5,750",
     details: [
-      "12 months online access to resources.",
+      "12 months FREE online access to CCBC resources.",
       "Networking & a Certificate of Completion.",
       "18 topics with quizzes & hands-on exercises.",
     ],

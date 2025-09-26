@@ -367,7 +367,7 @@ export default function Home() {
             },
             {
               title: "Cybersecurity Capacity Building Course",
-              price: "¢6000",
+              price: "¢5750",
               tierColor: "text-[#F2600B]",
               bg: "bg-[#1A1A1A]/60",
               ring: "ring-[#F2600B33]",
@@ -375,7 +375,7 @@ export default function Home() {
               discription: "A comprehensive program designed to build a strong foundation in cybersecurity principles, from network defense to incident response",
 
               features: [
-                "12 months online access to resources.",
+                "12 months FREE online access to all CCBC resources.",
                 "Networking & a Certificate of Completion.",
                 "18 topics with quizzes & hands-on exercises.",
               ],
