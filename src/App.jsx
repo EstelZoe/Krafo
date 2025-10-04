@@ -3,6 +3,7 @@ import { Suspense, lazy } from "react";
 import ScrollToTop from "./assets/components/ScrollToTop";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CookieConsentBanner from "./pages/CookieConsentBanner";
 
 
 const Home = lazy(() => import("./pages/Home"));
@@ -15,6 +16,8 @@ const YouthCyberEd = lazy(() => import("./pages/YouthCyberEd"));
 const Consultation = lazy(() => import("./pages/Consultation"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
 
 // Loader
 function Loader() {
@@ -32,6 +35,7 @@ function App() {
       <ToastContainer position="top-right" autoClose={3000} />
       <BrowserRouter>
         <ScrollToTop />
+        <CookieConsentBanner />
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -43,6 +47,8 @@ function App() {
             <Route path="/youth-cyber-ed" element={<YouthCyberEd />} />
             <Route path="/consultation" element={<Consultation />} />
             <Route path="/contact" element={<ContactUs />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/cookies-policy" element={<CookiesPolicy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

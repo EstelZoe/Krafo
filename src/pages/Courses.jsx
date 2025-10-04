@@ -88,9 +88,9 @@ export default function Course() {
     }, []);
 
     return (
-        <>
+        <div className="bg-black">
             <Navbar />
-            <section className="relative text-center py-28 px-4 pt-40 overflow-hidden backdrop-blur-3xl bg-black text-white">
+            <section className="relative text-center py-28 px-4 pt-40 overflow-hidden backdrop-blur-3xl text-white">
                 {/* Background Video */}
                 <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0">
                     <source src={Vid1} type="video/mp4" />
@@ -795,6 +795,6 @@ export default function Course() {
             `}</style>
 
             <Footer />
-        </>
+        </div>
     );
 }

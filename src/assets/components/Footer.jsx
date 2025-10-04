@@ -1,4 +1,5 @@
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhone, FaEnvelope, FaWhatsapp, FaTiktok, FaFacebook } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Footer({ variant = "dark" }) {
   const variants = {
@@ -59,13 +60,14 @@ export default function Footer({ variant = "dark" }) {
         <div className="md:col-span-2">
           <h3 className="text-lg font-semibold mb-4">Menu</h3>
           <div className="flex flex-wrap gap-6">
-            <a href="#">Home</a>
-            <a href="/about">About</a>
-            <a href="/courses">Courses</a>
-            <a href="/events">Events</a>
-            <a href="/cyber-youth-ed">Youth Cyber Ed</a>
-            <a href="/consultation">Consultation</a>
-            <a href="/contact">Contact Us</a>
+            <Link to="/" className={style.link}>Home</Link>
+            <Link to="/about" className={style.link}>About</Link>
+            <Link to="/courses" className={style.link}>Courses</Link>
+            <Link to="/event-page" className={style.link}>Events</Link>
+            <Link to="/youth-cyber-ed" className={style.link}>Youth Cyber Ed</Link>
+            <Link to="/consultation" className={style.link}>Consultation</Link>
+            <Link to="/contact" className={style.link}>Contact Us</Link>
+            <Link to="/privacy-policy" className={style.link}>Privacy Policy</Link>
           </div>
         </div>
 
