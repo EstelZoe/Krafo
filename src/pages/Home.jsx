@@ -51,69 +51,69 @@ export default function Home() {
       ],
     },
 
-    {
-      image: boldminds,
-      title: "A Cyber-Smart Generation for a Secure Africa",
-      desc:
-        "Our mission is to equip every young African with the knowledge to navigate the digital world safely. We aim to build a strong, resilient digital future for the continent, one student at a time.",
-      bullets: [
-        {
-          title: "Expand School Partnerships:",
-          desc: " Establish cyber clubs in hundreds of schools across the continent.",
-        },
-        {
-          title: "Empower More Students:",
-          desc: " Reach and train thousands more young people in critical cybersecurity skills.",
-        },
-        {
-          title: "Grow Our Community:",
-          desc: " Recruit and support a vibrant network of volunteers and mentors.",
-        },
-      ],
-    },
+    // {
+    //   image: boldminds,
+    //   title: "A Cyber-Smart Generation for a Secure Africa",
+    //   desc:
+    //     "Our mission is to equip every young African with the knowledge to navigate the digital world safely. We aim to build a strong, resilient digital future for the continent, one student at a time.",
+    //   bullets: [
+    //     {
+    //       title: "Expand School Partnerships:",
+    //       desc: " Establish cyber clubs in hundreds of schools across the continent.",
+    //     },
+    //     {
+    //       title: "Empower More Students:",
+    //       desc: " Reach and train thousands more young people in critical cybersecurity skills.",
+    //     },
+    //     {
+    //       title: "Grow Our Community:",
+    //       desc: " Recruit and support a vibrant network of volunteers and mentors.",
+    //     },
+    //   ],
+    // },
 
 
 
-    {
-      image: Upcoming,
-      title: "A Cyber-Smart Generation for a Secure Africa",
-      desc:
-        "Our mission is to equip every young African with the knowledge to navigate the digital world safely. We aim to build a strong, resilient digital future for the continent, one student at a time.",
-      bullets: [
-        {
-          title: "Expand School Partnerships:",
-          desc: " Establish cyber clubs in hundreds of schools across the continent.",
-        },
-        {
-          title: "Empower More Students:",
-          desc: " Reach and train thousands more young people in critical cybersecurity skills.",
-        },
-        {
-          title: "Grow Our Community:",
-          desc: " Recruit and support a vibrant network of volunteers and mentors.",
-        },
-      ],
-    },
-    {
-      image: Upcoming2,
-      title: "Scaling Outreach Across Communities",
-      desc:
-        "We work with schools, NGOs and partners to deliver hands-on training, mentorship and tools that empower youth to stay safe online.",
-      bullets: [
-        {
-          title: "Hands-on Workshops:",
-          desc: " Practical sessions that build real skills.",
-        },
-        {
-          title: "Volunteer Network:",
-          desc: " Train-the-trainer programs so impact keeps growing.",
-        },
-        {
-          title: "Hybrid Events:",
-          desc: " Mix of in-person and virtual sessions to reach more learners.",
-        },
-      ],
-    },
+    // {
+    //   image: Upcoming,
+    //   title: "A Cyber-Smart Generation for a Secure Africa",
+    //   desc:
+    //     "Our mission is to equip every young African with the knowledge to navigate the digital world safely. We aim to build a strong, resilient digital future for the continent, one student at a time.",
+    //   bullets: [
+    //     {
+    //       title: "Expand School Partnerships:",
+    //       desc: " Establish cyber clubs in hundreds of schools across the continent.",
+    //     },
+    //     {
+    //       title: "Empower More Students:",
+    //       desc: " Reach and train thousands more young people in critical cybersecurity skills.",
+    //     },
+    //     {
+    //       title: "Grow Our Community:",
+    //       desc: " Recruit and support a vibrant network of volunteers and mentors.",
+    //     },
+    //   ],
+    // },
+    // {
+    //   image: Upcoming2,
+    //   title: "Scaling Outreach Across Communities",
+    //   desc:
+    //     "We work with schools, NGOs and partners to deliver hands-on training, mentorship and tools that empower youth to stay safe online.",
+    //   bullets: [
+    //     {
+    //       title: "Hands-on Workshops:",
+    //       desc: " Practical sessions that build real skills.",
+    //     },
+    //     {
+    //       title: "Volunteer Network:",
+    //       desc: " Train-the-trainer programs so impact keeps growing.",
+    //     },
+    //     {
+    //       title: "Hybrid Events:",
+    //       desc: " Mix of in-person and virtual sessions to reach more learners.",
+    //     },
+    //   ],
+    // },
 
 
   ];
