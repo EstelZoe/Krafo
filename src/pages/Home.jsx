@@ -27,11 +27,29 @@ import { image } from "framer-motion/client";
 import Upcoming from "../assets/images/flye2.jpeg";
 import Upcoming2 from "../assets/images/flye.jpg";
 import boldminds from "../assets/images/bold minds.jpeg";
+import vid from "../assets/videos/krafo video.mp4";
 
 
 export default function Home() {
 
   const outreachSlides = [
+
+    {
+      video: vid,
+      title: "Video Insight: CyberSecurity Capacity Building Course ",
+      desc:
+        "Watch this short highlight of our outreach programs, showcasing digital literacy and safety in action.",
+      bullets: [
+        {
+          title: "Community Highlights:",
+          desc: " Real impact stories from our workshops.",
+        },
+        {
+          title: "Digital Literacy:",
+          desc: " Teaching youth how to thrive safely online.",
+        },
+      ],
+    },
 
     {
       image: boldminds,
@@ -96,6 +114,8 @@ export default function Home() {
         },
       ],
     },
+
+
   ];
 
   const [outreachIndex, setOutreachIndex] = useState(0);
@@ -514,15 +534,32 @@ export default function Home() {
           >
             <div className="relative rounded-xl overflow-hidden shadow-2xl border border-orange-500/20 scale-105">
               {/* image with fade in on change */}
-              <motion.img
-                key={outreachIndex} // remount on index change -> runs initial->animate
-                src={outreachSlides[outreachIndex].image}
-                alt={outreachSlides[outreachIndex].title}
-                initial={{ opacity: 0, scale: 1.02 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full h-96 object-cover"
-              />
+              {outreachSlides[outreachIndex].video ? (
+                <motion.video
+                  key={outreachIndex}
+                  src={outreachSlides[outreachIndex].video}
+                  controls
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  initial={{ opacity: 0, scale: 1.02 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                  className="w-full h-96 object-cover"
+                />
+              ) : (
+                <motion.img
+                  key={outreachIndex}
+                  src={outreachSlides[outreachIndex].image}
+                  alt={outreachSlides[outreachIndex].title}
+                  initial={{ opacity: 0, scale: 1.02 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                  className="w-full h-96 object-cover"
+                />
+              )}
+
 
               {/* subtle overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"></div>
@@ -749,6 +786,7 @@ export default function Home() {
               title: "Data Privacy in 2025: Striking a Balance Between Innovation and Protection",
               desc: "As data breaches become more frequent, individuals and organizations are prioritizing data privacy.....",
             },
+
           ].map((item, idx) =>
           (<div key={idx}
             className="group bg-white/5 p-6 rounded-2xl border border-[#F2600B22] shadow-xl hover:shadow-[0_0_25px_#F2600B33] hover:scale-[1.02] transition-all duration-300" >
