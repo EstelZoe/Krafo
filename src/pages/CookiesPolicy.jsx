@@ -14,11 +14,10 @@ export default function CookiesPolicy() {
         <div className="mx-auto max-w-4xl">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              Cookies Policy
+              Cookie Policy
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-300">
-              This is the Cookie Policy for Krafo Systems, accessible from
-              yourwebsite.com
+              This Cookie Policy explains how Krafo Systems ("we", "us", "our") uses cookies and similar technologies when you visit our website (krafosystems.com).
             </p>
           </div>
 
@@ -27,8 +26,8 @@ export default function CookiesPolicy() {
               <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">
                 What Are Cookies?
               </h2>
-              <p>
-                Cookies are small text files placed on your device by websites to help enhance your browsing experience. They allow websites to remember your preferences and activities, making your interactions smoother and more personalized.
+              <p className="leading-relaxed">
+                Cookies are small text files that websites store on your device. They can be used for various purposes including site functionality, user tracking, analytics, and advertising. At Krafo Systems, we only utilize essential browser storage necessary for basic website operations.
               </p>
             </section>
 
@@ -36,18 +35,63 @@ export default function CookiesPolicy() {
               <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">
                 How We Use Cookies
               </h2>
-              <p>
-                We use cookies for a variety of reasons detailed below.
-                Unfortunately, in most cases, there are no industry standard
-                options for disabling cookies without completely disabling the
-                functionality and features they add to this site. It is
-                recommended that you leave on all cookies if you are not sure
-                whether you need them or not in case they are used to provide a
-                service that you use.
+              <p className="leading-relaxed mb-4">
+                At Krafo Systems, we are committed to transparency and your privacy. <strong>We do not use cookies for tracking, marketing, or analytics purposes.</strong>
+              </p>
+              <p className="leading-relaxed mb-4">
+                Our website only uses essential browser functionality to ensure proper site operation. This includes:
+              </p>
+              <ul className="list-disc list-inside space-y-2 ml-4 leading-relaxed">
+                <li><strong>Session Management:</strong> Basic browser storage to maintain your navigation state as you move between pages</li>
+                <li><strong>Site Functionality:</strong> Essential technical features required for the website to work properly</li>
+                <li><strong>Security:</strong> Protection against common web vulnerabilities and ensuring secure browsing</li>
+              </ul>
+              <p className="leading-relaxed mt-4">
+                We do not use third-party cookies, advertising cookies, or any tracking technologies that monitor your behavior across websites.
               </p>
             </section>
 
-            {/* Add more sections as per your full cookies policy */}
+            <section>
+              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">
+                Your Privacy Matters
+              </h2>
+              <p className="leading-relaxed">
+                As a cybersecurity education company, we practice what we teach. We believe in respecting your privacy and only collecting data that is absolutely necessary for site functionality. You can browse our website with confidence knowing that we are not tracking or profiling your activities.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">
+                Browser Settings
+              </h2>
+              <p className="leading-relaxed">
+                Since we only use essential browser functionality, there is no need to manage or disable cookies on our site. However, if you wish to control how your browser handles storage and cookies in general, you can adjust your browser's privacy settings. Please note that blocking essential functionality may prevent certain features of our website from working properly.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">
+                Updates to This Policy
+              </h2>
+              <p className="leading-relaxed">
+                We may update this Cookie Policy from time to time. Changes will be posted on this page with an updated effective date.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">
+                Contact Us
+              </h2>
+              <p className="leading-relaxed">
+                If you have any questions about our Cookie Policy, please contact us at{" "}
+                <a 
+                  href="mailto:info@krafosystems.com" 
+                  className="text-[#F2600B] hover:text-orange-500 underline transition-colors duration-200"
+                >
+                  info@krafosystems.com
+                </a>.
+              </p>
+            </section>
           </div>
         </div>
       </main>
