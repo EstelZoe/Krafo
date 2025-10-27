@@ -94,10 +94,11 @@ export default function About() {
           {/* Text Side */}
           <div className="w-full md:w-[70%] lg:w-[55%] space-y-6 text-center bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border border-orange-700/40 rounded-xl p-6 md:p-10 shadow-xl transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white">
-              We’re shaping Africa’s <span className="text-[#F2600B]">cyber future</span>
+              What Our Name <span className="text-[#F2600B]">Represents</span>
             </h2>
             <p className="text-gray-300 text-base sm:text-lg md:text-xl">
-              "Securing Africa's digital transformation across all sectors, delivering tailored cybersecurity solutions for schools, enterprises, and government institutions continent-wide."
+              Krafo Systems, from the Akan word “KRA” (soul), stands for unity and purpose. Our mission is to protect Africa through cybersecurity—guarding against online and offline threats. Guided by “Let’s Connect & Protect,” inspired by Ubuntu, we promote community, empathy, and shared responsibility for a safer, connected future.
+f
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -375,7 +376,7 @@ export default function About() {
               {
                 name: "Corwin Francis",
                 role: "Cyber Engineer Lead",
-                desc: "Has Profound Cyber Enginner Experience.",
+                desc: "Has Profound Cyber Engineer Experience.",
                 image: Corwin,
                 linkedin: "https://www.linkedin.com/in/corwinfrancis/",
                 twitter: "#"
@@ -490,9 +491,13 @@ export default function About() {
             <p className="text-gray-300 text-base md:text-lg mb-6 max-w-md">
               Be part of the cybersecurity revolution. Together, we can build a safer digital world for everyone.
             </p>
-            <HashLink smooth to="/contact" className="bg-[#F2600B] hover:bg-orange-600 text-white px-6 py-3 rounded-md font-semibold transition">
-              Get Started Today
-            </HashLink>
+           <a
+                href="https://calendly.com/krafosystems"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#F2600B] text-white px-6 py-3 rounded-md text-sm sm:text-base font-medium hover:bg-[#e05600] transition w-full sm:w-auto text-center">
+                Get Started Today
+              </a>
           </div>
 
           {/* Animated Image Tiles - Desktop */}
