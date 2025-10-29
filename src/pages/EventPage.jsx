@@ -5,7 +5,7 @@ import Footer from "../assets/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import aicc from "../assets/images/flye.jpg";
-import ccbc from "../assets/images/ccbc.png";
+import hack from "../assets/images/hacking.jpeg";
 
 const events = [
     {
@@ -19,15 +19,15 @@ const events = [
         featured: true,
         registrationUrl: "https://gdiw.com.gh" // Add the registration link here
     },
-    // {
-    //     date: "MAR 22",
-    //     title: "Startup Pitch Competition",
-    //     description: "Watch emerging startups present their groundbreaking ideas to a panel of investors. Network with founders and discover the next big thing in tech.",
-    //     time: "6:00 PM - 9:00 PM",
-    //     location: "Business Hub",
-    //     category: "Business",
-    //     image: ccbc
-    // },
+    {
+        date: "November 12-14",
+        title: "#GDIW25",
+        description: "Cybercriminals don’t just hack systems—they exploit human behavior. Understand the psychological tricks used to deceive, manipulate, and control decisions. Learn how to recognize these tactics, strengthen your awareness, and build the mental resilience that turns potential victims into empowered defenders.",
+        time: "8:00AM - 4:00PM",
+        location: "AICC",
+        category: "Business",
+        image: hack
+    },
     // {
     //     date: "APR 05",
     //     title: "Cybersecurity Workshop",

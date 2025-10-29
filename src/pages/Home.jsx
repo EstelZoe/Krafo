@@ -28,11 +28,35 @@ import Upcoming from "../assets/images/flye2.jpeg";
 import Upcoming2 from "../assets/images/flye.jpg";
 import boldminds from "../assets/images/bold minds.jpeg";
 import vid from "../assets/videos/krafo video.mp4";
+import hack from "../assets/images/hacking.jpeg";
 
 
 export default function Home() {
 
   const outreachSlides = [
+
+
+
+    {
+      image: hack,
+      title: "#GDIW25",
+      desc:
+        "Hacking the Human Minds",
+      bullets: [
+        {
+          title: "Empower  Ghanaians in Cybersecurity:",
+          desc: " Our mission is to equip every young Ghanaian with the knowledge to navigate the digital world safely. We aim to build a strong, resilient digital future for the continent.",
+        },
+        {
+          title: "Empower More Students:",
+          desc: " Reach more people, socialize and educate thousands more young people in critical cybersecurity skills.",
+        },
+        {
+          title: "Grow Our Community:",
+          desc: " Recruit and support a vibrant network of volunteers and mentors.",
+        },
+      ],
+    },
 
     {
       video: vid,
@@ -50,29 +74,6 @@ export default function Home() {
         },
       ],
     },
-
-    // {
-    //   image: boldminds,
-    //   title: "A Cyber-Smart Generation for a Secure Africa",
-    //   desc:
-    //     "Our mission is to equip every young African with the knowledge to navigate the digital world safely. We aim to build a strong, resilient digital future for the continent, one student at a time.",
-    //   bullets: [
-    //     {
-    //       title: "Expand School Partnerships:",
-    //       desc: " Establish cyber clubs in hundreds of schools across the continent.",
-    //     },
-    //     {
-    //       title: "Empower More Students:",
-    //       desc: " Reach and train thousands more young people in critical cybersecurity skills.",
-    //     },
-    //     {
-    //       title: "Grow Our Community:",
-    //       desc: " Recruit and support a vibrant network of volunteers and mentors.",
-    //     },
-    //   ],
-    // },
-
-
 
     // {
     //   image: Upcoming,
