@@ -9,17 +9,7 @@ import hack from "../assets/images/hacking.jpeg";
 import AI from "../assets/images/ai.jpeg";
 
 const events = [
-    {
-        date: "November 16 2025",
-        title: "Dangers Of Oversharing on AI",
-        description: "Oversharing on AI platforms can expose personal and sensitive information to misuse, identity theft, or data breaches. AI systems may store or learn from shared data, making it difficult to control how information is used. Revealing too much can also lead to privacy invasion, manipulation, or profiling. Always share cautiously and protect your digital identity.",
-        time: "2PM - 5PM",
-        location: "4 Bathur St, Ayawaso West Municipal",
-        category: "AI",
-        image: AI,
-        featured: true,
-        registrationUrl: "https://egotickets.com/events/dangers-of-oversharing-on-ai" // Add the registration link here
-    },
+   
     {
         date: "November 12-14",
         title: "#GDIW25",
@@ -32,6 +22,19 @@ const events = [
         registrationUrl: "https://www.goivents.com/marketing/eventRegistrationForm?event_id=67"
 
     },
+
+     {
+        date: "November 16 2025",
+        title: "Dangers Of Oversharing on AI",
+        description: "Oversharing on AI platforms can expose personal and sensitive information to misuse, identity theft, or data breaches. AI systems may store or learn from shared data, making it difficult to control how information is used. Revealing too much can also lead to privacy invasion, manipulation, or profiling. Always share cautiously and protect your digital identity.",
+        time: "2PM - 5PM",
+        location: "4 Bathur St, Ayawaso West Municipal",
+        category: "AI",
+        image: AI,
+        featured: true,
+        registrationUrl: "https://egotickets.com/events/dangers-of-oversharing-on-ai" // Add the registration link here
+    },
+    
     // {
     //     date: "APR 05",
     //     title: "Cybersecurity Workshop",

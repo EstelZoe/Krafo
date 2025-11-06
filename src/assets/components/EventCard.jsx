@@ -48,14 +48,14 @@ const EventCard = ({ date, title, description, time, location, category, registr
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-[#F2600B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="text-sm">{time}</span>
+              <span className="text-sm font-bold">{time}</span>
             </div>
             <div className="flex items-center text-gray-300">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-[#F2600B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <span className="text-sm">{location}</span>
+              <span className="text-sm font-bold">{location}</span>
             </div>
           </div>
         </div>
