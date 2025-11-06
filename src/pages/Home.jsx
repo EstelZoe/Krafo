@@ -29,6 +29,7 @@ import Upcoming2 from "../assets/images/flye.jpg";
 import boldminds from "../assets/images/bold minds.jpeg";
 import vid from "../assets/videos/krafo video.mp4";
 import hack from "../assets/images/hacking.jpeg";
+import AI from "../assets/images/ai.jpeg"
 
 
 export default function Home() {
@@ -58,43 +59,43 @@ export default function Home() {
       ],
     },
 
-    {
-      video: vid,
-      title: "Video Insight: CyberSecurity Capacity Building Course ",
-      desc:
-        "Watch this short highlight of our outreach programs, showcasing digital literacy and safety in action.",
-      bullets: [
-        {
-          title: "Community Highlights:",
-          desc: " Real impact stories from our workshops.",
-        },
-        {
-          title: "Digital Literacy:",
-          desc: " Teaching youth how to thrive safely online.",
-        },
-      ],
-    },
-
     // {
-    //   image: Upcoming,
-    //   title: "A Cyber-Smart Generation for a Secure Africa",
+    //   video: vid,
+    //   title: "Video Insight: CyberSecurity Capacity Building Course ",
     //   desc:
-    //     "Our mission is to equip every young African with the knowledge to navigate the digital world safely. We aim to build a strong, resilient digital future for the continent, one student at a time.",
+    //     "Watch this short highlight of our outreach programs, showcasing digital literacy and safety in action.",
     //   bullets: [
     //     {
-    //       title: "Expand School Partnerships:",
-    //       desc: " Establish cyber clubs in hundreds of schools across the continent.",
+    //       title: "Community Highlights:",
+    //       desc: " Real impact stories from our workshops.",
     //     },
     //     {
-    //       title: "Empower More Students:",
-    //       desc: " Reach and train thousands more young people in critical cybersecurity skills.",
-    //     },
-    //     {
-    //       title: "Grow Our Community:",
-    //       desc: " Recruit and support a vibrant network of volunteers and mentors.",
+    //       title: "Digital Literacy:",
+    //       desc: " Teaching youth how to thrive safely online.",
     //     },
     //   ],
     // },
+
+    {
+      image: AI,
+      title: "Dangers Of Oversharing on AI",
+      desc:
+        "Oversharing on AI platforms can expose personal and sensitive information to misuse, identity theft, or data breaches. AI systems may store or learn from shared data, making it difficult to control how information is used. Revealing too much can also lead to privacy invasion, manipulation, or profiling. Always share cautiously and protect your digital identity.",
+      bullets: [
+        {
+          title: "Awareness of Privacy Risk:",
+          desc: "  How Personal Data are Being Exposed.",
+        },
+        {
+          title: "Awareness of Manipulation:",
+          desc: " How Information are being exploited for influence these days.",
+        },
+        {
+          title: "Cyber Awareness Certificate",
+          desc: " Certificate will be shared after the session.",
+        },
+      ],
+    },
     // {
     //   image: Upcoming2,
     //   title: "Scaling Outreach Across Communities",
