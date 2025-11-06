@@ -8,17 +8,17 @@ import aicc from "../assets/images/flye.jpg";
 import hack from "../assets/images/hacking.jpeg";
 
 const events = [
-    {
-        date: "12-14 Nov",
-        title: "Hacking the Human Mind: They’re Already Inside Your Mind",
-        description: "Cybercriminals don’t just hack computers; they also hack humans. Learn the manipulation tactics targeting you daily and the methods to counter these strategic attacks. Master the psychological defenses that separate victims from defenders.",
-        time: "TBD",
-        location: "AICC, Accra",
-        category: "Technology",
-        image: aicc,
-        featured: true,
-        registrationUrl: "https://gdiw.com.gh" // Add the registration link here
-    },
+    // {
+    //     date: "12-14 Nov",
+    //     title: "Hacking the Human Mind: They’re Already Inside Your Mind",
+    //     description: "Cybercriminals don’t just hack computers; they also hack humans. Learn the manipulation tactics targeting you daily and the methods to counter these strategic attacks. Master the psychological defenses that separate victims from defenders.",
+    //     time: "TBD",
+    //     location: "AICC, Accra",
+    //     category: "Technology",
+    //     image: aicc,
+    //     featured: true,
+    //     registrationUrl: "https://gdiw.com.gh" // Add the registration link here
+    // },
     {
         date: "November 12-14",
         title: "#GDIW25",
