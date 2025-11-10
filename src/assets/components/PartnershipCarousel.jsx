@@ -8,7 +8,7 @@ const DEFAULT_ITEMS = [
         title: "Cybersecurity Strategist",
         company: "Krafo Systems",
         summary:
-            "A Cybersecurity defendant who got her training from Krafo Systems.",
+            "A Cybersecurity defender who got her training from Krafo Systems.",
         videoSrc: "https://www.youtube.com/watch?v=uGyWgktVfYM", 
         poster: "/posters/partner1.jpg",
     },
@@ -17,7 +17,7 @@ const DEFAULT_ITEMS = [
         title: "Cybersecurity Instructor",
         company: "Krafo Systems",
         summary:
-            "He came in as a novist but after the program he is now a defendant and also an instructor at Krafo Systems.",
+            "He came in as a novist but after the program he is now a defender and also an instructor at Krafo Systems.",
         videoSrc: "https://www.youtube.com/watch?v=oNJ4YpAV5hY",
         poster: "/posters/partner2.jpg",
     },

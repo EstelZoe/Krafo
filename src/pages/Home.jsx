@@ -29,7 +29,9 @@ import Upcoming2 from "../assets/images/flye.jpg";
 import boldminds from "../assets/images/bold minds.jpeg";
 import vid from "../assets/videos/krafo video.mp4";
 import hack from "../assets/images/hacking.jpeg";
-import AI from "../assets/images/ai.jpeg"
+import AI from "../assets/images/ai.jpeg";
+import AnnouncementPopup from "../assets/components/AnnouncementPopup";
+import mind from "../assets/images/hackmind.jpeg";
 
 
 export default function Home() {
@@ -39,7 +41,7 @@ export default function Home() {
 
 
     {
-      image: hack,
+      image: mind,
       title: "#GDIW25",
       desc:
         "Hacking the Human Minds",
@@ -147,8 +149,11 @@ export default function Home() {
   }, [showPlayer]);
 
   return (
+    
     <>
+
       <Navbar />
+      <AnnouncementPopup />
 
       <section className="relative w-full h-[650px] overflow-hidden">
         {/* Background Layer */}
