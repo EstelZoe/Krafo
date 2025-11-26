@@ -33,6 +33,11 @@ import img11 from "../assets/images/IMG-56.jpg";
 import img12 from "../assets/images/IMG-61.jpg";
 import img13 from "../assets/images/IMG-63.jpg";
 
+import whatsappIcon from "../assets/images/whatsapp.png";
+import tiktokIcon from "../assets/images/tik-tok.png";
+import youtubeIcon from "../assets/images/youtube.png";
+import instagramIcon from "../assets/images/instagram.png";
+import mobileTransferIcon from "../assets/images/mobile-transfer.png";
 
 export default function YouthCyberEducation() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -482,6 +487,528 @@ export default function YouthCyberEducation() {
                 </div>
             </section >
 
+            <section id="parent-safety" className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-black via-[#0b0602] to-[#1a0a00]">
+                {/* Cyber Background Elements */}
+                <div className="absolute inset-0 -z-10">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#F2600B]/5 rounded-full blur-3xl"></div>
+                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#F2600B]/10 rounded-full blur-2xl"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(#F2600B22_1px,transparent_1px)] [background-size:20px_20px] opacity-10"></div>
+                </div>
+
+                <div className="max-w-6xl mx-auto">
+                    {/* Header Section */}
+                    <div className="text-center mb-16">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#F2600B]/10 border border-[#F2600B]/30 mb-4"
+                        >
+                            <svg className="w-4 h-4 text-[#F2600B]" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                            </svg>
+                            <span className="text-sm font-semibold text-[#F2600B] uppercase tracking-wider">Parent Safety Guide</span>
+                        </motion.div>
+
+                        <motion.h2
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.1 }}
+                            className="text-4xl md:text-5xl font-extrabold text-white mb-4"
+                        >
+                            Protect Your Child <span className="text-[#F2600B]">Online</span>
+                        </motion.h2>
+
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="text-xl text-gray-300 max-w-3xl mx-auto"
+                        >
+                            Quick actions and clear steps to secure your child's digital world — no tech expertise needed.
+                        </motion.p>
+                    </div>
+
+                    {/* 5 Critical Actions - Premium Cards */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="mb-20"
+                    >
+                        <div className="flex items-center gap-3 mb-8 justify-center">
+                            <div className="w-8 h-8 bg-[#F2600B] rounded-full flex items-center justify-center">
+                                <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <h3 className="text-2xl font-bold text-white">5 Critical Actions <span className="text-[#F2600B]">(Do These Today)</span></h3>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                            {[
+                                {
+                                    number: "1",
+                                    title: "Make Accounts Private",
+                                    items: ["Instagram, TikTok, WhatsApp", "Settings → Privacy → Private", "5 minutes"],
+                                    icon: "shield"
+                                },
+                                {
+                                    number: "2",
+                                    title: "Set Up Parent Controls",
+                                    items: ["Instagram Supervision", "TikTok Family Pairing", "10 minutes"],
+                                    icon: "settings"
+                                },
+                                {
+                                    number: "3",
+                                    title: "Enable 2‑Factor Auth",
+                                    items: ["All social + Mobile Money", "Extra security layer", "5 minutes"],
+                                    icon: "lock"
+                                },
+                                {
+                                    number: "4",
+                                    title: "Review Followers",
+                                    items: ["Delete strangers", "Check who they follow", "5 minutes"],
+                                    icon: "users"
+                                },
+                                {
+                                    number: "5",
+                                    title: "Create Phone Rules",
+                                    items: ["No phones at dinner", "Charge outside bedroom", "5 minutes"],
+                                    icon: "phone"
+                                },
+                            ].map((card, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                                    whileHover={{ scale: 1.05, y: -5 }}
+                                    className="group relative rounded-2xl bg-gradient-to-br from-[#1A1A1A]/60 to-[#0A0A0A] border border-[#F2600B]/20 p-6 backdrop-blur-sm hover:border-[#F2600B]/40 hover:shadow-[0_0_30px_rgba(242,96,11,0.2)] transition-all duration-300"
+                                >
+                                    <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#F2600B] rounded-full flex items-center justify-center text-black font-bold text-sm shadow-lg">
+                                        {card.number}
+                                    </div>
+
+                                    <div className="mb-4 p-3 bg-[#F2600B]/10 rounded-lg inline-flex">
+                                        <svg className="w-6 h-6 text-[#F2600B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            {card.icon === "shield" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />}
+                                            {card.icon === "settings" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />}
+                                            {card.icon === "lock" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />}
+                                            {card.icon === "users" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />}
+                                            {card.icon === "phone" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />}
+                                        </svg>
+                                    </div>
+
+                                    <h4 className="text-lg font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors">{card.title}</h4>
+
+                                    <ul className="space-y-2">
+                                        {card.items.map((item, j) => (
+                                            <li key={j} className="flex items-center gap-2 text-sm text-gray-300">
+                                                <div className="w-1.5 h-1.5 bg-[#F2600B] rounded-full flex-shrink-0"></div>
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    {/* Warning Signs & Top Threats Grid */}
+                    <div className="grid lg:grid-cols-2 gap-12 mb-20">
+                        {/* Warning Signs */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-bold text-white">Warning Signs <span className="text-red-400">— Act Immediately</span></h3>
+                            </div>
+
+                            <div className="grid grid-cols-1 gap-3">
+                                {[
+                                    "Suddenly secretive about phone",
+                                    "Switches screens when you approach",
+                                    "Has expensive items unexplained",
+                                    "Talks about 'online friends'",
+                                    "Withdrawn or depressed",
+                                    "Anxious about phone constantly",
+                                    "Grades dropping suddenly",
+                                    "Multiple hidden accounts",
+                                ].map((warning, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.4, delay: i * 0.05 }}
+                                        className="flex items-center gap-4 p-4 bg-red-500/10 border-l-4 border-red-500 rounded-lg hover:bg-red-500/15 transition-colors"
+                                    >
+                                        <div className="flex-shrink-0 w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                                        <span className="text-gray-200">{warning}</span>
+                                    </motion.div>
+                                ))}
+                            </div>
+
+                            <div className="mt-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+                                <p className="text-center text-red-400 font-semibold">
+                                    ⚠️ If you see 3+ red flags: Have a calm conversation TODAY
+                                </p>
+                            </div>
+                        </motion.div>
+
+                        {/* Top 5 Threats */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-bold text-white">Top 5 Threats <span className="text-orange-400">to African Youth</span></h3>
+                            </div>
+
+                            <div className="space-y-4">
+                                {[
+                                    {
+                                        title: "Predators / Grooming",
+                                        description: "Pretend to be teens, build 'friendship', request intimate photos, threaten blackmail",
+                                        action: "Screenshot everything, report to police immediately"
+                                    },
+                                    {
+                                        title: "Sextortion",
+                                        description: "Convince child to send intimate photos, then threaten to share unless they pay",
+                                        action: "Teach: 'Once you send a photo, you lose control forever'"
+                                    },
+                                    {
+                                        title: "Mobile Money Scams",
+                                        description: "'Wrong transfer' scam, SIM swap, fake free data offers",
+                                        action: "Register in YOUR name, set daily limits ₵500-1,000"
+                                    },
+                                    {
+                                        title: "Cyberbullying",
+                                        description: "Mean comments, threats, rumors, exclusion from groups",
+                                        action: "Screenshot, block, report to platform + school + police if severe"
+                                    },
+                                    {
+                                        title: "Inappropriate Content",
+                                        description: "Violence, sexual content, dangerous challenges and trends",
+                                        action: "Enable Restricted Mode, weekly check-ins on what they watch"
+                                    }
+                                ].map((threat, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.4, delay: i * 0.1 }}
+                                        className="p-4 bg-white/5 rounded-xl border border-white/10 hover:border-orange-500/30 transition-all group"
+                                    >
+                                        <h4 className="font-bold text-orange-400 mb-2 group-hover:text-orange-300 transition-colors">
+                                            {i + 1}. {threat.title}
+                                        </h4>
+                                        <div className="space-y-2 text-sm text-gray-300">
+                                            <p><strong className="text-white">What happens:</strong> {threat.description}</p>
+                                            <p><strong className="text-white">Action:</strong> {threat.action}</p>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* Platform Quick Actions */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="mb-20"
+                    >
+                        <div className="flex items-center gap-3 mb-8 justify-center">
+                            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <h3 className="text-2xl font-bold text-white">Platform <span className="text-blue-400">Quick Actions</span></h3>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                            {[
+                                {
+                                    img: instagramIcon,
+                                    name: "Instagram",
+                                    actions: ["Settings → Privacy → Private", "Set up Supervision", "Set time limits", "Remove location from bio"]
+                                },
+                                {
+                                    img: tiktokIcon,
+                                    name: "TikTok",
+                                    actions: ["Private Account", "Family Pairing", "Restricted Mode", "Delete uniform/address videos"]
+                                },
+                                {
+                                    img: whatsappIcon,
+                                    name: "WhatsApp",
+                                    actions: ["Profile Photo → Contacts", "Last Seen → Contacts", "Groups → Contacts", "Two-Step Verification"]
+                                },
+                                {
+                                    img: youtubeIcon,
+                                    name: "YouTube",
+                                    actions: ["Restricted Mode ON", "Use YouTube Kids", "Check watch history", "Review subscriptions"]
+                                },
+                                {
+                                    img: mobileTransferIcon,
+                                    name: "Mobile Money",
+                                    actions: ["Register in your name", "SMS alerts for all", "Daily limit ₵500-1,000", "Never share OTP codes"]
+                                }
+                            ].map((platform, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                                    whileHover={{ scale: 1.05 }}
+                                    className="text-center p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20 hover:border-blue-400/40 transition-all"
+                                >
+                                    <img src={platform.img} alt={`${platform.name} icon`} className="h-10 w-auto mx-auto mb-3 object-contain" />
+                                    <h4 className="font-bold text-white mb-4">{platform.name}</h4>
+                                    <ul className="space-y-2 text-sm text-gray-300">
+                                        {platform.actions.map((action, j) => (
+                                            <li key={j} className="flex items-center gap-2">
+                                                <svg className="w-3 h-3 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                </svg>
+                                                {action}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    {/* Emergency Contacts */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="mb-20"
+                    >
+                        <div className="bg-gradient-to-r from-[#F2600B] to-orange-600 rounded-2xl p-8 text-white relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+
+                            <div className="flex items-center gap-3 mb-6 justify-center">
+                                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                                    <svg className="w-4 h-4 text-[#F2600B]" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-bold">🆘 Emergency Contacts</h3>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+                                {[
+                                    {
+                                        country: "🇬🇭 Ghana",
+                                        contacts: ["Police Cybercrime: 191 or 18555", "Cyber Security Authority: cybersecurity.gov.gh"]
+                                    },
+                                    {
+                                        country: "🇳🇬 Nigeria",
+                                        contacts: ["EFCC Cybercrime: +234 9-9044751", "Police: 112"]
+                                    },
+                                    {
+                                        country: "🇰🇪 Kenya",
+                                        contacts: ["DCI Cybercrime Unit: +254 20 341 4601", "Safaricom: 100"]
+                                    },
+                                    {
+                                        country: "🇿🇦 South Africa",
+                                        contacts: ["SAPS Cybercrime: 10111", "Child Protection: 0800 222 777"]
+                                    }
+                                ].map((country, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.4, delay: i * 0.1 }}
+                                        className="bg-black/30 rounded-xl p-6 backdrop-blur-sm border border-white/10"
+                                    >
+                                        <h4 className="font-bold text-lg mb-3">{country.country}</h4>
+                                        <ul className="space-y-2 text-sm">
+                                            {country.contacts.map((contact, j) => (
+                                                <li key={j} className="flex items-start gap-2">
+                                                    <div className="w-1.5 h-1.5 bg-white rounded-full mt-1.5 flex-shrink-0"></div>
+                                                    {contact}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* 7-Day Action Plan */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="mb-20"
+                    >
+                        <div className="flex items-center gap-3 mb-8 justify-center">
+                            <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <h3 className="text-2xl font-bold text-white">Your <span className="text-green-400">7-Day Action Plan</span></h3>
+                        </div>
+
+                        <div className="relative">
+                            {/* Timeline line */}
+                            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#F2600B] via-orange-400 to-[#F2600B] opacity-30"></div>
+
+                            <div className="space-y-8">
+                                {[
+                                    {
+                                        time: "TODAY",
+                                        duration: "30 Minutes",
+                                        color: "bg-[#F2600B]",
+                                        tasks: [
+                                            "Do the 5 critical actions above",
+                                            "Have conversation about online safety",
+                                            "Create phone rules together"
+                                        ]
+                                    },
+                                    {
+                                        time: "WEEK 1",
+                                        duration: "1 Hour Total",
+                                        color: "bg-orange-500",
+                                        tasks: [
+                                            "Set up Instagram Supervision / TikTok Family Pairing",
+                                            "Review WhatsApp settings together",
+                                            "Check mobile money security",
+                                            "Create phone charging station outside bedroom"
+                                        ]
+                                    },
+                                    {
+                                        time: "ONGOING",
+                                        duration: "Every Week",
+                                        color: "bg-yellow-500",
+                                        tasks: [
+                                            "Weekly 15-minute check-ins (not surveillance)",
+                                            "Monitor for warning signs",
+                                            "Keep communication open",
+                                            "Stay educated on new platforms/threats"
+                                        ]
+                                    }
+                                ].map((phase, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.5, delay: i * 0.2 }}
+                                        className="relative flex items-start gap-6"
+                                    >
+                                        <div className={`flex-shrink-0 w-16 h-16 ${phase.color} rounded-full flex items-center justify-center text-black font-bold text-sm shadow-lg`}>
+                                            {phase.time}
+                                        </div>
+
+                                        <div className="flex-1 bg-black/40 rounded-xl p-6 border border-white/10 hover:border-[#F2600B]/30 transition-all">
+                                            <h4 className="text-lg font-bold text-[#F2600B] mb-2">{phase.duration}</h4>
+                                            <div className="space-y-2 text-sm text-gray-300">
+                                                {phase.tasks.map((task, j) => (
+                                                    <div key={j} className="flex items-center gap-3">
+                                                        <svg className="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                        </svg>
+                                                        {task}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Parent Checklist */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <div className="flex items-center gap-3 mb-8 justify-center">
+                            <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
+                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <h3 className="text-2xl font-bold text-white">Parent <span className="text-emerald-400">Checklist</span></h3>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-emerald-900/20 to-black rounded-2xl p-8 border border-emerald-500/20">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                {[
+                                    "Made child's accounts private",
+                                    "Set up parental controls (Instagram/TikTok)",
+                                    "Enabled two-factor authentication",
+                                    "Reviewed follower lists together",
+                                    "Created phone rules together",
+                                    "Checked mobile money security",
+                                    "Scheduled weekly check-ins",
+                                    "Had conversation about online dangers",
+                                    "Know emergency contact numbers",
+                                    "Child knows they can tell me if scared online"
+                                ].map((item, i) => (
+                                    <motion.label
+                                        key={i}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3, delay: i * 0.05 }}
+                                        className="flex items-center gap-4 p-4 bg-white/5 rounded-lg border border-white/10 hover:border-emerald-500/30 transition-all cursor-pointer group"
+                                    >
+                                        <input type="checkbox" className="w-5 h-5 text-[#F2600B] bg-black border-2 border-gray-600 rounded focus:ring-[#F2600B] focus:ring-2" />
+                                        <span className="text-gray-200 group-hover:text-white transition-colors">{item}</span>
+                                    </motion.label>
+                                ))}
+                            </div>
+
+                            <div className="text-center p-4 bg-black/30 rounded-lg border border-emerald-500/20">
+                                <div className="text-lg font-bold text-emerald-400 mb-2">Your Safety Score</div>
+                                <div className="text-sm text-gray-300">
+                                    <span className="text-emerald-400">10/10 = 🏆 Excellent!</span> •
+                                    <span className="text-yellow-400"> 7-9 = 🛡️ Good Job!</span> •
+                                    <span className="text-orange-400"> 4-6 = ⚠️ Keep Going</span> •
+                                    <span className="text-red-400"> 0-3 = 🚨 Start Today</span>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Final CTA */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mt-16 p-8 bg-gradient-to-r from-[#F2600B]/10 to-orange-500/10 rounded-2xl border border-[#F2600B]/30"
+                    >
+                        <h3 className="text-2xl font-bold text-white mb-4">💪 Remember, Parent/Guardian:</h3>
+                        <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
+                            You don't need to be a tech expert — just stay involved. It's never too late to start.
+                            Balance is key: not total restriction, not total freedom. The best filter is an educated parent.
+                        </p>
+                    </motion.div>
+                </div>
+            </section>
             <Footer />
         </div >
     );

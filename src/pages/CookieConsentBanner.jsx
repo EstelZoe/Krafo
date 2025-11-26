@@ -47,6 +47,10 @@ export default function CookieConsentBanner() {
             Read our{" "}
             <Link to="/cookies-policy" className="underline text-[#F2600B] hover:text-orange-400">
               Cookie Policy
+            </Link>{" "}
+            and{" "}
+            <Link to="/terms" className="underline text-[#F2600B] hover:text-orange-400">
+              Terms & Conditions
             </Link>.
           </p>
           <div className="flex-shrink-0 flex gap-3">
