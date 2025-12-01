@@ -32,7 +32,7 @@ import hack from "../assets/images/hacking.jpeg";
 import AI from "../assets/images/ai.jpeg";
 import AnnouncementPopup from "../assets/components/AnnouncementPopup";
 import mind from "../assets/images/hackmind.jpeg";
-
+import agric from "../assets/images/AgriCyber.jpeg";
 
 export default function Home() {
 
@@ -41,22 +41,22 @@ export default function Home() {
 
 
     {
-      image: mind,
-      title: "#GDIW25",
+      image: agric,
+      title: "#CYBER MEETS FOOD",
       desc:
-        "Hacking the Human Minds",
+        "Why Does Food Sustainability Need Cybersecurity?",
       bullets: [
         {
-          title: "Empower  Ghanaians in Cybersecurity:",
-          desc: " Our mission is to equip every young Ghanaian with the knowledge to navigate the digital world safely. We aim to build a strong, resilient digital future for the continent.",
+          title: "Protects food supply systems :",
+          desc: " prevents hacking of farms, factories, and distribution networks.",
         },
         {
-          title: "Empower More Students:",
-          desc: " Reach more people, socialize and educate thousands more young people in critical cybersecurity skills.",
+          title: "Secures data-driven agriculture.:",
+          desc: " shields sensors, drones, and smart farm data from manipulation..",
         },
         {
-          title: "Grow Our Community:",
-          desc: " Recruit and support a vibrant network of volunteers and mentors.",
+          title: "Prevents food fraud & sabotage",
+          desc: "  – blocks attackers from altering quality data or contaminating digital records:",
         },
       ],
     },
@@ -79,7 +79,7 @@ export default function Home() {
     // },
 
     {
-      image: AI,
+      image: mind,
       title: "Dangers Of Oversharing on AI",
       desc:
         "Oversharing on AI platforms can expose personal and sensitive information to misuse, identity theft, or data breaches. AI systems may store or learn from shared data, making it difficult to control how information is used. Revealing too much can also lead to privacy invasion, manipulation, or profiling. Always share cautiously and protect your digital identity.",
