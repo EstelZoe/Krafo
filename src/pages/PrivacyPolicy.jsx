@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
 
         <div className="mx-auto max-w-4xl">
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl text-[#F2600B]">
               Terms and Conditions for KrafoSystems.com
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-300">

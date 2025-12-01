@@ -7,14 +7,27 @@ import { useInView } from "react-intersection-observer";
 import aicc from "../assets/images/flye.jpg";
 import hack from "../assets/images/hacking.jpeg";
 import AI from "../assets/images/ai.jpeg";
+import agricyber from "../assets/images/AgriCyber.jpeg";
 
 const events = [
-   
+   {
+        date: "December 5",
+        title: "Why Does Food Sustainability Need Cybersecurity?",
+        description: "Learn the connection to Cybersecurity in Food Stability and how they are the keys to our security. Join us on Farmer's Day (Dec 5th) and get your Intro to Food Sustainability through Cybersecurity Certificate!",
+        time: "12:00PM-04:00PM GMT",
+        location: "Nyansa Square, Bathur Street, Accra Opposite HR Certification Center",
+        category: "Business",
+        image: agricyber,
+        featured: true,
+        registrationUrl: "https://egotickets.com/events/you-can-t-defend-yourself-if-you-can-t-feed-yourself"
+
+    },
+
     {
         date: "November 12-14",
         title: "#GDIW25",
         description: "Cybercriminals don’t just hack systems—they exploit human behavior. Understand the psychological tricks used to deceive, manipulate, and control decisions. Learn how to recognize these tactics, strengthen your awareness, and build the mental resilience that turns potential victims into empowered defenders.",
-        time: "01:10PM-02:10PM",
+        time: "01:10PM-02:10PM GMT",
         location: "AICC",
         category: "Business",
         image: hack,
@@ -22,13 +35,14 @@ const events = [
         registrationUrl: "https://www.goivents.com/marketing/eventRegistrationForm?event_id=67"
 
     },
+    
 
      {
         date: "November 16 2025",
         title: "Dangers Of Oversharing on AI",
         description: "Oversharing on AI platforms can expose personal and sensitive information to misuse, identity theft, or data breaches. AI systems may store or learn from shared data, making it difficult to control how information is used. Revealing too much can also lead to privacy invasion, manipulation, or profiling. Always share cautiously and protect your digital identity.",
-        time: "2PM - 5PM",
-        location: " Nyansa Square, Bathur Street, Accra Opposite HR Certification Center; ",
+        time: "2PM - 5PM GMT",
+        location: " Nyansa Square, Bathur Street, Accra Opposite HR Certification Center ",
         category: "AI",
         image: AI,
         featured: true,

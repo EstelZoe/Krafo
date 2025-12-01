@@ -4,7 +4,7 @@ import Footer from "../assets/components/Footer";
 import ProgramCard from "../assets/components/ProgramCard";
 import ImpactStat from "../assets/components/ImpactStat";
 import HeroImage from "../assets/images/cyberyouthed2.png";
-import { School, Laptop, Users, GraduationCapIcon, ShieldIcon, BriefcaseBusinessIcon, BookOpenCheck, Globe2 } from "lucide-react";
+import { School, Laptop, Users, GraduationCap, Shield, BriefcaseBusiness, BookOpenCheck, Globe2 } from "lucide-react";
 import ProgramOptionCard from "../assets/components/ProgramOptionCard";
 import OutreachImpact from "../assets/components/OutreachImpact";
 import { motion, AnimatePresence } from "framer-motion";
@@ -487,6 +487,7 @@ export default function YouthCyberEducation() {
                 </div>
             </section >
 
+            {/* Parent Safety Section */}
             <section id="parent-safety" className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-black via-[#0b0602] to-[#1a0a00]">
                 {/* Cyber Background Elements */}
                 <div className="absolute inset-0 -z-10">
@@ -530,12 +531,7 @@ export default function YouthCyberEducation() {
                     </div>
 
                     {/* 5 Critical Actions - Premium Cards */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="mb-20"
-                    >
+                    <div className="mb-20">
                         <div className="flex items-center gap-3 mb-8 justify-center">
                             <div className="w-8 h-8 bg-[#F2600B] rounded-full flex items-center justify-center">
                                 <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20">
@@ -546,74 +542,85 @@ export default function YouthCyberEducation() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                            {[
-                                {
-                                    number: "1",
-                                    title: "Make Accounts Private",
-                                    items: ["Instagram, TikTok, WhatsApp", "Settings → Privacy → Private", "5 minutes"],
-                                    icon: "shield"
-                                },
-                                {
-                                    number: "2",
-                                    title: "Set Up Parent Controls",
-                                    items: ["Instagram Supervision", "TikTok Family Pairing", "10 minutes"],
-                                    icon: "settings"
-                                },
-                                {
-                                    number: "3",
-                                    title: "Enable 2‑Factor Auth",
-                                    items: ["All social + Mobile Money", "Extra security layer", "5 minutes"],
-                                    icon: "lock"
-                                },
-                                {
-                                    number: "4",
-                                    title: "Review Followers",
-                                    items: ["Delete strangers", "Check who they follow", "5 minutes"],
-                                    icon: "users"
-                                },
-                                {
-                                    number: "5",
-                                    title: "Create Phone Rules",
-                                    items: ["No phones at dinner", "Charge outside bedroom", "5 minutes"],
-                                    icon: "phone"
-                                },
-                            ].map((card, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                                    whileHover={{ scale: 1.05, y: -5 }}
-                                    className="group relative rounded-2xl bg-gradient-to-br from-[#1A1A1A]/60 to-[#0A0A0A] border border-[#F2600B]/20 p-6 backdrop-blur-sm hover:border-[#F2600B]/40 hover:shadow-[0_0_30px_rgba(242,96,11,0.2)] transition-all duration-300"
-                                >
-                                    <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#F2600B] rounded-full flex items-center justify-center text-black font-bold text-sm shadow-lg">
-                                        {card.number}
-                                    </div>
+    {[
+        {
+            number: "1",
+            title: "Make Accounts Private",
+            items: ["Instagram, TikTok, WhatsApp", "Settings → Privacy → Private", "5 minutes"],
+            icon: "shield"
+        },
+        {
+            number: "2",
+            title: "Set Up Parent Controls",
+            items: ["Instagram Supervision", "TikTok Family Pairing", "10 minutes"],
+            icon: "settings"
+        },
+        {
+            number: "3",
+            title: "Enable 2‑Factor Auth",
+            items: ["All social + Mobile Money", "Extra security layer", "5 minutes"],
+            icon: "lock"
+        },
+        {
+            number: "4",
+            title: "Review Followers",
+            items: ["Delete strangers", "Check who they follow", "5 minutes"],
+            icon: "users"
+        },
+        {
+            number: "5",
+            title: "Create Phone Rules",
+            items: ["No phones at dinner", "Charge outside bedroom", "5 minutes"],
+            icon: "phone"
+        },
+    ].map((card, i) => (
+        <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+            whileHover={{ scale: 1.05, y: -5 }}
+            className="group relative rounded-2xl bg-gradient-to-br from-[#1A1A1A]/60 to-[#0A0A0A] border border-[#F2600B]/20 p-6 backdrop-blur-sm hover:border-[#F2600B]/40 hover:shadow-[0_0_30px_rgba(242,96,11,0.2)] transition-all duration-300"
+        >
+            <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#F2600B] rounded-full flex items-center justify-center text-black font-bold text-sm shadow-lg">
+                {card.number}
+            </div>
 
-                                    <div className="mb-4 p-3 bg-[#F2600B]/10 rounded-lg inline-flex">
-                                        <svg className="w-6 h-6 text-[#F2600B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            {card.icon === "shield" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />}
-                                            {card.icon === "settings" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />}
-                                            {card.icon === "lock" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />}
-                                            {card.icon === "users" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />}
-                                            {card.icon === "phone" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />}
-                                        </svg>
-                                    </div>
+            <div className="mb-4 p-3 bg-[#F2600B]/10 rounded-lg inline-flex">
+                <svg className="w-6 h-6 text-[#F2600B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {/* Shield icon - Correct */}
+                    {card.icon === "shield" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />}
+                    
+                    {/* Settings (Cog) icon - Fixed */}
+                    {card.icon === "settings" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />}
+                    
+                    {/* Lock icon - Correct */}
+                    {card.icon === "lock" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />}
+                    
+                    {/* Users (User Group) icon - Fixed */}
+                    {card.icon === "users" && (<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2 M7 10a4 4 0 118 0 4 4 0 01-8 0z M23 20v-2a4 4 0 00-3-3.87M17 10a4 4 0 110-8 4 4 0 010 8z"/>
+)}
 
-                                    <h4 className="text-lg font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors">{card.title}</h4>
+                    
+                    {/* Phone icon - Correct */}
+                    {card.icon === "phone" && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />}
+                </svg>
+            </div>
 
-                                    <ul className="space-y-2">
-                                        {card.items.map((item, j) => (
-                                            <li key={j} className="flex items-center gap-2 text-sm text-gray-300">
-                                                <div className="w-1.5 h-1.5 bg-[#F2600B] rounded-full flex-shrink-0"></div>
-                                                {item}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </motion.div>
+            <h4 className="text-lg font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors">{card.title}</h4>
+
+            <ul className="space-y-2">
+                {card.items.map((item, j) => (
+                    <li key={j} className="flex items-center gap-2 text-sm text-gray-300">
+                        <div className="w-1.5 h-1.5 bg-[#F2600B] rounded-full flex-shrink-0"></div>
+                        {item}
+                    </li>
+                ))}
+            </ul>
+        </motion.div>
+    ))}
+</div>
+                    </div>
 
                     {/* Warning Signs & Top Threats Grid */}
                     <div className="grid lg:grid-cols-2 gap-12 mb-20">
@@ -658,7 +665,7 @@ export default function YouthCyberEducation() {
 
                             <div className="mt-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
                                 <p className="text-center text-red-400 font-semibold">
-                                    ⚠️ If you see 3+ red flags: Have a calm conversation TODAY
+                                    <img src={new URL('../assets/images/alarm.png', import.meta.url).href} alt="Warning" className="inline-block h-4 w-4 align-[-0.15rem] mx-1" /> If you see 3+ red flags: Have a calm conversation TODAY
                                 </p>
                             </div>
                         </motion.div>
@@ -811,7 +818,7 @@ export default function YouthCyberEducation() {
                                         <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
                                     </svg>
                                 </div>
-                                <h3 className="text-2xl font-bold">🆘 Emergency Contacts</h3>
+                                <h3 className="text-2xl font-bold">Emergency Contacts</h3>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
@@ -985,10 +992,10 @@ export default function YouthCyberEducation() {
                             <div className="text-center p-4 bg-black/30 rounded-lg border border-emerald-500/20">
                                 <div className="text-lg font-bold text-emerald-400 mb-2">Your Safety Score</div>
                                 <div className="text-sm text-gray-300">
-                                    <span className="text-emerald-400">10/10 = 🏆 Excellent!</span> •
-                                    <span className="text-yellow-400"> 7-9 = 🛡️ Good Job!</span> •
-                                    <span className="text-orange-400"> 4-6 = ⚠️ Keep Going</span> •
-                                    <span className="text-red-400"> 0-3 = 🚨 Start Today</span>
+                                    <span className="text-emerald-400">10/10 = <img src={new URL('../assets/images/trophy.png', import.meta.url).href} alt="Trophy icon" className="inline-block h-4 w-4 align-[-0.15rem] mx-1" /> Excellent!</span> •
+                                    <span className="text-yellow-400"> 7-9 = <img src={new URL('../assets/images/defence.png', import.meta.url).href} alt="Shield icon" className="inline-block h-4 w-4 align-[-0.15rem] mx-1" /> Good Job!</span> •
+                                    <span className="text-orange-400"> 4-6 = <img src={new URL('../assets/images/alarm.png', import.meta.url).href} alt="Warning icon" className="inline-block h-4 w-4 align-[-0.15rem] mx-1" /> Keep Going</span> •
+                                    <span className="text-red-400"> 0-3 = <img src={new URL('../assets/images/today.png', import.meta.url).href} alt="Urgent start today icon" className="inline-block h-4 w-4 align-[-0.15rem] mx-1" /> Start Today</span>
                                 </div>
                             </div>
                         </div>
@@ -1001,7 +1008,7 @@ export default function YouthCyberEducation() {
                         transition={{ duration: 0.6 }}
                         className="text-center mt-16 p-8 bg-gradient-to-r from-[#F2600B]/10 to-orange-500/10 rounded-2xl border border-[#F2600B]/30"
                     >
-                        <h3 className="text-2xl font-bold text-white mb-4">💪 Remember, Parent/Guardian:</h3>
+                        <h3 className="text-2xl font-bold text-white mb-4">Remember, Parent/Guardian:</h3>
                         <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
                             You don't need to be a tech expert — just stay involved. It's never too late to start.
                             Balance is key: not total restriction, not total freedom. The best filter is an educated parent.

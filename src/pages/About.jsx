@@ -98,7 +98,6 @@ export default function About() {
             </h2>
             <p className="text-gray-300 text-base sm:text-lg md:text-xl">
               Krafo Systems, from the Akan word “KRA” (soul), stands for unity and purpose. Our mission is to protect Africa through cybersecurity—guarding against online and offline threats. Guided by “Let’s Connect & Protect,” inspired by Ubuntu, we promote community, empathy, and shared responsibility for a safer, connected future.
-f
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">

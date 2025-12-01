@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import GDIW from "../images/gdiw25.jpeg";
+import agricyber from "../images/AgriCyber.jpeg";
+import gdiw25 from "../images/gdiw25.jpeg";
 
 export default function AnnouncementPopup() {
   const [showPopup, setShowPopup] = useState(true);
 
   // Correct event date: 14th Nov 2025, 1:10 PM
-  const eventDate = new Date("2025-11-14T13:10:00");
+  const eventDate = new Date("2025-12-05T13:10:00");
 
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -50,7 +51,7 @@ export default function AnnouncementPopup() {
         </button>
 
         {/* Flier Image */}
-        <img src={GDIW} alt="Seminar Announcement" className="w-full h-auto sm:5-[400px] object-contain" />
+        <img src={agricyber} alt="Seminar Announcement" className="w-full h-auto sm:5-[400px] object-contain" />
 
         {/* Countdown */}
         <div className="p-4 text-center bg-black text-white">
@@ -65,7 +66,7 @@ export default function AnnouncementPopup() {
 
           {/* Register Button */}
           <a
-            href="https://www.goivents.com/marketing/eventRegistrationForm?event_id=67"
+            href="https://egotickets.com/events/you-can-t-defend-yourself-if-you-can-t-feed-yourself"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-4 py-2 bg-orange-600 hover:bg-orange-700 rounded-full font-semibold transition-colors"
