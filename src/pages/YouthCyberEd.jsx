@@ -81,7 +81,7 @@ export default function YouthCyberEducation() {
             highlight: "Youth Cyber Literacy",
             description: "Building cybersecurity skills for the next generation of African leaders.",
             cta: "Explore Programs",
-            image: ccbc
+            image: img13
         },
         {
             id: 2,
