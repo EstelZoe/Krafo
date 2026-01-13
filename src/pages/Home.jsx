@@ -153,10 +153,10 @@ export default function Home() {
     <>
 
       <Navbar />
-      <AnnouncementPopup />
+      {/* <AnnouncementPopup /> */}
 
       <section className="relative w-full h-[650px] overflow-hidden">
-        {/* Background Layer */}
+        {/* Background Layer */} 
         <video
           className="absolute top-0 left-0 w-full h-full object-cover scale-105 animate-zoom"
           src={video} autoPlay loop muted playsInline />

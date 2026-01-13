@@ -6,7 +6,7 @@ export default function AnnouncementPopup() {
   const [showPopup, setShowPopup] = useState(true);
 
   // Correct event date: 14th Nov 2025, 1:10 PM
-  const eventDate = new Date("2025-12-05T13:10:00");
+  const eventDate = new Date("2025-12-09T11:00:00Z");
 
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
