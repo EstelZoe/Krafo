@@ -1,7 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const EventCard = ({ date, title, description, time, location, category, registrationUrl, image }) => {
+const EventCard = ({ dateRange, date, title, description, time, location, category, registrationUrl, image }) => {
+  // Support both dateRange (from API) and date (legacy)
+  const displayDate = dateRange || date;
   const categoryColors = {
     Technology: "from-blue-500 to-cyan-400",
     Business: "from-purple-500 to-indigo-400",
@@ -20,7 +22,7 @@ const EventCard = ({ date, title, description, time, location, category, registr
         {/* Date Ribbon */}
         <div className="relative">
           <div className="absolute top-4 left-0 bg-gradient-to-r from-[#F2600B] to-orange-500 text-black font-bold px-4 py-2 rounded-r-lg z-10">
-            {date}
+            {displayDate}
           </div>
           <img src={image} alt={title} className="h-32 w-full object-cover" />
         </div>

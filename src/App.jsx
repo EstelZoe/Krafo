@@ -4,6 +4,7 @@ import ScrollToTop from "./assets/components/ScrollToTop";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CookieConsentBanner from "./pages/CookieConsentBanner";
+import { ThemeProvider } from "./context/ThemeContext";
 
 
 const Home = lazy(() => import("./pages/Home"));
@@ -19,6 +20,15 @@ const CybersecuritySurvey = lazy(() => import("./pages/CybersecuritySurvey"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
+const LogIn = lazy(() => import("./pages/LogIn"));
+const SignUp = lazy(() => import("./pages/SignUp"));
+
+// Admin pages
+const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const Overview = lazy(() => import("./pages/admin/Overview"));
+const ManageEvents = lazy(() => import("./pages/admin/ManageEvents"));
+const ManageBlogs = lazy(() => import("./pages/admin/ManageBlogs"));
+const ManagePopups = lazy(() => import("./pages/admin/ManagePopups"));
 
 // Loader
 function Loader() {
@@ -51,6 +61,23 @@ function App() {
             <Route path="/cybersecurity-survey" element={<CybersecuritySurvey />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/cookies-policy" element={<CookiesPolicy />} />
+            
+            {/* Auth Routes */}
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            
+            {/* Admin Routes - Wrapped with ThemeProvider */}
+            <Route path="/admin" element={
+              <ThemeProvider>
+                <AdminLayout />
+              </ThemeProvider>
+            }>
+              <Route index element={<Overview />} />
+              <Route path="events" element={<ManageEvents />} />
+              <Route path="blogs" element={<ManageBlogs />} />
+              <Route path="popups" element={<ManagePopups />} />
+            </Route>
+            
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

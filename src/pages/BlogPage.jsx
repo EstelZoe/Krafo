@@ -29,7 +29,7 @@ export default function BlogPage() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const { data } = await apiClient.get("blog");
+                const { data } = await apiClient.get("blogs");
 
                 const postsArray = Array.isArray(data) ? data : data.posts || [];
                 setPosts(postsArray);
@@ -51,7 +51,7 @@ export default function BlogPage() {
 
     const handleReadMore = async (id) => {
         try {
-            const { data } = await apiClient.get(`blog/${id}`);
+            const { data } = await apiClient.get(`blogs/${id}`);
             setSelectedPost(data.post || data);
         } catch (error) {
             console.error("Error fetching single post:", error);
