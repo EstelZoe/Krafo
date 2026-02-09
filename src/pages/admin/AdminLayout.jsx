@@ -2,18 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
+import krafologo from "../../assets/images/KRAFO ORIGINAL WHITEAsset 70-8.png"
 
 // KRAFO Logo Component
 const KrafoLogo = ({ size = 'default' }) => {
   const sizes = {
-    small: 'w-8 h-8 text-lg',
-    default: 'w-10 h-10 text-xl',
-    large: 'w-12 h-12 text-2xl',
+    small: 'w-8 h-8',
+    default: 'w-16 h-16',
+    large: 'w-20 h-20',
+    xlarge: 'w-24 h-24',
+    xxlarge:'w-36 h-36',
   };
   
   return (
-    <div className={`${sizes[size]} bg-gradient-to-br from-[#F2600B] to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20`}>
-      <span className="text-white font-bold">K</span>
+    <div className={`${sizes[size]} flex items-center justify-center`}>
+      <img 
+        src={krafologo} 
+        alt="KRAFO Logo" 
+        className="w-full h-full object-contain"
+      />
     </div>
   );
 };
@@ -128,12 +135,12 @@ const AdminLayout = () => {
       >
         <div className="h-full px-4 py-6 overflow-y-auto flex flex-col">
           {/* Logo */}
-          <div className="flex items-center justify-between mb-8 px-2">
-            <div className="flex items-center">
-              <KrafoLogo />
+          <div className="flex items-center justify-between mb-1 px-2">
+            <div className="flex items-center justify-center w-full">
+              <KrafoLogo size="xxlarge" />
               <div className="ml-3">
-                <span className="text-lg font-bold text-white">KRAFO</span>
-                <span className="block text-xs text-gray-400">Admin Panel</span>
+                {/* <span className="text-lg font-bold text-white">KRAFO</span> */}
+                {/* <span className="block text-xs text-gray-400">Admin Panel</span> */}
               </div>
             </div>
             {/* Close button for mobile */}

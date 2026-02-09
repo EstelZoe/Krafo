@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CookieConsentBanner from "./pages/CookieConsentBanner";
 import { ThemeProvider } from "./context/ThemeContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 const Home = lazy(() => import("./pages/Home"));
@@ -66,11 +67,13 @@ function App() {
             <Route path="/login" element={<LogIn />} />
             <Route path="/signup" element={<SignUp />} />
             
-            {/* Admin Routes - Wrapped with ThemeProvider */}
+            {/* Admin Routes - Protected and Wrapped with ThemeProvider */}
             <Route path="/admin" element={
-              <ThemeProvider>
-                <AdminLayout />
-              </ThemeProvider>
+              <ProtectedRoute>
+                <ThemeProvider>
+                  <AdminLayout />
+                </ThemeProvider>
+              </ProtectedRoute>
             }>
               <Route index element={<Overview />} />
               <Route path="events" element={<ManageEvents />} />

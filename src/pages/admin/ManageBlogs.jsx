@@ -341,8 +341,11 @@ const ManageBlogs = () => {
                       </div>
                       {blog.author && (
                         <div className="mt-2 text-sm" style={{ color: colors.textMuted }}>
-                          <p>
-                            ✍️ By{' '}
+                          <p className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            By{' '}
                             {typeof blog.author === 'string'
                               ? blog.author
                               : `${blog.author.firstName} ${blog.author.lastName}`}
