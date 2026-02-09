@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
 
 const Overview = () => {
   const { isDark, colors } = useTheme();
+  const navigate = useNavigate();
+  const [createMenuOpen, setCreateMenuOpen] = useState(false);
+  const createMenuRef = useRef(null);
   const [stats, setStats] = useState({
     events: { total: 0, active: 0 },
     blogs: { total: 0, active: 0 },
@@ -72,6 +75,56 @@ const Overview = () => {
     }
   }, [activeTab, allData, loading]);
 
+  // Close create menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (createMenuRef.current && !createMenuRef.current.contains(event.target)) {
+        setCreateMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const createOptions = [
+    {
+      title: 'Create Event',
+      description: 'Add a new event',
+      path: '/admin/events',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      ),
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-500/10',
+    },
+    {
+      title: 'Create Blog Post',
+      description: 'Write a new article',
+      path: '/admin/blogs',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+        </svg>
+      ),
+      color: 'text-emerald-500',
+      bgColor: 'bg-emerald-500/10',
+    },
+    {
+      title: 'Create Popup',
+      description: 'Add an announcement',
+      path: '/admin/popups',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+      ),
+      color: 'text-purple-500',
+      bgColor: 'bg-purple-500/10',
+    },
+  ];
+
   const statCards = [
     {
       title: 'Events',
@@ -83,7 +136,7 @@ const Overview = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       ),
-      gradient: 'from-blue-500 to-cyan-400',
+      iconColor: 'text-blue-500',
       bgLight: 'bg-blue-50',
       bgDark: 'bg-blue-500/10',
     },
@@ -97,7 +150,7 @@ const Overview = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
         </svg>
       ),
-      gradient: 'from-emerald-500 to-green-400',
+      iconColor: 'text-emerald-500',
       bgLight: 'bg-emerald-50',
       bgDark: 'bg-emerald-500/10',
     },
@@ -111,7 +164,7 @@ const Overview = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
       ),
-      gradient: 'from-purple-500 to-violet-400',
+      iconColor: 'text-purple-500',
       bgLight: 'bg-purple-50',
       bgDark: 'bg-purple-500/10',
     },
@@ -129,13 +182,13 @@ const Overview = () => {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-2xl p-6 sm:p-8"
+        className="relative rounded-2xl p-6 sm:p-8"
         style={{
           background: 'linear-gradient(135deg, #F2600B 0%, #ff8534 50%, #F2600B 100%)',
         }}
       >
         {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-10 rounded-2xl overflow-hidden pointer-events-none">
           <div className="absolute inset-0" style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }} />
@@ -151,15 +204,70 @@ const Overview = () => {
                 Here's what's happening with your content today. Manage events, blogs, and popups from one place.
               </p>
             </div>
-            <Link
-              to="/admin/events"
-              className="mt-4 sm:mt-0 inline-flex items-center px-5 py-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-medium rounded-xl transition-all duration-200 border border-white/20"
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              Create Content
-            </Link>
+            <div className="relative" ref={createMenuRef}>
+              <button
+                onClick={() => setCreateMenuOpen(!createMenuOpen)}
+                className="mt-4 sm:mt-0 inline-flex items-center px-5 py-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-medium rounded-xl transition-all duration-200 border border-white/20"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Create Content
+                <svg className={`w-4 h-4 ml-2 transition-transform duration-200 ${createMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Dropdown Menu */}
+              <AnimatePresence>
+                {createMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 mt-2 w-64 rounded-xl shadow-2xl border overflow-hidden z-[100]"
+                    style={{
+                      backgroundColor: colors.bgCard,
+                      borderColor: colors.border,
+                    }}
+                  >
+                    <div className="p-2">
+                      {createOptions.map((option) => (
+                        <button
+                          key={option.path}
+                          onClick={() => {
+                            navigate(option.path);
+                            setCreateMenuOpen(false);
+                          }}
+                          className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-orange-500/10 group"
+                        >
+                          <div className={`p-2 rounded-lg ${option.bgColor}`}>
+                            <span className={option.color}>{option.icon}</span>
+                          </div>
+                          <div className="text-left">
+                            <p className="font-medium text-sm" style={{ color: colors.text }}>
+                              {option.title}
+                            </p>
+                            <p className="text-xs" style={{ color: colors.textMuted }}>
+                              {option.description}
+                            </p>
+                          </div>
+                          <svg 
+                            className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-orange-500" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </motion.div>
@@ -212,7 +320,7 @@ const Overview = () => {
                 <div 
                   className={`p-4 rounded-2xl transition-transform duration-300 group-hover:scale-110 ${isDark ? card.bgDark : card.bgLight}`}
                 >
-                  <span className={`bg-gradient-to-br ${card.gradient} bg-clip-text text-transparent`}>
+                  <span className={card.iconColor}>
                     {card.icon}
                   </span>
                 </div>
