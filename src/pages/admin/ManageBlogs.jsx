@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 const ManageBlogs = () => {
   const { isDark, colors } = useTheme();
@@ -20,6 +22,29 @@ const ManageBlogs = () => {
     author: '',
     thumbnail: '',
   });
+
+  // Quill editor configuration
+  const quillModules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'indent': '-1'}, { 'indent': '+1' }],
+      ['link'],
+      ['blockquote', 'code-block'],
+      [{ 'color': [] }, { 'background': [] }],
+      ['clean']
+    ],
+  };
+
+  const quillFormats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'indent',
+    'link',
+    'blockquote', 'code-block',
+    'color', 'background'
+  ];
 
   // Fetch blogs
   const fetchBlogs = async () => {
@@ -59,6 +84,14 @@ const ManageBlogs = () => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  // Handle Quill editor content change
+  const handleContentChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      content: value,
     }));
   };
 
@@ -129,13 +162,14 @@ const ManageBlogs = () => {
       formDataToSend.append('category', formData.category || 'Uncategorized');
       
       // Add image file if selected, otherwise send existing URL (skip data: previews)
+      // NOTE: Backend multer expects field name 'image', not 'thumbnail'
       if (imageFile) {
-        formDataToSend.append('thumbnail', imageFile);
+        formDataToSend.append('image', imageFile);
       } else if (formData.thumbnail && !formData.thumbnail.startsWith('data:')) {
-        formDataToSend.append('thumbnail', formData.thumbnail);
+        formDataToSend.append('image', formData.thumbnail);
       } else if (editingBlog && editingBlog.thumbnail) {
         // Keep existing thumbnail when editing without new upload
-        formDataToSend.append('thumbnail', editingBlog.thumbnail);
+        formDataToSend.append('image', editingBlog.thumbnail);
       }
       
       if (editingBlog) {
@@ -150,8 +184,8 @@ const ManageBlogs = () => {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       } else {
-        // Create new blog - use regular blog endpoint which handles author from token
-        await apiClient.post('blogs', formDataToSend, {
+        // Create new blog via admin content endpoint
+        await apiClient.post('admin/content/blogs', formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       }
@@ -456,20 +490,29 @@ const ManageBlogs = () => {
                     <label className="block text-sm font-medium mb-1" style={{ color: colors.textSecondary }}>
                       Content *
                     </label>
-                    <textarea
-                      name="content"
-                      value={formData.content}
-                      onChange={handleInputChange}
-                      required
-                      rows="6"
-                      className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-colors"
+                    <div 
+                      className="rounded-lg overflow-hidden"
                       style={{ 
-                        backgroundColor: colors.bgTertiary, 
-                        borderColor: colors.border, 
-                        color: colors.text,
+                        backgroundColor: colors.bgTertiary,
                         border: `1px solid ${colors.border}`
                       }}
-                    />
+                    >
+                      <ReactQuill
+                        theme="snow"
+                        value={formData.content}
+                        onChange={handleContentChange}
+                        modules={quillModules}
+                        formats={quillFormats}
+                        placeholder="Write your blog content here..."
+                        className={isDark ? 'quill-dark' : ''}
+                        style={{ 
+                          minHeight: '200px',
+                        }}
+                      />
+                    </div>
+                    <p className="text-xs mt-1" style={{ color: colors.textMuted }}>
+                      Use the toolbar to format your content with headings, lists, links, etc.
+                    </p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

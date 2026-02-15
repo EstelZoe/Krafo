@@ -14,6 +14,7 @@ const Courses = lazy(() => import("./pages/Courses"));
 const CourseDetails = lazy(() => import("./pages/CourseDetails"));
 const EventPage = lazy(() => import("./pages/EventPage"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
+const BlogDetail = lazy(() => import("./pages/BlogDetail"));
 const YouthCyberEd = lazy(() => import("./pages/YouthCyberEd"));
 const Consultation = lazy(() => import("./pages/Consultation"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
@@ -56,6 +57,7 @@ function App() {
             <Route path="/courses/:slug" element={<CourseDetails />} />
             <Route path="/event-page" element={<EventPage />} />
             <Route path="/blog-page" element={<BlogPage />} />
+            <Route path="/blog/:id" element={<BlogDetail />} />
             <Route path="/youth-cyber-ed" element={<YouthCyberEd />} />
             <Route path="/consultation" element={<Consultation />} />
             <Route path="/contact" element={<ContactUs />} />
