@@ -18,7 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 // Images come from centralized course catalog; local demo imports removed
 import { Link } from "react-router-dom";
 // Course data consolidated locally - no external dependencies
-import { coursesData } from "../assets/data/coursesData";
+import { courses as coursesData } from "../assets/data/courses";
 
 const checklistItems = [
     "We have a five-layer approach to making your business cyber resilient",
