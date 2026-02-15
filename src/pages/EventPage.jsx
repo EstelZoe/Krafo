@@ -312,34 +312,22 @@ const EventPage = () => {
                             {visibleEvents < events.length && (
                                 <div className="flex justify-center mt-16">
                                     <motion.button
-                                        className="px-8 py-4 bg-gradient-to-r from-black to-black rounded-lg text-white font-medium border border-orange-500/30 hover:border-orange-500/60 relative overflow-hidden group transition-all duration-300"
+                                        className="px-8 py-4 bg-black rounded-xl text-white font-semibold border border-white/10 relative overflow-hidden group"
                                         onClick={loadMoreEvents}
                                         whileHover={{
-                                            y: -3,
-                                            boxShadow: "0 10px 25px -5px rgba(242, 96, 11, 0.5)"
+                                            boxShadow: "0 0 30px rgba(242, 96, 11, 0.5)",
+                                            borderColor: "rgba(242, 96, 11, 0.5)"
                                         }}
                                         whileTap={{ scale: 0.98 }}
                                     >
                                         <span className="relative z-10 flex items-center">
-                                            Load More Events
-                                            <motion.span
-                                                className="ml-2"
-                                                animate={{
-                                                    rotate: [0, 360],
-                                                }}
-                                                transition={{
-                                                    duration: 1.5,
-                                                    repeat: Infinity,
-                                                    ease: "linear"
-                                                }}
-                                            >
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                                </svg>
-                                            </motion.span>
+                                            <span className="bg-gradient-to-r from-[#F2600B] to-orange-400 bg-clip-text text-transparent font-bold">
+                                                Load More Events
+                                            </span>
+                                            <svg className="w-5 h-5 ml-2 text-[#F2600B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
                                         </span>
-                                        <div className="absolute inset-0 bg-gradient-to-r from-[#F2600B]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     </motion.button>
                                 </div>
                             )}
@@ -375,15 +363,20 @@ const EventPage = () => {
                                     Try adjusting your search or filter criteria. We add new events regularly!
                                 </p>
                                 <motion.button
-                                    className="mt-6 px-6 py-2 text-orange-500 border border-orange-500/30 rounded-lg hover:bg-orange-500/10 transition-colors duration-300"
+                                    className="mt-6 px-6 py-2.5 bg-black border border-white/10 rounded-lg font-medium"
                                     onClick={() => {
                                         setActiveCategory("All");
                                         setSearchQuery("");
                                     }}
-                                    whileHover={{ scale: 1.05 }}
+                                    whileHover={{ 
+                                        boxShadow: "0 0 20px rgba(242, 96, 11, 0.5)",
+                                        borderColor: "rgba(242, 96, 11, 0.5)"
+                                    }}
                                     whileTap={{ scale: 0.98 }}
                                 >
-                                    Reset Filters
+                                    <span className="bg-gradient-to-r from-[#F2600B] to-orange-400 bg-clip-text text-transparent">
+                                        Reset Filters
+                                    </span>
                                 </motion.button>
                             </div>
                         </motion.div>
