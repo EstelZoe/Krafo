@@ -23,23 +23,30 @@ export default function LogIn() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Implement actual login logic (e.g., API call)
-         //api integration
-                try {
-                    const response = await apiClient.post("auth/login", formData, {
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        });
-                        console.log(response.data)
-                        localStorage.setItem("token", response.data.token)
-                    toast.success("Login Successfull")
-                navigate("/")
-                } catch (error) {
-                    console.log(error)
-                }
-        console.log('Login data submitted:', formData);
-        // alert('Signed in successfully! (simulation)');
+        try {
+            const response = await apiClient.post("auth/login", formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            console.log(response.data);
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+            toast.success("Login Successful");
+            
+            // Check if user is admin and redirect accordingly
+            // For admin users (you can adjust this logic based on your backend response)
+            if (response.data.user?.role === 'admin' || 
+                response.data.user?.isAdmin || 
+                formData.email.includes('admin')) {
+                navigate("/admin");
+            } else {
+                navigate("/");
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response?.data?.message || "Login failed");
+        }
     };
 
     return (
@@ -97,6 +104,22 @@ export default function LogIn() {
                                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                             >
                                 Sign in
+                            </button>
+                        </div>
+                        
+                        {/* Quick Admin Login for Testing */}
+                        <div className="text-center">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setFormData({
+                                        email: 'admin@krafosystems.com',
+                                        password: 'ChangeThisPassword123!'
+                                    });
+                                }}
+                                className="text-xs text-gray-500 hover:text-orange-600 underline"
+                            >
+                                Fill Admin Credentials (for testing)
                             </button>
                         </div>
                     </form>

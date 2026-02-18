@@ -153,7 +153,7 @@ export default function Home() {
     <>
 
       <Navbar />
-      {/* <AnnouncementPopup /> */}
+      <AnnouncementPopup />
 
       <section className="relative w-full h-[650px] overflow-hidden">
         {/* Background Layer */} 
