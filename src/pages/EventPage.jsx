@@ -4,84 +4,7 @@ import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import aicc from "../assets/images/flye.jpg";
-import hack from "../assets/images/hacking.jpeg";
-import AI from "../assets/images/ai.jpeg";
-import agricyber from "../assets/images/AgriCyber.jpeg";
-
-const events = [
-   {
-        date: "December 5",
-        title: "Why Does Food Sustainability Need Cybersecurity?",
-        description: "Learn the connection to Cybersecurity in Food Stability and how they are the keys to our security. Join us on Farmer's Day (Dec 5th) and get your Intro to Food Sustainability through Cybersecurity Certificate!",
-        time: "12:00PM-04:00PM GMT",
-        location: "Nyansa Square, Bathur Street, Accra Opposite HR Certification Center",
-        category: "Business",
-        image: agricyber,
-        featured: true,
-        registrationUrl: "https://egotickets.com/events/you-can-t-defend-yourself-if-you-can-t-feed-yourself"
-
-    },
-
-    {
-        date: "November 12-14",
-        title: "#GDIW25",
-        description: "Cybercriminals don’t just hack systems—they exploit human behavior. Understand the psychological tricks used to deceive, manipulate, and control decisions. Learn how to recognize these tactics, strengthen your awareness, and build the mental resilience that turns potential victims into empowered defenders.",
-        time: "01:10PM-02:10PM GMT",
-        location: "AICC",
-        category: "Business",
-        image: hack,
-        featured: true,
-        registrationUrl: "https://www.goivents.com/marketing/eventRegistrationForm?event_id=67"
-
-    },
-    
-
-     {
-        date: "November 16 2025",
-        title: "Dangers Of Oversharing on AI",
-        description: "Oversharing on AI platforms can expose personal and sensitive information to misuse, identity theft, or data breaches. AI systems may store or learn from shared data, making it difficult to control how information is used. Revealing too much can also lead to privacy invasion, manipulation, or profiling. Always share cautiously and protect your digital identity.",
-        time: "2PM - 5PM GMT",
-        location: " Nyansa Square, Bathur Street, Accra Opposite HR Certification Center ",
-        category: "AI",
-        image: AI,
-        featured: true,
-        registrationUrl: "https://egotickets.com/events/dangers-of-oversharing-on-ai" // Add the registration link here
-    },
-    
-    // {
-    //     date: "APR 05",
-    //     title: "Cybersecurity Workshop",
-    //     description: "A hands-on workshop on ethical hacking and defense mechanisms. Learn penetration testing techniques from security experts.",
-    //     time: "10:00 AM - 4:00 PM",
-    //     location: "Online Webinar",
-    //     category: "Cybersecurity",
-    // },
-    // {
-    //     date: "APR 12",
-    //     title: "Digital Marketing Conference",
-    //     description: "Learn the latest trends in digital marketing from top experts. Covers SEO, social media, content strategy, and performance analytics.",
-    //     time: "9:00 AM - 6:00 PM",
-    //     location: "Grand Expo Hall",
-    //     category: "Marketing",
-    // },
-    // {
-    //     date: "MAY 01",
-    //     title: "AI in Business Summit",
-    //     description: "Explore the impact of Artificial Intelligence on modern businesses. Case studies from Fortune 500 companies implementing AI solutions.",
-    //     time: "1:00 PM - 5:00 PM",
-    //     location: "Tech Park Auditorium",
-    //     category: "AI",
-    // },
-    // {
-    //     date: "MAY 18",
-    //     title: "Youth Coding Challenge",
-    //     description: "A fun and challenging coding competition for young developers aged 12-18. Prizes include scholarships and tech gadgets.",
-    //     time: "10:00 AM - 2:00 PM",
-    //     location: "Community Center",
-    //     category: "Education",
-    // },
-];
+import { apiClient } from "../api/client";
 
 const EventPage = () => {
     const [activeCategory, setActiveCategory] = useState("All");
@@ -90,10 +13,37 @@ const EventPage = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [categories, setCategories] = useState(["All", "Technology", "Business", "Cybersecurity", "Marketing", "AI", "Education"]);
+    
+    // API state management
+    const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     // Intersection observer for scroll animations
     const [heroRef, heroInView] = useInView({ threshold: 0.1, triggerOnce: true });
     const [ctaRef, ctaInView] = useInView({ threshold: 0.1, triggerOnce: true });
+
+    // Fetch events from API on component mount
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const response = await apiClient.get('events');
+                
+                // Handle different response structures
+                const eventsData = response.data.events || response.data || [];
+                setEvents(eventsData);
+            } catch (err) {
+                console.error('Error fetching events:', err);
+                setError(err.message || 'Failed to load events. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchEvents();
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -113,7 +63,7 @@ const EventPage = () => {
             .slice(0, visibleEvents);
 
         setFilteredEvents(filtered);
-    }, [activeCategory, searchQuery, visibleEvents]);
+    }, [activeCategory, searchQuery, visibleEvents, events]);
 
     const loadMoreEvents = () => {
         setVisibleEvents(prev => prev + 6);
@@ -286,8 +236,50 @@ const EventPage = () => {
                         </div>
                     </motion.div>
 
+                    {/* Loading State */}
+                    {loading && (
+                        <div className="flex justify-center items-center py-20">
+                            <div className="inline-block p-8 bg-black/30 rounded-xl border border-white/10 backdrop-blur-sm">
+                                <motion.div
+                                    animate={{
+                                        rotate: 360
+                                    }}
+                                    transition={{
+                                        duration: 1,
+                                        repeat: Infinity,
+                                        ease: "linear"
+                                    }}
+                                >
+                                    <svg className="w-12 h-12 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                </motion.div>
+                                <p className="mt-4 text-gray-300">Loading events...</p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Error State */}
+                    {error && !loading && (
+                        <div className="flex justify-center items-center py-20">
+                            <div className="inline-block p-8 bg-red-900/20 rounded-xl border border-red-500/30 backdrop-blur-sm max-w-md">
+                                <svg className="w-12 h-12 mx-auto text-red-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <h3 className="text-xl font-medium text-red-400 mb-2">Error Loading Events</h3>
+                                <p className="text-gray-300">{error}</p>
+                                <button
+                                    className="mt-4 px-6 py-2 bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg hover:bg-red-500/30 transition-colors duration-300"
+                                    onClick={() => window.location.reload()}
+                                >
+                                    Retry
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Event Cards Grid */}
-                    {filteredEvents.length > 0 ? (
+                    {!loading && !error && filteredEvents.length > 0 && (
                         <>
                             <motion.div
                                 className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
@@ -298,7 +290,7 @@ const EventPage = () => {
                                 <AnimatePresence>
                                     {filteredEvents.map((event, index) => (
                                         <motion.div
-                                            key={`${event.title}-${index}`}
+                                            key={`${event._id || event.title}-${index}`}
                                             variants={itemVariants}
                                             layout
                                             whileHover={{
@@ -320,39 +312,30 @@ const EventPage = () => {
                             {visibleEvents < events.length && (
                                 <div className="flex justify-center mt-16">
                                     <motion.button
-                                        className="px-8 py-4 bg-gradient-to-r from-black to-black rounded-lg text-white font-medium border border-orange-500/30 hover:border-orange-500/60 relative overflow-hidden group transition-all duration-300"
+                                        className="px-8 py-4 bg-black rounded-xl text-white font-semibold border border-white/10 relative overflow-hidden group"
                                         onClick={loadMoreEvents}
                                         whileHover={{
-                                            y: -3,
-                                            boxShadow: "0 10px 25px -5px rgba(242, 96, 11, 0.5)"
+                                            boxShadow: "0 0 30px rgba(242, 96, 11, 0.5)",
+                                            borderColor: "rgba(242, 96, 11, 0.5)"
                                         }}
                                         whileTap={{ scale: 0.98 }}
                                     >
                                         <span className="relative z-10 flex items-center">
-                                            Load More Events
-                                            <motion.span
-                                                className="ml-2"
-                                                animate={{
-                                                    rotate: [0, 360],
-                                                }}
-                                                transition={{
-                                                    duration: 1.5,
-                                                    repeat: Infinity,
-                                                    ease: "linear"
-                                                }}
-                                            >
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                                </svg>
-                                            </motion.span>
+                                            <span className="bg-gradient-to-r from-[#F2600B] to-orange-400 bg-clip-text text-transparent font-bold">
+                                                Load More Events
+                                            </span>
+                                            <svg className="w-5 h-5 ml-2 text-[#F2600B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
                                         </span>
-                                        <div className="absolute inset-0 bg-gradient-to-r from-[#F2600B]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     </motion.button>
                                 </div>
                             )}
                         </>
-                    ) : (
+                    )}
+
+                    {/* No Events Found */}
+                    {!loading && !error && filteredEvents.length === 0 && (
                         <motion.div
                             className="text-center py-20"
                             initial={{ opacity: 0 }}
@@ -380,99 +363,26 @@ const EventPage = () => {
                                     Try adjusting your search or filter criteria. We add new events regularly!
                                 </p>
                                 <motion.button
-                                    className="mt-6 px-6 py-2 text-orange-500 border border-orange-500/30 rounded-lg hover:bg-orange-500/10 transition-colors duration-300"
+                                    className="mt-6 px-6 py-2.5 bg-black border border-white/10 rounded-lg font-medium"
                                     onClick={() => {
                                         setActiveCategory("All");
                                         setSearchQuery("");
                                     }}
-                                    whileHover={{ scale: 1.05 }}
+                                    whileHover={{ 
+                                        boxShadow: "0 0 20px rgba(242, 96, 11, 0.5)",
+                                        borderColor: "rgba(242, 96, 11, 0.5)"
+                                    }}
                                     whileTap={{ scale: 0.98 }}
                                 >
-                                    Reset Filters
+                                    <span className="bg-gradient-to-r from-[#F2600B] to-orange-400 bg-clip-text text-transparent">
+                                        Reset Filters
+                                    </span>
                                 </motion.button>
                             </div>
                         </motion.div>
                     )}
                 </div>
             </section>
-
-            {/* Enhanced CTA Section */}
-            {/* <section
-                ref={ctaRef}
-                className="relative bg-gradient-to-r from-[#1a0a00] to-[#0d0400] py-24 overflow-hidden"
-            > */}
-                {/* Animated background elements */}
-                {/* <div className="absolute inset-0 -z-10">
-                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiMyYTI4MjgiIHN0cm9rZS13aWR0aD0iMC41Ij48cGF0aCBkPSJNIDAgMCBMIDEwMCAwIDEwMCAxMDAgMCAxMDAgWiIvPjxwYXRoIGQ9Ik0gMjAgMjAgTCA4MCAyMCA4MCA4MCAyMCA4MCIvPjxwYXRoIGQ9Ik0gNDAgNDAgTCA2MCA0MCA2MCA2MCA0MCA2MCIvPjwvZz48L3N2Zz4=')] opacity-10"></div>
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(242,96,11,0.05)_0%,transparent_70%)]"></div> */}
-
-                    {/* Floating elements */}
-                    {/* <motion.div
-                        className="absolute top-20 left-1/4 w-8 h-8 bg-[#F2600B] rounded-full blur-xl opacity-20"
-                        animate={{
-                            y: [0, -20, 0],
-                            x: [0, 10, 0]
-                        }}
-                        transition={{
-                            duration: 8,
-                            repeat: Infinity,
-                            repeatType: "reverse",
-                            ease: "easeInOut"
-                        }}
-                    />
-                    <motion.div
-                        className="absolute bottom-40 right-1/3 w-10 h-10 bg-[#F2600B] rounded-full blur-xl opacity-15"
-                        animate={{
-                            y: [0, 15, 0],
-                            x: [0, -15, 0]
-                        }}
-                        transition={{
-                            duration: 10,
-                            repeat: Infinity,
-                            repeatType: "reverse",
-                            ease: "easeInOut",
-                            delay: 2
-                        }}
-                    />
-                </div>
-
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <motion.div
-                        initial="hidden"
-                        animate={ctaInView ? "visible" : "hidden"}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white"
-                            variants={itemVariants}
-                        >
-                            <span className="block">Host Your Event With Us</span>
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">World-Class Facilities</span>
-                        </motion.h2>
-
-                        <motion.p
-                            className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed"
-                            variants={itemVariants}
-                        >
-                            Our state-of-the-art facilities and cybersecurity infrastructure provide the perfect venue for your next conference, workshop, or summit.
-                        </motion.p>
-
-                        <motion.div variants={itemVariants}>
-                            <motion.button
-                                className="px-8 py-4 bg-gradient-to-r from-[#F2600B] to-orange-600 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
-                                whileHover={{
-                                    scale: 1.05,
-                                    boxShadow: "0 10px 25px -5px rgba(242, 96, 11, 0.8)"
-                                }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                                <span className="relative z-10">Inquire About Venue Booking</span>
-                                <span className="absolute inset-0 bg-gradient-to-r from-orange-600 to-[#F2600B] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                            </motion.button>
-                        </motion.div>
-                    </motion.div>
-                </div> */}
-            {/* </section> */}
 
             <Footer />
         </div>

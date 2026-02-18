@@ -18,79 +18,13 @@ import { motion, AnimatePresence } from "framer-motion";
 // Images come from centralized course catalog; local demo imports removed
 import { Link } from "react-router-dom";
 // Course data consolidated locally - no external dependencies
-import ccbc from "../assets/images/ccbc.png";
-import ai from "../assets/images/AI&Cyber.png";
-import ceo from "../assets/images/ceo.png";
-import mind from "../assets/images/hackmind.jpeg";
-
-
-
+import { courses as coursesData } from "../assets/data/courses";
 
 const checklistItems = [
     "We have a five-layer approach to making your business cyber resilient",
     "Experienced in securing research and development network projects",
     "Support for entrepreneurs and large organizations in cybersecurity",
     "High operational standards and leadership"
-];
-
-// Local course data for Courses page
-const coursesData = [
-    {
-        id: "cybersecurity-course",
-        slug: "cybersecurity-capacity-building-course-ccbc",
-        title: "Cybersecurity Capacity Building Course (CCBC)",
-        description: "A comprehensive program designed to build a strong foundation in cybersecurity principles, from network defense to incident response.",
-        image: ccbc,
-        price: "GHC 5,750",
-        details: [
-            "12 months FREE online access to CCBC resources.",
-            "Networking & a Certificate of Completion.",
-            "18 topics with quizzes & hands-on exercises.",
-        ],
-    },
-    {
-        id: "ai-cybersecurity-course",
-        slug: "ai-and-cybersecurity",
-        title: "AI & Cybersecurity",
-        description: "Explore the dual role of AI in cybersecurity, learning to leverage it for defense and to protect against AI-driven threats.",
-        image: ai,
-        price: "Free",
-        details: [
-            "Understand how AI is used in cyber attacks.",
-            "Build AI-powered security monitoring tools.",
-            "Explore the ethics of AI in security.",
-        ],
-    },
-
-    {
-        id: "Hacking The Human Mind",
-        slug: "Hacking The Human Mind",
-        title: "Empower  Ghanaians in Cybersecurity",
-        description: "Our mission is to equip every young Ghanaian with the knowledge to navigate the digital world safely. We aim to build a strong, resilient digital future for the continent.",
-        image: mind,
-        price: "Free",
-        details: [
-            "Develop a robust cybersecurity strategy.",
-            "Learn about governance, risk, and compliance (GRC).",
-            "Manage cybersecurity budgets and investments.",
-        ],
-    },
-
-    {
-        id: "cyber-ceo",
-        slug: "cyber-ceo",
-        title: "Cyber CEO",
-        description: "Equip yourself with the strategic knowledge to lead your organization through complex cyber challenges and manage digital risk effectively.",
-        image: ceo,
-        price: "Free",
-        details: [
-            "Develop a robust cybersecurity strategy.",
-            "Learn about governance, risk, and compliance (GRC).",
-            "Manage cybersecurity budgets and investments.",
-        ],
-    },
-
-
 ];
 
 export default function Course() {
