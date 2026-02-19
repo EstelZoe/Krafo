@@ -29,7 +29,7 @@ const ManageEvents = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await apiClient.get('admin/content/events');
+      const response = await apiClient.get('/admin/content/events');
       
       // Backend may return array directly OR wrapped in object
       const eventsData = Array.isArray(response.data) 
@@ -162,12 +162,12 @@ const ManageEvents = () => {
           return;
         }
         console.log('📝 Updating event with ID:', eventId);
-        await apiClient.patch(`admin/content/events/${eventId}`, formDataToSend, {
+        await apiClient.patch(`/admin/content/events/${eventId}`, formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       } else {
         // Create new event
-        await apiClient.post('admin/content/events', formDataToSend, {
+        await apiClient.post('/admin/content/events', formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       }
@@ -189,7 +189,7 @@ const ManageEvents = () => {
     }
     try {
       console.log('🗑️ Deleting event with ID:', eventId);
-      await apiClient.delete(`admin/content/events/${eventId}`);
+      await apiClient.delete(`/admin/content/events/${eventId}`);
       setDeleteConfirm(null);
       fetchEvents();
     } catch (err) {
@@ -210,7 +210,7 @@ const ManageEvents = () => {
     }
     try {
       console.log('🔄 Toggling event with ID:', eventId);
-      await apiClient.post(`admin/content/events/${eventId}/toggle`);
+      await apiClient.post(`/admin/content/events/${eventId}/toggle`);
       fetchEvents();
     } catch (err) {
       console.error('Error toggling event status:', err);

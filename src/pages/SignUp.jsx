@@ -43,7 +43,7 @@ export default function SignUp() {
 
         //api integration
         try {
-            const response = await apiClient.post("auth/signup", payload, {
+            const response = await apiClient.post("/auth/signup", payload, {
                 headers: {
                     "Content-Type": "application/json",
                 },

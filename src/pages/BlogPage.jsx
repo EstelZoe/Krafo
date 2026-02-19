@@ -27,7 +27,7 @@ export default function BlogPage() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const { data } = await apiClient.get("blogs");
+                const { data } = await apiClient.get("/blogs");
 
                 const postsArray = Array.isArray(data) ? data : data.posts || [];
                 setPosts(postsArray);

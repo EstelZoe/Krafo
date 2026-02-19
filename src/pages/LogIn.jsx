@@ -24,7 +24,7 @@ export default function LogIn() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await apiClient.post("auth/login", formData, {
+            const response = await apiClient.post("/auth/login", formData, {
                 headers: {
                     "Content-Type": "application/json",
                 },

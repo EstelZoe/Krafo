@@ -29,7 +29,7 @@ const EventPage = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await apiClient.get('events');
+                const response = await apiClient.get('/events');
                 
                 // Handle different response structures
                 const eventsData = response.data.events || response.data || [];
