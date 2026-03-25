@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import ScrollToTop from "./assets/components/ScrollToTop";
 import { ToastContainer } from "react-toastify";
@@ -6,6 +6,14 @@ import "react-toastify/dist/ReactToastify.css";
 import CookieConsentBanner from "./pages/CookieConsentBanner";
 import { ThemeProvider } from "./context/ThemeContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { AssessmentProvider, useAssessmentContext } from "./pages/assessment/context/AssessmentContext";
+
+// Auth guard for assessment-only routes
+function AssessmentGuard({ children }) {
+  const { token } = useAssessmentContext();
+  if (!token) return <Navigate to="/assessment-toolkit/login" replace />;
+  return children;
+}
 
 
 const Home = lazy(() => import("./pages/Home"));
@@ -25,6 +33,8 @@ const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
 const LogIn = lazy(() => import("./pages/LogIn"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 
+
+
 // Admin pages
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const Overview = lazy(() => import("./pages/admin/Overview"));
@@ -32,6 +42,21 @@ const ManageEvents = lazy(() => import("./pages/admin/ManageEvents"));
 const ManageBlogs = lazy(() => import("./pages/admin/ManageBlogs"));
 const ManagePopups = lazy(() => import("./pages/admin/ManagePopups"));
 
+
+// Assessment pages
+const AssessmentToolkit = lazy(() => import("./pages/assessment/AssessmentToolkit"));
+const AssessmentStart = lazy(() => import("./pages/assessment/pages/AssessmentStart"));
+const AssessmentSignUp = lazy(() => import("./pages/assessment/pages/AssessmentSignUp"));
+const AssessmentLogin = lazy(() => import("./pages/assessment/pages/AssessmentLogin"));
+const AssessmentForm = lazy(() => import("./pages/assessment/pages/AssessmentForm"));
+const AssessmentReport = lazy(() => import("./pages/assessment/pages/AssessmentReport"));
+const AssessmentDashboard = lazy(() => import("./pages/assessment/pages/AssessmentDashboard"));
+const AssessmentPrivacyPolicy = lazy(() => import("./pages/assessment/pages/AssessmentPrivacyPolicy"));
+const AssessmentTermsOfUse = lazy(() => import("./pages/assessment/pages/AssessmentTermsOfUse"));
+const AssessmentResources = lazy(() => import("./pages/assessment/pages/AssessmentResources"));
+const AssessmentSolutions = lazy(() => import("./pages/assessment/pages/AssessmentSolutions"));
+const AssessmentContact = lazy(() => import("./pages/assessment/pages/AssessmentContact"));
+const ManageAssessments = lazy(() => import("./pages/admin/ManageAssessments"));
 // Loader
 function Loader() {
   return (
@@ -64,6 +89,7 @@ function App() {
             <Route path="/cybersecurity-survey" element={<CybersecuritySurvey />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/cookies-policy" element={<CookiesPolicy />} />
+        
             
             {/* Auth Routes */}
             <Route path="/login" element={<LogIn />} />
@@ -81,7 +107,29 @@ function App() {
               <Route path="events" element={<ManageEvents />} />
               <Route path="blogs" element={<ManageBlogs />} />
               <Route path="popups" element={<ManagePopups />} />
+              <Route path="assessments" element={<ManageAssessments />} />
             </Route>
+
+            {/* Assessment Routes - wrapped in AssessmentProvider */}
+            <Route path="/assessment-toolkit" element={<AssessmentProvider><AssessmentToolkit /></AssessmentProvider>} />
+            <Route path="/assessment-toolkit/*" element={
+              <AssessmentProvider>
+                <Routes>
+                  <Route path="start" element={<AssessmentStart />} />
+                  <Route path="signup" element={<AssessmentSignUp />} />
+                  <Route path="login" element={<AssessmentLogin />} />
+                  <Route path="privacy" element={<AssessmentPrivacyPolicy />} />
+                  <Route path="terms" element={<AssessmentTermsOfUse />} />
+                  <Route path="resources" element={<AssessmentResources />} />
+                  <Route path="solutions" element={<AssessmentSolutions />} />
+                  <Route path="contact" element={<AssessmentContact />} />
+                  {/* Protected assessment routes */}
+                  <Route path="form" element={<AssessmentGuard><AssessmentForm /></AssessmentGuard>} />
+                  <Route path="report/:id" element={<AssessmentGuard><AssessmentReport /></AssessmentGuard>} />
+                  <Route path="dashboard" element={<AssessmentGuard><AssessmentDashboard /></AssessmentGuard>} />
+                </Routes>
+              </AssessmentProvider>
+            } />
             
             <Route path="*" element={<NotFound />} />
           </Routes>
