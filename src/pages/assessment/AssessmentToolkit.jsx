@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import ToolkitNavbar from "./components/ToolkitNavbar";
 import Footer from "../../assets/components/Footer";
+import tab from "../assessment/images/tabremove.png"
 import { ClipboardList, BarChart3, FileText, Search, ShieldCheck, Radar, Zap, RefreshCcw, Shield } from "lucide-react";
 
 
@@ -34,42 +35,7 @@ export default function AssessmentToolkit() {
         <ToolkitNavbar />
 
         {/* HERO */}
-        <section className="flex flex-col items-center text-center pt-24 pb-26 px-6">
-          <h1 className="text-4xl md:text-5xl font-bold text-orange-500">
-            Cybersecurity Risk
-          </h1>
-
-          <h1 className="text-4xl md:text-5xl font-bold">
-            Assessment Toolkit
-          </h1>
-
-          <p className="mt-4 text-gray-400 max-w-xl">
-            Evaluate your organization's security posture, identify hidden
-            vulnerabilities, and get actionable recommendations in minutes.
-          </p>
-
-          <div className="flex gap-4 mt-6">
-            <button 
-              onClick={handleStartAssessment}
-              className="bg-orange-500 hover:bg-orange-600 px-6 py-2 rounded-md font-medium transition"
-            >
-              Start Free Assessment
-            </button>
-
-            <button 
-              onClick={handleExampleReport}
-              className="border border-gray-500 hover:border-white px-6 py-2 rounded-md transition"
-            >
-              See Example Report
-            </button>
-          </div>
-
-          <div className="mt-16 w-full max-w-3xl bg-gray-300 rounded-xl p-6 shadow-2xl">
-            <div className="bg-gray-800 rounded-lg h-[250px] flex items-center justify-center text-gray-400">
-              Graph Preview
-            </div>
-          </div>
-        </section>
+        <section className="flex flex-col items-center text-center pt-4 px-6"> <h1 className="text-4xl md:text-5xl font-bold text-orange-500"> Cybersecurity Risk </h1> <h1 className="text-4xl md:text-5xl font-bold"> Assessment Toolkit </h1> <p className="mt-4 text-gray-400 max-w-xl"> Evaluate your organization's security posture, identify hidden vulnerabilities, and get actionable recommendations in minutes. </p> <div className="flex gap-4 mt-6"> <button onClick={handleStartAssessment} className="bg-orange-500 hover:bg-orange-600 px-6 py-2 rounded-md font-medium transition" > Start Free Assessment </button> <button onClick={handleExampleReport} className="border border-gray-500 hover:border-white px-6 py-2 rounded-md transition" > See Example Report </button> </div> <img src={tab} alt="Graph Preview" className="mt-4 w-[900px] max-w-full h-auto object-contain" /> </section>
 
         {/* HOW IT WORKS */}
         <section className="relative py-24 px-6 border-t border-gray-800">
@@ -284,7 +250,7 @@ export default function AssessmentToolkit() {
               risks, strengths, and actionable recommendations.
             </p>
 
-            <button 
+            <button
               onClick={handleStartAssessment}
               className="bg-orange-500 hover:bg-orange-600 px-8 py-3 rounded-md font-medium transition"
             >
@@ -294,7 +260,7 @@ export default function AssessmentToolkit() {
           </div>
 
         </section>
-        
+
         {/* FOOTER */}
         <Footer variant="dark" termsLink="/assessment-toolkit/terms" privacyLink="/assessment-toolkit/privacy" />
       </div>
