@@ -45,7 +45,7 @@ export default function AssessmentSignUp() {
     } catch { /* error shown via hook */ }
   }
 
-  const inputClass = "w-full bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition";
+  const inputClass = "w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder:text-gray-500 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm focus:outline-none transition-all duration-200 ease-out";
   const errorClass = "text-red-400 text-xs mt-1";
 
   return (
@@ -72,43 +72,118 @@ export default function AssessmentSignUp() {
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className="block text-sm text-gray-300 mb-1">First Name *</label>
-                  <input name="firstName" value={form.firstName} onChange={handleChange} placeholder="Jane" className={inputClass} />
-                  {fieldErrors.firstName && <p className={errorClass}>{fieldErrors.firstName}</p>}
+                  <input 
+                    name="firstName" 
+                    value={form.firstName} 
+                    onChange={handleChange} 
+                    placeholder="Jane" 
+                    className={`w-full bg-black border rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none transition-all duration-200 ease-out ${
+                      fieldErrors.firstName 
+                        ? 'border-red-500/50 glow-red-sm' 
+                        : 'border-gray-700 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm'
+                    }`}
+                    aria-invalid={!!fieldErrors.firstName}
+                    aria-describedby={fieldErrors.firstName ? 'firstName-error' : undefined}
+                  />
+                  {fieldErrors.firstName && <p id="firstName-error" className={errorClass}>{fieldErrors.firstName}</p>}
                 </div>
                 <div>
                   <label className="block text-sm text-gray-300 mb-1">Last Name *</label>
-                  <input name="lastName" value={form.lastName} onChange={handleChange} placeholder="Doe" className={inputClass} />
-                  {fieldErrors.lastName && <p className={errorClass}>{fieldErrors.lastName}</p>}
+                  <input 
+                    name="lastName" 
+                    value={form.lastName} 
+                    onChange={handleChange} 
+                    placeholder="Doe" 
+                    className={`w-full bg-black border rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none transition-all duration-200 ease-out ${
+                      fieldErrors.lastName 
+                        ? 'border-red-500/50 glow-red-sm' 
+                        : 'border-gray-700 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm'
+                    }`}
+                    aria-invalid={!!fieldErrors.lastName}
+                    aria-describedby={fieldErrors.lastName ? 'lastName-error' : undefined}
+                  />
+                  {fieldErrors.lastName && <p id="lastName-error" className={errorClass}>{fieldErrors.lastName}</p>}
                 </div>
               </div>
 
               <div className="mb-4">
                 <label className="block text-sm text-gray-300 mb-1">Company Name *</label>
-                <input name="companyName" value={form.companyName} onChange={handleChange} placeholder="Acme Corporation" className={inputClass} />
-                {fieldErrors.companyName && <p className={errorClass}>{fieldErrors.companyName}</p>}
+                <input 
+                  name="companyName" 
+                  value={form.companyName} 
+                  onChange={handleChange} 
+                  placeholder="Acme Corporation" 
+                  className={`w-full bg-black border rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none transition-all duration-200 ease-out ${
+                    fieldErrors.companyName 
+                      ? 'border-red-500/50 glow-red-sm' 
+                      : 'border-gray-700 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm'
+                  }`}
+                  aria-invalid={!!fieldErrors.companyName}
+                  aria-describedby={fieldErrors.companyName ? 'companyName-error' : undefined}
+                />
+                {fieldErrors.companyName && <p id="companyName-error" className={errorClass}>{fieldErrors.companyName}</p>}
               </div>
 
               <div className="mb-4">
                 <label className="block text-sm text-gray-300 mb-1">Email Address *</label>
-                <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="jane@company.com" className={inputClass} />
-                {fieldErrors.email && <p className={errorClass}>{fieldErrors.email}</p>}
+                <input 
+                  name="email" 
+                  type="email" 
+                  value={form.email} 
+                  onChange={handleChange} 
+                  placeholder="jane@company.com" 
+                  className={`w-full bg-black border rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none transition-all duration-200 ease-out ${
+                    fieldErrors.email 
+                      ? 'border-red-500/50 glow-red-sm' 
+                      : 'border-gray-700 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm'
+                  }`}
+                  aria-invalid={!!fieldErrors.email}
+                  aria-describedby={fieldErrors.email ? 'email-error' : undefined}
+                />
+                {fieldErrors.email && <p id="email-error" className={errorClass}>{fieldErrors.email}</p>}
               </div>
 
               <div className="mb-4">
                 <label className="block text-sm text-gray-300 mb-1">Password *</label>
                 <div className="relative">
-                  <input name="password" type={showPassword ? 'text' : 'password'} value={form.password} onChange={handleChange} placeholder="Min. 6 characters" className={inputClass + ' pr-12'} />
-                  <button type="button" onClick={() => setShowPassword(p => !p)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
+                  <input 
+                    name="password" 
+                    type={showPassword ? 'text' : 'password'} 
+                    value={form.password} 
+                    onChange={handleChange} 
+                    placeholder="Min. 6 characters" 
+                    className={`w-full bg-black border rounded-lg px-4 py-3 pr-12 text-white placeholder:text-gray-500 focus:outline-none transition-all duration-200 ease-out ${
+                      fieldErrors.password 
+                        ? 'border-red-500/50 glow-red-sm' 
+                        : 'border-gray-700 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm'
+                    }`}
+                    aria-invalid={!!fieldErrors.password}
+                    aria-describedby={fieldErrors.password ? 'password-error' : undefined}
+                  />
+                  <button type="button" onClick={() => setShowPassword(p => !p)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200">
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
-                {fieldErrors.password && <p className={errorClass}>{fieldErrors.password}</p>}
+                {fieldErrors.password && <p id="password-error" className={errorClass}>{fieldErrors.password}</p>}
               </div>
 
               <div className="mb-6">
                 <label className="block text-sm text-gray-300 mb-1">Confirm Password *</label>
-                <input name="confirmPassword" type="password" value={form.confirmPassword} onChange={handleChange} placeholder="Repeat password" className={inputClass} />
-                {fieldErrors.confirmPassword && <p className={errorClass}>{fieldErrors.confirmPassword}</p>}
+                <input 
+                  name="confirmPassword" 
+                  type="password" 
+                  value={form.confirmPassword} 
+                  onChange={handleChange} 
+                  placeholder="Repeat password" 
+                  className={`w-full bg-black border rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none transition-all duration-200 ease-out ${
+                    fieldErrors.confirmPassword 
+                      ? 'border-red-500/50 glow-red-sm' 
+                      : 'border-gray-700 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm'
+                  }`}
+                  aria-invalid={!!fieldErrors.confirmPassword}
+                  aria-describedby={fieldErrors.confirmPassword ? 'confirmPassword-error' : undefined}
+                />
+                {fieldErrors.confirmPassword && <p id="confirmPassword-error" className={errorClass}>{fieldErrors.confirmPassword}</p>}
               </div>
 
               <div className="space-y-3 mb-6 border-t border-gray-800 pt-6">
@@ -136,8 +211,18 @@ export default function AssessmentSignUp() {
               <button
                 type="submit"
                 disabled={loading || !form.agreedToTerms || !form.agreedToPrivacyPolicy}
-                className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition"
+                className={`w-full font-semibold py-3 rounded-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black flex items-center justify-center gap-2 ${
+                  loading || !form.agreedToTerms || !form.agreedToPrivacyPolicy
+                    ? 'bg-orange-500 opacity-75 cursor-not-allowed' 
+                    : 'bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 text-white'
+                }`}
               >
+                {loading && (
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                )}
                 {loading ? 'Creating Account...' : 'Create Account'}
               </button>
             </form>

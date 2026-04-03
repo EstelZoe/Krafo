@@ -19,25 +19,37 @@ export default function ToolkitNavbar() {
                 </Link>
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center space-x-8">
-                    <Link to="/assessment-toolkit" className="hover:text-orange-500">
+                    <Link 
+                        to="/assessment-toolkit" 
+                        className="text-white hover:text-orange-500 transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 after:transition-all after:duration-300 hover:after:w-full"
+                    >
                         Toolkit
                     </Link>
 
-                    <Link to="/assessment-toolkit/solutions" className="hover:text-orange-500">
+                    <Link 
+                        to="/assessment-toolkit/solutions" 
+                        className="text-white hover:text-orange-500 transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 after:transition-all after:duration-300 hover:after:w-full"
+                    >
                         Solutions
                     </Link>
 
-                    <Link to="/assessment-toolkit/resources" className="hover:text-orange-500">
+                    <Link 
+                        to="/assessment-toolkit/resources" 
+                        className="text-white hover:text-orange-500 transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 after:transition-all after:duration-300 hover:after:w-full"
+                    >
                         Resources
                     </Link>
 
-                    <Link to="/assessment-toolkit/contact" className="hover:text-orange-500">
+                    <Link 
+                        to="/assessment-toolkit/contact" 
+                        className="text-white hover:text-orange-500 transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 after:transition-all after:duration-300 hover:after:w-full"
+                    >
                         Contact
                     </Link>
 
                     <Link
                         to="/assessment-toolkit/start"
-                        className="border border-orange-500 text-orange-500 px-4 py-2 rounded-md hover:bg-orange-500 hover:text-black transition"
+                        className="border border-orange-500 px-4 py-2 rounded-md bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 text-white transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
                     >
                         Start Assessment
                     </Link>
@@ -45,39 +57,93 @@ export default function ToolkitNavbar() {
 
                 {/* Mobile Button */}
                 <div className="md:hidden">
-                    <button onClick={() => setOpen(!open)}>
+                    <button 
+                        onClick={() => setOpen(!open)}
+                        className="p-2 rounded-lg hover:bg-gray-900 hover:scale-110 active:scale-95 transition-all duration-200 ease-out"
+                        aria-label={open ? 'Close menu' : 'Open menu'}
+                        aria-expanded={open}
+                    >
                         {open ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
             </div>
 
             {/* Mobile Menu */}
-            {open && (
-                <div className="md:hidden bg-black px-4 pb-4 space-y-3">
-                    <Link to="/assessment-toolkit" className="block hover:text-orange-500">
-                        Toolkit
-                    </Link>
+            <div className={`
+                md:hidden 
+                bg-black 
+                px-4 
+                pb-4 
+                space-y-3
+                transition-all
+                duration-300
+                ${open ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}
+            `}>
+                <Link 
+                    to="/assessment-toolkit" 
+                    className="block hover:text-orange-500 transition-colors duration-200"
+                    style={{ 
+                        transitionDelay: open ? '0ms' : '0ms',
+                        opacity: open ? 1 : 0,
+                        transform: open ? 'translateY(0)' : 'translateY(-8px)',
+                        transition: 'opacity 300ms, transform 300ms, color 200ms'
+                    }}
+                >
+                    Toolkit
+                </Link>
 
-                    <Link to="/assessment-toolkit/solutions" className="block hover:text-orange-500">
-                        Solutions
-                    </Link>
+                <Link 
+                    to="/assessment-toolkit/solutions" 
+                    className="block hover:text-orange-500 transition-colors duration-200"
+                    style={{ 
+                        transitionDelay: open ? '50ms' : '0ms',
+                        opacity: open ? 1 : 0,
+                        transform: open ? 'translateY(0)' : 'translateY(-8px)',
+                        transition: 'opacity 300ms, transform 300ms, color 200ms'
+                    }}
+                >
+                    Solutions
+                </Link>
 
-                    <Link to="/assessment-toolkit/resources" className="block hover:text-orange-500">
-                        Resources
-                    </Link>
+                <Link 
+                    to="/assessment-toolkit/resources" 
+                    className="block hover:text-orange-500 transition-colors duration-200"
+                    style={{ 
+                        transitionDelay: open ? '100ms' : '0ms',
+                        opacity: open ? 1 : 0,
+                        transform: open ? 'translateY(0)' : 'translateY(-8px)',
+                        transition: 'opacity 300ms, transform 300ms, color 200ms'
+                    }}
+                >
+                    Resources
+                </Link>
 
-                    <Link to="/assessment-toolkit/contact" className="block hover:text-orange-500">
-                        Contact
-                    </Link>
+                <Link 
+                    to="/assessment-toolkit/contact" 
+                    className="block hover:text-orange-500 transition-colors duration-200"
+                    style={{ 
+                        transitionDelay: open ? '150ms' : '0ms',
+                        opacity: open ? 1 : 0,
+                        transform: open ? 'translateY(0)' : 'translateY(-8px)',
+                        transition: 'opacity 300ms, transform 300ms, color 200ms'
+                    }}
+                >
+                    Contact
+                </Link>
 
-                    <Link
-                        to="/assessment-toolkit/start"
-                        className="block border border-orange-500 text-orange-500 px-4 py-2 rounded-md text-center hover:bg-orange-500 hover:text-black"
-                    >
-                        Start Assessment
-                    </Link>
-                </div>
-            )}
+                <Link
+                    to="/assessment-toolkit/start"
+                    className="block border border-orange-500 text-white bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 px-4 py-2 rounded-md text-center transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
+                    style={{ 
+                        transitionDelay: open ? '200ms' : '0ms',
+                        opacity: open ? 1 : 0,
+                        transform: open ? 'translateY(0)' : 'translateY(-8px)',
+                        transition: 'opacity 300ms, transform 300ms, background-color 300ms, scale 300ms'
+                    }}
+                >
+                    Start Assessment
+                </Link>
+            </div>
         </nav>
     );
 }

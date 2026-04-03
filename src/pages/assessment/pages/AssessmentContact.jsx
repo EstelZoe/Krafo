@@ -49,7 +49,7 @@ export default function AssessmentContact() {
                   value={form.name}
                   onChange={handleChange}
                   required
-                  className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder:text-gray-500 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm focus:outline-none transition-all duration-200 ease-out"
                 />
               </div>
               <div>
@@ -60,7 +60,7 @@ export default function AssessmentContact() {
                   value={form.email}
                   onChange={handleChange}
                   required
-                  className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder:text-gray-500 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm focus:outline-none transition-all duration-200 ease-out"
                 />
               </div>
               <div>
@@ -69,7 +69,7 @@ export default function AssessmentContact() {
                   name="company"
                   value={form.company}
                   onChange={handleChange}
-                  className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder:text-gray-500 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm focus:outline-none transition-all duration-200 ease-out"
                 />
               </div>
               <div>
@@ -80,12 +80,12 @@ export default function AssessmentContact() {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder:text-gray-500 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm focus:outline-none transition-all duration-200 ease-out"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg transition"
+                className="w-full bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 text-white font-semibold py-3 rounded-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
               >
                 Send Message
               </button>

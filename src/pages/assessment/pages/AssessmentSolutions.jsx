@@ -55,7 +55,7 @@ export default function AssessmentSolutions() {
           {solutions.map((solution, idx) => (
             <div
               key={idx}
-              className="bg-[#111] border border-gray-800 rounded-2xl p-8 hover:-translate-y-2 hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)] transition-all duration-300"
+              className="bg-[#111] border border-gray-800 rounded-2xl p-8 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out"
             >
               <solution.icon className="text-orange-500 mb-4" size={32} />
               <h3 className="text-xl font-semibold mb-3 text-white">{solution.title}</h3>

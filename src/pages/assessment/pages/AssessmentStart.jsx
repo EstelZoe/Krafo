@@ -42,8 +42,8 @@ export default function AssessmentStart() {
         {/* Steps */}
         <div className="grid sm:grid-cols-3 gap-6 mb-12">
           {STEPS.map(({ icon: Icon, label, desc }, i) => (
-            <div key={i} className="bg-[#111] border border-gray-800 rounded-2xl p-6 text-left">
-              <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-3 w-fit mb-4">
+            <div key={i} className="group bg-[#111] border border-gray-800 rounded-2xl p-6 text-left hover:border-orange-500/20 hover:glow-orange-sm transition-all duration-300 ease-out">
+              <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-3 w-fit mb-4 group-hover:glow-orange-sm transition-all duration-300">
                 <Icon size={22} className="text-orange-500" />
               </div>
               <p className="text-white font-semibold mb-1">{label}</p>
@@ -56,13 +56,13 @@ export default function AssessmentStart() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             to="/assessment-toolkit/signup"
-            className="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-4 rounded-lg transition text-center"
+            className="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black text-center"
           >
             Create Free Account
           </Link>
           <Link
             to="/assessment-toolkit/login"
-            className="w-full sm:w-auto border border-gray-700 hover:border-orange-500/50 text-gray-300 hover:text-white font-semibold px-8 py-4 rounded-lg transition text-center"
+            className="w-full sm:w-auto border border-gray-700 hover:border-orange-500/50 hover:glow-orange-sm hover:scale-102 text-gray-300 hover:text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black text-center"
           >
             Log In
           </Link>

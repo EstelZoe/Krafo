@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { PlusCircle, FileText, ChevronRight, AlertTriangle } from 'lucide-react';
+import { PlusCircle, FileText, ChevronRight, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAssessment } from '../hooks/useAssessment';
 import { useAssessmentContext } from '../context/AssessmentContext';
 import ToolkitNavbar from '../components/ToolkitNavbar';
@@ -9,7 +9,19 @@ const RISK_BADGE = {
   low: 'bg-green-400/10 border-green-400/30 text-green-400',
   moderate: 'bg-yellow-400/10 border-yellow-400/30 text-yellow-400',
   high: 'bg-orange-400/10 border-orange-400/30 text-orange-400',
-  critical: 'bg-red-400/10 border-red-400/30 text-red-400',
+  critical: 'bg-red-400/10 border-red-400/30 text-red-400 animate-pulse-subtle',
+};
+
+const STATUS_COLORS = {
+  adequate: 'text-green-400',
+  needs_improvement: 'text-yellow-400',
+  critical: 'text-red-400',
+};
+
+const STATUS_BAR = {
+  adequate: 'bg-green-400',
+  needs_improvement: 'bg-yellow-400',
+  critical: 'bg-red-400',
 };
 
 export default function AssessmentDashboard() {
@@ -18,6 +30,7 @@ export default function AssessmentDashboard() {
   const navigate = useNavigate();
   const [assessments, setAssessments] = useState([]);
   const [error, setError] = useState(null);
+  const [expandedAssessments, setExpandedAssessments] = useState({});
 
   useEffect(() => {
     getMyAssessments()
@@ -28,6 +41,10 @@ export default function AssessmentDashboard() {
   function handleNewAssessment() {
     resetAssessment();
     navigate('/assessment-toolkit/form');
+  }
+
+  function toggleAssessment(id) {
+    setExpandedAssessments(prev => ({ ...prev, [id]: !prev[id] }));
   }
 
   return (
@@ -49,7 +66,7 @@ export default function AssessmentDashboard() {
           </div>
           <button
             onClick={handleNewAssessment}
-            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-5 py-3 rounded-lg transition"
+            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 text-white font-semibold px-5 py-3 rounded-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
           >
             <PlusCircle size={18} />
             Start New Assessment
@@ -76,7 +93,7 @@ export default function AssessmentDashboard() {
             <p className="text-gray-400 mb-6">You haven't completed any assessments yet.</p>
             <button
               onClick={handleNewAssessment}
-              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-lg transition"
+              className="bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
             >
               Take Your First Assessment
             </button>
@@ -92,44 +109,118 @@ export default function AssessmentDashboard() {
                 ? new Date(a.completedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
                 : 'In Progress';
 
+              // Validate id exists for debugging (API returns 'id', not '_id')
+              if (!a.id) {
+                console.warn('[AssessmentDashboard] Missing id for assessment:', a);
+              }
+
+              const isExpanded = expandedAssessments[a.id];
+              const nistFunctions = a.scores?.nistFunctions || {};
+
               return (
                 <div
-                  key={a._id}
-                  className="flex items-center justify-between bg-[#111] border border-gray-800 rounded-xl px-6 py-4 hover:border-orange-500/40 transition flex-wrap gap-4"
+                  key={a.id || `assessment-${a.createdAt}`}
+                  className="bg-[#111] border border-gray-800 rounded-xl overflow-hidden hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out"
                 >
-                  <div className="flex items-center gap-4 flex-wrap">
-                    <div>
-                      <p className="text-white font-medium text-sm">{date}</p>
-                      <p className="text-gray-500 text-xs mt-0.5">
-                        {a.status === 'completed' ? 'Completed' : 'In Progress'}
-                      </p>
+                  {/* Main row */}
+                  <div className="flex items-center justify-between px-6 py-4 flex-wrap gap-4">
+                    <div className="flex items-center gap-4 flex-wrap">
+                      <div>
+                        <p className="text-white font-medium text-sm">{date}</p>
+                        <p className="text-gray-500 text-xs mt-0.5">
+                          {a.status === 'completed' ? 'Completed' : 'In Progress'}
+                        </p>
+                      </div>
+                      {a.scores?.riskLevel && (
+                        <span className={`border rounded-full px-3 py-0.5 text-xs font-semibold ${badgeClass}`}>
+                          {a.scores.riskLevel.toUpperCase()} RISK
+                        </span>
+                      )}
+                      {a.scores?.percentage != null && (
+                        <span className="text-gray-400 text-sm">
+                          Score: <span className="text-white font-semibold">{a.scores.percentage}%</span>
+                        </span>
+                      )}
                     </div>
-                    {a.scores?.riskLevel && (
-                      <span className={`border rounded-full px-3 py-0.5 text-xs font-semibold ${badgeClass}`}>
-                        {a.scores.riskLevel.toUpperCase()} RISK
-                      </span>
-                    )}
-                    {a.scores?.percentage != null && (
-                      <span className="text-gray-400 text-sm">
-                        Score: <span className="text-white font-semibold">{a.scores.percentage}%</span>
-                      </span>
-                    )}
+
+                    <div className="flex items-center gap-3">
+                      {/* Expand/Collapse button for completed assessments */}
+                      {a.status === 'completed' && Object.keys(nistFunctions).length > 0 && (
+                        <button
+                          onClick={() => toggleAssessment(a.id)}
+                          className="flex items-center gap-1 text-gray-400 hover:text-white text-sm font-medium transition"
+                        >
+                          {isExpanded ? (
+                            <>
+                              Hide Details <ChevronUp size={16} />
+                            </>
+                          ) : (
+                            <>
+                              Show Details <ChevronDown size={16} />
+                            </>
+                          )}
+                        </button>
+                      )}
+
+                      {/* View Report / Continue button */}
+                      {a.status === 'completed' ? (
+                        a.id ? (
+                          <Link
+                            to={`/assessment-toolkit/report/${a.id}`}
+                            className="flex items-center gap-1 text-orange-500 hover:text-orange-400 text-sm font-medium transition"
+                          >
+                            View Report <ChevronRight size={16} />
+                          </Link>
+                        ) : (
+                          <button
+                            disabled
+                            className="flex items-center gap-1 text-gray-600 text-sm font-medium cursor-not-allowed"
+                            title="Report ID unavailable"
+                          >
+                            View Report <ChevronRight size={16} />
+                          </button>
+                        )
+                      ) : (
+                        <button
+                          onClick={() => navigate('/assessment-toolkit/form')}
+                          className="flex items-center gap-1 text-gray-400 hover:text-white text-sm font-medium transition"
+                        >
+                          Continue <ChevronRight size={16} />
+                        </button>
+                      )}
+                    </div>
                   </div>
 
-                  {a.status === 'completed' ? (
-                    <Link
-                      to={`/assessment-toolkit/report/${a._id}`}
-                      className="flex items-center gap-1 text-orange-500 hover:text-orange-400 text-sm font-medium transition"
-                    >
-                      View Report <ChevronRight size={16} />
-                    </Link>
-                  ) : (
-                    <button
-                      onClick={() => navigate('/assessment-toolkit/form')}
-                      className="flex items-center gap-1 text-gray-400 hover:text-white text-sm font-medium transition"
-                    >
-                      Continue <ChevronRight size={16} />
-                    </button>
+                  {/* Expanded NIST Functions */}
+                  {isExpanded && (
+                    <div className="border-t border-gray-800 px-6 py-4 bg-black/30">
+                      <p className="text-gray-400 text-xs uppercase tracking-wider mb-3">NIST Framework Performance</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {Object.entries(nistFunctions).map(([fn, data]) => {
+                          const pct = Math.round((data.score / data.maxScore) * 100);
+                          const barColor = STATUS_BAR[data.status] || 'bg-orange-500';
+                          const textColor = STATUS_COLORS[data.status] || 'text-orange-400';
+                          const label = fn.charAt(0).toUpperCase() + fn.slice(1);
+
+                          return (
+                            <div key={fn} className="bg-[#111] border border-gray-800 rounded-lg p-3">
+                              <div className="flex justify-between items-center mb-2">
+                                <span className="text-white text-xs font-medium">{label}</span>
+                                <span className={`text-xs font-semibold ${textColor}`}>
+                                  {data.score}/{data.maxScore}
+                                </span>
+                              </div>
+                              <div className="bg-gray-800 rounded-full h-1.5">
+                                <div
+                                  className={`${barColor} h-1.5 rounded-full transition-all duration-500`}
+                                  style={{ width: `${pct}%` }}
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   )}
                 </div>
               );

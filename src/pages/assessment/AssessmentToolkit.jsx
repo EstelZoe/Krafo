@@ -59,8 +59,7 @@ export default function AssessmentToolkit() {
 
             <div className="grid md:grid-cols-3 gap-10">
 
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 
-                transition-all duration-300  hover:-translate-y-2  hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)]">
+              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
                 <ClipboardList className="text-orange-500 mb-4" size={32} />
                 <h3 className="text-xl font-semibold mb-3 text-orange-500">
                   1. Questionaire
@@ -71,8 +70,7 @@ export default function AssessmentToolkit() {
                 </p>
               </div>
 
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 
-                transition-all duration-300  hover:-translate-y-2  hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)]">
+              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
                 <BarChart3 className="text-orange-500 mb-4" size={32} />
                 <h3 className="text-xl font-semibold mb-3 text-orange-500">
                   2. Analyze
@@ -83,8 +81,7 @@ export default function AssessmentToolkit() {
                 </p>
               </div>
 
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 
-                transition-all duration-300  hover:-translate-y-2  hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)]">
+              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
                 <FileText className="text-orange-500 mb-4" size={32} />
                 <h3 className="text-xl font-semibold mb-3 text-orange-500">
                   3. Get Your Report
@@ -122,8 +119,7 @@ export default function AssessmentToolkit() {
 
             <div className="grid md:grid-cols-3 gap-10">
 
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 
-                transition-all duration-300  hover:-translate-y-2  hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)]">
+              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
                 <h3 className="text-xl font-semibold mb-3 text-orange-500">
                   Small Businesses
                 </h3>
@@ -133,8 +129,7 @@ export default function AssessmentToolkit() {
                 </p>
               </div>
 
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 
-                transition-all duration-300  hover:-translate-y-2  hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)]">
+              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
                 <h3 className="text-xl font-semibold mb-3 text-orange-500">
                   IT Teams
                 </h3>
@@ -144,8 +139,7 @@ export default function AssessmentToolkit() {
                 </p>
               </div>
 
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 
-                transition-all duration-300  hover:-translate-y-2  hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)]">
+              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
                 <h3 className="text-xl font-semibold mb-3 text-orange-500">
                   Executives & Leaders
                 </h3>
@@ -181,8 +175,7 @@ export default function AssessmentToolkit() {
 
             <div className="grid md:grid-cols-5 gap-6">
 
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 
-                transition-all duration-300  hover:-translate-y-2  hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)]">
+              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
                 <Search className="text-orange-500 mb-3" size={20} />
                 <h3 className="text-orange-500 font-semibold mb-2">Identify</h3>
                 <p className="text-gray-400 text-sm">
@@ -190,8 +183,7 @@ export default function AssessmentToolkit() {
                 </p>
               </div>
 
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 
-                transition-all duration-300  hover:-translate-y-2  hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)]">
+              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
                 <ShieldCheck className="text-orange-500 mb-3" size={20} />
                 <h3 className="text-orange-500 font-semibold mb-2">Protect</h3>
                 <p className="text-gray-400 text-sm">
@@ -199,8 +191,7 @@ export default function AssessmentToolkit() {
                 </p>
               </div>
 
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 
-                transition-all duration-300  hover:-translate-y-2  hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)]">
+              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
                 <Radar className="text-orange-500 mb-3" size={20} />
                 <h3 className="text-orange-500 font-semibold mb-2">Detect</h3>
                 <p className="text-gray-400 text-sm">
@@ -208,8 +199,7 @@ export default function AssessmentToolkit() {
                 </p>
               </div>
 
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 
-                transition-all duration-300  hover:-translate-y-2  hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)]">
+              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
                 <Zap className="text-orange-500 mb-3" size={20} />
                 <h3 className="text-orange-500 font-semibold mb-2">Respond</h3>
                 <p className="text-gray-400 text-sm">
@@ -217,8 +207,7 @@ export default function AssessmentToolkit() {
                 </p>
               </div>
 
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 
-                transition-all duration-300  hover:-translate-y-2  hover:shadow-[0_10px_40px_rgba(249,115,22,0.35)]">
+              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
                 <RefreshCcw className="text-orange-500 mb-3" size={20} />
                 <h3 className="text-orange-500 font-semibold mb-2">Recover</h3>
                 <p className="text-gray-400 text-sm">

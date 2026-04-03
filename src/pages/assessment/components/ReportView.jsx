@@ -1,4 +1,4 @@
-import { Calendar, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+import { Calendar, ExternalLink, ChevronDown, ChevronUp, AlertTriangle } from 'lucide-react';
 import { useState } from 'react';
 import { calculateResponseStats, getVulnerabilitiesByCategory } from '../utils/reportUtils';
 
@@ -13,7 +13,7 @@ const RISK_BG = {
   low: 'bg-green-400/10 border-green-400/30',
   moderate: 'bg-yellow-400/10 border-yellow-400/30',
   high: 'bg-orange-400/10 border-orange-400/30',
-  critical: 'bg-red-400/10 border-red-400/30',
+  critical: 'bg-red-400/10 border-red-400/30 animate-pulse-subtle',
 };
 
 const STATUS_COLORS = {
@@ -202,7 +202,9 @@ export default function ReportView({ submission }) {
       {/* Critical vulnerabilities */}
       {vulns.length > 0 && (
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-          <p className="text-orange-500 text-sm font-semibold uppercase tracking-widest mb-4">▲ Critical Vulnerabilities</p>
+          <p className="text-orange-500 text-sm font-semibold uppercase tracking-widest mb-4 flex items-center gap-2">
+            <AlertTriangle size={16} /> Critical Vulnerabilities
+          </p>
           <div className="grid sm:grid-cols-2 gap-3">
             {vulns.slice(0, 6).map((v, i) => (
               <div key={i} className="bg-red-500/5 border border-red-500/20 rounded-xl p-4">
