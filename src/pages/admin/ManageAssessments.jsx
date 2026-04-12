@@ -21,6 +21,7 @@ export default function ManageAssessments() {
   const [dateTo, setDateTo] = useState('');
   const [minScore, setMinScore] = useState('');
   const [maxScore, setMaxScore] = useState('');
+  const [referralFilter, setReferralFilter] = useState('all');
 
   const fetchSubmissions = useCallback(async () => {
     setLoading(true);
@@ -40,7 +41,7 @@ export default function ManageAssessments() {
     } finally {
       setLoading(false);
     }
-  }, [token, search, dateFrom, dateTo, minScore, maxScore]);
+  }, [search, dateFrom, dateTo, minScore, maxScore]);
 
   useEffect(() => {
     fetchSubmissions();
@@ -129,7 +130,19 @@ export default function ManageAssessments() {
             className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500"
           />
         </div>
-        <div className="sm:col-span-2 lg:col-span-2 flex justify-end">
+        <div className="flex gap-2 items-center">
+          <span className="text-gray-500 text-xs whitespace-nowrap">Referral:</span>
+          <select
+            value={referralFilter}
+            onChange={e => setReferralFilter(e.target.value)}
+            className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500"
+          >
+            <option value="all">All</option>
+            <option value="referred">Referred Only</option>
+            <option value="non-referred">Non-Referred Only</option>
+          </select>
+        </div>
+        <div className="sm:col-span-2 lg:col-span-1 flex justify-end">
           <button
             onClick={fetchSubmissions}
             className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-5 py-2 rounded-lg transition"
@@ -162,12 +175,19 @@ export default function ManageAssessments() {
                   <th className="text-left px-5 py-3">Risk</th>
                   <th className="text-left px-5 py-3">Score</th>
                   <th className="text-left px-5 py-3">Date</th>
+                  <th className="text-left px-5 py-3">Referred By</th>
                   <th className="text-left px-5 py-3">Reminder</th>
                   <th className="text-left px-5 py-3">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800/50">
-                {submissions.map(s => {
+                {submissions
+                  .filter(s => {
+                    if (referralFilter === 'referred') return !!s.userId?.referredByCode;
+                    if (referralFilter === 'non-referred') return !s.userId?.referredByCode;
+                    return true;
+                  })
+                  .map(s => {
                   const badgeClass = RISK_BADGE[s.scores?.riskLevel] || RISK_BADGE.high;
                   const date = s.completedAt
                     ? new Date(s.completedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
@@ -190,6 +210,7 @@ export default function ManageAssessments() {
                         {s.scores?.percentage != null ? `${s.scores.percentage}%` : '—'}
                       </td>
                       <td className="px-5 py-4 text-gray-400">{date}</td>
+                      <td className="px-5 py-4 text-gray-300">{s.userId?.referredByCode || '—'}</td>
                       <td className="px-5 py-4">
                         <span className={`text-xs font-medium ${s.reminderSent ? 'text-green-400' : 'text-gray-500'}`}>
                           {s.reminderSent ? 'Sent' : 'Pending'}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { PlusCircle, FileText, ChevronRight, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAssessment } from '../hooks/useAssessment';
+import { useAssessmentAuth } from '../hooks/useAssessmentAuth';
 import { useAssessmentContext } from '../context/AssessmentContext';
 import ToolkitNavbar from '../components/ToolkitNavbar';
 
@@ -26,11 +27,13 @@ const STATUS_BAR = {
 
 export default function AssessmentDashboard() {
   const { getMyAssessments, loading } = useAssessment();
+  const { resendVerification } = useAssessmentAuth();
   const { user, resetAssessment } = useAssessmentContext();
   const navigate = useNavigate();
   const [assessments, setAssessments] = useState([]);
   const [error, setError] = useState(null);
   const [expandedAssessments, setExpandedAssessments] = useState({});
+  const [resendMsg, setResendMsg] = useState(null);
 
   useEffect(() => {
     getMyAssessments()
@@ -52,6 +55,26 @@ export default function AssessmentDashboard() {
       <ToolkitNavbar />
 
       <div className="max-w-5xl mx-auto px-4 py-12">
+        {/* Unverified email banner */}
+        {user && user.isEmailVerified === false && (
+          <div className="flex items-center justify-between gap-4 bg-orange-500/10 border border-orange-500/30 text-orange-400 rounded-xl px-5 py-4 mb-6">
+            <p className="text-sm">Please verify your email address to start assessments.</p>
+            <button
+              onClick={async () => {
+                try { await resendVerification(); setResendMsg('Verification email sent!'); } catch { setResendMsg('Could not resend. Try again later.'); }
+              }}
+              className="text-sm font-semibold text-orange-500 hover:text-orange-400 whitespace-nowrap hover:underline"
+            >
+              Resend Verification
+            </button>
+          </div>
+        )}
+        {resendMsg && (
+          <div className="bg-green-500/10 border border-green-500/30 text-green-400 rounded-lg px-4 py-3 mb-6 text-sm">
+            {resendMsg}
+          </div>
+        )}
+
         {/* Header */}
         <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
           <div>

@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { CATEGORIES, getQuestionsByCategory } from '../utils/assessmentQuestions';
 import { useAssessmentContext } from '../context/AssessmentContext';
 import { useAssessment } from '../hooks/useAssessment';
+import { useAssessmentAuth } from '../hooks/useAssessmentAuth';
 import ToolkitNavbar from '../components/ToolkitNavbar';
 import ProgressBar from '../components/ProgressBar';
 import FormStep from '../components/FormStep';
@@ -11,12 +12,14 @@ import ConfirmationModal from '../components/ConfirmationModal';
 
 export default function AssessmentForm() {
   const navigate = useNavigate();
-  const { responses, currentStep, submissionId, setCurrentStep, setSubmissionId, updateResponses } = useAssessmentContext();
+  const { responses, currentStep, submissionId, user, setCurrentStep, setSubmissionId, updateResponses } = useAssessmentContext();
   const { saveProgress, submitAssessment, loading } = useAssessment();
+  const { resendVerification } = useAssessmentAuth();
 
   const [stepErrors, setStepErrors] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [saveError, setSaveError] = useState(null);
+  const [resendMsg, setResendMsg] = useState(null);
 
   const category = CATEGORIES[currentStep];
   const questions = getQuestionsByCategory(category.key);
@@ -86,6 +89,26 @@ export default function AssessmentForm() {
       <ToolkitNavbar />
 
       <div className="max-w-2xl mx-auto px-4 py-12">
+        {/* Unverified email banner */}
+        {user && user.isEmailVerified === false && (
+          <div className="flex items-center justify-between gap-4 bg-orange-500/10 border border-orange-500/30 text-orange-400 rounded-xl px-5 py-4 mb-6">
+            <p className="text-sm">Please verify your email address to start assessments.</p>
+            <button
+              onClick={async () => {
+                try { await resendVerification(); setResendMsg('Verification email sent!'); } catch { setResendMsg('Could not resend. Try again later.'); }
+              }}
+              className="text-sm font-semibold text-orange-500 hover:text-orange-400 whitespace-nowrap hover:underline"
+            >
+              Resend Verification
+            </button>
+          </div>
+        )}
+        {resendMsg && (
+          <div className="bg-green-500/10 border border-green-500/30 text-green-400 rounded-lg px-4 py-3 mb-6 text-sm">
+            {resendMsg}
+          </div>
+        )}
+
         <ProgressBar currentStep={currentStep} />
 
         <div className="mb-8">

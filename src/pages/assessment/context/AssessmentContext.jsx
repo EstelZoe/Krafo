@@ -10,6 +10,7 @@ export function AssessmentProvider({ children }) {
   const [responses, setResponses] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
   const [submissionId, setSubmissionId] = useState(null);
+  const [pendingOtpEmail, setPendingOtpEmail] = useState(null);
 
   // Restore auth from localStorage on mount
   useEffect(() => {
@@ -37,6 +38,7 @@ export function AssessmentProvider({ children }) {
     setResponses({});
     setCurrentStep(0);
     setSubmissionId(null);
+    setPendingOtpEmail(null);
     localStorage.removeItem(STORAGE_KEY);
   }
 
@@ -52,8 +54,8 @@ export function AssessmentProvider({ children }) {
 
   return (
     <AssessmentContext.Provider value={{
-      user, token, responses, currentStep, submissionId,
-      setCurrentStep, setSubmissionId, updateResponses, resetAssessment,
+      user, token, responses, currentStep, submissionId, pendingOtpEmail,
+      setCurrentStep, setSubmissionId, setPendingOtpEmail, updateResponses, resetAssessment,
       storeAuth, clearAuth,
     }}>
       {children}

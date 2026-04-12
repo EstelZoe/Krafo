@@ -11,7 +11,7 @@ export default function AssessmentSignUp() {
 
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', password: '', confirmPassword: '',
-    companyName: '', agreedToTerms: false, agreedToPrivacyPolicy: false,
+    companyName: '', promoCode: '', agreedToTerms: false, agreedToPrivacyPolicy: false,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
@@ -41,8 +41,13 @@ export default function AssessmentSignUp() {
     if (Object.keys(errs).length) { setFieldErrors(errs); return; }
     try {
       await register(form);
-      navigate('/assessment-toolkit/login?registered=1');
-    } catch { /* error shown via hook */ }
+      navigate(`/assessment-toolkit/check-email?email=${encodeURIComponent(form.email)}`);
+    } catch (err) {
+      const msg = err.message || '';
+      if (msg.toLowerCase().includes('promo')) {
+        setFieldErrors(prev => ({ ...prev, promoCode: msg }));
+      }
+    }
   }
 
   const inputClass = "w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder:text-gray-500 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm focus:outline-none transition-all duration-200 ease-out";
@@ -167,7 +172,7 @@ export default function AssessmentSignUp() {
                 {fieldErrors.password && <p id="password-error" className={errorClass}>{fieldErrors.password}</p>}
               </div>
 
-              <div className="mb-6">
+              <div className="mb-4">
                 <label className="block text-sm text-gray-300 mb-1">Confirm Password *</label>
                 <input 
                   name="confirmPassword" 
@@ -184,6 +189,24 @@ export default function AssessmentSignUp() {
                   aria-describedby={fieldErrors.confirmPassword ? 'confirmPassword-error' : undefined}
                 />
                 {fieldErrors.confirmPassword && <p id="confirmPassword-error" className={errorClass}>{fieldErrors.confirmPassword}</p>}
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm text-gray-300 mb-1">Promo Code (optional)</label>
+                <input 
+                  name="promoCode" 
+                  value={form.promoCode} 
+                  onChange={handleChange} 
+                  placeholder="Enter promo code" 
+                  className={`w-full bg-black border rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none transition-all duration-200 ease-out ${
+                    fieldErrors.promoCode 
+                      ? 'border-red-500/50 glow-red-sm' 
+                      : 'border-gray-700 hover:border-gray-600 focus:border-orange-500 focus:glow-orange-sm'
+                  }`}
+                  aria-invalid={!!fieldErrors.promoCode}
+                  aria-describedby={fieldErrors.promoCode ? 'promoCode-error' : undefined}
+                />
+                {fieldErrors.promoCode && <p id="promoCode-error" className={errorClass}>{fieldErrors.promoCode}</p>}
               </div>
 
               <div className="space-y-3 mb-6 border-t border-gray-800 pt-6">

@@ -56,7 +56,14 @@ const AssessmentTermsOfUse = lazy(() => import("./pages/assessment/pages/Assessm
 const AssessmentResources = lazy(() => import("./pages/assessment/pages/AssessmentResources"));
 const AssessmentSolutions = lazy(() => import("./pages/assessment/pages/AssessmentSolutions"));
 const AssessmentContact = lazy(() => import("./pages/assessment/pages/AssessmentContact"));
+const AssessmentOtpVerify = lazy(() => import("./pages/assessment/pages/AssessmentOtpVerify"));
+const AssessmentCheckEmail = lazy(() => import("./pages/assessment/pages/AssessmentCheckEmail"));
+const AssessmentVerifyEmail = lazy(() => import("./pages/assessment/pages/AssessmentVerifyEmail"));
+const AssessmentForgotPassword = lazy(() => import("./pages/assessment/pages/AssessmentForgotPassword"));
+const AssessmentVerifyResetOtp = lazy(() => import("./pages/assessment/pages/AssessmentVerifyResetOtp"));
+const AssessmentResetPassword = lazy(() => import("./pages/assessment/pages/AssessmentResetPassword"));
 const ManageAssessments = lazy(() => import("./pages/admin/ManageAssessments"));
+const ManagePromoCodes = lazy(() => import("./pages/admin/ManagePromoCodes"));
 // Loader
 function Loader() {
   return (
@@ -108,6 +115,7 @@ function App() {
               <Route path="blogs" element={<ManageBlogs />} />
               <Route path="popups" element={<ManagePopups />} />
               <Route path="assessments" element={<ManageAssessments />} />
+              <Route path="promo-codes" element={<ManagePromoCodes />} />
             </Route>
 
             {/* Assessment Routes - wrapped in AssessmentProvider */}
@@ -123,6 +131,12 @@ function App() {
                   <Route path="resources" element={<AssessmentResources />} />
                   <Route path="solutions" element={<AssessmentSolutions />} />
                   <Route path="contact" element={<AssessmentContact />} />
+                  <Route path="otp-verify" element={<AssessmentOtpVerify />} />
+                  <Route path="check-email" element={<AssessmentCheckEmail />} />
+                  <Route path="verify-email/:token" element={<AssessmentVerifyEmail />} />
+                  <Route path="forgot-password" element={<AssessmentForgotPassword />} />
+                  <Route path="verify-reset-otp" element={<AssessmentVerifyResetOtp />} />
+                  <Route path="reset-password" element={<AssessmentResetPassword />} />
                   {/* Protected assessment routes */}
                   <Route path="form" element={<AssessmentGuard><AssessmentForm /></AssessmentGuard>} />
                   <Route path="report/:id" element={<AssessmentGuard><AssessmentReport /></AssessmentGuard>} />
