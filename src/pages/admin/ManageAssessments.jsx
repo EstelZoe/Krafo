@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Download, Bell, Search, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Bell, Search, AlertTriangle, RefreshCw } from 'lucide-react';
 import { apiClient } from '../../api/client';
 
 const RISK_BADGE = {
@@ -34,7 +34,7 @@ export default function ManageAssessments() {
       if (minScore) params.set('minScore', minScore);
       if (maxScore) params.set('maxScore', maxScore);
 
-      const res = await apiClient.get(`/api/v1/admin/assessments?${params.toString()}`);
+      const res = await apiClient.get(`/v1/admin/assessments?${params.toString()}`);
       setSubmissions(res.data.data || res.data);
     } catch (err) {
       setError(err.response?.data?.error || err.message);
@@ -47,30 +47,11 @@ export default function ManageAssessments() {
     fetchSubmissions();
   }, []);
 
-  async function handleDownload(id) {
-    setActionLoading(prev => ({ ...prev, [`dl_${id}`]: true }));
-    try {
-      const res = await apiClient.get(`/api/v1/admin/assessments/${id}/report`, {
-        responseType: 'blob',
-      });
-      const url = URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `krafo-report-${id}.pdf`;
-      link.click();
-      URL.revokeObjectURL(url);
-    } catch {
-      alert('Could not download report.');
-    } finally {
-      setActionLoading(prev => ({ ...prev, [`dl_${id}`]: false }));
-    }
-  }
-
   async function handleReminder(id) {
     if (!window.confirm('Send a reminder to this user?')) return;
     setActionLoading(prev => ({ ...prev, [`rm_${id}`]: true }));
     try {
-      await apiClient.post(`/api/v1/admin/assessments/${id}/remind`, {});
+      await apiClient.post(`/v1/admin/assessments/${id}/remind`, {});
       alert('Reminder sent.');
       fetchSubmissions();
     } catch {
@@ -196,7 +177,7 @@ export default function ManageAssessments() {
                   const company = s.userId?.companyName || '—';
 
                   return (
-                    <tr key={s._id} className="hover:bg-white/[0.02] transition">
+                    <tr key={s.id} className="hover:bg-white/[0.02] transition">
                       <td className="px-5 py-4 text-white">{name}</td>
                       <td className="px-5 py-4 text-gray-300">{company}</td>
                       <td className="px-5 py-4">
@@ -219,16 +200,8 @@ export default function ManageAssessments() {
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() => handleDownload(s._id)}
-                            disabled={actionLoading[`dl_${s._id}`]}
-                            title="Download PDF"
-                            className="p-2 rounded-lg border border-gray-700 hover:border-orange-500/50 text-gray-400 hover:text-orange-400 transition disabled:opacity-40"
-                          >
-                            <Download size={14} />
-                          </button>
-                          <button
-                            onClick={() => handleReminder(s._id)}
-                            disabled={actionLoading[`rm_${s._id}`] || s.reminderSent}
+                            onClick={() => handleReminder(s.id)}
+                            disabled={actionLoading[`rm_${s.id}`] || s.reminderSent}
                             title="Send Reminder"
                             className="p-2 rounded-lg border border-gray-700 hover:border-orange-500/50 text-gray-400 hover:text-orange-400 transition disabled:opacity-40"
                           >

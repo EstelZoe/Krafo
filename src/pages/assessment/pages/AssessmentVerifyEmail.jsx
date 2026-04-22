@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { CheckCircle, XCircle } from 'lucide-react';
@@ -8,28 +8,26 @@ const BASE = (import.meta.env.VITE_BASE_URL || 'https://krafo-api.onrender.com/a
 
 export default function AssessmentVerifyEmail() {
   const { token } = useParams();
-  const [status, setStatus] = useState('loading'); // loading | success | error
+  const [status, setStatus] = useState('loading');
   const [message, setMessage] = useState('');
+  const hasCalledRef = useRef(false);
 
   useEffect(() => {
-    let cancelled = false;
+    // Prevent double-call in React Strict Mode
+    if (hasCalledRef.current) return;
+    hasCalledRef.current = true;
+
     async function verify() {
       try {
         const res = await axios.get(`${BASE}/verify-email/${token}`);
-        if (!cancelled) {
-          setStatus('success');
-          setMessage(res.data?.message || 'Email verified successfully!');
-        }
+        setStatus('success');
+        setMessage(res.data?.message || 'Email verified successfully!');
       } catch (err) {
-        if (!cancelled) {
-          // If we already succeeded on a previous mount (Strict Mode), don't overwrite
-          setStatus(prev => prev === 'success' ? 'success' : 'error');
-          setMessage(prev => prev || err.response?.data?.error || 'Verification link is invalid or expired.');
-        }
+        setStatus('error');
+        setMessage(err.response?.data?.error || 'Verification link is invalid or expired.');
       }
     }
     if (token) verify();
-    return () => { cancelled = true; };
   }, [token]);
 
   return (
@@ -47,7 +45,6 @@ export default function AssessmentVerifyEmail() {
                 <p className="text-gray-400">Verifying your email...</p>
               </>
             )}
-
             {status === 'success' && (
               <>
                 <div className="flex justify-center mb-6">
@@ -57,13 +54,12 @@ export default function AssessmentVerifyEmail() {
                 <p className="text-gray-400 mb-6">{message} You can now sign in.</p>
                 <Link
                   to="/assessment-toolkit/login"
-                  className="inline-block bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
+                  className="inline-block bg-orange-500 hover:bg-orange-600 hover:scale-105 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300"
                 >
                   Go to Login
                 </Link>
               </>
             )}
-
             {status === 'error' && (
               <>
                 <div className="flex justify-center mb-6">
@@ -73,7 +69,7 @@ export default function AssessmentVerifyEmail() {
                 <p className="text-gray-400 mb-6">{message}</p>
                 <Link
                   to="/assessment-toolkit/login"
-                  className="inline-block bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
+                  className="inline-block bg-orange-500 hover:bg-orange-600 hover:scale-105 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300"
                 >
                   Go to Login
                 </Link>

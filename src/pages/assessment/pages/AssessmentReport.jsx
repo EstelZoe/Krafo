@@ -1,52 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Download, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useAssessment } from '../hooks/useAssessment';
-import { useAssessmentContext } from '../context/AssessmentContext';
 import ToolkitNavbar from '../components/ToolkitNavbar';
 import ReportView from '../components/ReportView';
 
 export default function AssessmentReport() {
   const { id } = useParams();
-  const { getReport, getReportDownloadUrl, loading } = useAssessment();
-  const { token } = useAssessmentContext();
+  const { getReport, loading } = useAssessment();
   const [submission, setSubmission] = useState(null);
   const [error, setError] = useState(null);
-  const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
     getReport(id).then(setSubmission).catch(err => setError(err.message));
   }, [id]);
-
-  async function handleDownload() {
-    setDownloading(true);
-    try {
-      const url = getReportDownloadUrl(id);
-      const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
-      
-      if (!res.ok) {
-        if (res.status === 404) {
-          throw new Error('Report not found. Please contact support.');
-        } else if (res.status === 403) {
-          throw new Error('Access denied. Please log in again.');
-        } else {
-          throw new Error(`Download failed (${res.status})`);
-        }
-      }
-      
-      const blob = await res.blob();
-      const link = document.createElement('a');
-      const date = new Date().toISOString().split('T')[0];
-      link.href = URL.createObjectURL(blob);
-      link.download = `krafo-cybersecurity-report-${date}.pdf`;
-      link.click();
-      URL.revokeObjectURL(link.href);
-    } catch (err) {
-      setError(err.message || 'Could not download report. Please try again.');
-    } finally {
-      setDownloading(false);
-    }
-  }
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -63,14 +30,6 @@ export default function AssessmentReport() {
               Cybersecurity <span className="text-orange-500">Risk Report</span>
             </h1>
           </div>
-          <button
-            onClick={handleDownload}
-            disabled={downloading || loading}
-            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white font-semibold px-6 py-3 rounded-lg transition"
-          >
-            <Download size={18} />
-            {downloading ? 'Downloading...' : 'Download PDF'}
-          </button>
         </div>
 
         {loading && (

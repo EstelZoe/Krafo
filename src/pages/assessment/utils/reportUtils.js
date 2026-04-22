@@ -4,7 +4,7 @@
  * @returns {Object} Statistics including total, yesCount, noCount, compliance
  */
 export function calculateResponseStats(responses) {
-  const categories = ['identify', 'protect', 'detect', 'respond', 'recover', 'governance'];
+  const categories = ['governance', 'identify', 'protect', 'detect', 'respond', 'recover'];
   let yesCount = 0;
   let noCount = 0;
   let total = 0;
@@ -29,7 +29,7 @@ export function calculateResponseStats(responses) {
  * @returns {Object} Breakdown of vulnerabilities by category
  */
 export function getVulnerabilitiesByCategory(responses) {
-  const categories = ['identify', 'protect', 'detect', 'respond', 'recover', 'governance'];
+  const categories = ['governance', 'identify', 'protect', 'detect', 'respond', 'recover'];
   const breakdown = {};
   
   for (const cat of categories) {

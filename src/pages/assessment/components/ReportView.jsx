@@ -1,6 +1,7 @@
 import { Calendar, ExternalLink, ChevronDown, ChevronUp, AlertTriangle } from 'lucide-react';
 import { useState } from 'react';
 import { calculateResponseStats, getVulnerabilitiesByCategory } from '../utils/reportUtils';
+import { calculateAllScores } from '../utils/scoringLogic';
 
 const RISK_COLORS = {
   low: 'text-green-400',
@@ -31,7 +32,9 @@ const STATUS_BAR = {
 const CALENDLY_URL = 'https://calendly.com/krafosystems';
 
 export default function ReportView({ submission }) {
-  const { scores, responses, completedAt } = submission;
+  const { responses, completedAt } = submission;
+  // Always recalculate from raw responses for correctness
+  const scores = calculateAllScores(responses);
   const riskColor = RISK_COLORS[scores.riskLevel] || 'text-orange-400';
   const riskBg = RISK_BG[scores.riskLevel] || 'bg-orange-400/10 border-orange-400/30';
   const reportDate = completedAt ? new Date(completedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
@@ -47,7 +50,7 @@ export default function ReportView({ submission }) {
 
   // Identify vulnerabilities (no answers)
   const vulns = [];
-  const cats = ['identify', 'protect', 'detect', 'respond', 'recover', 'governance'];
+  const cats = ['governance', 'identify', 'protect', 'detect', 'respond', 'recover'];
   for (const cat of cats) {
     const catR = responses?.[cat] || {};
     for (const [field, val] of Object.entries(catR)) {
@@ -100,31 +103,49 @@ export default function ReportView({ submission }) {
 
       {/* Score + NIST grid */}
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Overall score */}
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6 text-center">
-          <p className="text-gray-400 text-sm uppercase tracking-widest mb-4">Overall Risk Score</p>
-          <div className={`text-7xl font-bold ${riskColor} mb-2`}>{scores.percentage}%</div>
-          <div className={`inline-block border rounded-full px-4 py-1 text-sm font-semibold ${riskBg} ${riskColor}`}>
-            {scores.riskLevel?.toUpperCase()} RISK
-          </div>
-        </div>
+        {/* Overall compliance */}
+        {(() => {
+          const totalQ = 31; // governance (6) + NIST (5×5) = 31 security questions
+          const minTotal = totalQ; // all yes = 1 per question
+          // Exclude company profile from compliance — CP measures inherent risk, not security controls
+          const securityScore = (scores.total || 0) - (scores.companyProfile || 0);
+          const securityMax = (scores.totalMax || 185) - (scores.companyProfileMax || 30);
+          const compliance = securityMax > minTotal ? Math.round(((securityMax - securityScore) / (securityMax - minTotal)) * 100) : 0;
+          console.log('[ReportView] Compliance calc: securityMax=%d, securityScore=%d, minTotal=%d, result=%d%', securityMax, securityScore, minTotal, compliance);
+          const level = compliance >= 70 ? "low" : compliance >= 50 ? "moderate" : compliance >= 30 ? "high" : "critical";
+          const lColor = RISK_COLORS[level] || 'text-orange-400';
+          const lBg = RISK_BG[level] || 'bg-orange-400/10 border-orange-400/30';
+          return (
+            <div className="bg-[#111] border border-gray-800 rounded-2xl p-6 text-center">
+              <p className="text-gray-400 text-sm uppercase tracking-widest mb-4">Overall Compliance</p>
+              <div className={`text-7xl font-bold ${lColor} mb-2`}>{compliance}%</div>
+              <div className={`inline-block border rounded-full px-4 py-1 text-sm font-semibold ${lBg} ${lColor}`}>
+                {level.toUpperCase()} RISK
+              </div>
+            </div>
+          );
+        })()}
 
         {/* NIST bars */}
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-          <p className="text-gray-400 text-sm uppercase tracking-widest mb-4">NIST Pillars Performance</p>
+          <p className="text-gray-400 text-sm uppercase tracking-widest mb-4">NIST Pillars — Controls in Place</p>
           <div className="space-y-3">
             {Object.entries(scores.nistFunctions || {}).map(([fn, data]) => {
-              const pct = Math.round((data.score / data.maxScore) * 100);
-              const barColor = STATUS_BAR[data.status] || 'bg-orange-500';
-              const textColor = STATUS_COLORS[data.status] || 'text-orange-400';
+              // Normalized compliance: all yes = 100%, all no = 0%
+              const numQ = { identify: 5, protect: 5, detect: 5, respond: 5, recover: 5 }[fn] || 5;
+              const minScore = numQ * 1;
+              const range = data.maxScore - minScore;
+              const compliancePct = range > 0 ? Math.round(((data.maxScore - data.score) / range) * 100) : 0;
+              const barColor = compliancePct >= 70 ? 'bg-green-400' : compliancePct >= 40 ? 'bg-yellow-400' : 'bg-red-400';
+              const textColor = compliancePct >= 70 ? 'text-green-400' : compliancePct >= 40 ? 'text-yellow-400' : 'text-red-400';
               return (
                 <div key={fn}>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-white font-medium capitalize">{fn}</span>
-                    <span className={textColor}>{data.score}/{data.maxScore}</span>
+                    <span className={textColor}>{compliancePct}%</span>
                   </div>
                   <div className="bg-gray-800 rounded-full h-2">
-                    <div className={`${barColor} h-2 rounded-full transition-all duration-700`} style={{ width: `${pct}%` }} />
+                    <div className={`${barColor} h-2 rounded-full transition-all duration-700`} style={{ width: `${compliancePct}%` }} />
                   </div>
                 </div>
               );
@@ -151,7 +172,7 @@ export default function ReportView({ submission }) {
           </div>
           <div>
             <div className="text-3xl font-bold text-orange-500">{stats.compliance}%</div>
-            <div className="text-gray-400 text-sm">Compliance</div>
+            <div className="text-gray-400 text-sm">Yes Response Rate</div>
           </div>
         </div>
       </div>
