@@ -236,26 +236,31 @@ const EventPage = () => {
                         </div>
                     </motion.div>
 
-                    {/* Loading State */}
+                    {/* Loading State — Skeleton Cards */}
                     {loading && (
-                        <div className="flex justify-center items-center py-20">
-                            <div className="inline-block p-8 bg-black/30 rounded-xl border border-white/10 backdrop-blur-sm">
-                                <motion.div
-                                    animate={{
-                                        rotate: 360
-                                    }}
-                                    transition={{
-                                        duration: 1,
-                                        repeat: Infinity,
-                                        ease: "linear"
-                                    }}
+                        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                            {[...Array(6)].map((_, i) => (
+                                <div
+                                    key={i}
+                                    className="bg-black/30 rounded-xl border border-white/10 overflow-hidden animate-pulse"
                                 >
-                                    <svg className="w-12 h-12 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                    </svg>
-                                </motion.div>
-                                <p className="mt-4 text-gray-300">Loading events...</p>
-                            </div>
+                                    {/* Image skeleton */}
+                                    <div className="h-48 bg-white/5" />
+                                    {/* Content skeleton */}
+                                    <div className="p-5 space-y-3">
+                                        <div className="h-3 w-20 bg-white/10 rounded-full" />
+                                        <div className="h-5 w-3/4 bg-white/10 rounded" />
+                                        <div className="space-y-2">
+                                            <div className="h-3 w-full bg-white/5 rounded" />
+                                            <div className="h-3 w-5/6 bg-white/5 rounded" />
+                                        </div>
+                                        <div className="flex items-center gap-3 pt-2">
+                                            <div className="h-3 w-24 bg-white/5 rounded" />
+                                            <div className="h-3 w-16 bg-white/5 rounded" />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     )}
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
 import { Menu, X } from "lucide-react";
-import krafoLogo from '../images/KRAFO ORIGINAL WHITEAsset 70-8.png';
+import krafoLogo from '../images/krafo-logo1.png';
 
 
 export default function Navbar() {
@@ -22,30 +22,15 @@ export default function Navbar() {
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center space-x-6">
-                        {/* <Link to="/" className="text-orange-600 hover:text-white">Home</Link> */}
                         <Link to="/about" className="text-orange-600 hover:text-white">About</Link>
                         <Link to="/courses" className="text-orange-600 hover:text-white">Courses</Link>
                         <Link to="/event-page" className="text-orange-600 hover:text-white">Events</Link>
                         <Link to="/blog-page" className="text-orange-600 hover:text-white">Blog</Link>
                         <Link to="/youth-cyber-ed" className="text-orange-600 hover:text-white">Youth Cyber Ed</Link>
-                        <Link to="/consultation" className="text-orange-600 hover:text-white">Consultation</Link>
-
-                        {/* language links */}
-                        {/* <div className="text-white">
-                            <span className="cursor-pointer hover:text-orange-600">ENG</span>
-                            <span className="mx-2 text-orange-600">|</span>
-                            <span className="cursor-pointer hover:text-orange-600">FR</span>
-                            <span className="mx-2 text-orange-600">|</span>
-                            <span className="cursor-pointer hover:text-orange-600">TWI</span>
-                        </div> */}
-
-
-                        {/* Contact Us Button */}
-                        <Link
-                            to="/contact"
-                            className="bg-orange-600 text-white px-2 py-2 rounded-lg hover:bg-orange-500 transition"
-                        >
-                            Contact Us
+                        <Link to="/consultation" className="text-orange-600 hover:text-white">Consultation</Link> {/* Contact Us Button */}
+                        {/* <Link to="/contact" className="bg-orange-600 text-white px-2 py-2 rounded-lg hover:bg-orange-500 transition"  > Contact Us
+                        </Link> */}
+                        <Link to="/assessment-toolkit" className="bg-orange-600 text-white px-2 py-2 rounded-lg hover:bg-orange-500 transition">  Assessment Toolkit
                         </Link>
                     </div>
 
@@ -70,15 +55,29 @@ export default function Navbar() {
                     <Link to="/consultation" className="block hover:text-orange-500" onClick={toggleMenu}>Consultation</Link>
 
                     {/* Contact Us Button Mobile */}
-                    <Link
+                    {/* <Link
                         to="/contact"
                         className="block bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition"
                         onClick={toggleMenu}
                     >
                         Contact Us
+                    </Link> */}
+
+                    <Link
+                        to="/assessment-toolkit" className="block bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition"
+                        onClick={toggleMenu}>
+                        Assessment Toolkit
                     </Link>
                 </div>
             )}
+            {/* language links */}
+            {/* <div className="text-white">
+                            <span className="cursor-pointer hover:text-orange-600">ENG</span>
+                            <span className="mx-2 text-orange-600">|</span>
+                            <span className="cursor-pointer hover:text-orange-600">FR</span>
+                            <span className="mx-2 text-orange-600">|</span>
+                            <span className="cursor-pointer hover:text-orange-600">TWI</span>
+                        </div> */}
         </nav>
     );
 }

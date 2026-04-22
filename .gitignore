@@ -23,5 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.env.local
+.env.*.local
+.kiro/
 # ignore package-lock.json
 package-lock.json

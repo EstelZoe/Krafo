@@ -1,7 +1,7 @@
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhone, FaEnvelope, FaWhatsapp, FaTiktok, FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-export default function Footer({ variant = "dark" }) {
+export default function Footer({ variant = "dark", termsLink, privacyLink }) {
   const variants = {
     light: {
       bg: "bg-gray-100",
@@ -203,14 +203,14 @@ export default function Footer({ variant = "dark" }) {
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-sm opacity-80">
-              &copy; 2025 KRAFO SYSTEMS. All rights reserved.
+              &copy; 2026 KRAFO SYSTEMS. All rights reserved.
             </p>
             <div className="flex space-x-6 text-xs opacity-70">
-              <Link to="/privacy-policy" className={`${style.link} hover:opacity-100 transition-opacity duration-200`}>
+              <Link to={privacyLink || "/privacy-policy"} className={`${style.link} hover:opacity-100 transition-opacity duration-200`}>
                 Privacy Policy
               </Link>
               <span className="opacity-30">|</span>
-              <Link to="/terms" className={`${style.link} hover:opacity-100 transition-opacity duration-200`}>
+              <Link to={termsLink || "/terms"} className={`${style.link} hover:opacity-100 transition-opacity duration-200`}>
                 Terms of Service
               </Link>
             </div>
