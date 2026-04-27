@@ -88,16 +88,17 @@ function FlipCard({ icon: Icon, title, desc, backContent, badge, delay = 0 }) {
 
 function NistRadar() {
   const [active, setActive] = useState(null);
-  const labels = ["Identify", "Protect", "Detect", "Respond", "Recover"];
+  const labels = ["Governance", "Identify", "Protect", "Detect", "Respond", "Recover"];
   const descs = [
+    "Establish and maintain cybersecurity policies, procedures, and oversight across the organization.",
     "Understand and manage risk to systems, assets, data, and capabilities.",
     "Develop and implement safeguards to ensure delivery of services.",
     "Identify cybersecurity events in a timely manner.",
     "Take action regarding a detected cybersecurity incident.",
     "Maintain resilience plans and restore capabilities.",
   ];
-  const scores = [0.7, 0.5, 0.4, 0.6, 0.8];
-  const size = 280, cx = size / 2, r = size * 0.38, step = (Math.PI * 2) / 5;
+  const scores = [0.6, 0.7, 0.5, 0.4, 0.6, 0.8];
+  const size = 280, cx = size / 2, r = size * 0.38, step = (Math.PI * 2) / 6;
 
   const pts = labels.map((_, i) => ({ x: cx + r * Math.cos(i * step - Math.PI / 2), y: cx + r * Math.sin(i * step - Math.PI / 2) }));
   const dPts = scores.map((s, i) => ({ x: cx + r * s * Math.cos(i * step - Math.PI / 2), y: cx + r * s * Math.sin(i * step - Math.PI / 2) }));
@@ -141,7 +142,7 @@ function NistRadar() {
       <Reveal delay={0.2} className="flex-1">
         <h3 className="text-2xl font-bold text-orange-500 mb-3">NIST Cybersecurity Framework</h3>
         <p className="text-gray-400 leading-relaxed mb-6 text-sm">
-          Our assessment evaluates your organization across five core security functions. Hover over the chart to explore each pillar.
+          Our assessment evaluates your organization across six core security functions. Hover over the chart to explore each pillar.
         </p>
         <div className="space-y-2">
           {labels.map((l, i) => (
