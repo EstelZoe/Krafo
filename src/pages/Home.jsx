@@ -33,6 +33,7 @@ import AI from "../assets/images/ai.jpeg";
 import AnnouncementPopup from "../assets/components/AnnouncementPopup";
 import mind from "../assets/images/hackmind.jpeg";
 import agric from "../assets/images/AgriCyber.jpeg";
+import cyber from "../assets/images/cyberawareness.jpg";
 
 export default function Home() {
 
@@ -41,22 +42,28 @@ export default function Home() {
 
 
     {
-      image: agric,
-      title: "#CYBER MEETS FOOD",
+      image: cyber,
+      title: "#CYBER AWARENESS TRAINING",
       desc:
-        "Why Does Food Sustainability Need Cybersecurity?",
+        "Join us for a prerecorded cyber awareness course designed for SMEs like yours, follow this NIST-inspired, 8-module training (total 2.5 hours) with bite-sized videos (5-20 min each). We discuss high-impact threats like phishing, which are responsible for 90% of breaches, while staying practical for non-technical users, Total duration is 2 hours 20 minutes of video lessons accompanied by short quizzes, leading to a Cybersecurity Awareness Certificate available for a fee.",
+
       bullets: [
         {
-          title: "Protects food supply systems :",
-          desc: " prevents hacking of farms, factories, and distribution networks.",
+          title: "Compliance & Standards Alignment :",
+          desc: "Supports compliance with teachings on NIST 800-50 and Ghana DPA 2012 (Act 843) compliance.",
         },
         {
-          title: "Secures data-driven agriculture.:",
-          desc: " shields sensors, drones, and smart farm data from manipulation..",
+          title: "Core Cyber Safety Skills.:",
+          desc: " Learn the basics of Safe Browsing, Remote Worker Security and AI oversharing.",
         },
         {
-          title: "Prevents food fraud & sabotage",
-          desc: "  – blocks attackers from altering quality data or contaminating digital records:",
+          title: "Threat Prevention Checklist",
+          desc: "  –Go through Checklist to prevent threats in Malware and Ransomware:",
+        },
+
+         {
+          title: "Lesson Assessment Quizzes",
+          desc: "  – End each lesson with a 3-question quiz (80% pass to proceed) :",
         },
       ],
     },
@@ -524,7 +531,7 @@ export default function Home() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
-              Partner With Us
+              Get Connected Now
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>

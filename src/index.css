@@ -334,3 +334,23 @@ nav{
     animation: progress-fill 700ms ease-out forwards;
   }
 }
+
+@keyframes networkMove {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 160px 160px;
+  }
+}
+
+@keyframes networkGlow {
+  0%, 100% {
+    transform: translateX(-30%);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateX(30%);
+    opacity: 0.6;
+  }
+}

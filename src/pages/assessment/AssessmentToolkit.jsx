@@ -1,258 +1,185 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import ToolkitNavbar from "./components/ToolkitNavbar";
-import Footer from "../../assets/components/Footer";
-import tab from "../assessment/images/tabremove.png"
-import { ClipboardList, BarChart3, FileText, Search, ShieldCheck, Radar, Zap, RefreshCcw, Shield } from "lucide-react";
+// import Footer from "../../assets/components/Footer";
+import ParticleNetwork from "./components/ParticleNetwork";
+import { ShieldCheck, FileText, ArrowRight, LockKeyhole } from "lucide-react";
+
+function CyberNetworkBackground() {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-40">
+      <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.22)_1px,transparent_1px)] bg-[size:34px_34px] animate-[networkMove_18s_linear_infinite]" />
+
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,115,0,0.12),transparent)] animate-[networkGlow_8s_ease-in-out_infinite]" />
+    </div>
+  );
+}
 
 
-export default function AssessmentToolkit() {
-  const navigate = useNavigate();
 
-  const handleStartAssessment = () => {
-    navigate('/assessment-toolkit/signup');
-  };
+function MouseGlow() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const handleExampleReport = () => {
-    // Navigate to start page which will redirect logged-in users appropriately
-    navigate('/assessment-toolkit/start');
-  };
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      setPosition({ x: event.clientX, y: event.clientY });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-hidden">
+    <div
+      className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
+      style={{
+        background: `radial-gradient(circle at ${position.x}px ${position.y}px, rgba(255, 115, 0, 0.32), rgba(139, 92, 246, 0.22), rgba(14, 165, 233, 0.16), transparent 36%)`,
+      }}
+    />
+  );
+}
 
-      {/* Orange glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 
-                      w-[900px] h-[500px] 
-                      bg-orange-500/20 
-                      blur-[160px] 
-                      rounded-full">
-      </div>
+function AnimatedHeading() {
+  const words = "CYBER SECURITY ASSESSMENT TOOLKIT".split(" ");
 
-      {/* Dark gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black to-black"></div>
+  return (
+    <div className="text-center">
+      <h1 className="text-5xl md:text-6xl font-bold text-orange-500">
+        Cybersecurity Risk
+      </h1>
 
-      <div className="relative z-10">
-        <ToolkitNavbar />
+      <h1 className="text-5xl md:text-6xl font-bold">
+        Assessment Toolkit
+      </h1>
 
-        {/* HERO */}
-        <section className="flex flex-col items-center text-center pt-4 px-6"> <h1 className="text-4xl md:text-5xl font-bold text-orange-500"> Cybersecurity Risk </h1> <h1 className="text-4xl md:text-5xl font-bold"> Assessment Toolkit </h1> <p className="mt-4 text-gray-400 max-w-xl"> Evaluate your organization's security posture, identify hidden vulnerabilities, and get actionable recommendations in minutes. </p> <div className="flex gap-4 mt-6"> <button onClick={handleStartAssessment} className="bg-orange-500 hover:bg-orange-600 px-6 py-2 rounded-md font-medium transition" > Start Free Assessment </button> <button onClick={handleExampleReport} className="border border-gray-500 hover:border-white px-6 py-2 rounded-md transition" > See Example Report </button> </div> <img src={tab} alt="Graph Preview" className="mt-4 w-[900px] max-w-full h-auto object-contain" /> </section>
-
-        {/* HOW IT WORKS */}
-        <section className="relative py-24 px-6 border-t border-gray-800">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 
-                      w-[900px] h-[500px] 
-                      bg-orange-500/20 
-                      blur-[160px] 
-                      rounded-full">
-          </div>
-
-          <div className="relative z-10 max-w-6xl mx-auto text-center">
-
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              How the Assessment Works
-            </h2>
-
-            <p className="text-gray-400 max-w-2xl mx-auto mb-16">
-              Our toolkit walks you through a structured evaluation of your
-              cybersecurity posture and provides actionable insights.
-            </p>
-
-            <div className="grid md:grid-cols-3 gap-10">
-
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
-                <ClipboardList className="text-orange-500 mb-4" size={32} />
-                <h3 className="text-xl font-semibold mb-3 text-orange-500">
-                  1. Questionaire
-                </h3>
-                <p className="text-gray-400">
-                  Complete a guided questionnaire covering key cybersecurity
-                  areas like governance, risk management, and technical controls.
-                </p>
-              </div>
-
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
-                <BarChart3 className="text-orange-500 mb-4" size={32} />
-                <h3 className="text-xl font-semibold mb-3 text-orange-500">
-                  2. Analyze
-                </h3>
-                <p className="text-gray-400">
-                  Our system analyzes your responses and compares them with
-                  industry best practices and security frameworks.
-                </p>
-              </div>
-
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
-                <FileText className="text-orange-500 mb-4" size={32} />
-                <h3 className="text-xl font-semibold mb-3 text-orange-500">
-                  3. Get Your Report
-                </h3>
-                <p className="text-gray-400">
-                  Receive a clear report highlighting vulnerabilities,
-                  strengths, and practical recommendations to improve security.
-                </p>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* THE WHO SECTION */}
-        <section className="relative py-24 px-6 border-t border-gray-800 overflow-hidden">
-
-          {/* orange glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 
-                  w-[700px] h-[200px] 
-                  bg-orange-500/20 
-                  blur-[120px]">
-          </div>
-
-          <div className="relative z-10 max-w-6xl mx-auto text-center">
-
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Who Is This Toolkit For?
-            </h2>
-
-            <p className="text-gray-400 max-w-2xl mx-auto mb-16">
-              Designed for organizations and teams that want to understand and
-              strengthen their cybersecurity posture.
-            </p>
-
-            <div className="grid md:grid-cols-3 gap-10">
-
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
-                <h3 className="text-xl font-semibold mb-3 text-orange-500">
-                  Small Businesses
-                </h3>
-                <p className="text-gray-400">
-                  Identify security gaps and protect your growing business from
-                  cyber threats.
-                </p>
-              </div>
-
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
-                <h3 className="text-xl font-semibold mb-3 text-orange-500">
-                  IT Teams
-                </h3>
-                <p className="text-gray-400">
-                  Evaluate your current controls and get insights into improving
-                  your organization’s security posture.
-                </p>
-              </div>
-
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
-                <h3 className="text-xl font-semibold mb-3 text-orange-500">
-                  Executives & Leaders
-                </h3>
-                <p className="text-gray-400">
-                  Gain visibility into cybersecurity risks and make informed
-                  strategic decisions.
-                </p>
-              </div>
-
-            </div>
-
-          </div>
-        </section>
-        {/* NIST SECTION */}
-        <section className="relative py-24 px-6 border-t border-gray-800 overflow-hidden">
-
-          {/* glow from separator */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 
-                  w-[700px] h-[200px] 
-                  bg-orange-500/20 
-                  blur-[120px]">
-          </div>
-
-          <div className="relative z-10 max-w-7xl mx-auto">
-
-            <h2 className="text-2xl md:text-3xl font-bold mb-2">
-              Core Security Pillars
-            </h2>
-
-            <p className="text-gray-400 mb-12">
-              Based on the NIST Cybersecurity Framework to ensure comprehensive coverage.
-            </p>
-
-            <div className="grid md:grid-cols-5 gap-6">
-
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
-                <Search className="text-orange-500 mb-3" size={20} />
-                <h3 className="text-orange-500 font-semibold mb-2">Identify</h3>
-                <p className="text-gray-400 text-sm">
-                  Understand and manage risk to systems, assets, data, and capabilities.
-                </p>
-              </div>
-
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
-                <ShieldCheck className="text-orange-500 mb-3" size={20} />
-                <h3 className="text-orange-500 font-semibold mb-2">Protect</h3>
-                <p className="text-gray-400 text-sm">
-                  Develop and implement safeguards to ensure delivery of services.
-                </p>
-              </div>
-
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
-                <Radar className="text-orange-500 mb-3" size={20} />
-                <h3 className="text-orange-500 font-semibold mb-2">Detect</h3>
-                <p className="text-gray-400 text-sm">
-                  Identify the occurrence of a cybersecurity event in a timely manner.
-                </p>
-              </div>
-
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
-                <Zap className="text-orange-500 mb-3" size={20} />
-                <h3 className="text-orange-500 font-semibold mb-2">Respond</h3>
-                <p className="text-gray-400 text-sm">
-                  Take action regarding a detected cybersecurity incident.
-                </p>
-              </div>
-
-              <div className="bg-[#111] p-8 rounded-xl border border-gray-800 hover:border-orange-500/40 hover:glow-orange-sm hover:-translate-y-1 transition-all duration-300 ease-out">
-                <RefreshCcw className="text-orange-500 mb-3" size={20} />
-                <h3 className="text-orange-500 font-semibold mb-2">Recover</h3>
-                <p className="text-gray-400 text-sm">
-                  Maintain plans for resilience and restore capabilities.
-                </p>
-              </div>
-
-            </div>
-
-          </div>
-        </section>
-        <section className="relative py-28 px-6 border-t border-gray-800 overflow-hidden">
-
-          {/* orange glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 
-                  w-[700px] h-[200px] 
-                  bg-orange-500/20 
-                  blur-[120px]">
-          </div>
-
-          <div className="relative z-10 max-w-4xl mx-auto text-center">
-
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Assess Your Cybersecurity Posture?
-            </h2>
-
-            <p className="text-gray-400 mb-10">
-              Complete the assessment and receive a detailed report highlighting
-              risks, strengths, and actionable recommendations.
-            </p>
-
-            <button
-              onClick={handleStartAssessment}
-              className="bg-orange-500 hover:bg-orange-600 px-8 py-3 rounded-md font-medium transition"
-            >
-              Start Free Assessment
-            </button>
-
-          </div>
-
-        </section>
-
-        {/* FOOTER */}
-        <Footer variant="dark" termsLink="/assessment-toolkit/terms" privacyLink="/assessment-toolkit/privacy" />
-      </div>
+      <p className="mt-4 text-gray-400 max-w-xl mx-auto">
+        Discover gaps, measure risk, and get a clear report to improve your organization’s cyber safety.
+      </p>
     </div>
+  );
+}
+
+function FloatingActionCard({
+  title,
+  description,
+  icon: Icon,
+  href,
+  primary = false,
+  className = "",
+  delay = 0,
+}) {
+  const [text, setText] = useState("");
+  const fullText = description;
+
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      setText(fullText.slice(0, i));
+      i++;
+      if (i > fullText.length) clearInterval(interval);
+    }, 25);
+
+    return () => clearInterval(interval);
+  }, [fullText]);
+  return (
+    <motion.a
+      href={href}
+      initial={{ opacity: 0, y: 42, scale: 0.96 }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+        y: [0, -14, 0],
+        x: primary ? [0, 10, 0] : [0, -10, 0],
+        rotate: primary ? [0, 1.5, 0] : [0, -1.5, 0],
+      }}
+      transition={{
+        opacity: { duration: 0.7, delay },
+        scale: { duration: 0.7, delay },
+        y: { duration: 7, repeat: Infinity, ease: "easeInOut", delay },
+        x: { duration: 9, repeat: Infinity, ease: "easeInOut", delay },
+        rotate: { duration: 10, repeat: Infinity, ease: "easeInOut", delay },
+      }}
+      whileHover={{ scale: 1.04, y: -8 }}
+      whileTap={{ scale: 0.98 }}
+      className={`group relative w-full overflow-hidden rounded-3xl border  text-left shadow-2xl backdrop-blur-xl transition duration-300 w-full md:w-[480px] lg:w-[520px] min-h-[260px] p-10 flex items-center justify-center ${primary
+        ? "border-orange-400/40 bg-orange-500/15 shadow-orange-500/20 hover:border-orange-300 hover:shadow-[0_0_120px_rgba(249,115,22,0.9)]"
+        : "border-white/15 bg-white/10 shadow-black/30 hover:border-sky-300 hover:shadow-[0_0_120px_rgba(56,189,248,0.85)]"
+        } ${className}`}
+    >
+      <div className="absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100">
+        <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-orange-400/25 blur-3xl" />
+        <div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-sky-400/20 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 flex flex-col items-center justify-center gap-5 text-center min-h-[180px]">
+        <div
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition duration-300 group-hover:scale-110 ${primary
+            ? "bg-orange-400 text-black group-hover:shadow-[0_0_35px_rgba(249,115,22,0.95)]"
+            : "bg-white/10 text-white group-hover:shadow-[0_0_35px_rgba(56,189,248,0.85)]"
+            }`}
+        >
+          <Icon size={24} />
+        </div>
+
+        <div className="min-w-0">
+
+          <h2 className="text-xl font-bold uppercase tracking-wide text-white sm:text-2xl">
+            {title}
+          </h2>
+
+         
+        </div>
+        <ArrowRight className="ml-auto mt-1 shrink-0 text-white/60 transition group-hover:translate-x-1 group-hover:text-white" size={20} />
+      </div>
+    </motion.a>
+  );
+}
+
+export default function CyberAssessmentToolkitHome() {
+  return (
+    <main className="relative min-h-screen overflow-hidden bg-[#030303] text-white">
+      <ParticleNetwork />
+      <MouseGlow />
+      <ToolkitNavbar />
+
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute left-[-12%] top-[-10%] h-[360px] w-[360px] rounded-full bg-orange-500/25 blur-[110px] sm:h-[480px] sm:w-[480px]" />
+        <div className="absolute right-[-15%] top-[20%] h-[360px] w-[360px] rounded-full bg-violet-600/25 blur-[120px] sm:h-[520px] sm:w-[520px]" />
+        <div className="absolute bottom-[-18%] left-[35%] h-[360px] w-[360px] rounded-full bg-sky-500/20 blur-[120px] sm:h-[500px] sm:w-[500px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:72px_72px] opacity-20" />
+      </div>
+
+      <section className="relative z-10 flex min-h-screen items-center justify-center px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-center mt-[-40px]">
+
+
+          <div className="mt-[-100px]">
+            <AnimatedHeading />
+          </div>
+
+
+
+          <div className="relative mt-12 flex w-full justify-center lg:mt-16">
+            <FloatingActionCard
+              href="#assessment"
+              title="Start Free Assessment"
+              description="Begin a guided security check and see where your organization stands."
+              icon={ShieldCheck}
+              primary
+              delay={1.25}
+            />
+
+            {/* <FloatingActionCard
+              href="#example-report"
+              title="See Example Report"
+              description="Preview the kind of insight, scoring, and recommendations you will receive."
+              icon={FileText}
+              delay={1.45}
+            /> */}
+          </div>
+        </div>
+      </section>
+      {/* <Footer /> */}
+    </main>
   );
 }

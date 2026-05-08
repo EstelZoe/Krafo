@@ -40,12 +40,12 @@ export default function ToolkitNavbar() {
                         Resources
                     </Link>
 
-                    <Link 
+                    {/* <Link 
                         to="/assessment-toolkit/contact" 
                         className="text-white hover:text-orange-500 transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 after:transition-all after:duration-300 hover:after:w-full"
                     >
                         Contact
-                    </Link>
+                    </Link> */}
 
                     <Link
                         to="/assessment-toolkit/start"
