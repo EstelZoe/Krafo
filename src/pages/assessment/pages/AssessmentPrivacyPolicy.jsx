@@ -136,3 +136,4 @@ export default function AssessmentPrivacyPolicy() {
     </div>
   );
 }
+

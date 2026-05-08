@@ -23,8 +23,9 @@ export default function ManagePromoCodes() {
     setLoading(true);
     setError(null);
     try {
-      const res = await apiClient.get('/api/v1/admin/promo-codes');
-      setPromoCodes(res.data.data || res.data || []);
+      const res = await apiClient.get('/v1/admin/promo-codes');
+      const data = res.data?.promoCodes || res.data?.data || res.data || [];
+      setPromoCodes(Array.isArray(data) ? data : []);
     } catch (err) {
       setError(err.response?.data?.error || err.message);
     } finally {
@@ -48,7 +49,7 @@ export default function ManagePromoCodes() {
       if (formData.maxUses) payload.maxUses = Number(formData.maxUses);
       if (formData.expiresAt) payload.expiresAt = formData.expiresAt;
 
-      await apiClient.post('/api/v1/admin/promo-codes', payload);
+      await apiClient.post('/v1/admin/promo-codes', payload);
       setFormData({ code: '', assignedTo: '', maxUses: '', expiresAt: '' });
       setShowCreateForm(false);
       fetchPromoCodes();
@@ -62,7 +63,7 @@ export default function ManagePromoCodes() {
   async function handleDeactivate(id) {
     setActionLoading(prev => ({ ...prev, [`deact_${id}`]: true }));
     try {
-      await apiClient.patch(`/api/v1/admin/promo-codes/${id}/deactivate`);
+      await apiClient.patch(`/v1/admin/promo-codes/${id}/deactivate`);
       fetchPromoCodes();
     } catch {
       alert('Could not deactivate promo code.');
@@ -76,8 +77,9 @@ export default function ManagePromoCodes() {
     setReferralsCode(code);
     setReferrals(null);
     try {
-      const res = await apiClient.get(`/api/v1/admin/promo-codes/${id}/referrals`);
-      setReferrals(res.data.data || res.data || []);
+      const res = await apiClient.get(`/v1/admin/promo-codes/${id}/referrals`);
+      const data = res.data?.referrals || res.data?.data || res.data || [];
+      setReferrals(Array.isArray(data) ? data : []);
     } catch {
       setReferrals([]);
     } finally {

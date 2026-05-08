@@ -1,9 +1,17 @@
+
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ToolkitNavbar from "./components/ToolkitNavbar";
 // import Footer from "../../assets/components/Footer";
 import ParticleNetwork from "./components/ParticleNetwork";
 import { ShieldCheck, FileText, ArrowRight, LockKeyhole } from "lucide-react";
+
+
+
+// ── Reusable Components ─────────────────────────────────────────────────────
+
+
+
 
 function CyberNetworkBackground() {
   return (
@@ -183,3 +191,5 @@ export default function CyberAssessmentToolkitHome() {
     </main>
   );
 }
+
+

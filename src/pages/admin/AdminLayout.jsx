@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
-import krafologo from "../../assets/images/KRAFO ORIGINAL WHITEAsset 70-8.png"
+import krafologo from "../../assets/images/KRAFO ORIGINAL WHITEAsset 70@2x.png"
 
 // KRAFO Logo Component
 const KrafoLogo = ({ size = 'default' }) => {

@@ -387,7 +387,7 @@ export default function Home() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-y-6 gap-x-6 md:grid-cols-2 lg:grid-cols-3 items-start">
           {[
             {
-              title: "AI & Cybersucurity",
+              title: "AI & Cybersecurity",
               price: "Coming Soon",
               tierColor: "text-orange-400",
               bg: "bg-[#0E0E0E]",
@@ -683,11 +683,11 @@ export default function Home() {
           >
             <p className="text-sm font-semibold text-orange-500 mb-2 flex items-center gap-2">
               <span className="w-4 h-4 border border-orange-500 rounded-full flex items-center justify-center">i</span>
-              BOOK A CONSULTAION WITH US
+              BOOK A CONSULTATION WITH US
             </p>
             <p className="text-sm font-semibold text-orange-500 mb-2 flex items-center gap-2">
               <span className="w-4 h-4 border border-orange-500 rounded-full flex items-center justify-center">i</span>
-              Build Cyber Resilience With Us Before Is Too Late
+              Build Cyber Resilience With Us Before It's Too Late
             </p>
 
 

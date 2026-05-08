@@ -217,12 +217,15 @@ export default function AssessmentDashboard() {
                   {/* Expanded NIST Functions */}
                   {isExpanded && (
                     <div className="border-t border-gray-800 px-6 py-4 bg-black/30">
-                      <p className="text-gray-400 text-xs uppercase tracking-wider mb-3">NIST Framework Performance</p>
+                      <p className="text-gray-400 text-xs uppercase tracking-wider mb-3">NIST Framework — Controls in Place</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         {Object.entries(nistFunctions).map(([fn, data]) => {
-                          const pct = Math.round((data.score / data.maxScore) * 100);
-                          const barColor = STATUS_BAR[data.status] || 'bg-orange-500';
-                          const textColor = STATUS_COLORS[data.status] || 'text-orange-400';
+                          const numQ = { identify: 5, protect: 5, detect: 5, respond: 5, recover: 5 }[fn] || 5;
+                          const minScore = numQ * 1;
+                          const range = data.maxScore - minScore;
+                          const compliancePct = range > 0 ? Math.round(((data.maxScore - data.score) / range) * 100) : 0;
+                          const barColor = compliancePct >= 70 ? 'bg-green-400' : compliancePct >= 40 ? 'bg-yellow-400' : 'bg-red-400';
+                          const textColor = compliancePct >= 70 ? 'text-green-400' : compliancePct >= 40 ? 'text-yellow-400' : 'text-red-400';
                           const label = fn.charAt(0).toUpperCase() + fn.slice(1);
 
                           return (
@@ -230,13 +233,13 @@ export default function AssessmentDashboard() {
                               <div className="flex justify-between items-center mb-2">
                                 <span className="text-white text-xs font-medium">{label}</span>
                                 <span className={`text-xs font-semibold ${textColor}`}>
-                                  {data.score}/{data.maxScore}
+                                  {compliancePct}%
                                 </span>
                               </div>
                               <div className="bg-gray-800 rounded-full h-1.5">
                                 <div
                                   className={`${barColor} h-1.5 rounded-full transition-all duration-500`}
-                                  style={{ width: `${pct}%` }}
+                                  style={{ width: `${compliancePct}%` }}
                                 />
                               </div>
                             </div>
