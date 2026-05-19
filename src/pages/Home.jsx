@@ -149,14 +149,14 @@ export default function Home() {
   }, [showPlayer]);
 
   return (
-    
+
     <>
 
       <Navbar />
       <AnnouncementPopup />
 
       <section className="relative w-full h-[650px] overflow-hidden">
-        {/* Background Layer */} 
+        {/* Background Layer */}
         <video
           className="absolute top-0 left-0 w-full h-full object-cover scale-105 animate-zoom"
           src={video} autoPlay loop muted playsInline />
@@ -380,21 +380,24 @@ export default function Home() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-y-6 gap-x-6 md:grid-cols-2 lg:grid-cols-3 items-start">
           {[
             {
-              title: "AI & Cybersucurity",
-              price: "Coming Soon",
-              tierColor: "text-orange-400",
+              title: "Cyber Boss Master Class",
+              originalPrice: "¢3,000",
+              discount: "5% OFF",
+              price: "¢2,500",
+              tierColor: "text-[#F2600B]",
               bg: "bg-[#0E0E0E]",
               ring: "ring-[#F2600B55]",
+             
               features: [
-                "Understand how AI is used in cyber attacks.",
-                "Build AI-powered security monitoring tools.",
-                "Explore the ethics of AI in security.",
+                "Governance and Compliance For Business Owners.",
+                // "Avoid Ghana Data Protection Act fines of up to ¢60,000 with the right cybersecurity solution.",
+                "2026 is Ghana's year of ENFORCEMENT.Get solution NOW.",
               ],
               icon: "",
             },
             {
               title: "Cybersecurity Capacity Building Course",
-              price: "¢5750",
+              price: "¢3000",
               tierColor: "text-[#F2600B]",
               bg: "bg-[#1A1A1A]/60",
               ring: "ring-[#F2600B33]",
@@ -428,13 +431,28 @@ export default function Home() {
             >
               <div className="text-4xl mb-3">{course.icon}</div>
               <h3 className={`text-base font-semibold ${course.tierColor}`}>{course.title}</h3>
-              <p className="mt-4 flex items-baseline gap-x-2">
-                <span className="text-4xl font-semibold tracking-tight text-white">{course.price}</span>
+              <div className="mt-4 flex items-center gap-3 flex-wrap">
+                {course.originalPrice && (
+                  <span className="text-lg text-gray-500 line-through">
+                    {course.originalPrice}
+                  </span>
+                )}
+
+                <span className="text-4xl font-semibold tracking-tight text-white">
+                  {course.price}
+                </span>
+
+                {course.discount && (
+                  <span className="bg-[#F2600B] text-white text-xs px-2 py-1 rounded-full font-medium">
+                    {course.discount}
+                  </span>
+                )}
+
                 <span className="text-base text-gray-400">/course</span>
-              </p>
+              </div>
               <p className="mt-6 text-base text-gray-400">
                 {index === 0
-                  ? "Start your journey into cybersecurity with a foundational course built for newcomers."
+                  ? "Designed for the CEO, CIO & Executive Board Members."
                   : index === 1
                     ? "A career-focused track for professionals seeking industry-level cybersecurity mastery."
                     : "For leaders, auditors, and security officers driving strategy, compliance, and enterprise defense."}
@@ -445,11 +463,19 @@ export default function Home() {
                 ))}
               </ul>
               <Link
-                to="/courses#cybersecurity-course"
-                className={`mt-8 block rounded-md ${index === 1
-                  ? "bg-[#F2600B] text-white"
-                  : "text-[#F2600B] ring-1 ring-[#F2600B44] hover:bg-[#F2600B22]"
-                  } text-center text-sm font-semibold transition px-3.5 py-2.5`} >
+                to={
+                  index === 0
+                    ? "https://egotickets.com/events/cyber-boss-masterclass"
+                    : "/courses#cybersecurity-course"
+                }
+                target={index === 0 ? "_blank" : ""}
+                rel="noopener noreferrer"
+                className={`mt-8 block rounded-md ${index === 0
+                    ? "bg-[#F2600B] text-white hover:bg-[#d94f00]"
+                    : index === 1
+                      ? "bg-[#F2600B] text-white"
+                      : "text-[#F2600B] ring-1 ring-[#F2600B44] hover:bg-[#F2600B22]"
+                  } text-center text-sm font-semibold transition px-3.5 py-2.5`}>
                 Enroll Now
               </Link>
             </div>))}
