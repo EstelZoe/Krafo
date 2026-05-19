@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiClient } from "../api/client";
 
 export default function useBlogs() {
   const [blogs, setBlogs] = useState([]);
@@ -7,9 +8,8 @@ export default function useBlogs() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch("http://your-backend.com/api/blogs"); // replace with your backend API
-        const data = await res.json();
-        setBlogs(data);
+        const res = await apiClient.get("/blogs");
+        setBlogs(res.data.blogs || res.data || []);
       } catch (err) {
         console.error("Error fetching blogs:", err);
       } finally {

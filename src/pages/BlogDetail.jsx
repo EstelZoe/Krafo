@@ -37,7 +37,7 @@ export default function BlogDetail() {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const { data } = await apiClient.get(`blogs/${id}`);
+        const { data } = await apiClient.get(`/blogs/${id}`);
         setPost(data.post || data);
       } catch (err) {
         console.error("Error fetching blog post:", err);

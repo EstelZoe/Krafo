@@ -25,7 +25,7 @@ const ManagePopups = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await apiClient.get('admin/content/popups');
+      const response = await apiClient.get('/admin/content/popups');
       
       // Backend may return array directly OR wrapped in object
       const popupsData = Array.isArray(response.data) 
@@ -142,12 +142,12 @@ const ManagePopups = () => {
           return;
         }
         console.log('📝 Updating popup with ID:', popupId);
-        await apiClient.patch(`admin/content/popups/${popupId}`, formDataToSend, {
+        await apiClient.patch(`/admin/content/popups/${popupId}`, formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       } else {
         // Create new popup
-        await apiClient.post('admin/content/popups', formDataToSend, {
+        await apiClient.post('/admin/content/popups', formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       }
@@ -169,7 +169,7 @@ const ManagePopups = () => {
     }
     try {
       console.log('🗑️ Deleting popup with ID:', popupId);
-      await apiClient.delete(`admin/content/popups/${popupId}`);
+      await apiClient.delete(`/admin/content/popups/${popupId}`);
       setDeleteConfirm(null);
       fetchPopups();
     } catch (err) {
@@ -190,7 +190,7 @@ const ManagePopups = () => {
     }
     try {
       console.log('🔄 Toggling popup with ID:', popupId);
-      await apiClient.post(`admin/content/popups/${popupId}/toggle`);
+      await apiClient.post(`/admin/content/popups/${popupId}/toggle`);
       fetchPopups();
     } catch (err) {
       console.error('Error toggling popup status:', err);

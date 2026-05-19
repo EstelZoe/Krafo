@@ -51,7 +51,7 @@ const ManageBlogs = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await apiClient.get('admin/content/blogs');
+      const response = await apiClient.get('/admin/content/blogs');
       
       // Backend may return array directly OR wrapped in object
       const blogsData = Array.isArray(response.data) 
@@ -180,12 +180,12 @@ const ManageBlogs = () => {
           return;
         }
         console.log('📝 Updating blog with ID:', blogId);
-        await apiClient.patch(`admin/content/blogs/${blogId}`, formDataToSend, {
+        await apiClient.patch(`/admin/content/blogs/${blogId}`, formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       } else {
         // Create new blog via admin content endpoint
-        await apiClient.post('admin/content/blogs', formDataToSend, {
+        await apiClient.post('/admin/content/blogs', formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       }
@@ -207,7 +207,7 @@ const ManageBlogs = () => {
     }
     try {
       console.log('🗑️ Deleting blog with ID:', blogId);
-      await apiClient.delete(`admin/content/blogs/${blogId}`);
+      await apiClient.delete(`/admin/content/blogs/${blogId}`);
       setDeleteConfirm(null);
       fetchBlogs();
     } catch (err) {
@@ -228,7 +228,7 @@ const ManageBlogs = () => {
     }
     try {
       console.log('🔄 Toggling blog with ID:', blogId);
-      await apiClient.post(`admin/content/blogs/${blogId}/toggle`);
+      await apiClient.post(`/admin/content/blogs/${blogId}/toggle`);
       fetchBlogs();
     } catch (err) {
       console.error('Error toggling blog status:', err);

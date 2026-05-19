@@ -255,3 +255,82 @@ nav{
   overflow-x: auto;
   margin-bottom: 1rem;
 }
+
+/* Custom Glow Effect Utilities for Assessment UI Enhancements */
+@layer utilities {
+  .glow-orange-sm {
+    box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+  }
+  
+  .glow-orange-md {
+    box-shadow: 0 0 12px rgba(249, 115, 22, 0.5),
+                0 0 24px rgba(249, 115, 22, 0.2);
+  }
+  
+  .glow-orange-lg {
+    box-shadow: 0 0 16px rgba(249, 115, 22, 0.6),
+                0 0 32px rgba(249, 115, 22, 0.3),
+                0 0 48px rgba(249, 115, 22, 0.1);
+  }
+  
+  .glow-orange-ambient {
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+  }
+  
+  .glow-green-sm {
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+  }
+  
+  .glow-red-sm {
+    box-shadow: 0 0 8px rgba(248, 113, 113, 0.4);
+  }
+  
+  /* Custom scale utilities */
+  .scale-98 {
+    transform: scale(0.98);
+  }
+  
+  .scale-102 {
+    transform: scale(1.02);
+  }
+}
+
+/* Animation Keyframes for Assessment UI Enhancements */
+@keyframes pulse-subtle {
+  0%, 100% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0.8; 
+  }
+}
+
+@keyframes shimmer {
+  0% { 
+    background-position: -200% 0; 
+  }
+  100% { 
+    background-position: 200% 0; 
+  }
+}
+
+@keyframes progress-fill {
+  from { 
+    width: 0%; 
+  }
+}
+
+/* Animation Utility Classes */
+@layer utilities {
+  .animate-pulse-subtle {
+    animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-shimmer {
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+  
+  .animate-progress-fill {
+    animation: progress-fill 700ms ease-out forwards;
+  }
+}

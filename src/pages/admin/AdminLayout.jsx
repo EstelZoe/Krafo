@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
-import krafologo from "../../assets/images/KRAFO ORIGINAL WHITEAsset 70-8.png"
+import krafologo from "../../assets/images/KRAFO ORIGINAL WHITEAsset 70@2x.png"
 
 // KRAFO Logo Component
 const KrafoLogo = ({ size = 'default' }) => {
@@ -56,7 +56,7 @@ const AdminLayout = () => {
     }
   }, [location.pathname, isDesktop]);
 
-  const navItems = [
+  const contentNavItems = [
     {
       name: 'Overview',
       path: '/admin',
@@ -94,6 +94,29 @@ const AdminLayout = () => {
       ),
     },
   ];
+
+  const toolkitNavItems = [
+    {
+      name: 'Assessments',
+      path: '/admin/assessments',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+        </svg>
+      ),
+    },
+    {
+      name: 'Promo Codes',
+      path: '/admin/promo-codes',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" />
+        </svg>
+      ),
+    },
+  ];
+
+  const navItems = [...contentNavItems, ...toolkitNavItems];
 
   const isActive = (path) => {
     if (path === '/admin') {
@@ -159,7 +182,33 @@ const AdminLayout = () => {
             <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
               Content Management
             </p>
-            {navItems.map((item) => (
+            {contentNavItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 group ${
+                  isActive(item.path)
+                    ? 'bg-gradient-to-r from-[#F2600B] to-orange-500 text-white shadow-lg shadow-orange-500/30'
+                    : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                }`}
+              >
+                <span className={`transition-colors ${isActive(item.path) ? 'text-white' : 'text-gray-400 group-hover:text-[#F2600B]'}`}>
+                  {item.icon}
+                </span>
+                <span className="ml-3 font-medium">{item.name}</span>
+                {isActive(item.path) && (
+                  <motion.div
+                    layoutId="activeNav"
+                    className="ml-auto w-1.5 h-1.5 bg-white rounded-full"
+                  />
+                )}
+              </Link>
+            ))}
+
+            <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 mt-6">
+              Assessment Toolkit
+            </p>
+            {toolkitNavItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}

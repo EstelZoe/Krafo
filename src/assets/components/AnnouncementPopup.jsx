@@ -16,7 +16,7 @@ export default function AnnouncementPopup() {
   useEffect(() => {
     const fetchActivePopup = async () => {
       try {
-        const { data } = await apiClient.get("popups/active");
+        const { data } = await apiClient.get("/popups/active");
         if (data && data.title) {
           setPopup(data);
           setShowPopup(true);

@@ -702,11 +702,11 @@ export default function Home() {
           >
             <p className="text-sm font-semibold text-orange-500 mb-2 flex items-center gap-2">
               <span className="w-4 h-4 border border-orange-500 rounded-full flex items-center justify-center">i</span>
-              BOOK A CONSULTAION WITH US
+              BOOK A CONSULTATION WITH US
             </p>
             <p className="text-sm font-semibold text-orange-500 mb-2 flex items-center gap-2">
               <span className="w-4 h-4 border border-orange-500 rounded-full flex items-center justify-center">i</span>
-              Build Cyber Resilience With Us Before Is Too Late
+              Build Cyber Resilience With Us Before It's Too Late
             </p>
 
 

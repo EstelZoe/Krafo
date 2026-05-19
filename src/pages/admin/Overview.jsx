@@ -29,9 +29,9 @@ const Overview = () => {
       try {
         setLoading(true);
         const [eventsRes, blogsRes, popupsRes] = await Promise.all([
-          apiClient.get('admin/content/events'),
-          apiClient.get('admin/content/blogs'),
-          apiClient.get('admin/content/popups'),
+          apiClient.get('/admin/content/events'),
+          apiClient.get('/admin/content/blogs'),
+          apiClient.get('/admin/content/popups'),
         ]);
 
         const eventsData = Array.isArray(eventsRes.data) ? eventsRes.data : [];
