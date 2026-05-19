@@ -390,7 +390,7 @@ export default function Home() {
              
               features: [
                 "Governance and Compliance For Business Owners.",
-                // "Avoid Ghana Data Protection Act fines of up to ¢60,000 with the right cybersecurity solution.",
+                "Avoid Ghana Data Protection Act fines of up to ¢60,000 with the right cybersecurity solution.",
                 "2026 is Ghana's year of ENFORCEMENT.Get solution NOW.",
               ],
               icon: "",
