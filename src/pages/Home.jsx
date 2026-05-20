@@ -41,6 +41,27 @@ export default function Home() {
 
 
     {
+      image: mind,
+      title: "Dangers Of Oversharing on AI",
+      desc:
+        "Oversharing on AI platforms can expose personal and sensitive information to misuse, identity theft, or data breaches. AI systems may store or learn from shared data, making it difficult to control how information is used. Revealing too much can also lead to privacy invasion, manipulation, or profiling. Always share cautiously and protect your digital identity.",
+      bullets: [
+        {
+          title: "Awareness of Privacy Risk:",
+          desc: "  How Personal Data are Being Exposed.",
+        },
+        {
+          title: "Awareness of Manipulation:",
+          desc: " How Information are being exploited for influence these days.",
+        },
+        {
+          title: "Cyber Awareness Certificate",
+          desc: " Certificate will be shared after the session.",
+        },
+      ],
+    },
+
+    {
       image: agric,
       title: "#CYBER MEETS FOOD",
       desc:
@@ -78,26 +99,7 @@ export default function Home() {
     //   ],
     // },
 
-    {
-      image: mind,
-      title: "Dangers Of Oversharing on AI",
-      desc:
-        "Oversharing on AI platforms can expose personal and sensitive information to misuse, identity theft, or data breaches. AI systems may store or learn from shared data, making it difficult to control how information is used. Revealing too much can also lead to privacy invasion, manipulation, or profiling. Always share cautiously and protect your digital identity.",
-      bullets: [
-        {
-          title: "Awareness of Privacy Risk:",
-          desc: "  How Personal Data are Being Exposed.",
-        },
-        {
-          title: "Awareness of Manipulation:",
-          desc: " How Information are being exploited for influence these days.",
-        },
-        {
-          title: "Cyber Awareness Certificate",
-          desc: " Certificate will be shared after the session.",
-        },
-      ],
-    },
+    
     // {
     //   image: Upcoming2,
     //   title: "Scaling Outreach Across Communities",
