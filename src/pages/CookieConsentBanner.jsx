@@ -49,7 +49,7 @@ export default function CookieConsentBanner() {
               Cookie Policy
             </Link>{" "}
             and{" "}
-            <Link to="/privacy-policy" className="underline text-[#F2600B] hover:text-orange-400">
+            <Link to="/terms-and-conditions" className="underline text-[#F2600B] hover:text-orange-400">
               Terms & Conditions
             </Link>.
           </p>

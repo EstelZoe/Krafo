@@ -448,7 +448,7 @@ export default function Home() {
                   </span>
                 )}
 
-                <span className="text-base text-gray-400">/course</span>
+                {/* <span className="text-base text-gray-400">/course</span> */}
               </div>
               <p className="mt-6 text-base text-gray-400">
                 {index === 0

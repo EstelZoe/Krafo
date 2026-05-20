@@ -30,6 +30,7 @@ const CybersecuritySurvey = lazy(() => import("./pages/CybersecuritySurvey"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
+const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const LogIn = lazy(() => import("./pages/LogIn"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 
@@ -96,6 +97,7 @@ function App() {
             <Route path="/cybersecurity-survey" element={<CybersecuritySurvey />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/cookies-policy" element={<CookiesPolicy />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         
             
             {/* Auth Routes */}
