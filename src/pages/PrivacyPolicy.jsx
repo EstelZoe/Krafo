@@ -17,7 +17,7 @@ export default function PrivacyPolicy() {
               Privacy Policy
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-300">
-              Last updated: May 12, 2026
+              Last updated: May 20, 2026
             </p>
           </div>
 
@@ -25,155 +25,136 @@ export default function PrivacyPolicy() {
             <section>
               <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">1. Introduction</h2>
               <p className="leading-relaxed">
-                Welcome to KrafoSystems.com. We respect your privacy and are committed to protecting your
-                personal data. This policy explains how we collect, use, disclose, and safeguard your information
-                when you use our website, book a consultation, subscribe to our services or enroll in our
-                courses.
+                Krafo Systems is a licensed Cybersecurity Service Provider with the Cyber Security Authority and Registered with th e
+                Data Protection Commission. We are committed to protecting your personal data in compliance with Ghana's Data
+                Protection Act, 2012 (Act 843), the Cybersecurity Act, 2020 (Act 1038), and the Electronic Transactions Act, 2008 (Act
+                772).
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">2. Data Controller Information</h2>
-              <p className="leading-relaxed">Krafo Systems Ltd. is the data controller under the Data Protection Act, 2012 (Act 843) of Ghana.
-                For any questions or requests concerning your personal data, you can contact us at:</p>
+              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">2. What Personal Data We Collect</h2>
+              <p className="leading-relaxed">When you use our services, attend our training, or contact us, we may collect:</p>
               <ul className="list-disc list-inside space-y-2 ml-4 leading-relaxed">
-                <li>Physical Address: GE-294-1752, 14 Haatso Atomic Rd, Accra Ghana</li>
-                <li>Email address: info@krafosystems.com</li>
-                <li>Phone number: (+233) 59-319-6002</li>
+                <li>Your name, email address, phone number, and business details to include compliance status.</li>
+                <li>Payment information for services and training</li>
+                <li>Cybersecurity assessment results (where you have engaged us for an audit)</li>
+                <li>Certification and training records (retained permanently for verificationpurposes)</li>
               </ul>
+              <p>We collect only the information we need to deliver your services. We do not  sell, rent, or trade your personal data.</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">3. Data We Collect</h2>
+              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">3. Why we process your data</h2>
               <p className="leading-relaxed">
-                We collect the following personal data when you:
+                We process your personal data to deliver the services you have requested, process your payments, issue certifications,
+                and communicate with you about your engagement with us. When we send you marketing information we will always ask
+                for your consent first either verbally , in writing , and or through consent ackn owledgement on your beha lf. By law you can
+                withdraw it at any time.
               </p>
-              <ul className="list-disc list-inside space-y-2 ml-4 leading-relaxed">
-                <li>Book a consultation or enroll in a course: Name, Email, Phone / WhatsApp number</li>
-                <li>Other information you may provide voluntarily in forms (course preferences, feedback
-                  etc.)</li>
-              </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">4.Purpose of Processing/ Why We Collect Your Data</h2>
-              <p className="leading-relaxed">
-                We use your data to:
-              </p>
+              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">4.How long we keep your data for?</h2>
               <ul className="list-disc list-inside space-y-2 ml-4 leading-relaxed">
-                <li>Respond to your enquiries and schedule consultations</li>
-                <li>Enroll you in courses and manage course delivery</li>
-                <li>Send you relevant updates / information about courses or services (only if you opt in)</li>
+                <li>Your name, email address, phone number, and business details : Kept du ring the duration of the relationship
+                  between our clients and either after relationship has ended with the client or 6 years depending on which on
+                  either Act 772 s.8(2) or Act 843 s.24(5)</li>
+                <li>Client payment records: Kept for the duration of your service relationship and for 7 years after it ends, as required bt Ghana Revenue Authority tax Obligations.</li>
+                <li>Cybersecurity assessment results are kept for as long as the data is needed but will de-identify the information to pr otect our clients .</li>
                 <li>Improve our website, services and user experience</li>
-                <li>Send marketing emails — only if you’ve agreed to receive them</li>
+                <li>Certification records: Kept permanently so that your qualification can be verified at any time</li>
               </ul>
-              <p>We do not sell your information or spam you.</p>
+              <p>Marketing data: Until you withdraw your consent.</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">5. Legal Basis</h2>
+              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">5. Your rights under Act 843</h2>
               <p className="leading-relaxed">
-                Under Ghana’s Data Protection Act, your consent is the legal basis for processing your personal
-                data for the purposes above.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">6. Data Sharing & Recipients</h2>
-              <p className="leading-relaxed">
-                We do not sell your data. We may share your information with:
+                Under Ghana's Data Protection Act, 2012 (Act 843), you have the right to:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4 leading-relaxed">
-                <li>Our staff / contractors who assist in course delivery or customer support</li>
-                <li>Service providers (e.g. email service providers, cloud hosting) under contract, who also
-                  ensure confidentiality and security</li>
+                <li>
+                  Access: Request a copy of the personal data we hold about you.
+                </li>
+                <li>
+                  Correction: Ask us to correct any inaccurate or incomplete data.
+                </li>
+                <li>
+                  Deletion: Ask us to delete your data where we no longer have a legal reason to hold it
+                </li>
+                <li>
+                  Objection: Opt out of marketing communications at any time.
+                </li>
+                <li>
+                  Withdraw consent: At any time, without affecting anything we have already done la
+                </li>
               </ul>
-              <p>We do not share your information with advertisers or unrelated third parties.</p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">7. Cookies & Tracking Technologies</h2>
-              <ul className="list-disc list-inside space-y-2 ml-4 leading-relaxed">
-                <li>We use necessary cookies for essential site functionality.</li>
-                <li>We may use analytics / tracking cookies (e.g. Google Analytics) - only if you consent to
-                  them - to understand how people use our website.</li>
-                <li>You can refuse or withdraw consent at any time via the cookie settings.</li>
-              </ul>
-              <p>
-  You can read more in our{" "}
-  <Link
-    to="/cookies-policy"
-    className="text-[#F2600B] hover:underline"
-  >
-    Cookies Notice
-  </Link>
-</p>
-You can also control cookies in your browser settings or through our cookie pop-up
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">8.Data Retention/ How Long We Keep Your Data</h2>
+              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">6. Contact us</h2>
               <p className="leading-relaxed">
-                We retain your personal data only as long as necessary to fulfill the purposes described above
-                or as required by law.
-                For example, we keep your information
+                We will respond to all requests within 21 days. To exercise your rights email us at https:// krafosys tems.com
+                support @krafosystems.com or call +233 59 319 6
               </p>
-              <ul className="list-disc list-inside space-y-2 ml-4 leading-relaxed">
-                <li>While you are taking a course.</li>
-                <li>To follow up after a consultation.</li>
-                <li>To meet legal or business requirements.</li>
-              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">7. How we protect your data</h2>
+              <p className="leading-relaxed">
+                We apply the security measures required under Act 843 s.28 including encryption of data at rest and in transit, multi -
+                factor authentication on all business accounts, role-based access controls, regular backups, and annual staff data
+                protection training. All third -party processors who handle your data on our behalf sign a Data Processing Agreement
+                and must meet our security standards.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">8.If something goes wrong</h2>
+              <p className="leading-relaxed">
+                In the event of a data breach we will notify the Cyber Security Authority (CSA) within 24 hours as required by Act 1038
+                s.6(1), notify the Data Protection Commission (DPC) as soon as reasonably practicable as required by Act 843 s.31, and
+                contact you directly with the information you need to protect yourself.
+              </p>
+              <p className="leading-relaxed">
+                If you are not satisfied with how we handle your data you have the right to contact the Data Protection Commission directly.
+              </p>
+
 
               <p className="leading-relaxed">
-                Afterward, we delete or anonymize it.Unless you request deletion, we may keep course records for 12 months. For serialized
-                certifications of completion from Krafo Systems, we retain your anonymized certificate status
-                longer to verify prerequisites for additional courses.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">9. Security/ How We Keep Your Data Safe</h2>
-              <p className="leading-relaxed">
-                We implement technical and organizational measures to protect your data from unauthorized
-                access, loss, alteration, or destruction. These include HTTPS, access controls, regular backups
-                and staff training.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">10. Your Rights</h2>
-              <p className="leading-relaxed">
-                As a data subject under Ghana’s Data Protection Act 843, you have the right to:
-              </p>
-              <ul className="list-disc list-inside space-y-2 ml-4 leading-relaxed">
-                <li>Ask what personal data we hold about you</li>
-                <li>Access your personal data.</li>
-                <li>Correct / update inaccurate or incomplete data</li>
-                <li>Ask us to delete your data (where applicable)</li>
-                <li>Withdraw consent at any time.</li>
-                <li>Lodge a complaint with the Data Protection Commission if you believe we are not
-                  complying</li>
-              </ul>
-              <p className="leading-relaxed">
-                To use any of these rights, contact us at info@krafosystems.com.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">11. International Transfers</h2>
-              <p className="leading-relaxed">If your data is transferred outside Ghana (e.g. for hosting or cloud services), we will ensure that
-                proper safeguards are in place, such as data processing agreements or other legal means as
-                required under Act 843.
-              </p>
-            </section>
-            <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">12. International Visitors</h2>
-              <p className="leading-relaxed">Although we are based in Ghana, people from around the world can use our website. We follow Ghana’s privacy laws and aim to meet global standards like GDPR (used in the EU).
-              </p>
-            </section>
-            <section>
-              <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">13.Changes to this Policy</h2>
-              <p className="leading-relaxed">We may update this Privacy Policy periodically. We will notify you of any big changes by posting the new policy on our website with an updated “Last updated” date.
+                
+                <a
+                  href="https://www.dataprotection.org.gh"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-orange-400 hover:underline"
+                >
+                  Data Protection Commission
+                </a>
+                :{" "}
+                <a
+                  href="https://www.dataprotection.org.gh"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                >
+                  www.dataprotection.org.gh
+                </a>{" "}
+                |{" "}
+                <a
+                  href="mailto:registration@dataprotection.org.gh"
+                  className="hover:underline"
+                >
+                  registration@dataprotection.org.gh
+                </a>{" "}
+                |{" "}
+                <a
+                  href="tel:+233256302031"
+                  className="hover:underline"
+                >
+                  +233 25 630 2031
+                </a>
               </p>
             </section>
           </div>
