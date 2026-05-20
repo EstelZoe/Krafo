@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { ChevronDown, ChevronUp, Lock } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 // Add CSS animation for binary rain
 const binaryRainStyle = `
@@ -172,12 +173,12 @@ const CybersecuritySurvey = () => {
       });
 
       setSubmitStatus('success');
-      alert('Survey submitted successfully! Thank you for your feedback.');
+      toast.success('Survey submitted successfully! Thank you for your feedback.');
       
     } catch (error) {
       console.error('Submission error:', error);
       setSubmitStatus('error');
-      alert('There was an error submitting your survey. Please try again or contact support.');
+      toast.error('There was an error submitting your survey. Please try again or contact support.');
     } finally {
       setIsSubmitting(false);
     }

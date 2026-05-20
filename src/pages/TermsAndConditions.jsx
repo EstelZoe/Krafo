@@ -13,7 +13,7 @@ export default function TermsAndConditions() {
         <div className="mx-auto max-w-4xl">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              Terms and Conditions
+              Terms and Conditions for KrafoSystems.com
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-300">
               Last updated: October 1, 2025
@@ -21,6 +21,17 @@ export default function TermsAndConditions() {
           </div>
 
           <div className="mt-16 space-y-8 text-gray-300">
+            <section>
+              <p className="leading-relaxed">
+                Welcome to KrafoSystems.com, operated by Krafo Systems Ltd ("we", "our", or "us"). These
+                Terms and Conditions ("Terms") govern your use of our website, services, and any related
+                interactions, including booking consultations and enrolling in cybersecurity training.
+              </p>
+              <p className="leading-relaxed mt-4">
+                By accessing or using our website, you agree to be bound by these Terms.
+              </p>
+            </section>
+
             <section>
               <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">1. Services Offered</h2>
               <p className="leading-relaxed">

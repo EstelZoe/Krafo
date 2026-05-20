@@ -354,3 +354,88 @@ nav{
     opacity: 0.6;
   }
 }
+
+
+/* =====================================================================
+   Custom Scrollbars
+   Slim, minimalistic, accent-orange on hover. Replaces the default
+   chunky native scrollbar across the whole site (light + dark).
+   ===================================================================== */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.4) transparent;
+}
+
+/* Chromium / WebKit */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.35);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 0.2s;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(242, 96, 11, 0.6);
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: rgba(242, 96, 11, 0.8);
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* On dark surfaces, the thumb is a touch lighter so it stays visible. */
+.bg-black *::-webkit-scrollbar-thumb,
+[style*="background-color: rgb(10, 10, 10)"] *::-webkit-scrollbar-thumb,
+.dark *::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  background-clip: padding-box;
+}
+
+.bg-black *::-webkit-scrollbar-thumb:hover,
+[style*="background-color: rgb(10, 10, 10)"] *::-webkit-scrollbar-thumb:hover,
+.dark *::-webkit-scrollbar-thumb:hover {
+  background: rgba(242, 96, 11, 0.7);
+  background-clip: padding-box;
+}
+
+/* Optional: a tighter "thin" variant for inner scroll areas (modals, dropdowns) */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+  border-radius: 999px;
+  border: 0;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(242, 96, 11, 0.7);
+}
+
+/* Hide scrollbar utility for elements that scroll but shouldn't show a bar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

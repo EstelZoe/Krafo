@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -158,64 +159,78 @@ const ManageEvents = () => {
         // Update existing event - Safe-ID: Handle both _id and id
         const eventId = editingEvent._id || editingEvent.id;
         if (!eventId) {
-          alert('Error: Cannot update event - missing ID');
+          toast.error('Cannot update event \u2014 missing ID');
           return;
         }
-        console.log('📝 Updating event with ID:', eventId);
         await apiClient.patch(`/admin/content/events/${eventId}`, formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        toast.success('Event updated');
       } else {
         // Create new event
         await apiClient.post('/admin/content/events', formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        toast.success('Event created');
       }
       closeModal();
       fetchEvents();
     } catch (err) {
       console.error('Error saving event:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to save event';
-      alert(`Failed to save event: ${errorMessage}`);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to save event';
+      toast.error(errorMessage);
     }
   };
 
   // Handle delete
   const handleDelete = async (eventId) => {
     if (!eventId) {
-      console.error('❌ Delete failed: No event ID provided');
-      alert('Error: Cannot delete event - missing ID');
+      toast.error('Cannot delete event \u2014 missing ID');
       return;
     }
+    const previous = events;
+    setEvents((prev) => prev.filter((e) => (e._id || e.id) !== eventId));
+    setDeleteConfirm(null);
     try {
-      console.log('🗑️ Deleting event with ID:', eventId);
       await apiClient.delete(`/admin/content/events/${eventId}`);
-      setDeleteConfirm(null);
-      fetchEvents();
+      toast.success('Event deleted');
     } catch (err) {
-      console.error('Error deleting event:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to delete event';
-      alert(`Failed to delete event: ${errorMessage}`);
+      const status = err.response?.status;
+      if (status === 404) {
+        toast.info('Event already removed');
+        return;
+      }
+      setEvents(previous);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to delete event';
+      toast.error(errorMessage);
     }
   };
 
   // Handle toggle status
   const handleToggleStatus = async (event) => {
-    // Safe-ID: Handle both _id and id
     const eventId = event?._id || event?.id;
     if (!eventId) {
-      console.error('❌ Toggle failed: No event ID provided', event);
-      alert('Error: Cannot toggle event - missing ID');
+      toast.error('Cannot toggle event \u2014 missing ID');
       return;
     }
     try {
-      console.log('🔄 Toggling event with ID:', eventId);
       await apiClient.post(`/admin/content/events/${eventId}/toggle`);
       fetchEvents();
     } catch (err) {
-      console.error('Error toggling event status:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to toggle event status';
-      alert(`Failed to toggle event status: ${errorMessage}`);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to toggle event status';
+      toast.error(errorMessage);
     }
   };
 

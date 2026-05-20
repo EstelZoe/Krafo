@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
+import PendingTransferBanner from './superadmin/PendingTransferBanner';
 
 const Overview = () => {
   const { isDark, colors } = useTheme();
@@ -178,6 +179,7 @@ const Overview = () => {
 
   return (
     <div className="space-y-6">
+      <PendingTransferBanner />
       {/* Welcome Banner */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -283,12 +285,29 @@ const Overview = () => {
           >
             <Link
               to={card.path}
-              className="block p-6 rounded-2xl border transition-all duration-300 hover:shadow-lg group"
+              className="block p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl group relative overflow-hidden"
               style={{
                 backgroundColor: colors.bgCard,
                 borderColor: colors.border,
               }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#F2600B';
+                e.currentTarget.style.boxShadow = '0 8px 24px rgba(242, 96, 11, 0.12)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = colors.border;
+                e.currentTarget.style.boxShadow = '';
+              }}
             >
+              {/* Hover arrow indicator */}
+              <div
+                className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2 transition-all duration-300"
+                style={{ color: '#F2600B' }}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </div>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium" style={{ color: colors.textMuted }}>

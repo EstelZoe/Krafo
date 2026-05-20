@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { CATEGORIES, getQuestionsByCategory } from '../utils/assessmentQuestions';
@@ -20,6 +20,7 @@ export default function AssessmentForm() {
   const [showModal, setShowModal] = useState(false);
   const [saveError, setSaveError] = useState(null);
   const [resendMsg, setResendMsg] = useState(null);
+  const formTopRef = useRef(null);
 
   const category = CATEGORIES[currentStep];
   const questions = getQuestionsByCategory(category.key);
@@ -56,7 +57,11 @@ export default function AssessmentForm() {
     if (currentStep < CATEGORIES.length - 1) {
       setCurrentStep(currentStep + 1);
       setStepErrors({});
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (formTopRef.current) {
+        formTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     } else {
       setShowModal(true);
     }
@@ -66,7 +71,11 @@ export default function AssessmentForm() {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
       setStepErrors({});
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (formTopRef.current) {
+        formTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   }
 
@@ -89,6 +98,7 @@ export default function AssessmentForm() {
       <ToolkitNavbar />
 
       <div className="max-w-2xl mx-auto px-4 py-12">
+        <div ref={formTopRef} />
         {/* Unverified email banner */}
         {user && user.isEmailVerified === false && (
           <div className="flex items-center justify-between gap-4 bg-orange-500/10 border border-orange-500/30 text-orange-400 rounded-xl px-5 py-4 mb-6">

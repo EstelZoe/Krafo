@@ -47,12 +47,7 @@ export default function ToolkitNavbar() {
                         Contact
                     </Link> */}
 
-                    <Link
-                        to="/assessment-toolkit/start"
-                        className="border border-orange-500 px-4 py-2 rounded-md bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 text-white transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
-                    >
-                        Start Assessment
-                    </Link>
+                    {/* My Dashboard removed — users access dashboard through login flow */}
                 </div>
 
                 {/* Mobile Button */}
@@ -131,18 +126,7 @@ export default function ToolkitNavbar() {
                     Contact
                 </Link>
 
-                <Link
-                    to="/assessment-toolkit/start"
-                    className="block border border-orange-500 text-white bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 px-4 py-2 rounded-md text-center transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
-                    style={{ 
-                        transitionDelay: open ? '200ms' : '0ms',
-                        opacity: open ? 1 : 0,
-                        transform: open ? 'translateY(0)' : 'translateY(-8px)',
-                        transition: 'opacity 300ms, transform 300ms, background-color 300ms, scale 300ms'
-                    }}
-                >
-                    Start Assessment
-                </Link>
+                {/* My Dashboard removed — users access dashboard through login flow */}
             </div>
         </nav>
     );

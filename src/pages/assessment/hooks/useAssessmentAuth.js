@@ -9,6 +9,12 @@ export function useAssessmentAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  function handleAuthError(err) {
+    if (err.response?.status === 401) {
+      clearAuth();
+    }
+  }
+
   async function register(data) {
     setLoading(true); setError(null);
     try {
@@ -57,6 +63,7 @@ export function useAssessmentAuth() {
       });
       return res.data;
     } catch (err) {
+      handleAuthError(err);
       const msg = err.response?.data?.error || 'Resend verification failed';
       setError(msg); throw new Error(msg);
     } finally { setLoading(false); }

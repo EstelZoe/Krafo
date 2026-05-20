@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
 import ReactQuill from 'react-quill-new';
@@ -176,64 +177,79 @@ const ManageBlogs = () => {
         // Update existing blog - Safe-ID: Handle both _id and id
         const blogId = editingBlog._id || editingBlog.id;
         if (!blogId) {
-          alert('Error: Cannot update blog - missing ID');
+          toast.error('Cannot update blog \u2014 missing ID');
           return;
         }
-        console.log('📝 Updating blog with ID:', blogId);
         await apiClient.patch(`/admin/content/blogs/${blogId}`, formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        toast.success('Blog updated');
       } else {
         // Create new blog via admin content endpoint
         await apiClient.post('/admin/content/blogs', formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        toast.success('Blog created');
       }
       closeModal();
       fetchBlogs();
     } catch (err) {
       console.error('Error saving blog:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to save blog';
-      alert(`Failed to save blog: ${errorMessage}`);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to save blog';
+      toast.error(errorMessage);
     }
   };
 
   // Handle delete
   const handleDelete = async (blogId) => {
     if (!blogId) {
-      console.error('❌ Delete failed: No blog ID provided');
-      alert('Error: Cannot delete blog - missing ID');
+      toast.error('Cannot delete blog \u2014 missing ID');
       return;
     }
+    // Snapshot for rollback if API fails.
+    const previous = blogs;
+    setBlogs((prev) => prev.filter((b) => (b._id || b.id) !== blogId));
+    setDeleteConfirm(null);
     try {
-      console.log('🗑️ Deleting blog with ID:', blogId);
       await apiClient.delete(`/admin/content/blogs/${blogId}`);
-      setDeleteConfirm(null);
-      fetchBlogs();
+      toast.success('Blog deleted');
     } catch (err) {
-      console.error('Error deleting blog:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to delete blog';
-      alert(`Failed to delete blog: ${errorMessage}`);
+      const status = err.response?.status;
+      if (status === 404) {
+        toast.info('Blog already removed');
+        return;
+      }
+      setBlogs(previous);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to delete blog';
+      toast.error(errorMessage);
     }
   };
 
   // Handle toggle status
   const handleToggleStatus = async (blog) => {
-    // Safe-ID: Handle both _id and id
     const blogId = blog?._id || blog?.id;
     if (!blogId) {
-      console.error('❌ Toggle failed: No blog ID provided', blog);
-      alert('Error: Cannot toggle blog - missing ID');
+      toast.error('Cannot toggle blog \u2014 missing ID');
       return;
     }
     try {
-      console.log('🔄 Toggling blog with ID:', blogId);
       await apiClient.post(`/admin/content/blogs/${blogId}/toggle`);
       fetchBlogs();
     } catch (err) {
-      console.error('Error toggling blog status:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to toggle blog status';
-      alert(`Failed to toggle blog status: ${errorMessage}`);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to toggle blog status';
+      toast.error(errorMessage);
     }
   };
 

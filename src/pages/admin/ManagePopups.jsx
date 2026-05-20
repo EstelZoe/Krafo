@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -138,44 +139,63 @@ const ManagePopups = () => {
         // Update existing popup - Safe-ID: Handle both _id and id
         const popupId = editingPopup._id || editingPopup.id;
         if (!popupId) {
-          alert('Error: Cannot update popup - missing ID');
+          toast.error('Cannot update popup — missing ID');
           return;
         }
-        console.log('📝 Updating popup with ID:', popupId);
         await apiClient.patch(`/admin/content/popups/${popupId}`, formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        toast.success('Popup updated');
       } else {
         // Create new popup
         await apiClient.post('/admin/content/popups', formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        toast.success('Popup created');
       }
       closeModal();
       fetchPopups();
     } catch (err) {
       console.error('Error saving popup:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to save popup';
-      alert(`Failed to save popup: ${errorMessage}`);
+      const errorMessage =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.message ||
+        'Failed to save popup';
+      toast.error(errorMessage);
     }
   };
 
   // Handle delete
   const handleDelete = async (popupId) => {
     if (!popupId) {
-      console.error('❌ Delete failed: No popup ID provided');
-      alert('Error: Cannot delete popup - missing ID');
+      toast.error('Cannot delete popup — missing ID');
       return;
     }
+    // Snapshot for rollback if the API call fails.
+    const previous = popups;
+    // Optimistically remove from the list so the UI is never out of sync.
+    setPopups((prev) => prev.filter((p) => (p._id || p.id) !== popupId));
+    setDeleteConfirm(null);
     try {
-      console.log('🗑️ Deleting popup with ID:', popupId);
       await apiClient.delete(`/admin/content/popups/${popupId}`);
-      setDeleteConfirm(null);
-      fetchPopups();
+      toast.success('Popup deleted');
     } catch (err) {
       console.error('Error deleting popup:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to delete popup';
-      alert(`Failed to delete popup: ${errorMessage}`);
+      const status = err.response?.status;
+      // 404 = already gone on the server. Keep the optimistic delete.
+      if (status === 404) {
+        toast.info('Popup already removed');
+        return;
+      }
+      // Other error — restore the row and show the message.
+      setPopups(previous);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to delete popup';
+      toast.error(errorMessage);
     }
   };
 
@@ -184,18 +204,20 @@ const ManagePopups = () => {
     // Safe-ID: Handle both _id and id
     const popupId = popup?._id || popup?.id;
     if (!popupId) {
-      console.error('❌ Toggle failed: No popup ID provided', popup);
-      alert('Error: Cannot toggle popup - missing ID');
+      toast.error('Cannot toggle popup — missing ID');
       return;
     }
     try {
-      console.log('🔄 Toggling popup with ID:', popupId);
       await apiClient.post(`/admin/content/popups/${popupId}/toggle`);
       fetchPopups();
     } catch (err) {
       console.error('Error toggling popup status:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to toggle popup status';
-      alert(`Failed to toggle popup status: ${errorMessage}`);
+      const errorMessage =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.message ||
+        'Failed to toggle popup status';
+      toast.error(errorMessage);
     }
   };
 

@@ -2,36 +2,64 @@ import axios from "axios";
 
 const baseURL = import.meta.env.VITE_BASE_URL || 'https://krafo-api.onrender.com/api';
 
-console.log('API Base URL:', baseURL); // Debug log
+const isDev = import.meta.env.DEV;
+
+if (isDev) {
+    // Log only in dev so we don't spam production consoles.
+    console.info('API Base URL:', baseURL);
+}
 
 export const apiClient = axios.create({
-    baseURL: baseURL, 
+    baseURL,
 });
 
-// Add auth token to all requests
+// Attach the auth token to every request.
 apiClient.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
-        console.log('Request:', config.method?.toUpperCase(), config.baseURL + '/' + config.url); // Debug log
         return config;
     },
-    (error) => {
-        return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
 );
 
-// Handle 401 responses (unauthorized)
+/**
+ * Decide whether a 401 response should force the user back to /login.
+ *
+ * We only force-logout when the server explicitly confirms the *token itself*
+ * is invalid. Other 401s — e.g. business-logic ones like "Current password is
+ * incorrect" on the change-password endpoint — should NOT log the user out.
+ *
+ * The protect middleware returns these messages for token failures:
+ *   - "Unauthorized: Missing token"
+ *   - "Unauthorized: Invalid token"
+ *   - "Unauthorized: User not found"
+ */
+const isTokenFailure = (error) => {
+    if (error.response?.status !== 401) return false;
+    const msg = error.response?.data?.error || '';
+    return /Unauthorized/i.test(msg);
+};
+
 apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
-        console.error('API Error:', error.response?.status, error.message); // Debug log
-        if (error.response?.status === 401) {
+        if (isDev) {
+            console.error(
+                'API Error:',
+                error.response?.status,
+                error.config?.url,
+                error.response?.data?.error || error.message
+            );
+        }
+
+        if (isTokenFailure(error)) {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            // Optionally redirect to login
+            // Only redirect from admin areas — public-site 401s shouldn't bounce
+            // visitors who never logged in.
             if (window.location.pathname.startsWith('/admin')) {
                 window.location.href = '/login';
             }
@@ -39,4 +67,3 @@ apiClient.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-

@@ -29,9 +29,9 @@ const ContactUs = lazy(() => import("./pages/ContactUs"));
 const CybersecuritySurvey = lazy(() => import("./pages/CybersecuritySurvey"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
 const LogIn = lazy(() => import("./pages/LogIn"));
-const SignUp = lazy(() => import("./pages/SignUp"));
 
 
 
@@ -64,6 +64,14 @@ const AssessmentVerifyResetOtp = lazy(() => import("./pages/assessment/pages/Ass
 const AssessmentResetPassword = lazy(() => import("./pages/assessment/pages/AssessmentResetPassword"));
 const ManageAssessments = lazy(() => import("./pages/admin/ManageAssessments"));
 const ManagePromoCodes = lazy(() => import("./pages/admin/ManagePromoCodes"));
+
+// Super Admin pages
+const ManageAdmins = lazy(() => import("./pages/admin/superadmin/ManageAdmins"));
+const AuditLogs = lazy(() => import("./pages/admin/superadmin/AuditLogs"));
+const TransferSuperAdmin = lazy(() => import("./pages/admin/superadmin/TransferSuperAdmin"));
+const SuperAdminChangePassword = lazy(() => import("./pages/admin/superadmin/ChangePassword"));
+const ForceChangePassword = lazy(() => import("./pages/admin/ForceChangePassword"));
+const Profile = lazy(() => import("./pages/admin/Profile"));
 // Loader
 function Loader() {
   return (
@@ -95,12 +103,26 @@ function App() {
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/cybersecurity-survey" element={<CybersecuritySurvey />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/cookies-policy" element={<CookiesPolicy />} />
         
             
             {/* Auth Routes */}
             <Route path="/login" element={<LogIn />} />
-            <Route path="/signup" element={<SignUp />} />
+            {/* Public signup is closed — admins are minted by the super admin only.
+                Anyone hitting /signup gets redirected to the login page. */}
+            <Route path="/signup" element={<Navigate to="/login" replace />} />
+
+            {/* Forced first-login password change — protected, but rendered standalone
+                (no admin layout) so the user cannot navigate elsewhere until done. */}
+            <Route
+              path="/admin/change-password"
+              element={
+                <ProtectedRoute>
+                  <ForceChangePassword />
+                </ProtectedRoute>
+              }
+            />
             
             {/* Admin Routes - Protected and Wrapped with ThemeProvider */}
             <Route path="/admin" element={
@@ -116,6 +138,11 @@ function App() {
               <Route path="popups" element={<ManagePopups />} />
               <Route path="assessments" element={<ManageAssessments />} />
               <Route path="promo-codes" element={<ManagePromoCodes />} />
+              <Route path="superadmin/admins" element={<ManageAdmins />} />
+              <Route path="superadmin/audit-logs" element={<AuditLogs />} />
+              <Route path="superadmin/transfer" element={<TransferSuperAdmin />} />
+              <Route path="superadmin/password" element={<SuperAdminChangePassword />} />
+              <Route path="profile" element={<Profile />} />
             </Route>
 
             {/* Assessment Routes - wrapped in AssessmentProvider */}
