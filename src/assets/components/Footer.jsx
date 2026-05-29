@@ -210,7 +210,7 @@ export default function Footer({ variant = "dark", termsLink, privacyLink }) {
                 Privacy Policy
               </Link>
               <span className="opacity-30">|</span>
-              <Link to={termsLink || "/terms"} className={`${style.link} hover:opacity-100 transition-opacity duration-200`}>
+              <Link to={termsLink || "/terms-and-conditions"} className={`${style.link} hover:opacity-100 transition-opacity duration-200`}>
                 Terms of Service
               </Link>
             </div>

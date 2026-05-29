@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import ToolkitNavbar from "./components/ToolkitNavbar";
 import ParticleNetwork from "./components/ParticleNetwork";
 import { ArrowRight } from "lucide-react";
+import Footer from "../../assets/components/Footer";
 
 
 
@@ -96,7 +97,7 @@ export default function CyberAssessmentToolkitHome() {
           </div>
         </div>
       </section>
-      {/* <Footer /> */}
+      <Footer />
     </main>
   );
 }
