@@ -1,58 +1,75 @@
 /**
- * Client-side scoring preview — mirrors server-side assessment_scoring.js exactly.
+ * Client-side scoring preview — mirrors server-side assessment_scoring.js.
  * Non-authoritative: the canonical score is always computed server-side.
  *
- * Matches the Cyber_Assessment_Toolkit Excel formulas:
- * - Company profile has per-field scoring tables
- * - "Don't Know" = 5 (worst case / high risk)
- * - "N/A" = 0 score AND reduces max score (question excluded)
- * - Max scores are dynamic based on N/A answers
+ * UPDATED for the new pre-assessment question set (NIST CSF 2.0; Acts 843/1038/772).
+ *
+ * Scoring philosophy (industry standard — higher score = higher risk):
+ *   - Standard Yes/No/Don't Know:  yes=1 (best), no=5 (worst), dont_know=5
+ *   - Graduated options score a middle value (3) for partial maturity
+ *   - "Don't Know" always = 5 (worst case)
+ *   - N/A retired — every scored question is fully weighted (max 5)
+ *   - Section 1 (Organization Profile) is PROFILE ONLY — not scored
+ *
+ * ⚠️ These tables MUST match krafo_api/utils/assessment/assessment_scoring.js.
+ *    See SCORING_REFERENCE comment for the authoritative value list to mirror
+ *    server-side before this branch goes to production.
  */
 
-const CP_SCORES = {
-  primaryBusinessModel: {
-    b2c: 1, b2b: 2, b2g: 4, b2b_b2c: 4, all_3: 5, dont_know: 5,
+const MAX_PER_QUESTION = 5;
+const MIN_PER_QUESTION = 1;
+
+// Standard Yes / No / Don't Know
+const YES_NO_SCORES = { yes: 1, no: 5, dont_know: 5 };
+
+// Per-field score tables for questions with graduated / custom options.
+// Anything not in a table falls back to YES_NO_SCORES.
+const FIELD_SCORES = {
+  // ── Governance ──
+  complianceRequirements: {
+    yes_both: 1, yes_843: 2, yes_1038: 2, dont_know_acts: 5, no: 5,
   },
-  criticalInfrastructure: {
-    yes: 5, no: 3, na: 0, dont_know: 5,
+  dpcRegistration: {
+    yes: 1, no: 5, not_sure_required: 4, dont_know: 5,
   },
-  employeeRange: {
-    '0-9': 1, '10-49': 2, '50-199': 3, '200-999': 4, '1000-4999': 5, '5000+': 5,
+  // ── Identify ──
+  // "Has your business experienced an incident?" — a YES here is itself a risk
+  // signal (recent compromise), so yes scores worse than no.
+  recentIncident: {
+    yes: 5, no: 1, dont_know: 5,
   },
-  annualRevenue: {
-    under_1m: 1, '1m_10m': 3, '10m_plus': 5, dont_know: 5,
+  // ── Protect ──
+  staffTraining: {
+    yes_regular: 1, yes_onboarding: 3, no: 5, dont_know: 5,
   },
-  handlesSensitiveData: {
-    yes: 5, no: 3, na: 0, dont_know: 5,
+  // ── Respond ──
+  certAwareness: {
+    yes_process: 1, yes_no_process: 3, no: 5, dont_know: 5,
   },
-  hasCybersecurityPro: {
-    no: 3, na: 0, yes_inhouse: 5, yes_outsourced: 5, yes_both: 5, dont_know: 5,
+  // ── Recover ──
+  dataBackedUp: {
+    yes_automated: 1, yes_manual: 3, no: 5, dont_know: 5,
   },
 };
 
-const CP_MAX_PER_QUESTION = 5;
-const YES_NO_SCORES = { yes: 1, no: 5, dont_know: 5, na: 0 };
-const YES_NO_MAX = 5;
 const NIST_FUNCTIONS = ['identify', 'protect', 'detect', 'respond', 'recover'];
 
-function scoreCompanyProfile(responses) {
-  let score = 0;
-  let maxScore = 0;
-  for (const [field, table] of Object.entries(CP_SCORES)) {
-    const answer = responses?.[field];
-    score += table[answer] ?? 0;
-    maxScore += answer === 'na' ? 0 : CP_MAX_PER_QUESTION;
-  }
-  return { score, maxScore };
-}
-
-function scoreYesNoCategory(responses) {
+/**
+ * Score a category of answers. Every answered question contributes MAX_PER_QUESTION
+ * to the denominator (no N/A). Unanswered questions are skipped from both sides.
+ */
+function scoreCategory(responses) {
   let score = 0;
   let maxScore = 0;
   if (!responses || typeof responses !== 'object') return { score: 0, maxScore: 0 };
-  for (const value of Object.values(responses)) {
-    score += YES_NO_SCORES[value] ?? 0;
-    maxScore += value === 'na' ? 0 : YES_NO_MAX;
+
+  for (const [field, value] of Object.entries(responses)) {
+    if (value == null || value === '') continue;
+    const table = FIELD_SCORES[field];
+    const fieldScore = table ? table[value] : YES_NO_SCORES[value];
+    if (fieldScore == null) continue; // unknown option, skip defensively
+    score += fieldScore;
+    maxScore += MAX_PER_QUESTION;
   }
   return { score, maxScore };
 }
@@ -74,16 +91,18 @@ export function getNistStatus(score, maxScore) {
 }
 
 export function calculateAllScores(responses) {
-  const cp = scoreCompanyProfile(responses?.companyProfile);
-  const gov = scoreYesNoCategory(responses?.governance);
-  const identify = scoreYesNoCategory(responses?.identify);
-  const protect = scoreYesNoCategory(responses?.protect);
-  const detect = scoreYesNoCategory(responses?.detect);
-  const respond = scoreYesNoCategory(responses?.respond);
-  const recover = scoreYesNoCategory(responses?.recover);
+  // Section 1 (companyProfile) is intentionally NOT scored.
+  const gov = scoreCategory(responses?.governance);
+  const identify = scoreCategory(responses?.identify);
+  const protect = scoreCategory(responses?.protect);
+  const detect = scoreCategory(responses?.detect);
+  const respond = scoreCategory(responses?.respond);
+  const recover = scoreCategory(responses?.recover);
 
-  const totalScore = cp.score + gov.score + identify.score + protect.score + detect.score + respond.score + recover.score;
-  const totalMax = cp.maxScore + gov.maxScore + identify.maxScore + protect.maxScore + detect.maxScore + respond.maxScore + recover.maxScore;
+  const totalScore =
+    gov.score + identify.score + protect.score + detect.score + respond.score + recover.score;
+  const totalMax =
+    gov.maxScore + identify.maxScore + protect.maxScore + detect.maxScore + respond.maxScore + recover.maxScore;
 
   const percentage = totalMax > 0
     ? Math.round((totalScore / totalMax) * 10000) / 100
@@ -98,8 +117,9 @@ export function calculateAllScores(responses) {
   }
 
   return {
-    companyProfile: cp.score,
-    companyProfileMax: cp.maxScore,
+    // companyProfile is not scored; keep zeroed fields for backward compatibility
+    companyProfile: 0,
+    companyProfileMax: 0,
     governance: gov.score,
     governanceMax: gov.maxScore,
     identify: identify.score,
@@ -114,3 +134,34 @@ export function calculateAllScores(responses) {
     nistFunctions,
   };
 }
+
+/**
+ * SCORING_REFERENCE — give this to the team lead / mirror server-side.
+ *
+ * SECTION 1 (Organization Profile): NOT SCORED (profile/context only)
+ *   - primaryBusinessModel, criticalInfrastructure, employeeRange,
+ *     annualRevenue, toolsUsed (multi-select), dataProtectionOfficer,
+ *     cybersecurityProfessional
+ *
+ * STANDARD QUESTIONS (yes/no/dont_know): yes=1, no=5, dont_know=5
+ *   Governance:  writtenPolicy, responsiblePerson, appPolicy, discussRisks, independentAudit
+ *   Identify:    deviceList, appList, criticalSystems, externalAccess, dataLocation
+ *   Protect:     twoStepLogin, accessUpdatedOnExit, dataProtected, disposalProcess, passwordPolicy
+ *   Detect:      securityTools, checkUnusualActivity, receiveAlerts, softwareUpdated, wouldKnowUnauthorizedAccess
+ *   Respond:     writtenPlan, designatedLead, firstHourSteps, staffKnowToReport, breachNotificationProcess
+ *   Recover:     keepOperatingPlan, testedRestore, recoveryPlan, postIncidentReviews
+ *
+ * GRADUATED / CUSTOM QUESTIONS (DEFAULTS — pending team lead confirmation):
+ *   complianceRequirements: yes_both=1, yes_843=2, yes_1038=2, dont_know_acts=5, no=5
+ *   dpcRegistration:        yes=1, no=5, not_sure_required=4, dont_know=5
+ *   recentIncident:         yes=5, no=1, dont_know=5   (a YES = recent compromise = higher risk)
+ *   staffTraining:          yes_regular=1, yes_onboarding=3, no=5, dont_know=5
+ *   certAwareness:          yes_process=1, yes_no_process=3, no=5, dont_know=5
+ *   dataBackedUp:           yes_automated=1, yes_manual=3, no=5, dont_know=5
+ *
+ * RISK BANDS (% of max, higher = worse):
+ *   0-30 low | 31-50 moderate | 51-70 high | 71-100 critical
+ *
+ * NIST per-function status:
+ *   >=80% critical | >=50% needs_improvement | else adequate
+ */

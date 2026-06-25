@@ -48,31 +48,40 @@ export default function ReportView({ submission, isAdmin = false }) {
   }
 
   const FIELD_LABELS = {
-    hardwareInventory: 'Hardware Asset Inventory', softwareInventory: 'Software Inventory',
-    knowCriticalSystems: 'Critical Systems Identification', thirdPartyVendors: 'Third-Party Vendor Management',
-    knowSensitiveDataLocation: 'Sensitive Data Location', requiresMfa: 'Multi-Factor Authentication',
-    accessPrivilegesReviewed: 'Access Privilege Reviews', cybersecurityTraining: 'Cybersecurity Training',
-    dataEncrypted: 'Data Encryption', secureDisposalProcess: 'Secure Disposal Process',
-    securityMonitoringTools: 'Security Monitoring', logsReviewedRegularly: 'Log Reviews',
-    alertsForUnusualActivity: 'Unusual Activity Alerts', regularVulnerabilityScans: 'Vulnerability Scans',
-    detectUnauthorizedAccess: 'Unauthorized Access Detection', incidentResponsePlan: 'Incident Response Plan',
-    designatedIncidentHandler: 'Incident Handler', containMitigateProcess: 'Containment Process',
-    employeesTrainedToReport: 'Employee Reporting Training', communicationProtocols: 'Communication Protocols',
-    disasterRecoveryPlan: 'Disaster Recovery Plan', regularBackups: 'Regular Backups',
-    testedBackupRestoration: 'Backup Restoration Testing', businessContinuityPlan: 'Business Continuity Plan',
-    postIncidentReviews: 'Post-Incident Reviews', formalPolicy: 'Formal Cybersecurity Policy',
-    oversightAssigned: 'Cybersecurity Oversight', vendorRiskPolicy: 'Vendor Risk Policy',
-    risksReportedToBoard: 'Risk Reporting to Board', complianceRequirement: 'Compliance Requirements',
-    thirdPartyAudit: 'Third-Party Audit',
+    // Governance
+    writtenPolicy: 'Written Cybersecurity Policy', responsiblePerson: 'Designated Security Owner',
+    appPolicy: 'App / Tool Management Policy', discussRisks: 'Regular Risk Discussions',
+    complianceRequirements: 'Act 843 / 1038 Compliance', independentAudit: 'Independent Security Audit',
+    dpcRegistration: 'DPC Registration',
+    // Identify
+    deviceList: 'Device Inventory', appList: 'App / Software Inventory',
+    criticalSystems: 'Critical Systems Identification', externalAccess: 'Third-Party Data Access',
+    dataLocation: 'Data Location Awareness', recentIncident: 'Recent Security Incident',
+    // Protect
+    twoStepLogin: 'Two-Step Login Verification', accessUpdatedOnExit: 'Access Updates on Exit',
+    staffTraining: 'Staff Security Training', dataProtected: 'Data Encryption / Protection',
+    disposalProcess: 'Secure Device Disposal', passwordPolicy: 'Password Policy',
+    // Detect
+    securityTools: 'Security Tools (Antivirus/Firewall)', checkUnusualActivity: 'Unusual Activity Checks',
+    receiveAlerts: 'Network Activity Alerts', softwareUpdated: 'Software Security Updates',
+    wouldKnowUnauthorizedAccess: 'Unauthorized Access Awareness',
+    // Respond
+    writtenPlan: 'Incident Response Plan', designatedLead: 'Designated Incident Lead',
+    firstHourSteps: 'First-Hour Response Steps', staffKnowToReport: 'Staff Reporting Awareness',
+    breachNotificationProcess: 'Breach Notification Process', certAwareness: 'CERT-GH / DPC Awareness',
+    // Recover
+    keepOperatingPlan: 'Operational Continuity Plan', dataBackedUp: 'Regular Data Backups',
+    testedRestore: 'Backup Restoration Testing', recoveryPlan: 'Recovery Plan',
+    postIncidentReviews: 'Post-Incident Reviews',
   };
   
   const CATEGORY_LABELS = {
+    governance: 'Governance',
     identify: 'Identify',
     protect: 'Protect',
     detect: 'Detect',
     respond: 'Respond',
     recover: 'Recover',
-    governance: 'Governance'
   };
   
   const toggleCategory = (cat) => {
@@ -92,11 +101,12 @@ export default function ReportView({ submission, isAdmin = false }) {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Overall risk score */}
         {(() => {
-          const totalQ = 31; // governance (6) + NIST (5×5) = 31 security questions
-          const minTotal = totalQ; // all yes = 1 per question
+          // Best answer scores 1, worst scores 5 → theoretical min = max / 5.
+          // Derived (not hardcoded) so it stays correct as the question set changes.
           // Exclude company profile from risk — CP measures inherent risk, not security controls
           const securityScore = (scores.total || 0) - (scores.companyProfile || 0);
-          const securityMax = (scores.totalMax || 185) - (scores.companyProfileMax || 30);
+          const securityMax = (scores.totalMax || 0) - (scores.companyProfileMax || 0);
+          const minTotal = securityMax / 5;
           const riskPct = securityMax > minTotal ? Math.round(((securityScore - minTotal) / (securityMax - minTotal)) * 100) : 0;
           const level = riskPct <= 30 ? "low" : riskPct <= 50 ? "moderate" : riskPct <= 70 ? "high" : "critical";
           const lColor = RISK_COLORS[level] || 'text-orange-400';
@@ -119,8 +129,8 @@ export default function ReportView({ submission, isAdmin = false }) {
             {/* Governance (scored separately, not in nistFunctions) */}
             {(() => {
               const govScore = scores.governance || 0;
-              const govMax = scores.governanceMax || 30;
-              const govMin = 6;
+              const govMax = scores.governanceMax || 0;
+              const govMin = govMax / 5; // best answer = 1, worst = 5
               const govRange = govMax - govMin;
               const riskPct = govRange > 0 ? Math.round(((govScore - govMin) / govRange) * 100) : 0;
               const barColor = riskPct <= 30 ? 'bg-green-400' : riskPct <= 50 ? 'bg-yellow-400' : riskPct <= 70 ? 'bg-orange-400' : 'bg-red-400';
@@ -138,8 +148,7 @@ export default function ReportView({ submission, isAdmin = false }) {
               );
             })()}
             {Object.entries(scores.nistFunctions || {}).map(([fn, data]) => {
-              const numQ = { identify: 5, protect: 5, detect: 5, respond: 5, recover: 5 }[fn] || 5;
-              const minScore = numQ * 1;
+              const minScore = (data.maxScore || 0) / 5; // best answer = 1, worst = 5
               const range = data.maxScore - minScore;
               const riskPct = range > 0 ? Math.round(((data.score - minScore) / range) * 100) : 0;
               const barColor = riskPct <= 30 ? 'bg-green-400' : riskPct <= 50 ? 'bg-yellow-400' : riskPct <= 70 ? 'bg-orange-400' : 'bg-red-400';
@@ -267,13 +276,22 @@ export default function ReportView({ submission, isAdmin = false }) {
                     <div className="space-y-2">
                       {catQuestions.map(q => {
                         const answer = catResponses[q.field];
-                        const option = q.options?.find(o => o.value === answer);
-                        const label = option?.label || (answer || 'Not answered');
-                        const colorClass = answer ? (ANSWER_COLORS[answer] || 'text-gray-300 bg-gray-500/10 border-gray-500/30') : 'text-gray-500 bg-gray-500/10 border-gray-500/30';
+                        const isArray = Array.isArray(answer);
+                        const label = isArray
+                          ? (answer.length
+                              ? answer.map(v => q.options?.find(o => o.value === v)?.label || v).join(', ')
+                              : 'Not answered')
+                          : (q.options?.find(o => o.value === answer)?.label || answer || 'Not answered');
+                        const hasAnswer = isArray ? answer.length > 0 : !!answer;
+                        const colorClass = isArray
+                          ? 'text-orange-300 bg-orange-400/10 border-orange-400/30'
+                          : hasAnswer
+                            ? (ANSWER_COLORS[answer] || 'text-gray-300 bg-gray-500/10 border-gray-500/30')
+                            : 'text-gray-500 bg-gray-500/10 border-gray-500/30';
                         return (
                           <div key={q.field} className="flex items-start justify-between gap-4 text-sm">
                             <p className="text-gray-300 flex-1 leading-snug">{q.text}</p>
-                            <span className={`inline-block border rounded-full px-2.5 py-0.5 text-xs font-medium whitespace-nowrap ${colorClass}`}>
+                            <span className={`inline-block border rounded-full px-2.5 py-0.5 text-xs font-medium text-right max-w-[55%] ${colorClass}`}>
                               {label}
                             </span>
                           </div>

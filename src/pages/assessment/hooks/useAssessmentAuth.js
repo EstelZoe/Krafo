@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useAssessmentContext } from '../context/AssessmentContext';
 
-const BASE = (import.meta.env.VITE_BASE_URL || 'https://krafo-api.onrender.com/api') + '/v1/assessment/auth';
+const BASE = (import.meta.env.VITE_BASE_URL || 'https://api.krafosystems.com/api') + '/v1/assessment/auth';
 
 export function useAssessmentAuth() {
   const { storeAuth, clearAuth, token, setPendingOtpEmail } = useAssessmentContext();

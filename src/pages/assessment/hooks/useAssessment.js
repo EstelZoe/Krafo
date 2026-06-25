@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAssessmentContext } from '../context/AssessmentContext';
 
-const BASE = (import.meta.env.VITE_BASE_URL || 'https://krafo-api.onrender.com/api') + '/v1/assessment';
+const BASE = (import.meta.env.VITE_BASE_URL || 'https://api.krafosystems.com/api') + '/v1/assessment';
 
 export function useAssessment() {
   const { token, clearAuth } = useAssessmentContext();

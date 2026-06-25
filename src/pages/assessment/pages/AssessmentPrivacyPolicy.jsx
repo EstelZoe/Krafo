@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import ToolkitNavbar from '../components/ToolkitNavbar';
-import Footer from "../../components/Footer";
+import Footer from "../../../assets/components/Footer";
 
 
 

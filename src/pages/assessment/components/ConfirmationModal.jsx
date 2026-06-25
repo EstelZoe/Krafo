@@ -23,11 +23,19 @@ export default function ConfirmationModal({ responses, onConfirm, onCancel, load
                 <div className="space-y-2">
                   {questions.map(q => {
                     const val = catResponses[q.field];
-                    const optLabel = q.options?.find(o => o.value === val)?.label || val || '—';
+                    const isArray = Array.isArray(val);
+                    const optLabel = isArray
+                      ? (val.length
+                          ? val.map(v => q.options?.find(o => o.value === v)?.label || v).join(', ')
+                          : '—')
+                      : (q.options?.find(o => o.value === val)?.label || val || '—');
+                    const colorClass = isArray
+                      ? 'text-orange-400'
+                      : val === 'no' ? 'text-red-400' : val === 'yes' ? 'text-green-400' : 'text-orange-400';
                     return (
                       <div key={q.id} className="flex justify-between items-start gap-4 text-sm">
                         <span className="text-gray-400 flex-1">{q.text}</span>
-                        <span className={`font-medium flex-shrink-0 ${val === 'no' ? 'text-red-400' : val === 'yes' ? 'text-green-400' : 'text-orange-400'}`}>
+                        <span className={`font-medium flex-shrink-0 text-right ${colorClass}`}>
                           {optLabel}
                         </span>
                       </div>

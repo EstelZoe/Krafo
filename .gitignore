@@ -28,3 +28,6 @@ dist-ssr
 .kiro/
 # ignore package-lock.json
 package-lock.json
+
+# Personal monthly engineering work log (local only)
+WORK_LOG.md

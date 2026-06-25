@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { RefreshCw } from 'lucide-react';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
 import PendingTransferBanner from './superadmin/PendingTransferBanner';
@@ -8,6 +9,7 @@ import PendingTransferBanner from './superadmin/PendingTransferBanner';
 const Overview = () => {
   const { isDark, colors } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
   const [createMenuOpen, setCreateMenuOpen] = useState(false);
   const createMenuRef = useRef(null);
   const [stats, setStats] = useState({
@@ -16,6 +18,7 @@ const Overview = () => {
     popups: { total: 0, active: 0 },
   });
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState('events');
   const [recentItems, setRecentItems] = useState([]);
   const [allData, setAllData] = useState({
@@ -24,50 +27,54 @@ const Overview = () => {
     popups: [],
   });
 
-  // Fetch all data once on mount
-  useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        setLoading(true);
-        const [eventsRes, blogsRes, popupsRes] = await Promise.all([
-          apiClient.get('/admin/content/events'),
-          apiClient.get('/admin/content/blogs'),
-          apiClient.get('/admin/content/popups'),
-        ]);
+  // Reusable fetcher so manual refresh + mount + re-navigate all share one path.
+  const fetchAllData = useCallback(async ({ silent = false } = {}) => {
+    try {
+      if (silent) setRefreshing(true);
+      else setLoading(true);
+      const [eventsRes, blogsRes, popupsRes] = await Promise.all([
+        apiClient.get('/admin/content/events'),
+        apiClient.get('/admin/content/blogs'),
+        apiClient.get('/admin/content/popups'),
+      ]);
 
-        const eventsData = Array.isArray(eventsRes.data) ? eventsRes.data : [];
-        const blogsData = Array.isArray(blogsRes.data) ? blogsRes.data : [];
-        const popupsData = Array.isArray(popupsRes.data) ? popupsRes.data : [];
+      const eventsData = Array.isArray(eventsRes.data) ? eventsRes.data : [];
+      const blogsData = Array.isArray(blogsRes.data) ? blogsRes.data : [];
+      const popupsData = Array.isArray(popupsRes.data) ? popupsRes.data : [];
 
-        setAllData({ events: eventsData, blogs: blogsData, popups: popupsData });
+      setAllData({ events: eventsData, blogs: blogsData, popups: popupsData });
 
-        setStats({
-          events: {
-            total: eventsData.length,
-            active: eventsData.filter((e) => e.isActive !== false).length,
-          },
-          blogs: {
-            total: blogsData.length,
-            active: blogsData.filter((b) => b.isActive !== false).length,
-          },
-          popups: {
-            total: popupsData.length,
-            active: popupsData.filter((p) => p.isActive === true).length,
-          },
-        });
-
-        setRecentItems(eventsData.slice(0, 5));
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setAllData({ events: [], blogs: [], popups: [] });
-        setRecentItems([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAllData();
+      setStats({
+        events: {
+          total: eventsData.length,
+          active: eventsData.filter((e) => e.isActive !== false).length,
+        },
+        blogs: {
+          total: blogsData.length,
+          active: blogsData.filter((b) => b.isActive !== false).length,
+        },
+        popups: {
+          total: popupsData.length,
+          active: popupsData.filter((p) => p.isActive === true).length,
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setAllData({ events: [], blogs: [], popups: [] });
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, []);
+
+  // Re-fetch whenever the user (re-)lands on the dashboard root. Cheap, keeps
+  // the stat cards in sync with whatever's been edited elsewhere.
+  useEffect(() => {
+    if (location.pathname === '/admin' || location.pathname === '/admin/') {
+      fetchAllData({ silent: !loading });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.key]);
 
   useEffect(() => {
     if (!loading) {
@@ -206,31 +213,41 @@ const Overview = () => {
                 Here's what's happening with your content today. Manage events, blogs, and popups from one place.
               </p>
             </div>
-            <div className="relative" ref={createMenuRef}>
+            <div className="mt-4 sm:mt-0 flex items-center gap-2">
               <button
-                onClick={() => setCreateMenuOpen(!createMenuOpen)}
-                className="mt-4 sm:mt-0 inline-flex items-center px-5 py-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-medium rounded-xl transition-all duration-200 border border-white/20"
+                onClick={() => fetchAllData({ silent: true })}
+                disabled={refreshing || loading}
+                className="inline-flex items-center px-4 py-2.5 bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white font-medium rounded-xl transition-all duration-200 border border-white/20 disabled:opacity-60"
+                title="Reload stats"
               >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
-                Create Content
-                <svg className={`w-4 h-4 ml-2 transition-transform duration-200 ${createMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
+                <RefreshCw size={16} className={refreshing ? 'animate-spin' : ''} />
+                <span className="ml-2 hidden sm:inline">Refresh</span>
               </button>
+              <div className="relative" ref={createMenuRef}>
+                <button
+                  onClick={() => setCreateMenuOpen(!createMenuOpen)}
+                  className="inline-flex items-center px-5 py-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-medium rounded-xl transition-all duration-200 border border-white/20"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                  Create Content
+                  <svg className={`w-4 h-4 ml-2 transition-transform duration-200 ${createMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
 
-              {/* Dropdown Menu */}
-              <AnimatePresence>
-                {createMenuOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute right-0 mt-2 w-64 rounded-xl shadow-2xl border overflow-hidden z-[100]"
-                    style={{
-                      backgroundColor: colors.bgCard,
+                {/* Dropdown Menu */}
+                <AnimatePresence>
+                  {createMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 mt-2 w-64 rounded-xl shadow-2xl border overflow-hidden z-[100]"
+                      style={{
+                        backgroundColor: colors.bgCard,
                       borderColor: colors.border,
                     }}
                   >
@@ -269,6 +286,7 @@ const Overview = () => {
                   </motion.div>
                 )}
               </AnimatePresence>
+            </div>
             </div>
           </div>
         </div>

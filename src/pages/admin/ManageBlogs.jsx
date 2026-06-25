@@ -6,6 +6,15 @@ import { useTheme } from '../../context/ThemeContext';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
+const EMPTY_FORM = {
+  title: '',
+  description: '',
+  content: '',
+  category: '',
+  author: '',
+  thumbnail: '',
+};
+
 const ManageBlogs = () => {
   const { isDark, colors } = useTheme();
   const [blogs, setBlogs] = useState([]);
@@ -15,14 +24,10 @@ const ManageBlogs = () => {
   const [editingBlog, setEditingBlog] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    content: '',
-    category: '',
-    author: '',
-    thumbnail: '',
-  });
+  const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState(EMPTY_FORM);
+
+  const blogId = (b) => b?._id || b?.id;
 
   // Quill editor configuration
   const quillModules = {
@@ -112,6 +117,7 @@ const ManageBlogs = () => {
 
   // Open modal for create/edit
   const openModal = (blog = null) => {
+    setImageFile(null);
     if (blog) {
       setEditingBlog(blog);
       setFormData({
@@ -119,80 +125,76 @@ const ManageBlogs = () => {
         description: blog.description || '',
         content: blog.content || '',
         category: blog.category || '',
-        author: typeof blog.author === 'string' ? blog.author : blog.author?.firstName + ' ' + blog.author?.lastName || '',
+        author:
+          typeof blog.author === 'string'
+            ? blog.author
+            : `${blog.author?.firstName || ''} ${blog.author?.lastName || ''}`.trim(),
         thumbnail: blog.thumbnail || '',
       });
     } else {
       setEditingBlog(null);
-      setFormData({
-        title: '',
-        description: '',
-        content: '',
-        category: '',
-        author: '',
-        thumbnail: '',
-      });
+      setFormData(EMPTY_FORM);
     }
     setShowModal(true);
   };
 
   // Close modal
   const closeModal = () => {
+    if (submitting) return;
     setShowModal(false);
     setEditingBlog(null);
     setImageFile(null);
-    setFormData({
-      title: '',
-      description: '',
-      content: '',
-      category: '',
-      author: '',
-      thumbnail: '',
-    });
+    setFormData(EMPTY_FORM);
   };
 
   // Handle create/update
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
     try {
-      // Use FormData for file upload
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('description', formData.description);
       formDataToSend.append('content', formData.content);
       formDataToSend.append('category', formData.category || 'Uncategorized');
-      
-      // Add image file if selected, otherwise send existing URL (skip data: previews)
-      // NOTE: Backend multer expects field name 'image', not 'thumbnail'
+
+      // Backend multer expects field name 'image' (it stores it as 'thumbnail' on the model)
       if (imageFile) {
         formDataToSend.append('image', imageFile);
       } else if (formData.thumbnail && !formData.thumbnail.startsWith('data:')) {
         formDataToSend.append('image', formData.thumbnail);
       } else if (editingBlog && editingBlog.thumbnail) {
-        // Keep existing thumbnail when editing without new upload
         formDataToSend.append('image', editingBlog.thumbnail);
       }
-      
+
       if (editingBlog) {
-        // Update existing blog - Safe-ID: Handle both _id and id
-        const blogId = editingBlog._id || editingBlog.id;
-        if (!blogId) {
+        const id = blogId(editingBlog);
+        if (!id) {
           toast.error('Cannot update blog \u2014 missing ID');
           return;
         }
-        await apiClient.patch(`/admin/content/blogs/${blogId}`, formDataToSend, {
+        const res = await apiClient.patch(`/admin/content/blogs/${id}`, formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        const updated = res.data?.blog || res.data;
+        setBlogs((prev) =>
+          prev.map((b) => (blogId(b) === id ? { ...b, ...updated } : b))
+        );
         toast.success('Blog updated');
       } else {
-        // Create new blog via admin content endpoint
-        await apiClient.post('/admin/content/blogs', formDataToSend, {
+        const res = await apiClient.post('/admin/content/blogs', formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        const created = res.data?.blog || res.data;
+        if (created && blogId(created)) {
+          setBlogs((prev) => [created, ...prev]);
+        } else {
+          fetchBlogs();
+        }
         toast.success('Blog created');
       }
       closeModal();
-      fetchBlogs();
     } catch (err) {
       console.error('Error saving blog:', err);
       const errorMessage =
@@ -201,21 +203,22 @@ const ManageBlogs = () => {
         err.message ||
         'Failed to save blog';
       toast.error(errorMessage);
+    } finally {
+      setSubmitting(false);
     }
   };
 
   // Handle delete
-  const handleDelete = async (blogId) => {
-    if (!blogId) {
+  const handleDelete = async (id) => {
+    if (!id) {
       toast.error('Cannot delete blog \u2014 missing ID');
       return;
     }
-    // Snapshot for rollback if API fails.
     const previous = blogs;
-    setBlogs((prev) => prev.filter((b) => (b._id || b.id) !== blogId));
+    setBlogs((prev) => prev.filter((b) => blogId(b) !== id));
     setDeleteConfirm(null);
     try {
-      await apiClient.delete(`/admin/content/blogs/${blogId}`);
+      await apiClient.delete(`/admin/content/blogs/${id}`);
       toast.success('Blog deleted');
     } catch (err) {
       const status = err.response?.status;
@@ -235,15 +238,27 @@ const ManageBlogs = () => {
 
   // Handle toggle status
   const handleToggleStatus = async (blog) => {
-    const blogId = blog?._id || blog?.id;
-    if (!blogId) {
+    const id = blogId(blog);
+    if (!id) {
       toast.error('Cannot toggle blog \u2014 missing ID');
       return;
     }
+    const previous = blogs;
+    const optimistic = !blog.isActive;
+    setBlogs((prev) =>
+      prev.map((b) => (blogId(b) === id ? { ...b, isActive: optimistic } : b))
+    );
     try {
-      await apiClient.post(`/admin/content/blogs/${blogId}/toggle`);
-      fetchBlogs();
+      const res = await apiClient.post(`/admin/content/blogs/${id}/toggle`);
+      const updated = res.data?.blog || res.data;
+      if (updated && blogId(updated)) {
+        setBlogs((prev) =>
+          prev.map((b) => (blogId(b) === id ? { ...b, ...updated } : b))
+        );
+      }
+      toast.success(optimistic ? 'Blog activated' : 'Blog deactivated');
     } catch (err) {
+      setBlogs(previous);
       const errorMessage =
         err.response?.data?.error ||
         err.response?.data?.message ||
@@ -450,6 +465,7 @@ const ManageBlogs = () => {
             onClick={closeModal}
           >
             <motion.div
+              key={editingBlog ? `edit-${blogId(editingBlog)}` : 'create-new'}
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -598,11 +614,11 @@ const ManageBlogs = () => {
                         border: `1px solid ${colors.border}`
                       }}
                     />
-                    <p className="text-xs mt-1" style={{ color: colors.textMuted }}>Or enter image URL below</p>
+                    <p className="text-xs mt-1" style={{ color: colors.textMuted }}>Or paste an image URL below.</p>
                     <input
                       type="text"
                       name="thumbnail"
-                      value={formData.thumbnail}
+                      value={formData.thumbnail && !formData.thumbnail.startsWith('data:') ? formData.thumbnail : ''}
                       onChange={handleInputChange}
                       placeholder="https://example.com/image.jpg"
                       className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-colors mt-2"
@@ -613,7 +629,7 @@ const ManageBlogs = () => {
                         border: `1px solid ${colors.border}`
                       }}
                     />
-                    {formData.thumbnail && formData.thumbnail.startsWith('data:') && (
+                    {formData.thumbnail && (
                       <img src={formData.thumbnail} alt="Preview" className="mt-2 h-20 object-cover rounded" />
                     )}
                   </div>
@@ -621,13 +637,17 @@ const ManageBlogs = () => {
                   <div className="flex gap-3 pt-4">
                     <button
                       type="submit"
-                      className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#F2600B] to-orange-500 text-white rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all font-medium"
+                      disabled={submitting}
+                      className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#F2600B] to-orange-500 text-white rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all font-medium disabled:opacity-60"
                     >
-                      {editingBlog ? 'Update Blog' : 'Create Blog'}
+                      {submitting
+                        ? (editingBlog ? 'Updating\u2026' : 'Creating\u2026')
+                        : (editingBlog ? 'Update Blog' : 'Create Blog')}
                     </button>
                     <button
                       type="button"
                       onClick={closeModal}
+                      disabled={submitting}
                       className="flex-1 px-4 py-2.5 rounded-xl transition-colors font-medium"
                       style={{ backgroundColor: colors.bgTertiary, color: colors.text }}
                     >

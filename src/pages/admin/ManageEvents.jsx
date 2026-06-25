@@ -4,6 +4,18 @@ import { toast } from 'react-toastify';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
 
+const EMPTY_FORM = {
+  title: '',
+  description: '',
+  dateRange: '',
+  time: '',
+  location: '',
+  category: '',
+  image: '',
+  registrationUrl: '',
+  featured: false,
+};
+
 const ManageEvents = () => {
   const { isDark, colors } = useTheme();
   const [events, setEvents] = useState([]);
@@ -13,17 +25,10 @@ const ManageEvents = () => {
   const [editingEvent, setEditingEvent] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    dateRange: '',
-    time: '',
-    location: '',
-    category: '',
-    image: '',
-    registrationUrl: '',
-    featured: false,
-  });
+  const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState(EMPTY_FORM);
+
+  const eventId = (e) => e?._id || e?.id;
 
   // Fetch events
   const fetchEvents = async () => {
@@ -82,6 +87,9 @@ const ManageEvents = () => {
 
   // Open modal for create/edit
   const openModal = (event = null) => {
+    // Always wipe previous form state before populating from a fresh event,
+    // so a delete-then-edit flow can never carry over stale data.
+    setImageFile(null);
     if (event) {
       setEditingEvent(event);
       setFormData({
@@ -97,44 +105,26 @@ const ManageEvents = () => {
       });
     } else {
       setEditingEvent(null);
-      setFormData({
-        title: '',
-        description: '',
-        dateRange: '',
-        time: '',
-        location: '',
-        category: '',
-        image: '',
-        registrationUrl: '',
-        featured: false,
-      });
+      setFormData(EMPTY_FORM);
     }
     setShowModal(true);
   };
 
   // Close modal
   const closeModal = () => {
+    if (submitting) return;
     setShowModal(false);
     setEditingEvent(null);
     setImageFile(null);
-    setFormData({
-      title: '',
-      description: '',
-      dateRange: '',
-      time: '',
-      location: '',
-      category: '',
-      image: '',
-      registrationUrl: '',
-      featured: false,
-    });
+    setFormData(EMPTY_FORM);
   };
 
   // Handle create/update
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
     try {
-      // Use FormData for file upload
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('description', formData.description);
@@ -144,37 +134,42 @@ const ManageEvents = () => {
       formDataToSend.append('category', formData.category);
       formDataToSend.append('registrationUrl', formData.registrationUrl);
       formDataToSend.append('featured', formData.featured);
-      
-      // Add image file if selected, otherwise send existing URL (skip data: previews)
+
       if (imageFile) {
         formDataToSend.append('image', imageFile);
       } else if (formData.image && !formData.image.startsWith('data:')) {
         formDataToSend.append('image', formData.image);
       } else if (editingEvent && editingEvent.image) {
-        // Keep existing image when editing without new upload
         formDataToSend.append('image', editingEvent.image);
       }
 
       if (editingEvent) {
-        // Update existing event - Safe-ID: Handle both _id and id
-        const eventId = editingEvent._id || editingEvent.id;
-        if (!eventId) {
+        const id = eventId(editingEvent);
+        if (!id) {
           toast.error('Cannot update event \u2014 missing ID');
           return;
         }
-        await apiClient.patch(`/admin/content/events/${eventId}`, formDataToSend, {
+        const res = await apiClient.patch(`/admin/content/events/${id}`, formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        const updated = res.data?.event || res.data;
+        setEvents((prev) =>
+          prev.map((ev) => (eventId(ev) === id ? { ...ev, ...updated } : ev))
+        );
         toast.success('Event updated');
       } else {
-        // Create new event
-        await apiClient.post('/admin/content/events', formDataToSend, {
+        const res = await apiClient.post('/admin/content/events', formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        const created = res.data?.event || res.data;
+        if (created && eventId(created)) {
+          setEvents((prev) => [created, ...prev]);
+        } else {
+          fetchEvents();
+        }
         toast.success('Event created');
       }
       closeModal();
-      fetchEvents();
     } catch (err) {
       console.error('Error saving event:', err);
       const errorMessage =
@@ -183,6 +178,8 @@ const ManageEvents = () => {
         err.message ||
         'Failed to save event';
       toast.error(errorMessage);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -216,15 +213,27 @@ const ManageEvents = () => {
 
   // Handle toggle status
   const handleToggleStatus = async (event) => {
-    const eventId = event?._id || event?.id;
-    if (!eventId) {
+    const id = eventId(event);
+    if (!id) {
       toast.error('Cannot toggle event \u2014 missing ID');
       return;
     }
+    const previous = events;
+    const optimistic = !event.isActive;
+    setEvents((prev) =>
+      prev.map((ev) => (eventId(ev) === id ? { ...ev, isActive: optimistic } : ev))
+    );
     try {
-      await apiClient.post(`/admin/content/events/${eventId}/toggle`);
-      fetchEvents();
+      const res = await apiClient.post(`/admin/content/events/${id}/toggle`);
+      const updated = res.data?.event || res.data;
+      if (updated && eventId(updated)) {
+        setEvents((prev) =>
+          prev.map((ev) => (eventId(ev) === id ? { ...ev, ...updated } : ev))
+        );
+      }
+      toast.success(optimistic ? 'Event activated' : 'Event deactivated');
     } catch (err) {
+      setEvents(previous);
       const errorMessage =
         err.response?.data?.error ||
         err.response?.data?.message ||
@@ -446,6 +455,7 @@ const ManageEvents = () => {
             onClick={closeModal}
           >
             <motion.div
+              key={editingEvent ? `edit-${eventId(editingEvent)}` : 'create-new'}
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -605,11 +615,11 @@ const ManageEvents = () => {
                         border: `1px solid ${colors.border}`
                       }}
                     />
-                    <p className="text-xs mt-1" style={{ color: colors.textMuted }}>Or enter image URL below</p>
+                    <p className="text-xs mt-1" style={{ color: colors.textMuted }}>Or paste an image URL below.</p>
                     <input
                       type="text"
                       name="image"
-                      value={formData.image}
+                      value={formData.image && !formData.image.startsWith('data:') ? formData.image : ''}
                       onChange={handleInputChange}
                       placeholder="https://example.com/image.jpg"
                       className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-colors mt-2"
@@ -620,7 +630,7 @@ const ManageEvents = () => {
                         border: `1px solid ${colors.border}`
                       }}
                     />
-                    {formData.image && formData.image.startsWith('data:') && (
+                    {formData.image && (
                       <img src={formData.image} alt="Preview" className="mt-2 h-20 object-cover rounded" />
                     )}
                   </div>
@@ -662,13 +672,17 @@ const ManageEvents = () => {
                   <div className="flex gap-3 pt-4">
                     <button
                       type="submit"
-                      className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#F2600B] to-orange-500 text-white rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all font-medium"
+                      disabled={submitting}
+                      className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#F2600B] to-orange-500 text-white rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all font-medium disabled:opacity-60"
                     >
-                      {editingEvent ? 'Update Event' : 'Create Event'}
+                      {submitting
+                        ? (editingEvent ? 'Updating\u2026' : 'Creating\u2026')
+                        : (editingEvent ? 'Update Event' : 'Create Event')}
                     </button>
                     <button
                       type="button"
                       onClick={closeModal}
+                      disabled={submitting}
                       className="flex-1 px-4 py-2.5 rounded-xl transition-colors font-medium"
                       style={{ backgroundColor: colors.bgTertiary, color: colors.text }}
                     >

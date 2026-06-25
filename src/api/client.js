@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = import.meta.env.VITE_BASE_URL || 'https://krafo-api.onrender.com/api';
+const baseURL = import.meta.env.VITE_BASE_URL || 'https://api.krafosystems.com/api';
 
 const isDev = import.meta.env.DEV;
 

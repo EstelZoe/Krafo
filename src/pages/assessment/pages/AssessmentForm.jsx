@@ -34,9 +34,10 @@ export default function AssessmentForm() {
   function validateStep() {
     const errs = {};
     for (const q of questions) {
-      if (q.required && !stepResponses[q.field]) {
-        errs[q.field] = 'This field is required';
-      }
+      if (!q.required) continue;
+      const val = stepResponses[q.field];
+      const empty = val == null || val === '' || (Array.isArray(val) && val.length === 0);
+      if (empty) errs[q.field] = 'This field is required';
     }
     return errs;
   }
@@ -91,7 +92,12 @@ export default function AssessmentForm() {
   }
 
   const isLastStep = currentStep === CATEGORIES.length - 1;
-  const allAnswered = questions.every(q => !q.required || stepResponses[q.field]);
+  const allAnswered = questions.every(q => {
+    if (!q.required) return true;
+    const val = stepResponses[q.field];
+    if (Array.isArray(val)) return val.length > 0;
+    return val != null && val !== '';
+  });
 
   return (
     <div className="min-h-screen bg-black text-white">
