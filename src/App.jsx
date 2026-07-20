@@ -105,7 +105,6 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/cookies-policy" element={<CookiesPolicy />} />
-            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         
             
             {/* Auth Routes */}
