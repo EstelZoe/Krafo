@@ -27,16 +27,38 @@ export default function AssessmentDashboard() {
   const [unlockOpen, setUnlockOpen] = useState(false);
 
   useEffect(() => {
-    getMyAssessments()
-      .then(data => {
-        if (data?.assessments) {
-          setAssessments(data.assessments);
-          setCooldownUntil(data.cooldownUntil || null);
-        } else if (Array.isArray(data)) {
-          setAssessments(data);
-        }
-      })
-      .catch(err => setError(err.message));
+    let cancelled = false;
+
+    const load = () => {
+      getMyAssessments()
+        .then(data => {
+          if (cancelled) return;
+          if (data?.assessments) {
+            setAssessments(data.assessments);
+            setCooldownUntil(data.cooldownUntil || null);
+          } else if (Array.isArray(data)) {
+            setAssessments(data);
+          }
+        })
+        .catch(err => { if (!cancelled) setError(err.message); });
+    };
+
+    load();
+
+    // Re-fetch when the user returns to the page. Without this, the browser's
+    // back-forward cache can restore a stale dashboard (no new assessment, no
+    // cooldown lock) after a submission — which let users "not see" completed
+    // assessments and appear un-throttled until a fresh load days later.
+    const onPageShow = (e) => { if (e.persisted) load(); };
+    const onVisible = () => { if (document.visibilityState === 'visible') load(); };
+    window.addEventListener('pageshow', onPageShow);
+    document.addEventListener('visibilitychange', onVisible);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener('pageshow', onPageShow);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
   }, []);
 
   const isLocked = cooldownUntil && new Date(cooldownUntil) > new Date();

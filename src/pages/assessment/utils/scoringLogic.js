@@ -30,7 +30,7 @@ const FIELD_SCORES = {
     yes_both: 1, yes_843: 2, yes_1038: 2, dont_know_acts: 5, no: 5,
   },
   dpcRegistration: {
-    yes: 1, no: 5, not_sure_required: 4, dont_know: 5,
+    yes: 1, no: 5, dont_know: 5,
   },
   // ── Identify ──
   // "Has your business experienced an incident?" — a YES here is itself a risk
@@ -44,11 +44,11 @@ const FIELD_SCORES = {
   },
   // ── Respond ──
   certAwareness: {
-    yes_process: 1, yes_no_process: 3, no: 5, dont_know: 5,
+    yes_process: 1, yes_no_process: 4, no: 5, dont_know: 5,
   },
   // ── Recover ──
   dataBackedUp: {
-    yes_automated: 1, yes_manual: 3, no: 5, dont_know: 5,
+    yes_automated: 1, yes_manual: 1, no: 5, dont_know: 5,
   },
 };
 
@@ -153,11 +153,11 @@ export function calculateAllScores(responses) {
  *
  * GRADUATED / CUSTOM QUESTIONS (DEFAULTS — pending team lead confirmation):
  *   complianceRequirements: yes_both=1, yes_843=2, yes_1038=2, dont_know_acts=5, no=5
- *   dpcRegistration:        yes=1, no=5, not_sure_required=4, dont_know=5
+ *   dpcRegistration:        yes=1, no=5, dont_know=5
  *   recentIncident:         yes=5, no=1, dont_know=5   (a YES = recent compromise = higher risk)
  *   staffTraining:          yes_regular=1, yes_onboarding=3, no=5, dont_know=5
- *   certAwareness:          yes_process=1, yes_no_process=3, no=5, dont_know=5
- *   dataBackedUp:           yes_automated=1, yes_manual=3, no=5, dont_know=5
+ *   certAwareness:          yes_process=1, yes_no_process=4, no=5, dont_know=5
+ *   dataBackedUp:           yes_automated=1, yes_manual=1, no=5, dont_know=5
  *
  * RISK BANDS (% of max, higher = worse):
  *   0-30 low | 31-50 moderate | 51-70 high | 71-100 critical

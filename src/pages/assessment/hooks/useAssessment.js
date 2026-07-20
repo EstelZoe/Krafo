@@ -35,7 +35,12 @@ export function useAssessment() {
       handleAuthError(err);
       const msg = err.response?.data?.error || 'Failed to save progress';
       setError(msg);
-      // Do not throw — caller retains form data
+      // Surface the 90-day cooldown so the form can stop and redirect instead of
+      // silently letting the user fill the whole form and fail at submit.
+      if (err.response?.status === 403 && err.response?.data?.requiresPayment) {
+        return { cooldown: true, cooldownUntil: err.response.data.cooldownUntil };
+      }
+      // Other errors: do not throw — caller retains form data
       return null;
     } finally { setLoading(false); }
   }

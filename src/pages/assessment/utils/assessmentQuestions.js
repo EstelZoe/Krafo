@@ -34,7 +34,18 @@ const YES_NO_DK = [
 export const QUESTIONS = [
   // ── Section 1: Organization Profile (PROFILE ONLY — not scored) ───────────
   {
-    id: 'cp_1', category: 'companyProfile', field: 'primaryBusinessModel',
+    id: 'cp_1', category: 'companyProfile', field: 'cybersecurityProfessional',
+    text: 'Do you have a Cybersecurity Professional working with your business / organization?',
+    type: 'select', required: true, scored: false,
+    options: [
+      { value: 'yes_fulltime', label: 'Yes - Full time' },
+      { value: 'yes_parttime', label: 'Yes - Part time / Contractor' },
+      { value: 'no_planning', label: 'No - but planning to' },
+      { value: 'dont_know', label: "Don't Know" },
+    ],
+  },
+  {
+    id: 'cp_2', category: 'companyProfile', field: 'primaryBusinessModel',
     text: 'What is your primary business / organization model?',
     type: 'select', required: true, scored: false,
     options: [
@@ -47,13 +58,13 @@ export const QUESTIONS = [
     ],
   },
   {
-    id: 'cp_2', category: 'companyProfile', field: 'criticalInfrastructure',
+    id: 'cp_3', category: 'companyProfile', field: 'criticalInfrastructure',
     text: 'Do you consider your business / organization as critical infrastructure? (Systems and assets that impact national security, public health, or economic stability.)',
     type: 'radio', required: true, scored: false,
     options: YES_NO_DK,
   },
   {
-    id: 'cp_3', category: 'companyProfile', field: 'employeeRange',
+    id: 'cp_4', category: 'companyProfile', field: 'employeeRange',
     text: 'What is the range of employees / contractors working in your business / organization?',
     type: 'select', required: true, scored: false,
     options: [
@@ -65,7 +76,7 @@ export const QUESTIONS = [
     ],
   },
   {
-    id: 'cp_4', category: 'companyProfile', field: 'annualRevenue',
+    id: 'cp_5', category: 'companyProfile', field: 'annualRevenue',
     text: 'What is your annual revenue range?',
     type: 'select', required: true, scored: false,
     options: [
@@ -77,7 +88,7 @@ export const QUESTIONS = [
     ],
   },
   {
-    id: 'cp_5', category: 'companyProfile', field: 'toolsUsed',
+    id: 'cp_6', category: 'companyProfile', field: 'toolsUsed',
     text: 'Which of these tools does your business use? (Select all that apply)',
     type: 'multiselect', required: true, scored: false,
     options: [
@@ -91,19 +102,8 @@ export const QUESTIONS = [
     ],
   },
   {
-    id: 'cp_6', category: 'companyProfile', field: 'dataProtectionOfficer',
-    text: 'Do you have a Data Protection Officer working with your business / organization?',
-    type: 'select', required: true, scored: false,
-    options: [
-      { value: 'yes_fulltime', label: 'Yes - Full time' },
-      { value: 'yes_parttime', label: 'Yes - Part time / Contractor' },
-      { value: 'no_planning', label: 'No - but planning to' },
-      { value: 'dont_know', label: "Don't Know" },
-    ],
-  },
-  {
-    id: 'cp_7', category: 'companyProfile', field: 'cybersecurityProfessional',
-    text: 'Do you have a Cybersecurity Professional working with your business / organization?',
+    id: 'cp_7', category: 'companyProfile', field: 'dataProtectionOfficer',
+    text: 'Do you have a Data Protection Officer or Supervisor working with your business / organization?',
     type: 'select', required: true, scored: false,
     options: [
       { value: 'yes_fulltime', label: 'Yes - Full time' },
@@ -158,7 +158,6 @@ export const QUESTIONS = [
     options: [
       { value: 'yes', label: 'Yes' },
       { value: 'no', label: 'No' },
-      { value: 'not_sure_required', label: 'Not sure if required' },
       { value: 'dont_know', label: "Don't Know" },
     ],
   },
@@ -203,7 +202,7 @@ export const QUESTIONS = [
   // ── Section 4: Protect (PR | Acts 843, 1038, 772) ─────────────────────────
   {
     id: 'pr_1', category: 'protect', field: 'twoStepLogin',
-    text: 'Do your business accounts require a two-step login verification? (e.g., a code sent to your phone after entering your password)',
+    text: 'Does your business require two-step login verification? (e.g., a code sent to your phone after entering your password)',
     type: 'radio', required: true, scored: true, options: YES_NO_DK,
   },
   {
@@ -287,13 +286,8 @@ export const QUESTIONS = [
     type: 'radio', required: true, scored: true, options: YES_NO_DK,
   },
   {
-    id: 'res_5', category: 'respond', field: 'breachNotificationProcess',
-    text: 'Do you have a process for notifying your customers and relevant authorities if their data was compromised? (DPC within 72 hours, CERT-GH within 24 hours)',
-    type: 'radio', required: true, scored: true, options: YES_NO_DK,
-  },
-  {
-    id: 'res_6', category: 'respond', field: 'certAwareness',
-    text: 'Are you aware of the requirement to notify CERT-GH within 24 hours and DPC within 72 hours of a data breach?',
+    id: 'res_5', category: 'respond', field: 'certAwareness',
+    text: 'Are you aware of the requirement to notify CERT-GH within 24 hours of a data breach?',
     type: 'select', required: true, scored: true,
     options: [
       { value: 'yes_process', label: 'Yes and we have a process' },
@@ -301,6 +295,11 @@ export const QUESTIONS = [
       { value: 'no', label: 'No' },
       { value: 'dont_know', label: "Don't Know" },
     ],
+  },
+  {
+    id: 'res_6', category: 'respond', field: 'breachNotificationProcess',
+    text: 'Do you have a process for notifying your customers and relevant authorities if their data was compromised?',
+    type: 'radio', required: true, scored: true, options: YES_NO_DK,
   },
 
   // ── Section 7: Recover (RC | Acts 843, 1038) ──────────────────────────────

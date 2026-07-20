@@ -89,6 +89,40 @@ export default function ManageAssessments() {
     }
   }
 
+  // Super-admin only: the multi-assessment override toggle. Regular admins never
+  // see the control, and the backend enforces super-admin regardless.
+  const isSuper = (() => {
+    try { return JSON.parse(localStorage.getItem('user'))?.role === 'superadmin'; }
+    catch { return false; }
+  })();
+
+  // Flip allowMultipleAssessments for a user (cooldown bypass). Optimistically
+  // updates every row belonging to that user, and rolls back on failure.
+  async function handleToggleMulti(userId, next) {
+    if (!userId) return;
+    const apply = (val) => setSubmissions(prev => prev.map(s =>
+      s.userId?.id === userId
+        ? { ...s, userId: { ...s.userId, allowMultipleAssessments: val } }
+        : s
+    ));
+    apply(next);
+    setActionLoading(prev => ({ ...prev, [`mt_${userId}`]: true }));
+    try {
+      await apiClient.patch(`/v1/admin/assessments/users/${userId}/allow-multiple`, { enabled: next });
+      toast.success(next ? 'Multiple assessments enabled for this user.' : 'Multiple assessments disabled.');
+    } catch (err) {
+      apply(!next); // rollback
+      toast.error(err.response?.data?.error || 'Could not update access.');
+    } finally {
+      setActionLoading(prev => ({ ...prev, [`mt_${userId}`]: false }));
+    }
+  }
+
+  // Column headers — the "Access" column is super-admin only.
+  const tableHeaders = isSuper
+    ? ['User', 'Company', 'Risk', 'Risk %', 'Date', 'Referred By', 'Access', 'Actions']
+    : ['User', 'Company', 'Risk', 'Risk %', 'Date', 'Referred By', 'Actions'];
+
   // Theme-aware reusable styles
   const inputStyle = {
     backgroundColor: colors.bgTertiary,
@@ -224,7 +258,7 @@ export default function ManageAssessments() {
             <table className="w-full text-sm">
               <thead style={{ backgroundColor: colors.bgTertiary }}>
                 <tr>
-                  {['User', 'Company', 'Risk', 'Risk %', 'Date', 'Referred By', 'Actions'].map((h) => (
+                  {tableHeaders.map((h) => (
                     <th
                       key={h}
                       className="text-left text-xs font-semibold uppercase tracking-wider px-5 py-3"
@@ -235,7 +269,7 @@ export default function ManageAssessments() {
                   ))}
                 </tr>
               </thead>
-              <SkeletonTable rows={5} columns={7} />
+              <SkeletonTable rows={5} columns={tableHeaders.length} />
             </table>
           </div>
         ) : submissions.length === 0 ? (
@@ -249,7 +283,7 @@ export default function ManageAssessments() {
             <table className="w-full text-sm">
               <thead style={{ backgroundColor: colors.bgTertiary }}>
                 <tr>
-                  {['User', 'Company', 'Risk', 'Risk %', 'Date', 'Referred By', 'Actions'].map((h) => (
+                  {tableHeaders.map((h) => (
                     <th
                       key={h}
                       className="text-left text-xs font-semibold uppercase tracking-wider px-5 py-3"
@@ -311,6 +345,34 @@ export default function ManageAssessments() {
                       <td className="px-5 py-4" style={{ color: colors.textSecondary }}>
                         {s.userId?.referredByCode || '—'}
                       </td>
+                      {isSuper && (
+                        <td className="px-5 py-4">
+                          {s.userId ? (
+                            <button
+                              role="switch"
+                              aria-checked={!!s.userId.allowMultipleAssessments}
+                              disabled={!!actionLoading[`mt_${s.userId.id}`]}
+                              onClick={() => handleToggleMulti(s.userId.id, !s.userId.allowMultipleAssessments)}
+                              title={s.userId.allowMultipleAssessments
+                                ? 'Multiple assessments ON — click to disable (restores 90-day cooldown)'
+                                : 'Multiple assessments OFF — click to enable (bypass cooldown)'}
+                              className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                              style={{
+                                backgroundColor: s.userId.allowMultipleAssessments ? '#F2600B' : colors.border,
+                                '--tw-ring-offset-color': colors.bgCard,
+                              }}
+                            >
+                              <span
+                                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform duration-200 ${
+                                  s.userId.allowMultipleAssessments ? 'translate-x-6' : 'translate-x-1'
+                                }`}
+                              />
+                            </button>
+                          ) : (
+                            <span style={{ color: colors.textMuted }}>—</span>
+                          )}
+                        </td>
+                      )}
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2">
                           {s.status === 'completed' && (

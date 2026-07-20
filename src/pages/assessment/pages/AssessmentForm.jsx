@@ -48,6 +48,13 @@ export default function AssessmentForm() {
 
     setSaveError(null);
     const result = await saveProgress(category.key, stepResponses, submissionId);
+
+    // Cooldown active — stop here and send them to the dashboard/paywall.
+    if (result?.cooldown) {
+      navigate('/assessment-toolkit/dashboard');
+      return;
+    }
+
     if (result?.submissionId && !submissionId) {
       setSubmissionId(result.submissionId);
     }
@@ -87,6 +94,12 @@ export default function AssessmentForm() {
       navigate(`/assessment-toolkit/report/${result.submission.id}`);
     } catch (err) {
       setShowModal(false);
+      // If the server blocked this as a cooldown, send them to the dashboard
+      // where the paywall / next-available date is shown.
+      if (/cooldown/i.test(err.message || '')) {
+        navigate('/assessment-toolkit/dashboard');
+        return;
+      }
       setSaveError(err.message || 'Submission failed. Please try again.');
     }
   }
