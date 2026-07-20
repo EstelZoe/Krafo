@@ -31,7 +31,6 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
-const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const LogIn = lazy(() => import("./pages/LogIn"));
 
 
