@@ -1,6 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Bell, Search, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Bell, Search, AlertTriangle, RefreshCw, Eye, X, Inbox } from 'lucide-react';
+import { toast } from 'react-toastify';
 import { apiClient } from '../../api/client';
+import { useTheme } from '../../context/ThemeContext';
+import ReportView from '../assessment/components/ReportView';
+import ConfirmModal from '../../components/ConfirmModal';
+import IconButton from '../../components/IconButton';
+import EmptyState from '../../components/EmptyState';
+import { SkeletonTable } from '../../components/Skeleton';
 
 const RISK_BADGE = {
   low: 'bg-green-400/10 border-green-400/30 text-green-400',
@@ -10,10 +17,13 @@ const RISK_BADGE = {
 };
 
 export default function ManageAssessments() {
+  const { colors } = useTheme();
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [actionLoading, setActionLoading] = useState({});
+  const [reportModal, setReportModal] = useState(null);
+  const [reminderTarget, setReminderTarget] = useState(null);
 
   // Filters
   const [search, setSearch] = useState('');
@@ -48,75 +58,173 @@ export default function ManageAssessments() {
   }, []);
 
   async function handleReminder(id) {
-    if (!window.confirm('Send a reminder to this user?')) return;
+    setReminderTarget(id);
+  }
+
+  async function confirmReminder() {
+    const id = reminderTarget;
+    if (!id) return;
     setActionLoading(prev => ({ ...prev, [`rm_${id}`]: true }));
     try {
       await apiClient.post(`/v1/admin/assessments/${id}/remind`, {});
-      alert('Reminder sent.');
+      toast.success('Reminder sent.');
+      setReminderTarget(null);
       fetchSubmissions();
     } catch {
-      alert('Could not send reminder.');
+      toast.error('Could not send reminder.');
     } finally {
       setActionLoading(prev => ({ ...prev, [`rm_${id}`]: false }));
     }
   }
 
+  async function handleViewReport(id) {
+    setActionLoading(prev => ({ ...prev, [`vr_${id}`]: true }));
+    try {
+      const res = await apiClient.get(`/v1/admin/assessments/${id}`);
+      setReportModal(res.data.submission);
+    } catch {
+      toast.error('Could not load report.');
+    } finally {
+      setActionLoading(prev => ({ ...prev, [`vr_${id}`]: false }));
+    }
+  }
+
+  // Super-admin only: the multi-assessment override toggle. Regular admins never
+  // see the control, and the backend enforces super-admin regardless.
+  const isSuper = (() => {
+    try { return JSON.parse(localStorage.getItem('user'))?.role === 'superadmin'; }
+    catch { return false; }
+  })();
+
+  // Flip allowMultipleAssessments for a user (cooldown bypass). Optimistically
+  // updates every row belonging to that user, and rolls back on failure.
+  async function handleToggleMulti(userId, next) {
+    if (!userId) return;
+    const apply = (val) => setSubmissions(prev => prev.map(s =>
+      s.userId?.id === userId
+        ? { ...s, userId: { ...s.userId, allowMultipleAssessments: val } }
+        : s
+    ));
+    apply(next);
+    setActionLoading(prev => ({ ...prev, [`mt_${userId}`]: true }));
+    try {
+      await apiClient.patch(`/v1/admin/assessments/users/${userId}/allow-multiple`, { enabled: next });
+      toast.success(next ? 'Multiple assessments enabled for this user.' : 'Multiple assessments disabled.');
+    } catch (err) {
+      apply(!next); // rollback
+      toast.error(err.response?.data?.error || 'Could not update access.');
+    } finally {
+      setActionLoading(prev => ({ ...prev, [`mt_${userId}`]: false }));
+    }
+  }
+
+  // Column headers — the "Access" column is super-admin only.
+  const tableHeaders = isSuper
+    ? ['User', 'Company', 'Risk', 'Risk %', 'Date', 'Referred By', 'Access', 'Actions']
+    : ['User', 'Company', 'Risk', 'Risk %', 'Date', 'Referred By', 'Actions'];
+
+  // Theme-aware reusable styles
+  const inputStyle = {
+    backgroundColor: colors.bgTertiary,
+    color: colors.text,
+    border: `1px solid ${colors.border}`,
+  };
+  const cardStyle = { backgroundColor: colors.bgCard, borderColor: colors.border };
+
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h1 className="text-2xl font-bold text-white">Assessment Submissions</h1>
+        <div>
+          <h1 className="text-2xl font-bold" style={{ color: colors.text }}>
+            Assessment Submissions
+          </h1>
+          <p className="text-sm mt-1" style={{ color: colors.textMuted }}>
+            {submissions.length} submission{submissions.length === 1 ? '' : 's'}
+          </p>
+        </div>
         <button
           onClick={fetchSubmissions}
-          className="flex items-center gap-2 text-sm text-gray-400 hover:text-white border border-gray-700 hover:border-gray-500 px-4 py-2 rounded-lg transition"
+          disabled={loading}
+          className="flex items-center gap-2 text-sm px-4 py-2.5 rounded-xl border transition-all duration-150 disabled:opacity-60 hover:shadow-md"
+          style={{
+            color: colors.text,
+            borderColor: colors.border,
+            backgroundColor: colors.bgCard,
+          }}
+          onMouseEnter={(e) => {
+            if (loading) return;
+            e.currentTarget.style.borderColor = '#F2600B';
+            e.currentTarget.style.color = '#F2600B';
+            e.currentTarget.style.boxShadow = '0 0 0 3px rgba(242, 96, 11, 0.15)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = colors.border;
+            e.currentTarget.style.color = colors.text;
+            e.currentTarget.style.boxShadow = '';
+          }}
         >
-          <RefreshCw size={14} /> Refresh
+          <RefreshCw size={14} className={loading ? 'animate-spin' : ''} /> Refresh
         </button>
       </div>
 
       {/* Filters */}
-      <div className="bg-[#111] border border-gray-800 rounded-xl p-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="rounded-xl p-4 border grid sm:grid-cols-2 lg:grid-cols-4 gap-4" style={cardStyle}>
         <div className="relative lg:col-span-2">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+          <Search
+            size={14}
+            className="absolute left-3 top-1/2 -translate-y-1/2"
+            style={{ color: colors.textMuted }}
+          />
           <input
             type="text"
             placeholder="Search by company name..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full bg-black border border-gray-700 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-orange-500"
+            className="w-full rounded-lg pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            style={inputStyle}
           />
         </div>
         <input
           type="date"
           value={dateFrom}
           onChange={e => setDateFrom(e.target.value)}
-          className="bg-black border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500"
+          className="rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          style={inputStyle}
         />
         <input
           type="date"
           value={dateTo}
           onChange={e => setDateTo(e.target.value)}
-          className="bg-black border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500"
+          className="rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          style={inputStyle}
         />
         <div className="flex gap-2 items-center sm:col-span-2 lg:col-span-2">
-          <span className="text-gray-500 text-xs whitespace-nowrap">Score range:</span>
+          <span className="text-xs whitespace-nowrap" style={{ color: colors.textMuted }}>
+            Score range:
+          </span>
           <input
             type="number" min="0" max="100" placeholder="Min %"
             value={minScore} onChange={e => setMinScore(e.target.value)}
-            className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            style={inputStyle}
           />
-          <span className="text-gray-600">–</span>
+          <span style={{ color: colors.textMuted }}>–</span>
           <input
             type="number" min="0" max="100" placeholder="Max %"
             value={maxScore} onChange={e => setMaxScore(e.target.value)}
-            className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            style={inputStyle}
           />
         </div>
         <div className="flex gap-2 items-center">
-          <span className="text-gray-500 text-xs whitespace-nowrap">Referral:</span>
+          <span className="text-xs whitespace-nowrap" style={{ color: colors.textMuted }}>
+            Referral:
+          </span>
           <select
             value={referralFilter}
             onChange={e => setReferralFilter(e.target.value)}
-            className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500"
+            className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            style={inputStyle}
           >
             <option value="all">All</option>
             <option value="referred">Referred Only</option>
@@ -126,7 +234,7 @@ export default function ManageAssessments() {
         <div className="sm:col-span-2 lg:col-span-1 flex justify-end">
           <button
             onClick={fetchSubmissions}
-            className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-5 py-2 rounded-lg transition"
+            className="bg-gradient-to-r from-[#F2600B] to-orange-500 text-white text-sm font-semibold px-5 py-2 rounded-lg hover:shadow-lg hover:shadow-orange-500/30 transition"
           >
             Apply Filters
           </button>
@@ -135,78 +243,156 @@ export default function ManageAssessments() {
 
       {/* Error */}
       {error && (
-        <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl p-4 text-sm">
+        <div
+          className="flex items-center gap-3 rounded-xl p-4 text-sm border"
+          style={{ backgroundColor: colors.errorBg, borderColor: colors.error + '40', color: colors.error }}
+        >
           <AlertTriangle size={16} /> {error}
         </div>
       )}
 
       {/* Table */}
-      <div className="bg-[#111] border border-gray-800 rounded-xl overflow-hidden">
+      <div className="rounded-xl overflow-hidden border" style={cardStyle}>
         {loading ? (
-          <div className="text-center py-16 text-gray-500 text-sm">Loading submissions...</div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead style={{ backgroundColor: colors.bgTertiary }}>
+                <tr>
+                  {tableHeaders.map((h) => (
+                    <th
+                      key={h}
+                      className="text-left text-xs font-semibold uppercase tracking-wider px-5 py-3"
+                      style={{ color: colors.textMuted }}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <SkeletonTable rows={5} columns={tableHeaders.length} />
+            </table>
+          </div>
         ) : submissions.length === 0 ? (
-          <div className="text-center py-16 text-gray-500 text-sm">No submissions found.</div>
+          <EmptyState
+            icon={Inbox}
+            title="No assessments yet"
+            message="When users submit assessments, they will show up here."
+          />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-800 text-gray-500 text-xs uppercase tracking-wider">
-                  <th className="text-left px-5 py-3">User</th>
-                  <th className="text-left px-5 py-3">Company</th>
-                  <th className="text-left px-5 py-3">Risk</th>
-                  <th className="text-left px-5 py-3">Score</th>
-                  <th className="text-left px-5 py-3">Date</th>
-                  <th className="text-left px-5 py-3">Referred By</th>
-                  <th className="text-left px-5 py-3">Reminder</th>
-                  <th className="text-left px-5 py-3">Actions</th>
+              <thead style={{ backgroundColor: colors.bgTertiary }}>
+                <tr>
+                  {tableHeaders.map((h) => (
+                    <th
+                      key={h}
+                      className="text-left text-xs font-semibold uppercase tracking-wider px-5 py-3"
+                      style={{ color: colors.textMuted }}
+                    >
+                      {h}
+                    </th>
+                  ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-800/50">
+              <tbody>
                 {submissions
                   .filter(s => {
                     if (referralFilter === 'referred') return !!s.userId?.referredByCode;
                     if (referralFilter === 'non-referred') return !s.userId?.referredByCode;
                     return true;
                   })
-                  .map(s => {
+                  .map((s, idx) => {
                   const badgeClass = RISK_BADGE[s.scores?.riskLevel] || RISK_BADGE.high;
                   const date = s.completedAt
                     ? new Date(s.completedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
                     : '—';
                   const name = s.userId ? `${s.userId.firstName} ${s.userId.lastName}` : '—';
                   const company = s.userId?.companyName || '—';
+                  const zebra = idx % 2 === 0
+                    ? 'transparent'
+                    : (colors.bgTertiary);
 
                   return (
-                    <tr key={s.id} className="hover:bg-white/[0.02] transition">
-                      <td className="px-5 py-4 text-white">{name}</td>
-                      <td className="px-5 py-4 text-gray-300">{company}</td>
+                    <tr
+                      key={s.id}
+                      className="border-t group transition-colors"
+                      style={{
+                        borderColor: colors.border,
+                        backgroundColor: zebra,
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = colors.primaryLight;
+                        e.currentTarget.style.boxShadow = 'inset 3px 0 0 0 #F2600B';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = zebra;
+                        e.currentTarget.style.boxShadow = '';
+                      }}
+                    >
+                      <td className="px-5 py-4 font-medium" style={{ color: colors.text }}>{name}</td>
+                      <td className="px-5 py-4" style={{ color: colors.textSecondary }}>{company}</td>
                       <td className="px-5 py-4">
                         {s.scores?.riskLevel ? (
                           <span className={`border rounded-full px-2.5 py-0.5 text-xs font-semibold ${badgeClass}`}>
                             {s.scores.riskLevel.toUpperCase()}
                           </span>
-                        ) : '—'}
+                        ) : <span style={{ color: colors.textMuted }}>—</span>}
                       </td>
-                      <td className="px-5 py-4 text-gray-300">
+                      <td className="px-5 py-4 font-semibold" style={{ color: colors.textSecondary }}>
                         {s.scores?.percentage != null ? `${s.scores.percentage}%` : '—'}
                       </td>
-                      <td className="px-5 py-4 text-gray-400">{date}</td>
-                      <td className="px-5 py-4 text-gray-300">{s.userId?.referredByCode || '—'}</td>
-                      <td className="px-5 py-4">
-                        <span className={`text-xs font-medium ${s.reminderSent ? 'text-green-400' : 'text-gray-500'}`}>
-                          {s.reminderSent ? 'Sent' : 'Pending'}
-                        </span>
+                      <td className="px-5 py-4" style={{ color: colors.textMuted }}>{date}</td>
+                      <td className="px-5 py-4" style={{ color: colors.textSecondary }}>
+                        {s.userId?.referredByCode || '—'}
                       </td>
+                      {isSuper && (
+                        <td className="px-5 py-4">
+                          {s.userId ? (
+                            <button
+                              role="switch"
+                              aria-checked={!!s.userId.allowMultipleAssessments}
+                              disabled={!!actionLoading[`mt_${s.userId.id}`]}
+                              onClick={() => handleToggleMulti(s.userId.id, !s.userId.allowMultipleAssessments)}
+                              title={s.userId.allowMultipleAssessments
+                                ? 'Multiple assessments ON — click to disable (restores 90-day cooldown)'
+                                : 'Multiple assessments OFF — click to enable (bypass cooldown)'}
+                              className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                              style={{
+                                backgroundColor: s.userId.allowMultipleAssessments ? '#F2600B' : colors.border,
+                                '--tw-ring-offset-color': colors.bgCard,
+                              }}
+                            >
+                              <span
+                                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform duration-200 ${
+                                  s.userId.allowMultipleAssessments ? 'translate-x-6' : 'translate-x-1'
+                                }`}
+                              />
+                            </button>
+                          ) : (
+                            <span style={{ color: colors.textMuted }}>—</span>
+                          )}
+                        </td>
+                      )}
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => handleReminder(s.id)}
-                            disabled={actionLoading[`rm_${s.id}`] || s.reminderSent}
+                          {s.status === 'completed' && (
+                            <IconButton
+                              variant="info"
+                              title="View Report"
+                              disabled={actionLoading[`vr_${s.id}`]}
+                              onClick={() => handleViewReport(s.id)}
+                            >
+                              <Eye size={14} />
+                            </IconButton>
+                          )}
+                          <IconButton
+                            variant="primary"
                             title="Send Reminder"
-                            className="p-2 rounded-lg border border-gray-700 hover:border-orange-500/50 text-gray-400 hover:text-orange-400 transition disabled:opacity-40"
+                            disabled={actionLoading[`rm_${s.id}`]}
+                            onClick={() => handleReminder(s.id)}
                           >
                             <Bell size={14} />
-                          </button>
+                          </IconButton>
                         </div>
                       </td>
                     </tr>
@@ -217,6 +403,39 @@ export default function ManageAssessments() {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        open={!!reminderTarget}
+        title="Send reminder?"
+        message="The user will receive a branded reminder email about their pending or completed assessment."
+        confirmText="Send Reminder"
+        tone="primary"
+        loading={!!(reminderTarget && actionLoading[`rm_${reminderTarget}`])}
+        onConfirm={confirmReminder}
+        onCancel={() => setReminderTarget(null)}
+      />
+
+      {/* Report Modal */}
+      {reportModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div
+            className="rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 relative border"
+            style={cardStyle}
+          >
+            <button
+              onClick={() => setReportModal(null)}
+              className="absolute top-4 right-4 p-2 rounded-lg border hover:border-red-500/50 transition"
+              style={{ borderColor: colors.border, color: colors.textSecondary }}
+            >
+              <X size={18} />
+            </button>
+            <h2 className="text-xl font-bold mb-4" style={{ color: colors.text }}>
+              Assessment Report — {reportModal.userId?.companyName || 'Unknown'}
+            </h2>
+            <ReportView submission={reportModal} isAdmin={true} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import axios from 'axios';
 import ToolkitNavbar from '../components/ToolkitNavbar';
 import krafoLogo from '../images/krafo-logo1.png';
 
-const BASE = (import.meta.env.VITE_BASE_URL || 'https://krafo-api.onrender.com/api') + '/v1/assessment/auth';
+const BASE = (import.meta.env.VITE_BASE_URL || 'https://api.krafosystems.com/api') + '/v1/assessment/auth';
 
 export default function AssessmentCheckEmail() {
   const [searchParams] = useSearchParams();

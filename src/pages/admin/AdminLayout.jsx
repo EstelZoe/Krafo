@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
+import { useAdminOnboarding } from './onboarding/useAdminOnboarding';
 import krafologo from "../../assets/images/KRAFO ORIGINAL WHITEAsset 70@2x.png"
 
 // KRAFO Logo Component
@@ -116,7 +117,101 @@ const AdminLayout = () => {
     },
   ];
 
-  const navItems = [...contentNavItems, ...toolkitNavItems];
+  const superAdminNavItems = [
+    {
+      name: 'Manage Admins',
+      path: '/admin/superadmin/admins',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+    },
+    {
+      name: 'Audit Logs',
+      path: '/admin/superadmin/audit-logs',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      ),
+    },
+    {
+      name: 'Transfer Super Admin',
+      path: '/admin/superadmin/transfer',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+        </svg>
+      ),
+    },
+    {
+      name: 'Change Password',
+      path: '/admin/superadmin/password',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      ),
+    },
+  ];
+
+  const currentUser = (() => {
+    try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; }
+  })();
+  const isSuperAdmin = currentUser?.role === 'superadmin';
+
+  // Build a stable initial from the current user. Falls back to 'A' only if
+  // we genuinely have no user record (which shouldn't happen on /admin).
+  const userInitial = (() => {
+    if (!currentUser) return 'A';
+    const first = (currentUser.firstName || '').trim();
+    const last = (currentUser.lastName || '').trim();
+    if (first) return first[0].toUpperCase();
+    if (last) return last[0].toUpperCase();
+    if (currentUser.email) return currentUser.email[0].toUpperCase();
+    return 'A';
+  })();
+  const userFullName = currentUser
+    ? `${currentUser.firstName || ''} ${currentUser.lastName || ''}`.trim() || currentUser.email
+    : 'Admin';
+
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
+  // Close the profile menu on any outside click or Esc.
+  useEffect(() => {
+    if (!profileMenuOpen) return undefined;
+    const onClick = (e) => {
+      if (!e.target.closest('[data-profile-menu]')) setProfileMenuOpen(false);
+    };
+    const onKey = (e) => { if (e.key === 'Escape') setProfileMenuOpen(false); };
+    document.addEventListener('mousedown', onClick);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onClick);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [profileMenuOpen]);
+
+  // Force the password-change page if this admin still has the temporary password.
+  // Allow only the change-password route itself; everything else redirects.
+  useEffect(() => {
+    if (
+      currentUser?.mustChangePassword &&
+      location.pathname !== '/admin/change-password'
+    ) {
+      navigate('/admin/change-password', { replace: true });
+    }
+  }, [currentUser?.mustChangePassword, location.pathname, navigate]);
+
+  // First-time onboarding tour (auto-launches once per browser).
+  useAdminOnboarding();
+
+  const navItems = [
+    ...contentNavItems,
+    ...toolkitNavItems,
+    ...(isSuperAdmin ? superAdminNavItems : []),
+  ];
 
   const isActive = (path) => {
     if (path === '/admin') {
@@ -179,9 +274,12 @@ const AdminLayout = () => {
 
           {/* Navigation */}
           <nav className="space-y-1.5 flex-1">
-            <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-              Content Management
-            </p>
+            <div className="flex items-center gap-2 px-4 mb-3" data-tour="content-nav">
+              <span className="block w-1 h-3.5 rounded-full bg-gradient-to-b from-[#F2600B] to-orange-500" />
+              <p className="text-xs font-bold text-orange-300/90 uppercase tracking-[0.12em]">
+                Content Management
+              </p>
+            </div>
             {contentNavItems.map((item) => (
               <Link
                 key={item.path}
@@ -205,9 +303,12 @@ const AdminLayout = () => {
               </Link>
             ))}
 
-            <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 mt-6">
-              Assessment Toolkit
-            </p>
+            <div className="flex items-center gap-2 px-4 mb-3 mt-6" data-tour="toolkit-nav">
+              <span className="block w-1 h-3.5 rounded-full bg-gradient-to-b from-[#F2600B] to-orange-500" />
+              <p className="text-xs font-bold text-orange-300/90 uppercase tracking-[0.12em]">
+                Assessment Toolkit
+              </p>
+            </div>
             {toolkitNavItems.map((item) => (
               <Link
                 key={item.path}
@@ -230,6 +331,39 @@ const AdminLayout = () => {
                 )}
               </Link>
             ))}
+
+            {isSuperAdmin && (
+              <>
+                <div className="flex items-center gap-2 px-4 mb-3 mt-6" data-tour="superadmin-nav">
+                  <span className="block w-1 h-3.5 rounded-full bg-gradient-to-b from-[#F2600B] to-orange-500" />
+                  <p className="text-xs font-bold text-orange-300/90 uppercase tracking-[0.12em]">
+                    Super Admin
+                  </p>
+                </div>
+                {superAdminNavItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 group ${
+                      isActive(item.path)
+                        ? 'bg-gradient-to-r from-[#F2600B] to-orange-500 text-white shadow-lg shadow-orange-500/30'
+                        : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                    }`}
+                  >
+                    <span className={`transition-colors ${isActive(item.path) ? 'text-white' : 'text-gray-400 group-hover:text-[#F2600B]'}`}>
+                      {item.icon}
+                    </span>
+                    <span className="ml-3 font-medium">{item.name}</span>
+                    {isActive(item.path) && (
+                      <motion.div
+                        layoutId="activeNav"
+                        className="ml-auto w-1.5 h-1.5 bg-white rounded-full"
+                      />
+                    )}
+                  </Link>
+                ))}
+              </>
+            )}
           </nav>
 
           {/* Bottom Section */}
@@ -254,14 +388,20 @@ const AdminLayout = () => {
             {/* User Info */}
             <div className="px-4 py-3">
               <div className="flex items-center">
-                <div className="w-9 h-9 bg-gradient-to-br from-[#F2600B]/20 to-orange-500/20 rounded-full flex items-center justify-center border border-[#F2600B]/30">
-                  <svg className="w-5 h-5 text-[#F2600B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
+                <div className="w-9 h-9 rounded-full flex items-center justify-center border border-[#F2600B]/30 overflow-hidden bg-gradient-to-br from-[#F2600B]/20 to-orange-500/20">
+                  {currentUser?.avatar ? (
+                    <img src={currentUser.avatar} alt="avatar" className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-sm font-semibold text-[#F2600B]">{userInitial}</span>
+                  )}
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-white">Admin</p>
-                  <p className="text-xs text-gray-400">Administrator</p>
+                  <p className="text-sm font-medium text-white">
+                    {userFullName}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {isSuperAdmin ? 'Super Administrator' : 'Administrator'}
+                  </p>
                 </div>
               </div>
             </div>
@@ -306,7 +446,7 @@ const AdminLayout = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                   </svg>
                 </button>
-                <div>
+                <div data-tour="welcome">
                   <h1 
                     className="text-xl sm:text-2xl font-bold"
                     style={{ color: colors.text }}
@@ -326,6 +466,7 @@ const AdminLayout = () => {
                 <Link
                   to="/"
                   target="_blank"
+                  data-tour="view-site"
                   className="hidden sm:flex items-center px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 border"
                   style={{ 
                     color: colors.textSecondary,
@@ -366,12 +507,71 @@ const AdminLayout = () => {
                   )}
                 </button>
 
-                {/* User Avatar */}
-                <div 
-                  className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ backgroundColor: colors.primaryLight }}
-                >
-                  <span className="font-semibold" style={{ color: colors.primary }}>A</span>
+                {/* User Avatar — click to open profile menu */}
+                <div className="relative" data-profile-menu data-tour="profile-menu">
+                  <button
+                    onClick={() => setProfileMenuOpen((v) => !v)}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:ring-2 hover:ring-offset-2 hover:ring-[#F2600B]/50 overflow-hidden"
+                    style={{
+                      backgroundColor: colors.primaryLight,
+                      ringOffsetColor: colors.bg,
+                    }}
+                    aria-label="Open profile menu"
+                  >
+                    {currentUser?.avatar ? (
+                      <img
+                        src={currentUser.avatar}
+                        alt="avatar"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="font-semibold" style={{ color: colors.primary }}>{userInitial}</span>
+                    )}
+                  </button>
+
+                  {profileMenuOpen && (
+                    <div
+                      className="absolute right-0 mt-2 w-64 rounded-xl shadow-2xl border overflow-hidden z-50"
+                      style={{ backgroundColor: colors.bgCard, borderColor: colors.border }}
+                    >
+                      <div className="px-4 py-3 border-b" style={{ borderColor: colors.border }}>
+                        <p className="text-sm font-semibold truncate" style={{ color: colors.text }}>
+                          {userFullName}
+                        </p>
+                        {currentUser?.email && (
+                          <p className="text-xs truncate" style={{ color: colors.textMuted }}>
+                            {currentUser.email}
+                          </p>
+                        )}
+                        <p className="text-xs mt-1 font-medium" style={{ color: '#F2600B' }}>
+                          {isSuperAdmin ? 'Super Administrator' : 'Administrator'}
+                        </p>
+                      </div>
+                      <Link
+                        to="/admin/profile"
+                        onClick={() => setProfileMenuOpen(false)}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-sm transition-colors hover:bg-orange-500/10"
+                        style={{ color: colors.text }}
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        My Profile
+                      </Link>
+                      <button
+                        onClick={() => { setProfileMenuOpen(false); handleLogout(); }}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-sm transition-colors hover:bg-red-500/10 border-t"
+                        style={{ color: colors.text, borderColor: colors.border }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = '#ef4444')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = colors.text)}
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        Sign out
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

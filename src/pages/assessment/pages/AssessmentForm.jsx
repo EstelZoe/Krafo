@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { CATEGORIES, getQuestionsByCategory } from '../utils/assessmentQuestions';
@@ -20,6 +20,7 @@ export default function AssessmentForm() {
   const [showModal, setShowModal] = useState(false);
   const [saveError, setSaveError] = useState(null);
   const [resendMsg, setResendMsg] = useState(null);
+  const formTopRef = useRef(null);
 
   const category = CATEGORIES[currentStep];
   const questions = getQuestionsByCategory(category.key);
@@ -33,9 +34,10 @@ export default function AssessmentForm() {
   function validateStep() {
     const errs = {};
     for (const q of questions) {
-      if (q.required && !stepResponses[q.field]) {
-        errs[q.field] = 'This field is required';
-      }
+      if (!q.required) continue;
+      const val = stepResponses[q.field];
+      const empty = val == null || val === '' || (Array.isArray(val) && val.length === 0);
+      if (empty) errs[q.field] = 'This field is required';
     }
     return errs;
   }
@@ -46,6 +48,13 @@ export default function AssessmentForm() {
 
     setSaveError(null);
     const result = await saveProgress(category.key, stepResponses, submissionId);
+
+    // Cooldown active — stop here and send them to the dashboard/paywall.
+    if (result?.cooldown) {
+      navigate('/assessment-toolkit/dashboard');
+      return;
+    }
+
     if (result?.submissionId && !submissionId) {
       setSubmissionId(result.submissionId);
     }
@@ -56,7 +65,11 @@ export default function AssessmentForm() {
     if (currentStep < CATEGORIES.length - 1) {
       setCurrentStep(currentStep + 1);
       setStepErrors({});
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (formTopRef.current) {
+        formTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     } else {
       setShowModal(true);
     }
@@ -66,7 +79,11 @@ export default function AssessmentForm() {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
       setStepErrors({});
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (formTopRef.current) {
+        formTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   }
 
@@ -77,18 +94,30 @@ export default function AssessmentForm() {
       navigate(`/assessment-toolkit/report/${result.submission.id}`);
     } catch (err) {
       setShowModal(false);
+      // If the server blocked this as a cooldown, send them to the dashboard
+      // where the paywall / next-available date is shown.
+      if (/cooldown/i.test(err.message || '')) {
+        navigate('/assessment-toolkit/dashboard');
+        return;
+      }
       setSaveError(err.message || 'Submission failed. Please try again.');
     }
   }
 
   const isLastStep = currentStep === CATEGORIES.length - 1;
-  const allAnswered = questions.every(q => !q.required || stepResponses[q.field]);
+  const allAnswered = questions.every(q => {
+    if (!q.required) return true;
+    const val = stepResponses[q.field];
+    if (Array.isArray(val)) return val.length > 0;
+    return val != null && val !== '';
+  });
 
   return (
     <div className="min-h-screen bg-black text-white">
       <ToolkitNavbar />
 
       <div className="max-w-2xl mx-auto px-4 py-12">
+        <div ref={formTopRef} />
         {/* Unverified email banner */}
         {user && user.isEmailVerified === false && (
           <div className="flex items-center justify-between gap-4 bg-orange-500/10 border border-orange-500/30 text-orange-400 rounded-xl px-5 py-4 mb-6">

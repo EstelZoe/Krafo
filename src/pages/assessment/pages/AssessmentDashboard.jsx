@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { PlusCircle, FileText, ChevronRight, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
+import { PlusCircle, FileText, ChevronRight, AlertTriangle, ChevronDown, ChevronUp, LogOut, Lock, Sparkles } from 'lucide-react';
 import { useAssessment } from '../hooks/useAssessment';
 import { useAssessmentAuth } from '../hooks/useAssessmentAuth';
 import { useAssessmentContext } from '../context/AssessmentContext';
+import { calculateAllScores } from '../utils/scoringLogic';
 import ToolkitNavbar from '../components/ToolkitNavbar';
 
 const RISK_BADGE = {
@@ -13,37 +14,66 @@ const RISK_BADGE = {
   critical: 'bg-red-400/10 border-red-400/30 text-red-400 animate-pulse-subtle',
 };
 
-const STATUS_COLORS = {
-  adequate: 'text-green-400',
-  needs_improvement: 'text-yellow-400',
-  critical: 'text-red-400',
-};
-
-const STATUS_BAR = {
-  adequate: 'bg-green-400',
-  needs_improvement: 'bg-yellow-400',
-  critical: 'bg-red-400',
-};
-
 export default function AssessmentDashboard() {
   const { getMyAssessments, loading } = useAssessment();
   const { resendVerification } = useAssessmentAuth();
-  const { user, resetAssessment } = useAssessmentContext();
+  const { user, resetAssessment, clearAuth } = useAssessmentContext();
   const navigate = useNavigate();
   const [assessments, setAssessments] = useState([]);
   const [error, setError] = useState(null);
   const [expandedAssessments, setExpandedAssessments] = useState({});
   const [resendMsg, setResendMsg] = useState(null);
+  const [cooldownUntil, setCooldownUntil] = useState(null);
+  const [unlockOpen, setUnlockOpen] = useState(false);
 
   useEffect(() => {
-    getMyAssessments()
-      .then(setAssessments)
-      .catch(err => setError(err.message));
+    let cancelled = false;
+
+    const load = () => {
+      getMyAssessments()
+        .then(data => {
+          if (cancelled) return;
+          if (data?.assessments) {
+            setAssessments(data.assessments);
+            setCooldownUntil(data.cooldownUntil || null);
+          } else if (Array.isArray(data)) {
+            setAssessments(data);
+          }
+        })
+        .catch(err => { if (!cancelled) setError(err.message); });
+    };
+
+    load();
+
+    // Re-fetch when the user returns to the page. Without this, the browser's
+    // back-forward cache can restore a stale dashboard (no new assessment, no
+    // cooldown lock) after a submission — which let users "not see" completed
+    // assessments and appear un-throttled until a fresh load days later.
+    const onPageShow = (e) => { if (e.persisted) load(); };
+    const onVisible = () => { if (document.visibilityState === 'visible') load(); };
+    window.addEventListener('pageshow', onPageShow);
+    document.addEventListener('visibilitychange', onVisible);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener('pageshow', onPageShow);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
   }, []);
 
+  const isLocked = cooldownUntil && new Date(cooldownUntil) > new Date();
+  const daysRemaining = isLocked
+    ? Math.ceil((new Date(cooldownUntil) - new Date()) / (1000 * 60 * 60 * 24))
+    : 0;
+
   function handleNewAssessment() {
+    if (isLocked) return;
     resetAssessment();
     navigate('/assessment-toolkit/form');
+  }
+
+  function handleUnlock() {
+    setUnlockOpen(true);
   }
 
   function toggleAssessment(id) {
@@ -87,14 +117,67 @@ export default function AssessmentDashboard() {
               </p>
             )}
           </div>
-          <button
-            onClick={handleNewAssessment}
-            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 text-white font-semibold px-5 py-3 rounded-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
-          >
-            <PlusCircle size={18} />
-            Start New Assessment
-          </button>
+          <div className="flex items-center gap-3">
+            {assessments.length > 0 && (
+              isLocked ? (
+                <button
+                  onClick={handleUnlock}
+                  className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 hover:scale-105 text-white font-semibold px-5 py-3 rounded-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
+                  title={`Available free in ${daysRemaining} days, or unlock now`}
+                >
+                  <Sparkles size={18} />
+                  Unlock New Assessment
+                </button>
+              ) : (
+                <button
+                  onClick={handleNewAssessment}
+                  className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 hover:scale-105 hover:glow-orange-md active:scale-98 text-white font-semibold px-5 py-3 rounded-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
+                >
+                  <PlusCircle size={18} />
+                  Start New Assessment
+                </button>
+              )
+            )}
+            {user && (
+              <button
+                onClick={() => { clearAuth(); navigate('/assessment-toolkit'); }}
+                className="flex items-center gap-1.5 text-gray-400 hover:text-orange-500 text-sm transition-colors duration-200 border border-gray-700 hover:border-orange-500/50 px-3 py-2 rounded-lg"
+                title="Sign Out"
+              >
+                <LogOut size={14} />
+                Sign Out
+              </button>
+            )}
+          </div>
         </div>
+
+        {/* Paywall notice — shown when cooldown is active */}
+        {isLocked && (
+          <div className="mb-6 bg-gradient-to-br from-orange-500/10 via-[#111] to-[#111] border border-orange-500/30 rounded-xl p-5">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center">
+                <Lock size={18} className="text-orange-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-white font-semibold text-sm mb-1">Need a fresh assessment now?</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  Your next free assessment will be available on{' '}
+                  <span className="text-orange-400 font-medium">
+                    {new Date(cooldownUntil).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                  </span>
+                  {' '}({daysRemaining} {daysRemaining === 1 ? 'day' : 'days'} away). Want to reassess sooner? Unlock a paid assessment to address findings without waiting.
+                </p>
+              </div>
+              <button
+                onClick={handleUnlock}
+                className="flex-shrink-0 hidden sm:flex items-center gap-1.5 text-orange-400 hover:text-orange-300 text-sm font-semibold border border-orange-500/40 hover:border-orange-500 px-4 py-2 rounded-lg transition"
+              >
+                Unlock Now
+                <ChevronRight size={14} />
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Loading */}
         {loading && (
@@ -127,7 +210,9 @@ export default function AssessmentDashboard() {
         {assessments.length > 0 && (
           <div className="space-y-3">
             {assessments.map(a => {
-              const badgeClass = RISK_BADGE[a.scores?.riskLevel] || RISK_BADGE.high;
+              // Recalculate scores from responses for accuracy
+              const scores = a.responses ? calculateAllScores(a.responses) : a.scores;
+              const badgeClass = RISK_BADGE[scores?.riskLevel] || RISK_BADGE.high;
               const date = a.completedAt
                 ? new Date(a.completedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
                 : 'In Progress';
@@ -138,7 +223,14 @@ export default function AssessmentDashboard() {
               }
 
               const isExpanded = expandedAssessments[a.id];
-              const nistFunctions = a.scores?.nistFunctions || {};
+              const nistFunctions = scores?.nistFunctions || {};
+
+              // Calculate risk percentage excluding Company Profile
+              const securityScore = (scores?.total || 0) - (scores?.companyProfile || 0);
+              const securityMax = (scores?.totalMax || 155) - (scores?.companyProfileMax || 0);
+              const securityMin = 31;
+              const securityRange = securityMax - securityMin;
+              const riskPct = securityRange > 0 ? Math.round(((securityScore - securityMin) / securityRange) * 100) : 0;
 
               return (
                 <div
@@ -154,21 +246,21 @@ export default function AssessmentDashboard() {
                           {a.status === 'completed' ? 'Completed' : 'In Progress'}
                         </p>
                       </div>
-                      {a.scores?.riskLevel && (
+                      {scores?.riskLevel && (
                         <span className={`border rounded-full px-3 py-0.5 text-xs font-semibold ${badgeClass}`}>
-                          {a.scores.riskLevel.toUpperCase()} RISK
+                          {scores.riskLevel.toUpperCase()} RISK
                         </span>
                       )}
-                      {a.scores?.percentage != null && (
+                      {a.status === 'completed' && (
                         <span className="text-gray-400 text-sm">
-                          Score: <span className="text-white font-semibold">{a.scores.percentage}%</span>
+                          Risk: <span className="text-white font-semibold">{riskPct}%</span>
                         </span>
                       )}
                     </div>
 
                     <div className="flex items-center gap-3">
                       {/* Expand/Collapse button for completed assessments */}
-                      {a.status === 'completed' && Object.keys(nistFunctions).length > 0 && (
+                      {a.status === 'completed' && (Object.keys(nistFunctions).length > 0 || scores?.governance != null) && (
                         <button
                           onClick={() => toggleAssessment(a.id)}
                           className="flex items-center gap-1 text-gray-400 hover:text-white text-sm font-medium transition"
@@ -217,15 +309,41 @@ export default function AssessmentDashboard() {
                   {/* Expanded NIST Functions */}
                   {isExpanded && (
                     <div className="border-t border-gray-800 px-6 py-4 bg-black/30">
-                      <p className="text-gray-400 text-xs uppercase tracking-wider mb-3">NIST Framework — Controls in Place</p>
+                      <p className="text-gray-400 text-xs uppercase tracking-wider mb-3">NIST Framework — Risk Level</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {/* Governance (not in nistFunctions, scored separately) */}
+                        {scores?.governance != null && (() => {
+                          const govScore = scores.governance || 0;
+                          const govMax = scores.governanceMax || 30;
+                          const govMin = 6;
+                          const govRange = govMax - govMin;
+                          const riskPct = govRange > 0 ? Math.round(((govScore - govMin) / govRange) * 100) : 0;
+                          const barColor = riskPct <= 30 ? 'bg-green-400' : riskPct <= 50 ? 'bg-yellow-400' : riskPct <= 70 ? 'bg-orange-400' : 'bg-red-400';
+                          const textColor = riskPct <= 30 ? 'text-green-400' : riskPct <= 50 ? 'text-yellow-400' : riskPct <= 70 ? 'text-orange-400' : 'text-red-400';
+                          return (
+                            <div className="bg-[#111] border border-gray-800 rounded-lg p-3">
+                              <div className="flex justify-between items-center mb-2">
+                                <span className="text-white text-xs font-medium">Governance</span>
+                                <span className={`text-xs font-semibold ${textColor}`}>
+                                  {riskPct}%
+                                </span>
+                              </div>
+                              <div className="bg-gray-800 rounded-full h-1.5">
+                                <div
+                                  className={`${barColor} h-1.5 rounded-full transition-all duration-500`}
+                                  style={{ width: `${riskPct}%` }}
+                                />
+                              </div>
+                            </div>
+                          );
+                        })()}
                         {Object.entries(nistFunctions).map(([fn, data]) => {
                           const numQ = { identify: 5, protect: 5, detect: 5, respond: 5, recover: 5 }[fn] || 5;
                           const minScore = numQ * 1;
                           const range = data.maxScore - minScore;
-                          const compliancePct = range > 0 ? Math.round(((data.maxScore - data.score) / range) * 100) : 0;
-                          const barColor = compliancePct >= 70 ? 'bg-green-400' : compliancePct >= 40 ? 'bg-yellow-400' : 'bg-red-400';
-                          const textColor = compliancePct >= 70 ? 'text-green-400' : compliancePct >= 40 ? 'text-yellow-400' : 'text-red-400';
+                          const riskPct = range > 0 ? Math.round(((data.score - minScore) / range) * 100) : 0;
+                          const barColor = riskPct <= 30 ? 'bg-green-400' : riskPct <= 50 ? 'bg-yellow-400' : riskPct <= 70 ? 'bg-orange-400' : 'bg-red-400';
+                          const textColor = riskPct <= 30 ? 'text-green-400' : riskPct <= 50 ? 'text-yellow-400' : riskPct <= 70 ? 'text-orange-400' : 'text-red-400';
                           const label = fn.charAt(0).toUpperCase() + fn.slice(1);
 
                           return (
@@ -233,13 +351,13 @@ export default function AssessmentDashboard() {
                               <div className="flex justify-between items-center mb-2">
                                 <span className="text-white text-xs font-medium">{label}</span>
                                 <span className={`text-xs font-semibold ${textColor}`}>
-                                  {compliancePct}%
+                                  {riskPct}%
                                 </span>
                               </div>
                               <div className="bg-gray-800 rounded-full h-1.5">
                                 <div
                                   className={`${barColor} h-1.5 rounded-full transition-all duration-500`}
-                                  style={{ width: `${compliancePct}%` }}
+                                  style={{ width: `${riskPct}%` }}
                                 />
                               </div>
                             </div>
@@ -254,6 +372,49 @@ export default function AssessmentDashboard() {
           </div>
         )}
       </div>
+
+      {/* Unlock paywall modal */}
+      {unlockOpen && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          onClick={() => setUnlockOpen(false)}
+        >
+          <div
+            className="bg-[#0d0d0d] border border-orange-500/30 rounded-2xl shadow-2xl max-w-md w-full p-8 text-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-orange-500/20 flex items-center justify-center">
+                <Lock size={22} className="text-orange-400" />
+              </div>
+              <h2 className="text-xl font-bold">Unlock a Paid Assessment</h2>
+            </div>
+            <p className="text-gray-300 text-sm leading-relaxed mb-3">
+              Online payments aren't live yet. To unlock a fresh assessment now, reach out and our team will set it up for you within one business day.
+            </p>
+            <div className="bg-black/40 border border-gray-800 rounded-xl p-4 mb-6 space-y-2 text-sm">
+              <p className="text-gray-400">
+                Email{' '}
+                <a href="mailto:info@krafosystems.com" className="text-orange-400 hover:underline font-medium">
+                  info@krafosystems.com
+                </a>
+              </p>
+              <p className="text-gray-400">
+                Or call{' '}
+                <a href="tel:+233593196002" className="text-orange-400 hover:underline font-medium">
+                  (+233) 59-319-6002
+                </a>
+              </p>
+            </div>
+            <button
+              onClick={() => setUnlockOpen(false)}
+              className="w-full px-4 py-2.5 bg-orange-500 hover:bg-orange-600 rounded-lg font-semibold text-white transition"
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

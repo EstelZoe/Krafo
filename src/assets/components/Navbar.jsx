@@ -30,7 +30,7 @@ export default function Navbar() {
                         <Link to="/consultation" className="text-orange-600 hover:text-white">Consultation</Link> {/* Contact Us Button */}
                         {/* <Link to="/contact" className="bg-orange-600 text-white px-2 py-2 rounded-lg hover:bg-orange-500 transition"  > Contact Us
                         </Link> */}
-                        {/* Assessment Toolkit button temporarily disabled */}
+                        {/* Assessment Toolkit button — hidden until the toolkit is released */}
                         {/* <Link to="/assessment-toolkit" className="bg-orange-600 text-white px-2 py-2 rounded-lg hover:bg-orange-500 transition">  Assessment Toolkit
                         </Link> */}
                     </div>
@@ -64,7 +64,7 @@ export default function Navbar() {
                         Contact Us
                     </Link> */}
 
-                    {/* Assessment Toolkit button temporarily disabled */}
+                    {/* Assessment Toolkit button — hidden until the toolkit is released */}
                     {/* <Link
                         to="/assessment-toolkit" className="block bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition"
                         onClick={toggleMenu}>

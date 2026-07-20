@@ -4,7 +4,7 @@ import axios from 'axios';
 import { CheckCircle, XCircle } from 'lucide-react';
 import ToolkitNavbar from '../components/ToolkitNavbar';
 
-const BASE = (import.meta.env.VITE_BASE_URL || 'https://krafo-api.onrender.com/api') + '/v1/assessment/auth';
+const BASE = (import.meta.env.VITE_BASE_URL || 'https://api.krafosystems.com/api') + '/v1/assessment/auth';
 
 export default function AssessmentVerifyEmail() {
   const { token } = useParams();

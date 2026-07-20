@@ -1,10 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
+import { Inbox, MessageSquarePlus } from 'lucide-react';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
+import EmptyState from '../../components/EmptyState';
+
+const EMPTY_FORM = {
+  title: '',
+  description: '',
+  image: '',
+  eventDate: '',
+  registrationUrl: '',
+};
 
 const ManagePopups = () => {
-  const { isDark, colors } = useTheme();
+  const { colors } = useTheme();
   const [popups, setPopups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,33 +23,23 @@ const ManagePopups = () => {
   const [editingPopup, setEditingPopup] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    image: '',
-    eventDate: '',
-    registrationUrl: '',
-  });
+  const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState(EMPTY_FORM);
 
-  // Fetch popups
+  // Always derive a stable id (Mongo returns _id; the transform plugin exposes id).
+  const popupId = (p) => p?._id || p?.id;
+
   const fetchPopups = async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await apiClient.get('/admin/content/popups');
-      
-      // Backend may return array directly OR wrapped in object
-      const popupsData = Array.isArray(response.data) 
-        ? response.data 
+      const data = Array.isArray(response.data)
+        ? response.data
         : Array.isArray(response.data?.popups)
         ? response.data.popups
         : [];
-      
-      console.log('ManagePopups - Fetched count:', popupsData.length);
-      if (popupsData.length > 0) {
-        console.log('ManagePopups - First item has _id:', !!popupsData[0]?._id);
-      }
-      setPopups(popupsData);
+      setPopups(data);
     } catch (err) {
       console.error('Error fetching popups:', err);
       setError('Failed to load popups');
@@ -52,31 +53,24 @@ const ManagePopups = () => {
     fetchPopups();
   }, []);
 
-  // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle file input change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      // Show preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData(prev => ({ ...prev, image: reader.result }));
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!file) return;
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setFormData((prev) => ({ ...prev, image: reader.result }));
+    reader.readAsDataURL(file);
   };
 
-  // Open modal for create/edit
   const openModal = (popup = null) => {
+    // Always wipe the previous form state before populating from a fresh
+    // popup so a delete-then-edit flow can never carry over stale data.
+    setImageFile(null);
     if (popup) {
       setEditingPopup(popup);
       setFormData({
@@ -88,114 +82,140 @@ const ManagePopups = () => {
       });
     } else {
       setEditingPopup(null);
-      setFormData({
-        title: '',
-        description: '',
-        image: '',
-        eventDate: '',
-        registrationUrl: '',
-      });
+      setFormData(EMPTY_FORM);
     }
     setShowModal(true);
   };
 
-  // Close modal
   const closeModal = () => {
+    if (submitting) return;
     setShowModal(false);
     setEditingPopup(null);
     setImageFile(null);
-    setFormData({
-      title: '',
-      description: '',
-      image: '',
-      eventDate: '',
-      registrationUrl: '',
-    });
+    setFormData(EMPTY_FORM);
   };
 
-  // Handle create/update
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
     try {
-      // Use FormData for file upload
-      const formDataToSend = new FormData();
-      formDataToSend.append('title', formData.title);
-      if (formData.description) formDataToSend.append('description', formData.description);
-      if (formData.eventDate) formDataToSend.append('eventDate', formData.eventDate);
-      if (formData.registrationUrl) formDataToSend.append('registrationUrl', formData.registrationUrl);
-      
-      // Add image file if selected, otherwise send existing URL (skip data: previews)
+      const payload = new FormData();
+      payload.append('title', formData.title);
+      if (formData.description) payload.append('description', formData.description);
+      if (formData.eventDate) payload.append('eventDate', formData.eventDate);
+      if (formData.registrationUrl) payload.append('registrationUrl', formData.registrationUrl);
+
       if (imageFile) {
-        formDataToSend.append('image', imageFile);
+        payload.append('image', imageFile);
       } else if (formData.image && !formData.image.startsWith('data:')) {
-        formDataToSend.append('image', formData.image);
-      } else if (editingPopup && editingPopup.image) {
-        // Keep existing image when editing without new upload
-        formDataToSend.append('image', editingPopup.image);
+        payload.append('image', formData.image);
+      } else if (editingPopup?.image) {
+        payload.append('image', editingPopup.image);
       }
 
       if (editingPopup) {
-        // Update existing popup - Safe-ID: Handle both _id and id
-        const popupId = editingPopup._id || editingPopup.id;
-        if (!popupId) {
-          alert('Error: Cannot update popup - missing ID');
+        const id = popupId(editingPopup);
+        if (!id) {
+          toast.error('Cannot update popup \u2014 missing ID');
           return;
         }
-        console.log('📝 Updating popup with ID:', popupId);
-        await apiClient.patch(`/admin/content/popups/${popupId}`, formDataToSend, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        const res = await apiClient.patch(`/admin/content/popups/${id}`, payload, {
+          headers: { 'Content-Type': 'multipart/form-data' },
         });
+        const updated = res.data?.popup || res.data;
+        // Replace the row in-place so the user sees the change instantly.
+        setPopups((prev) =>
+          prev.map((p) => (popupId(p) === id ? { ...p, ...updated } : p))
+        );
+        toast.success('Popup updated');
       } else {
-        // Create new popup
-        await apiClient.post('/admin/content/popups', formDataToSend, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        const res = await apiClient.post('/admin/content/popups', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' },
         });
+        const created = res.data?.popup || res.data;
+        if (created && popupId(created)) {
+          setPopups((prev) => [created, ...prev]);
+        } else {
+          // Fallback if backend response shape is unexpected.
+          fetchPopups();
+        }
+        toast.success('Popup created');
       }
       closeModal();
-      fetchPopups();
     } catch (err) {
       console.error('Error saving popup:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to save popup';
-      alert(`Failed to save popup: ${errorMessage}`);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to save popup';
+      toast.error(errorMessage);
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  // Handle delete
-  const handleDelete = async (popupId) => {
-    if (!popupId) {
-      console.error('❌ Delete failed: No popup ID provided');
-      alert('Error: Cannot delete popup - missing ID');
+  const handleDelete = async (id) => {
+    if (!id) {
+      toast.error('Cannot delete popup \u2014 missing ID');
       return;
     }
+    const previous = popups;
+    setPopups((prev) => prev.filter((p) => popupId(p) !== id));
+    setDeleteConfirm(null);
     try {
-      console.log('🗑️ Deleting popup with ID:', popupId);
-      await apiClient.delete(`/admin/content/popups/${popupId}`);
-      setDeleteConfirm(null);
-      fetchPopups();
+      await apiClient.delete(`/admin/content/popups/${id}`);
+      toast.success('Popup deleted');
     } catch (err) {
-      console.error('Error deleting popup:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to delete popup';
-      alert(`Failed to delete popup: ${errorMessage}`);
+      const status = err.response?.status;
+      if (status === 404) {
+        toast.info('Popup already removed');
+        return;
+      }
+      setPopups(previous);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to delete popup';
+      toast.error(errorMessage);
     }
   };
 
-  // Handle toggle status
   const handleToggleStatus = async (popup) => {
-    // Safe-ID: Handle both _id and id
-    const popupId = popup?._id || popup?.id;
-    if (!popupId) {
-      console.error('❌ Toggle failed: No popup ID provided', popup);
-      alert('Error: Cannot toggle popup - missing ID');
+    const id = popupId(popup);
+    if (!id) {
+      toast.error('Cannot toggle popup \u2014 missing ID');
       return;
     }
+    const previous = popups;
+    const optimistic = !popup.isActive;
+    // Optimistic flip — UI updates the moment the click registers.
+    setPopups((prev) =>
+      prev.map((p) => (popupId(p) === id ? { ...p, isActive: optimistic } : p))
+    );
     try {
-      console.log('🔄 Toggling popup with ID:', popupId);
-      await apiClient.post(`/admin/content/popups/${popupId}/toggle`);
-      fetchPopups();
+      const res = await apiClient.post(`/admin/content/popups/${id}/toggle`);
+      const updated = res.data?.popup || res.data;
+      // Reconcile with server truth (covers the "only one active at a time"
+      // server rule which may have flipped other popups).
+      if (updated && popupId(updated)) {
+        setPopups((prev) =>
+          prev.map((p) => (popupId(p) === id ? { ...p, ...updated } : p))
+        );
+        // If the server enforces single-active, refetch so other rows reflect it.
+        if (updated.isActive) fetchPopups();
+      }
+      toast.success(optimistic ? 'Popup activated' : 'Popup deactivated');
     } catch (err) {
-      console.error('Error toggling popup status:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to toggle popup status';
-      alert(`Failed to toggle popup status: ${errorMessage}`);
+      setPopups(previous);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to toggle popup status';
+      toast.error(errorMessage);
     }
   };
 
@@ -209,12 +229,9 @@ const ManagePopups = () => {
 
   if (error) {
     return (
-      <div 
+      <div
         className="rounded-xl p-4 border"
-        style={{ 
-          backgroundColor: colors.errorBg, 
-          borderColor: colors.error + '30' 
-        }}
+        style={{ backgroundColor: colors.errorBg, borderColor: colors.error + '30' }}
       >
         <p style={{ color: colors.error }}>{error}</p>
         <button
@@ -240,7 +257,7 @@ const ManagePopups = () => {
         </div>
         <button
           onClick={() => openModal()}
-          className="px-5 py-2.5 bg-gradient-to-r from-[#F2600B] to-orange-500 text-white rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all font-medium flex items-center justify-center"
+          className="px-5 py-2.5 bg-gradient-to-r from-[#F2600B] to-orange-500 text-white rounded-xl shadow-lg shadow-orange-500/20 hover:shadow-orange-500/40 hover:scale-[1.02] active:scale-95 transition-all font-medium flex items-center justify-center"
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -249,140 +266,108 @@ const ManagePopups = () => {
         </button>
       </div>
 
-      {/* Popups Grid */}
+      {/* Empty state or grid */}
       {popups.length === 0 ? (
-        <div 
-          className="rounded-2xl p-12 text-center border"
-          style={{ backgroundColor: colors.bgCard, borderColor: colors.border }}
-        >
-          <div 
-            className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4"
-            style={{ backgroundColor: colors.bgTertiary }}
-          >
-            <svg
-              className="h-8 w-8"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              style={{ color: colors.textMuted }}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-              />
-            </svg>
-          </div>
-          <h3 className="text-lg font-medium" style={{ color: colors.text }}>No popups yet</h3>
-          <p className="mt-1 text-sm" style={{ color: colors.textMuted }}>
-            Get started by creating your first popup.
-          </p>
-          <button
-            onClick={() => openModal()}
-            className="mt-6 px-5 py-2.5 bg-gradient-to-r from-[#F2600B] to-orange-500 text-white rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all font-medium"
-          >
-            Create Popup
-          </button>
-        </div>
+        <EmptyState
+          icon={MessageSquarePlus}
+          title="No popups yet"
+          message="Create your first popup to surface announcements on the public site."
+          action={{ label: 'Create Popup', onClick: () => openModal() }}
+        />
       ) : (
         <div className="grid grid-cols-1 gap-6">
           {popups.map((popup) => {
-            const popupId = popup._id || popup.id; // Safe-ID
+            const id = popupId(popup);
             return (
-            <motion.div
-              key={popupId}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="rounded-xl p-6 border transition-all hover:shadow-lg"
-              style={{ 
-                backgroundColor: colors.bgCard, 
-                borderColor: colors.border,
-              }}
-            >
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-                {/* Popup Info */}
-                <div className="flex-1">
-                  <div className="flex items-start gap-4">
-                    {popup.image && (
-                      <img
-                        src={popup.image}
-                        alt={popup.title}
-                        className="w-24 h-24 object-cover rounded-lg"
-                      />
-                    )}
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold" style={{ color: colors.text }}>{popup.title}</h3>
-                      <p className="text-sm mt-1 line-clamp-2" style={{ color: colors.textSecondary }}>
-                        {popup.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        <span
-                          className="px-2 py-1 text-xs font-medium rounded"
-                          style={{ 
-                            backgroundColor: popup.isActive === true ? colors.successBg : colors.bgTertiary,
-                            color: popup.isActive === true ? colors.success : colors.textMuted
-                          }}
-                        >
-                          {popup.isActive === true ? 'Active' : 'Inactive'}
-                        </span>
-                      </div>
-                      <div className="mt-2 text-sm" style={{ color: colors.textMuted }}>
-                        {popup.eventDate && (
-                          <p className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            Event Date: {new Date(popup.eventDate).toLocaleDateString()}
-                          </p>
-                        )}
-                        {popup.registrationUrl && (
-                          <p className="flex items-center gap-2 truncate">
-                            <svg className="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                            </svg>
-                            {popup.registrationUrl}
-                          </p>
-                        )}
+              <motion.div
+                key={id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-xl p-6 border transition-all hover:shadow-lg"
+                style={{ backgroundColor: colors.bgCard, borderColor: colors.border }}
+              >
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-start gap-4">
+                      {popup.image && (
+                        <img
+                          src={popup.image}
+                          alt={popup.title}
+                          className="w-24 h-24 object-cover rounded-lg"
+                        />
+                      )}
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold" style={{ color: colors.text }}>{popup.title}</h3>
+                        <p className="text-sm mt-1 line-clamp-2" style={{ color: colors.textSecondary }}>
+                          {popup.description}
+                        </p>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          <span
+                            className="px-2 py-1 text-xs font-medium rounded"
+                            style={{
+                              backgroundColor: popup.isActive ? colors.successBg : colors.bgTertiary,
+                              color: popup.isActive ? colors.success : colors.textMuted,
+                            }}
+                          >
+                            {popup.isActive ? 'Active' : 'Inactive'}
+                          </span>
+                        </div>
+                        <div className="mt-2 text-sm" style={{ color: colors.textMuted }}>
+                          {popup.eventDate && (
+                            <p className="flex items-center gap-2">
+                              <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                              </svg>
+                              Event Date: {new Date(popup.eventDate).toLocaleDateString()}
+                            </p>
+                          )}
+                          {popup.registrationUrl && (
+                            <p className="flex items-center gap-2 truncate">
+                              <svg className="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                              </svg>
+                              {popup.registrationUrl}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Action Buttons - Vertical Stack on Mobile */}
-                <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
-                  <button
-                    onClick={() => openModal(popup)}
-                    className="px-4 py-2 text-sm font-medium rounded-lg transition-colors"
-                    style={{ backgroundColor: colors.infoBg, color: colors.info }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleToggleStatus(popup)}
-                    className="px-4 py-2 text-sm font-medium rounded-lg transition-colors"
-                    style={{ 
-                      backgroundColor: popup.isActive === true ? colors.errorBg : colors.successBg,
-                      color: popup.isActive === true ? colors.error : colors.success
-                    }}
-                  >
-                    {popup.isActive === true ? 'Deactivate' : 'Activate'}
-                  </button>
-                  <button
-                    onClick={() => setDeleteConfirm(popupId)}
-                    className="px-4 py-2 text-sm font-medium rounded-lg transition-colors"
-                    style={{ backgroundColor: colors.errorBg, color: colors.error }}
-                  >
-                    Delete
-                  </button>
+                  <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
+                    <button
+                      onClick={() => openModal(popup)}
+                      className="px-4 py-2 text-sm font-medium rounded-lg transition-colors hover:opacity-80"
+                      style={{ backgroundColor: colors.infoBg, color: colors.info }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleToggleStatus(popup)}
+                      className="px-4 py-2 text-sm font-medium rounded-lg transition-colors hover:opacity-80"
+                      style={{
+                        backgroundColor: popup.isActive ? colors.errorBg : colors.successBg,
+                        color: popup.isActive ? colors.error : colors.success,
+                      }}
+                    >
+                      {popup.isActive ? 'Deactivate' : 'Activate'}
+                    </button>
+                    <button
+                      onClick={() => setDeleteConfirm(id)}
+                      className="px-4 py-2 text-sm font-medium rounded-lg transition-colors hover:opacity-80"
+                      style={{ backgroundColor: colors.errorBg, color: colors.error }}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          )})}
+              </motion.div>
+            );
+          })}
         </div>
       )}
 
-      {/* Create/Edit Modal */}
+      {/* Create / Edit modal */}
       <AnimatePresence>
         {showModal && (
           <motion.div
@@ -393,6 +378,7 @@ const ManagePopups = () => {
             onClick={closeModal}
           >
             <motion.div
+              key={editingPopup ? `edit-${popupId(editingPopup)}` : 'create-new'}
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -416,11 +402,10 @@ const ManagePopups = () => {
                       onChange={handleInputChange}
                       required
                       className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-colors"
-                      style={{ 
-                        backgroundColor: colors.bgTertiary, 
-                        borderColor: colors.border, 
+                      style={{
+                        backgroundColor: colors.bgTertiary,
                         color: colors.text,
-                        border: `1px solid ${colors.border}`
+                        border: `1px solid ${colors.border}`,
                       }}
                     />
                   </div>
@@ -435,18 +420,17 @@ const ManagePopups = () => {
                       onChange={handleInputChange}
                       rows="3"
                       className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-colors"
-                      style={{ 
-                        backgroundColor: colors.bgTertiary, 
-                        borderColor: colors.border, 
+                      style={{
+                        backgroundColor: colors.bgTertiary,
                         color: colors.text,
-                        border: `1px solid ${colors.border}`
+                        border: `1px solid ${colors.border}`,
                       }}
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium mb-1" style={{ color: colors.textSecondary }}>
-                      Image *
+                      Image
                     </label>
                     <input
                       type="file"
@@ -454,29 +438,29 @@ const ManagePopups = () => {
                       accept="image/*"
                       onChange={handleFileChange}
                       className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-colors"
-                      style={{ 
-                        backgroundColor: colors.bgTertiary, 
-                        borderColor: colors.border, 
+                      style={{
+                        backgroundColor: colors.bgTertiary,
                         color: colors.text,
-                        border: `1px solid ${colors.border}`
+                        border: `1px solid ${colors.border}`,
                       }}
                     />
-                    <p className="text-xs mt-1" style={{ color: colors.textMuted }}>Or enter image URL below</p>
+                    <p className="text-xs mt-1" style={{ color: colors.textMuted }}>
+                      Or paste an image URL below.
+                    </p>
                     <input
                       type="text"
                       name="image"
-                      value={formData.image}
+                      value={formData.image && !formData.image.startsWith('data:') ? formData.image : ''}
                       onChange={handleInputChange}
                       placeholder="https://example.com/image.jpg"
                       className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-colors mt-2"
-                      style={{ 
-                        backgroundColor: colors.bgTertiary, 
-                        borderColor: colors.border, 
+                      style={{
+                        backgroundColor: colors.bgTertiary,
                         color: colors.text,
-                        border: `1px solid ${colors.border}`
+                        border: `1px solid ${colors.border}`,
                       }}
                     />
-                    {formData.image && formData.image.startsWith('data:') && (
+                    {formData.image && (
                       <img src={formData.image} alt="Preview" className="mt-2 h-20 object-cover rounded" />
                     )}
                   </div>
@@ -491,11 +475,10 @@ const ManagePopups = () => {
                       value={formData.eventDate}
                       onChange={handleInputChange}
                       className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-colors"
-                      style={{ 
-                        backgroundColor: colors.bgTertiary, 
-                        borderColor: colors.border, 
+                      style={{
+                        backgroundColor: colors.bgTertiary,
                         color: colors.text,
-                        border: `1px solid ${colors.border}`
+                        border: `1px solid ${colors.border}`,
                       }}
                     />
                   </div>
@@ -511,16 +494,15 @@ const ManagePopups = () => {
                       onChange={handleInputChange}
                       placeholder="https://example.com/register"
                       className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-colors"
-                      style={{ 
-                        backgroundColor: colors.bgTertiary, 
-                        borderColor: colors.border, 
+                      style={{
+                        backgroundColor: colors.bgTertiary,
                         color: colors.text,
-                        border: `1px solid ${colors.border}`
+                        border: `1px solid ${colors.border}`,
                       }}
                     />
                   </div>
 
-                  <div 
+                  <div
                     className="rounded-xl p-3 border"
                     style={{ backgroundColor: colors.warningBg, borderColor: colors.warning + '30' }}
                   >
@@ -533,13 +515,17 @@ const ManagePopups = () => {
                   <div className="flex gap-3 pt-4">
                     <button
                       type="submit"
-                      className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#F2600B] to-orange-500 text-white rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all font-medium"
+                      disabled={submitting}
+                      className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#F2600B] to-orange-500 text-white rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all font-medium disabled:opacity-60"
                     >
-                      {editingPopup ? 'Update Popup' : 'Create Popup'}
+                      {submitting
+                        ? (editingPopup ? 'Updating\u2026' : 'Creating\u2026')
+                        : (editingPopup ? 'Update Popup' : 'Create Popup')}
                     </button>
                     <button
                       type="button"
                       onClick={closeModal}
+                      disabled={submitting}
                       className="flex-1 px-4 py-2.5 rounded-xl transition-colors font-medium"
                       style={{ backgroundColor: colors.bgTertiary, color: colors.text }}
                     >
@@ -553,7 +539,7 @@ const ManagePopups = () => {
         )}
       </AnimatePresence>
 
-      {/* Delete Confirmation Modal */}
+      {/* Delete confirmation modal */}
       <AnimatePresence>
         {deleteConfirm && (
           <motion.div

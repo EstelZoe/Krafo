@@ -2,12 +2,18 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useAssessmentContext } from '../context/AssessmentContext';
 
-const BASE = (import.meta.env.VITE_BASE_URL || 'https://krafo-api.onrender.com/api') + '/v1/assessment/auth';
+const BASE = (import.meta.env.VITE_BASE_URL || 'https://api.krafosystems.com/api') + '/v1/assessment/auth';
 
 export function useAssessmentAuth() {
   const { storeAuth, clearAuth, token, setPendingOtpEmail } = useAssessmentContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  function handleAuthError(err) {
+    if (err.response?.status === 401) {
+      clearAuth();
+    }
+  }
 
   async function register(data) {
     setLoading(true); setError(null);
@@ -57,6 +63,7 @@ export function useAssessmentAuth() {
       });
       return res.data;
     } catch (err) {
+      handleAuthError(err);
       const msg = err.response?.data?.error || 'Resend verification failed';
       setError(msg); throw new Error(msg);
     } finally { setLoading(false); }
