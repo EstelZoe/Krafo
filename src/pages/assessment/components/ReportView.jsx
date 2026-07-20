@@ -308,7 +308,7 @@ export default function ReportView({ submission, isAdmin = false }) {
 
       {/* CTA */}
       <div className="bg-[#111] border-2 border-orange-500/30 rounded-2xl p-8 text-center">
-        <h3 className="text-xl font-bold mb-2">Ready to Address These Findings?</h3>
+        <h3 className="text-xl font-bold mb-2 text-white">Ready to Address These Findings?</h3>
         <p className="text-gray-400 mb-6 text-sm">Our cybersecurity experts will help you build a prioritized remediation roadmap.</p>
         <a
           href={CALENDLY_URL}
