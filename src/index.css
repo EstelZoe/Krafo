@@ -116,6 +116,11 @@ nav{
   animation: rotate-counter-clockwise 30s linear infinite;
 }
 
+/* Used by Shop.jsx (dormant e-commerce component) */
+.animate-antirotate-slow {
+  animation: rotate-counter-clockwise 40s linear infinite;
+}
+
 
 /* Quill Editor Dark Mode Styles */
 .quill-dark .ql-toolbar {
