@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
+import { SkeletonCards } from '../../components/Skeleton';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
@@ -269,11 +270,7 @@ const ManageBlogs = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F2600B]"></div>
-      </div>
-    );
+    return <SkeletonCards count={4} />;
   }
 
   if (error) {

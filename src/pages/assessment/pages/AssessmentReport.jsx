@@ -32,8 +32,32 @@ export default function AssessmentReport() {
           </div>
         </div>
 
-        {loading && (
-          <div className="text-center py-20 text-gray-400">Loading your report...</div>
+        {loading && !submission && (
+          <div className="space-y-6" aria-busy="true" aria-label="Loading your report">
+            {/* Overall score card */}
+            <div className="bg-[#111] border border-gray-800 rounded-2xl p-8">
+              <div className="h-3 w-32 bg-gray-800 rounded animate-pulse mb-4" />
+              <div className="h-16 w-40 bg-gray-800 rounded animate-pulse mb-4" />
+              <div className="h-2.5 w-full bg-gray-800/70 rounded-full animate-pulse" />
+            </div>
+            {/* NIST function cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[0, 1, 2, 3, 4].map(i => (
+                <div key={i} className="bg-[#111] border border-gray-800 rounded-xl p-5">
+                  <div className="h-4 w-24 bg-gray-800 rounded animate-pulse mb-3" />
+                  <div className="h-2 w-full bg-gray-800/70 rounded-full animate-pulse mb-2" />
+                  <div className="h-3 w-16 bg-gray-800/70 rounded animate-pulse" />
+                </div>
+              ))}
+            </div>
+            {/* Recommendations block */}
+            <div className="bg-[#111] border border-gray-800 rounded-2xl p-8 space-y-3">
+              <div className="h-4 w-40 bg-gray-800 rounded animate-pulse" />
+              <div className="h-3 w-full bg-gray-800/70 rounded animate-pulse" />
+              <div className="h-3 w-5/6 bg-gray-800/70 rounded animate-pulse" />
+              <div className="h-3 w-4/6 bg-gray-800/70 rounded animate-pulse" />
+            </div>
+          </div>
         )}
 
         {error && (

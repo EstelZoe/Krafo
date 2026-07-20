@@ -47,4 +47,36 @@ export function SkeletonTable({ rows = 5, columns = 5 }) {
   );
 }
 
+/**
+ * Card-list placeholder for content pages (blogs, events, popups) that render
+ * a stack of cards. Mirrors the real layout: thumbnail + title + lines + tags.
+ */
+export function SkeletonCards({ count = 4 }) {
+  const { isDark } = useTheme();
+  const bg = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.02)';
+  const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+  return (
+    <div className="grid grid-cols-1 gap-6" aria-busy="true" aria-label="Loading content">
+      {Array.from({ length: count }).map((_, i) => (
+        <div
+          key={i}
+          className="rounded-2xl border p-5 flex gap-4"
+          style={{ backgroundColor: bg, borderColor: border }}
+        >
+          <Skeleton width={120} height={90} rounded={12} />
+          <div className="flex-1 space-y-3 py-1">
+            <Skeleton width="45%" height={16} />
+            <Skeleton width="80%" height={12} />
+            <Skeleton width="60%" height={12} />
+            <div className="flex gap-2 pt-1">
+              <Skeleton width={64} height={22} rounded={999} />
+              <Skeleton width={64} height={22} rounded={999} />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default Skeleton;
