@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { PlusCircle, FileText, ChevronRight, AlertTriangle, ChevronDown, ChevronUp, LogOut, Lock, Sparkles } from 'lucide-react';
+import { PlusCircle, FileText, ChevronRight, AlertTriangle, ChevronDown, ChevronUp, LogOut, Lock, Sparkles, RefreshCw } from 'lucide-react';
 import { useAssessment } from '../hooks/useAssessment';
 import { useAssessmentAuth } from '../hooks/useAssessmentAuth';
 import { useAssessmentContext } from '../context/AssessmentContext';
@@ -25,6 +25,26 @@ export default function AssessmentDashboard() {
   const [resendMsg, setResendMsg] = useState(null);
   const [cooldownUntil, setCooldownUntil] = useState(null);
   const [unlockOpen, setUnlockOpen] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  // User-triggered refresh — lets users pull the latest without re-logging in.
+  async function handleRefresh() {
+    setRefreshing(true);
+    try {
+      const data = await getMyAssessments();
+      if (data?.assessments) {
+        setAssessments(data.assessments);
+        setCooldownUntil(data.cooldownUntil || null);
+      } else if (Array.isArray(data)) {
+        setAssessments(data);
+      }
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setRefreshing(false);
+    }
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -138,6 +158,15 @@ export default function AssessmentDashboard() {
                 </button>
               )
             )}
+            <button
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className="flex items-center gap-1.5 text-gray-400 hover:text-orange-500 text-sm transition-colors duration-200 border border-gray-700 hover:border-orange-500/50 px-3 py-2 rounded-lg disabled:opacity-60"
+              title="Refresh"
+            >
+              <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
+              {refreshing ? 'Refreshing' : 'Refresh'}
+            </button>
             {user && (
               <button
                 onClick={() => { clearAuth(); navigate('/assessment-toolkit'); }}
@@ -179,9 +208,25 @@ export default function AssessmentDashboard() {
           </div>
         )}
 
-        {/* Loading */}
-        {loading && (
-          <div className="text-center py-20 text-gray-400">Loading your assessments...</div>
+        {/* Loading — skeleton placeholders instead of a bare spinner so the
+            page structure appears instantly (better perceived performance). */}
+        {loading && assessments.length === 0 && (
+          <div className="space-y-3" aria-busy="true" aria-label="Loading your assessments">
+            {[0, 1, 2].map(i => (
+              <div key={i} className="bg-[#111] border border-gray-800 rounded-xl px-6 py-5">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-4 w-full">
+                    <div className="space-y-2">
+                      <div className="h-4 w-24 bg-gray-800 rounded animate-pulse" />
+                      <div className="h-3 w-16 bg-gray-800/70 rounded animate-pulse" />
+                    </div>
+                    <div className="h-5 w-20 bg-gray-800 rounded-full animate-pulse" />
+                  </div>
+                  <div className="h-4 w-24 bg-gray-800 rounded animate-pulse" />
+                </div>
+              </div>
+            ))}
+          </div>
         )}
 
         {/* Error */}
