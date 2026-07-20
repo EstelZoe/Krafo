@@ -270,10 +270,12 @@ export default function AssessmentDashboard() {
               const isExpanded = expandedAssessments[a.id];
               const nistFunctions = scores?.nistFunctions || {};
 
-              // Calculate risk percentage excluding Company Profile
+              // Risk percentage excluding Company Profile. Best answer = 1, worst
+              // = 5 → theoretical min = max / 5. Derived (not hardcoded) so it stays
+              // correct as the question set changes and matches the report exactly.
               const securityScore = (scores?.total || 0) - (scores?.companyProfile || 0);
-              const securityMax = (scores?.totalMax || 155) - (scores?.companyProfileMax || 0);
-              const securityMin = 31;
+              const securityMax = (scores?.totalMax || 0) - (scores?.companyProfileMax || 0);
+              const securityMin = securityMax / 5;
               const securityRange = securityMax - securityMin;
               const riskPct = securityRange > 0 ? Math.round(((securityScore - securityMin) / securityRange) * 100) : 0;
 
@@ -359,8 +361,8 @@ export default function AssessmentDashboard() {
                         {/* Governance (not in nistFunctions, scored separately) */}
                         {scores?.governance != null && (() => {
                           const govScore = scores.governance || 0;
-                          const govMax = scores.governanceMax || 30;
-                          const govMin = 6;
+                          const govMax = scores.governanceMax || 0;
+                          const govMin = govMax / 5;
                           const govRange = govMax - govMin;
                           const riskPct = govRange > 0 ? Math.round(((govScore - govMin) / govRange) * 100) : 0;
                           const barColor = riskPct <= 30 ? 'bg-green-400' : riskPct <= 50 ? 'bg-yellow-400' : riskPct <= 70 ? 'bg-orange-400' : 'bg-red-400';
@@ -383,8 +385,7 @@ export default function AssessmentDashboard() {
                           );
                         })()}
                         {Object.entries(nistFunctions).map(([fn, data]) => {
-                          const numQ = { identify: 5, protect: 5, detect: 5, respond: 5, recover: 5 }[fn] || 5;
-                          const minScore = numQ * 1;
+                          const minScore = (data.maxScore || 0) / 5;
                           const range = data.maxScore - minScore;
                           const riskPct = range > 0 ? Math.round(((data.score - minScore) / range) * 100) : 0;
                           const barColor = riskPct <= 30 ? 'bg-green-400' : riskPct <= 50 ? 'bg-yellow-400' : riskPct <= 70 ? 'bg-orange-400' : 'bg-red-400';
