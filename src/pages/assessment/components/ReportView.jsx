@@ -1,7 +1,7 @@
 import { Calendar, ExternalLink, ChevronDown, ChevronUp, AlertTriangle, FileQuestion } from 'lucide-react';
 import { useState } from 'react';
 import { calculateResponseStats, getVulnerabilitiesByCategory } from '../utils/reportUtils';
-import { calculateAllScores } from '../utils/scoringLogic';
+import { calculateAllScores, scoreAnswer, VULNERABILITY_MIN_SCORE } from '../utils/scoringLogic';
 import { QUESTIONS, CATEGORIES } from '../utils/assessmentQuestions';
 
 const RISK_COLORS = {
@@ -35,13 +35,15 @@ export default function ReportView({ submission, isAdmin = false }) {
   // State for collapsible sections
   const [expandedCategories, setExpandedCategories] = useState({});
 
-  // Identify vulnerabilities (no answers)
+  // Identify vulnerabilities by score (poor-scoring answers), not by the literal
+  // word "no" — so reverse-polarity questions and graduated options are correct.
   const vulns = [];
   const cats = ['governance', 'identify', 'protect', 'detect', 'respond', 'recover'];
   for (const cat of cats) {
     const catR = responses?.[cat] || {};
     for (const [field, val] of Object.entries(catR)) {
-      if (val === 'no') {
+      const s = scoreAnswer(field, val);
+      if (s != null && s >= VULNERABILITY_MIN_SCORE) {
         vulns.push({ field, category: cat });
       }
     }
@@ -178,22 +180,22 @@ export default function ReportView({ submission, isAdmin = false }) {
             <div className="text-gray-400 text-sm">Total Questions</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-green-400">{stats.yesCount}</div>
+            <div className="text-3xl font-bold text-green-400">{stats.controlsInPlace}</div>
             <div className="text-gray-400 text-sm">Controls in Place</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-red-400">{stats.noCount}</div>
+            <div className="text-3xl font-bold text-red-400">{stats.vulnerabilities}</div>
             <div className="text-gray-400 text-sm">Vulnerabilities</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-orange-500">{stats.compliance}%</div>
-            <div className="text-gray-400 text-sm">Yes Response Rate</div>
+            <div className="text-3xl font-bold text-orange-500">{stats.coverage}%</div>
+            <div className="text-gray-400 text-sm">Control Coverage</div>
           </div>
         </div>
       </div>
 
       {/* Vulnerability Breakdown by NIST Category */}
-      {stats.noCount > 0 && (
+      {stats.vulnerabilities > 0 && (
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
           <p className="text-gray-400 text-sm uppercase tracking-widest mb-4">Vulnerability Breakdown by NIST Function</p>
           <div className="space-y-3">

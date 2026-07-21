@@ -54,6 +54,26 @@ const FIELD_SCORES = {
 
 const NIST_FUNCTIONS = ['identify', 'protect', 'detect', 'respond', 'recover'];
 
+// Answer-level risk bands (1 = best, 5 = worst). Used by the report's analytics
+// tally so "controls in place" / "vulnerabilities" reflect the actual score of
+// an answer, not the literal word "yes"/"no". This correctly handles reversed
+// questions (e.g. recentIncident, where "No" is the good answer) and graduated
+// options (yes_regular, yes_both, …) without special-casing.
+export const CONTROL_MAX_SCORE = 2;       // score <= 2 → a control is in place
+export const VULNERABILITY_MIN_SCORE = 4; // score >= 4 → a vulnerability
+
+/**
+ * Return the 1–5 risk score for a single answer, or null if the field/value is
+ * blank or unscored. Single source of truth for both the category scoring and
+ * the report's answer classification.
+ */
+export function scoreAnswer(field, value) {
+  if (value == null || value === '') return null;
+  const table = FIELD_SCORES[field];
+  const fieldScore = table ? table[value] : YES_NO_SCORES[value];
+  return fieldScore == null ? null : fieldScore;
+}
+
 /**
  * Score a category of answers. Every answered question contributes MAX_PER_QUESTION
  * to the denominator (no N/A). Unanswered questions are skipped from both sides.
@@ -64,10 +84,8 @@ function scoreCategory(responses) {
   if (!responses || typeof responses !== 'object') return { score: 0, maxScore: 0 };
 
   for (const [field, value] of Object.entries(responses)) {
-    if (value == null || value === '') continue;
-    const table = FIELD_SCORES[field];
-    const fieldScore = table ? table[value] : YES_NO_SCORES[value];
-    if (fieldScore == null) continue; // unknown option, skip defensively
+    const fieldScore = scoreAnswer(field, value);
+    if (fieldScore == null) continue; // blank or unknown option, skip defensively
     score += fieldScore;
     maxScore += MAX_PER_QUESTION;
   }
