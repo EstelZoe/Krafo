@@ -85,52 +85,44 @@ export default function Expertise() {
               <motion.article
                 key={item.slug}
                 id={item.slug}
-                className="group scroll-mt-28 relative rounded-2xl overflow-hidden border border-orange-500/15 shadow-xl"
+                className="scroll-mt-28 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center border-b border-gray-800/70 pb-12 md:pb-16 last:border-b-0"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '0px 0px -80px 0px' }}
                 transition={{ duration: 0.5 }}
               >
-                {/* Dimmed background image */}
-                <img
-                  src={item.image}
-                  alt=""
-                  aria-hidden="true"
-                  className="absolute inset-0 w-full h-full object-cover opacity-100 transition-transform duration-700 group-hover:scale-105"
-                />
-                {/* Dimming layers keep text legible on any image */}
-                <div className="absolute inset-0 bg-black/80" />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/75 to-black/60" />
-
-                {/* Content over the image */}
-                <div className="relative p-6 md:p-10 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10">
-                  <div>
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-orange-500/15 border border-orange-500/40 backdrop-blur flex items-center justify-center">
-                        <Icon className="text-orange-500" size={26} />
-                      </div>
-                      <h2 className="text-2xl md:text-3xl font-bold text-white leading-snug">
-                        {item.title}
-                      </h2>
-                    </div>
-                    <p className="text-gray-300 leading-relaxed">{item.summary}</p>
+                {/* Image — alternates side on large screens for visual rhythm */}
+                <div className={`relative rounded-2xl overflow-hidden border border-orange-500/15 shadow-xl ${i % 2 === 1 ? 'lg:order-2' : ''}`}>
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-64 md:h-80 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute top-4 left-4 w-12 h-12 rounded-xl bg-black/60 border border-orange-500/40 backdrop-blur flex items-center justify-center">
+                    <Icon className="text-orange-500" size={24} />
                   </div>
+                </div>
 
-                  <div className="lg:pl-8">
-                    <p className="text-sm font-semibold text-orange-500 uppercase tracking-widest mb-4">
-                      What&apos;s included
-                    </p>
-                    <ul className="space-y-3">
-                      {item.bullets.map((b, idx) => (
-                        <li key={idx} className="flex items-start gap-3">
-                          <span className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center">
-                            <Check size={12} className="text-orange-400" />
-                          </span>
-                          <span className="text-gray-200">{b}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                {/* Content: title + summary + what's included */}
+                <div className={i % 2 === 1 ? 'lg:order-1' : ''}>
+                  <h2 className="text-2xl md:text-3xl font-bold text-white leading-snug mb-3">
+                    {item.title}
+                  </h2>
+                  <p className="text-gray-400 leading-relaxed mb-6">{item.summary}</p>
+                  <p className="text-sm font-semibold text-orange-500 uppercase tracking-widest mb-4">
+                    What&apos;s included
+                  </p>
+                  <ul className="space-y-3">
+                    {item.bullets.map((b, idx) => (
+                      <li key={idx} className="flex items-start gap-3">
+                        <span className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full bg-orange-500/15 border border-orange-500/40 flex items-center justify-center">
+                          <Check size={12} className="text-orange-400" />
+                        </span>
+                        <span className="text-gray-300">{b}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </motion.article>
             );

@@ -480,12 +480,21 @@ export default function Consultation() {
                                 >
                                     <Link
                                         to={`/expertise#${item.slug}`}
-                                        className="group relative block h-full card-architect rounded-2xl p-5 md:p-6 bg-[#111111] border border-[#F2600B]/10 hover:border-[#F2600B]/40 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-[#F2600B]/5"
+                                        className="group relative block h-full card-architect rounded-2xl p-5 md:p-6 overflow-hidden bg-[#111111] border border-[#F2600B]/10 hover:border-[#F2600B]/40 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-[#F2600B]/5"
                                     >
-                                        {/* Structural accent bar */}
-                                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-[#F2600B]/0 group-hover:bg-[#F2600B]/60 transition-colors duration-500" />
+                                        {/* Dimmed background image */}
+                                        <img
+                                            src={item.image}
+                                            alt=""
+                                            aria-hidden="true"
+                                            className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
+                                        />
+                                        <div className="absolute inset-0 bg-black/80 group-hover:bg-black/70 transition-colors duration-500" />
 
-                                        <div className="flex flex-col items-center text-center">
+                                        {/* Structural accent bar */}
+                                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-[#F2600B]/0 group-hover:bg-[#F2600B]/60 transition-colors duration-500 z-10" />
+
+                                        <div className="relative z-10 flex flex-col items-center text-center">
                                             <div className="relative mb-4">
                                                 <div className="w-14 h-14 rounded-xl bg-[#F2600B]/10 border border-[#F2600B]/20 flex items-center justify-center group-hover:bg-[#F2600B]/20 group-hover:border-[#F2600B]/40 transition-all duration-300">
                                                     <Icon className="text-[#F2600B]" size={24} />
