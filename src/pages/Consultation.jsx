@@ -213,16 +213,6 @@ export default function Consultation() {
                     100% { stroke-dashoffset: -40; }
                 }
 
-                /* Shimmer for CTA */
-                @keyframes shimmer {
-                    0% { background-position: -200% center; }
-                    100% { background-position: 200% center; }
-                }
-                .shimmer-cta {
-                    background: linear-gradient(90deg, #F2600B 0%, #ff8534 30%, #F2600B 60%, #ff8534 100%);
-                    background-size: 200% auto;
-                    animation: shimmer 3s linear infinite;
-                }
 
                 .cert-tilt {
                     transform: perspective(800px) rotateY(var(--tilt, 0deg)) rotateX(2deg);
@@ -315,14 +305,10 @@ export default function Consultation() {
                                 href={CALENDLY_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-8 py-3.5 font-bold text-white transition-all duration-300 hover:scale-[1.03] active:scale-95"
+                                className="group inline-flex items-center gap-2 rounded-full px-8 py-3.5 font-bold text-white bg-[#F2600B] hover:bg-[#d94f00] shadow-lg shadow-[#F2600B]/30 hover:shadow-[#F2600B]/50 transition-all duration-300 hover:scale-[1.03] active:scale-95"
                             >
-                                <span className="absolute inset-0 shimmer-cta rounded-full" />
-                                <span className="absolute inset-0 rounded-full bg-black/20 group-hover:bg-transparent transition-colors" />
-                                <span className="relative flex items-center gap-2">
-                                    Book a Consultation
-                                    <CalendarClock size={18} className="group-hover:rotate-6 transition-transform" />
-                                </span>
+                                Book a Consultation
+                                <CalendarClock size={18} className="group-hover:rotate-6 transition-transform" />
                             </a>
 
                             <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -585,7 +571,7 @@ export default function Consultation() {
                                     href={CALENDLY_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group inline-flex items-center gap-2 bg-[#F2600B] hover:bg-[#ff8534] text-white font-bold py-3.5 px-8 rounded-full transition-all duration-300 transform hover:scale-[1.02] shadow-lg shadow-[#F2600B]/20 hover:shadow-[#F2600B]/40"
+                                    className="group inline-flex items-center gap-2 bg-[#F2600B] hover:bg-[#d94f00] text-white font-bold py-3.5 px-8 rounded-full transition-all duration-300 transform hover:scale-[1.02] shadow-lg shadow-[#F2600B]/20 hover:shadow-[#F2600B]/40"
                                 >
                                     Schedule Strategy Session
                                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -832,14 +818,10 @@ export default function Consultation() {
                                 href={CALENDLY_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-8 py-3.5 font-bold text-white transition-all duration-300 hover:scale-[1.02] active:scale-95"
+                                className="group inline-flex items-center gap-2 rounded-full px-8 py-3.5 font-bold text-white bg-[#F2600B] hover:bg-[#d94f00] shadow-lg shadow-[#F2600B]/30 hover:shadow-[#F2600B]/50 transition-all duration-300 hover:scale-[1.02] active:scale-95"
                             >
-                                <span className="absolute inset-0 shimmer-cta rounded-full" />
-                                <span className="absolute inset-0 rounded-full bg-black/20 group-hover:bg-transparent transition-colors" />
-                                <span className="relative flex items-center gap-2">
-                                    Schedule Your Session
-                                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                                </span>
+                                Schedule Your Session
+                                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                             </a>
 
                             <Link
@@ -886,7 +868,7 @@ export default function Consultation() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Book a consultation"
-                className="group fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#F2600B] hover:bg-[#ff8534] text-white p-3.5 rounded-full shadow-2xl shadow-[#F2600B]/30 hover:shadow-[#F2600B]/50 transition-all duration-300 hover:scale-105"
+                className="group fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#F2600B] hover:bg-[#d94f00] text-white p-3.5 rounded-full shadow-2xl shadow-[#F2600B]/30 hover:shadow-[#F2600B]/50 transition-all duration-300 hover:scale-105"
             >
                 <CalendarClock size={20} className="group-hover:rotate-6 transition-transform" />
                 <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-[140px] transition-all duration-300 font-medium text-sm">
