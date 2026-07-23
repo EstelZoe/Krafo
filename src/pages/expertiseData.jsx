@@ -3,15 +3,16 @@
  *
  * Used by BOTH:
  *   - Consultation.jsx  → the "Our Expertise" icon grid (title + icon + link)
- *   - Expertise.jsx     → the detailed expertise page (summary + bullets)
+ *   - Expertise.jsx     → the detailed expertise page (image + summary + bullets)
  *
  * Keeping them here means the grid and the detail page can never fall out of
  * sync. Each card on the Consultation page deep-links to `#{slug}` on the
  * Expertise page.
  *
- * Content is grounded in Krafo's actual positioning: a licensed Cybersecurity
- * Service Provider (Cyber Security Authority) registered with the Data
- * Protection Commission, aligned to NIST CSF and Ghana's Acts 843 / 1038 / 772.
+ * ── IMAGES ───────────────────────────────────────────────────────────────────
+ * Each item has an `image` used on the Expertise page. These are PLACEHOLDERS
+ * (existing cyber photos). To use real images: drop the file in
+ * src/assets/images/, import it below, and set it as the item's `image`.
  */
 import {
   Radar,
@@ -28,11 +29,26 @@ import {
   Eye,
 } from 'lucide-react';
 
+// ── Placeholder images (swap with real, topic-specific images) ───────────────
+import imgNetwork from '../assets/images/data1.jpg';
+import imgRisk from '../assets/images/data2.jpg';
+import imgPentest from '../assets/images/hacking.jpeg';
+import imgTraining from '../assets/images/studygroup2.jpg';
+import imgGrc from '../assets/images/ictConst.jpg';
+import imgIncident from '../assets/images/cyberdefense.jpeg';
+import imgData from '../assets/images/data3.jpg';
+import imgCloud from '../assets/images/data4.jpg';
+import imgPolicy from '../assets/images/africadefense.jpeg';
+import imgConsulting from '../assets/images/cyberart.jpg';
+import imgArchitecture from '../assets/images/hackmind.jpeg';
+import imgManaged from '../assets/images/cyberawareness.jpg';
+
 export const EXPERTISE = [
   {
     slug: 'network-monitoring',
     title: 'Network Monitoring & Threat Detection',
     Icon: Radar,
+    image: imgNetwork,
     summary:
       'Always on, always aware. We continuously watch your networks and systems so suspicious activity is spotted and contained before it becomes a breach.',
     bullets: [
@@ -46,6 +62,7 @@ export const EXPERTISE = [
     slug: 'risk-vulnerability-assessment',
     title: 'Risk & Vulnerability Assessment',
     Icon: ShieldAlert,
+    image: imgRisk,
     summary:
       'We identify, analyse, and prioritise the security gaps in your digital infrastructure — then hand you a practical roadmap to close them before attackers find them.',
     bullets: [
@@ -59,6 +76,7 @@ export const EXPERTISE = [
     slug: 'penetration-testing',
     title: 'Penetration Testing',
     Icon: Bug,
+    image: imgPentest,
     summary:
       'Ethical, controlled attacks that reveal how a real adversary would get in — across your web apps, networks, and cloud — with findings you can actually act on.',
     bullets: [
@@ -72,6 +90,7 @@ export const EXPERTISE = [
     slug: 'security-awareness-training',
     title: 'Security Awareness Training',
     Icon: GraduationCap,
+    image: imgTraining,
     summary:
       'People are the first line of defence. We build a security-first culture with practical, role-relevant training that helps your team recognise and stop threats.',
     bullets: [
@@ -85,6 +104,7 @@ export const EXPERTISE = [
     slug: 'governance-risk-compliance',
     title: 'Governance, Risk & Compliance',
     Icon: Scale,
+    image: imgGrc,
     summary:
       'We help you meet your obligations under Ghana\u2019s Data Protection Act (Act 843) and Cybersecurity Act (Act 1038), turning regulatory pressure into a clear, defensible programme.',
     bullets: [
@@ -98,6 +118,7 @@ export const EXPERTISE = [
     slug: 'incident-response',
     title: 'Incident Response & Recovery',
     Icon: Siren,
+    image: imgIncident,
     summary:
       'When something goes wrong, minutes matter. We prepare you to respond calmly and recover quickly — and we stand with you when an incident hits.',
     bullets: [
@@ -111,6 +132,7 @@ export const EXPERTISE = [
     slug: 'data-protection-privacy',
     title: 'Data Protection & Privacy',
     Icon: Lock,
+    image: imgData,
     summary:
       'As a firm registered with the Data Protection Commission, we help you handle personal data lawfully and safely across its entire lifecycle.',
     bullets: [
@@ -124,6 +146,7 @@ export const EXPERTISE = [
     slug: 'cloud-infrastructure-security',
     title: 'Cloud & Infrastructure Security',
     Icon: Cloud,
+    image: imgCloud,
     summary:
       'Secure your cloud and on-premise infrastructure with hardened configurations, strong identity controls, and a path toward zero-trust.',
     bullets: [
@@ -137,6 +160,7 @@ export const EXPERTISE = [
     slug: 'policy-management',
     title: 'Security Policy Management',
     Icon: ClipboardCheck,
+    image: imgPolicy,
     summary:
       'We create, update, and refine your IT and security policies — turning technical rules into operational clarity your whole team can follow.',
     bullets: [
@@ -150,6 +174,7 @@ export const EXPERTISE = [
     slug: 'ict-consulting',
     title: 'ICT Consulting & Advisory',
     Icon: Cpu,
+    image: imgConsulting,
     summary:
       'Our consultants assess your current posture, identify vulnerabilities, and provide tailored recommendations to strengthen your defences and support your goals.',
     bullets: [
@@ -163,6 +188,7 @@ export const EXPERTISE = [
     slug: 'security-architecture',
     title: 'Security Architecture Review',
     Icon: Network,
+    image: imgArchitecture,
     summary:
       'We evaluate and optimise your security architecture end to end, so protection is designed in — not bolted on after the fact.',
     bullets: [
@@ -176,6 +202,7 @@ export const EXPERTISE = [
     slug: 'managed-security',
     title: 'Managed Security Services',
     Icon: Eye,
+    image: imgManaged,
     summary:
       'Extend your team with ongoing, managed protection — so you get enterprise-grade security without the overhead of building it all in-house.',
     bullets: [
