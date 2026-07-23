@@ -274,19 +274,6 @@ export default function Consultation() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     >
-                        {/* Eyebrow */}
-                        <motion.div
-                            className="inline-flex items-center gap-3 bg-[#F2600B]/10 border border-[#F2600B]/20 rounded-full px-4 py-1.5 mb-6"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.2 }}
-                        >
-                            <span className="w-2 h-2 rounded-full bg-[#F2600B] animate-pulse" />
-                            <span className="text-xs font-medium text-[#F2600B] tracking-widest uppercase">
-                                Cybersecurity Partner
-                            </span>
-                        </motion.div>
-
                         {/* Main headline with architectural feel */}
                         <motion.div
                             className="relative"
@@ -429,7 +416,7 @@ export default function Consultation() {
             {/* ════════════════════════════════════════════════════════
                EXPERTISE — Structural Grid
             ════════════════════════════════════════════════════════ */}
-            <section className="relative py-20 md:py-28 bg-gradient-to-b from-[#000000] to-[#111111] overflow-hidden">
+            <section className="relative py-20 md:py-28 bg-gradient-to-b from-black via-black to-[#160b02] overflow-hidden">
                 <StructuralGrid />
 
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
@@ -439,12 +426,6 @@ export default function Consultation() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <div className="inline-flex items-center gap-3 bg-[#F2600B]/5 border border-[#F2600B]/10 rounded-full px-4 py-1.5 mb-4">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#F2600B]" />
-                            <span className="text-xs font-medium text-[#F2600B] tracking-widest uppercase">
-                                Our Capabilities
-                            </span>
-                        </div>
                         <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
                             Architectural <span className="text-[#F2600B]">Expertise</span>
                         </h2>
@@ -544,13 +525,6 @@ export default function Consultation() {
                                 {/* Corner accent */}
                                 <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-[#F2600B]/20" />
                                 <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-[#F2600B]/20" />
-                                {/* Badge */}
-                                <div className="absolute bottom-6 right-6 glass-card rounded-lg px-4 py-2 text-xs text-white/70">
-                                    <span className="flex items-center gap-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-[#F2600B] animate-pulse" />
-                                        Strategic Partnership
-                                    </span>
-                                </div>
                             </div>
                         </motion.div>
 
@@ -561,13 +535,6 @@ export default function Consultation() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.7 }}
                         >
-                            <div className="inline-flex items-center gap-3 bg-[#F2600B]/5 border border-[#F2600B]/10 rounded-full px-4 py-1.5 mb-4">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#F2600B]" />
-                                <span className="text-xs font-medium text-[#F2600B] tracking-widest uppercase">
-                                    Strategic Partnership
-                                </span>
-                            </div>
-
                             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
                                 Building Cyber Resilience Through{" "}
                                 <span className="text-[#F2600B] relative">
@@ -632,22 +599,16 @@ export default function Consultation() {
             {/* ════════════════════════════════════════════════════════
                CERTIFICATIONS — Suspended Gallery
             ════════════════════════════════════════════════════════ */}
-            <section className="relative py-20 md:py-28 bg-[#111111] border-y border-[#F2600B]/5 overflow-hidden">
+            <section className="relative py-20 md:py-28 bg-black border-y border-[#F2600B]/5 overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B08,transparent_70%)]" />
 
-                <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
                     <motion.div
                         className="text-center mb-14"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <div className="inline-flex items-center gap-3 bg-[#F2600B]/5 border border-[#F2600B]/10 rounded-full px-4 py-1.5 mb-4">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#F2600B]" />
-                            <span className="text-xs font-medium text-[#F2600B] tracking-widest uppercase">
-                                Credentials
-                            </span>
-                        </div>
                         <h2 className="text-3xl md:text-4xl font-extrabold">
                             Certifications &amp; <span className="text-[#F2600B]">Accreditations</span>
                         </h2>
@@ -655,39 +616,30 @@ export default function Consultation() {
                             Credentials that back our expertise and validate our approach.
                         </p>
                     </motion.div>
+                </div>
 
-                    <div className="relative grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                        {certifications.map((cert, i) => (
-                            <motion.div
-                                key={i}
-                                className="cert-tilt group"
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: i * 0.08 }}
-                                style={{ "--tilt": "0deg" }}
-                            >
-                                <div className="relative rounded-xl overflow-hidden border border-[#F2600B]/10 bg-[#111111] shadow-xl transition-all duration-500 group-hover:shadow-[#F2600B]/10 group-hover:border-[#F2600B]/30">
-                                    <img
-                                        src={cert.src}
-                                        alt={cert.alt}
-                                        className="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#000000]/80 via-transparent to-transparent" />
-                                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                                        <div className="w-8 h-[2px] bg-[#F2600B]/60 mb-1" />
-                                        <span className="text-[10px] font-medium text-white/50 uppercase tracking-wider">
-                                            Accreditation
-                                        </span>
-                                    </div>
-                                    <div className="absolute top-2 right-2 w-6 h-6 rounded-full border border-[#F2600B]/20 flex items-center justify-center">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-[#F2600B]/40" />
-                                    </div>
+                {/* Seamless auto-scrolling marquee (duplicated list for a smooth loop). */}
+                <div className="group relative w-full">
+                    <div className="flex w-max animate-cert-scroll group-hover:[animation-play-state:paused]">
+                        {[...certifications, ...certifications].map((cert, i) => (
+                            <div key={i} className="mx-4 shrink-0">
+                                <div className="w-56 h-40 rounded-xl overflow-hidden border border-[#F2600B]/20 bg-[#111] shadow-lg">
+                                    <img src={cert.src} alt={cert.alt} className="w-full h-full object-cover" />
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                 </div>
+
+                <style>{`
+                    @keyframes cert-scroll {
+                        from { transform: translateX(0); }
+                        to { transform: translateX(-50%); }
+                    }
+                    .animate-cert-scroll {
+                        animation: cert-scroll 30s linear infinite;
+                    }
+                `}</style>
             </section>
 
             {/* ════════════════════════════════════════════════════════
@@ -703,12 +655,6 @@ export default function Consultation() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <div className="inline-flex items-center gap-3 bg-[#F2600B]/5 border border-[#F2600B]/10 rounded-full px-4 py-1.5 mb-4">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#F2600B]" />
-                            <span className="text-xs font-medium text-[#F2600B] tracking-widest uppercase">
-                                Testimonials
-                            </span>
-                        </div>
                         <h2 className="text-3xl md:text-4xl font-extrabold">
                             What Our <span className="text-[#F2600B]">Clients Say</span>
                         </h2>
@@ -786,12 +732,6 @@ export default function Consultation() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <div className="inline-flex items-center gap-3 bg-[#F2600B]/5 border border-[#F2600B]/10 rounded-full px-4 py-1.5 mb-4">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#F2600B]" />
-                            <span className="text-xs font-medium text-[#F2600B] tracking-widest uppercase">
-                                FAQs
-                            </span>
-                        </div>
                         <h2 className="text-3xl md:text-4xl font-extrabold">
                             Consultation <span className="text-[#F2600B]">FAQs</span>
                         </h2>
@@ -867,12 +807,6 @@ export default function Consultation() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <div className="inline-flex items-center gap-3 bg-[#F2600B]/5 border border-[#F2600B]/10 rounded-full px-4 py-1.5 mb-6">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#F2600B] animate-pulse" />
-                            <span className="text-xs font-medium text-[#F2600B] tracking-widest uppercase">
-                                Start Your Journey
-                            </span>
-                        </div>
 
                         <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
                             Not sure where to{" "}
