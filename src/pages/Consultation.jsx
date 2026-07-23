@@ -358,11 +358,11 @@ export default function Consultation() {
             {/* ════════════════════════════════════════════════════════
                INTRO — The Manifesto
             ════════════════════════════════════════════════════════ */}
-            <section className="relative py-20 md:py-28 overflow-hidden border-t border-[#F2600B]/5">
+            <section className="relative py-6 md:py-10 overflow-hidden border-t border-[#F2600B]/5">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B08,transparent_70%)]" />
                 <div className="max-w-4xl mx-auto px-6 text-center relative">
                     <motion.div
-                        className="w-16 h-[2px] bg-[#F2600B]/40 mx-auto mb-8 rounded-full"
+                        className="w-16 h-[2px] bg-[#F2600B]/40 mx-auto mb-4 rounded-full"
                         initial={{ scaleX: 0 }}
                         whileInView={{ scaleX: 1 }}
                         viewport={{ once: true }}
@@ -383,7 +383,7 @@ export default function Consultation() {
                         </p>
                     </motion.div>
                     <motion.div
-                        className="flex justify-center gap-8 mt-8"
+                        className="flex justify-center gap-8 mt-5"
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
@@ -397,6 +397,52 @@ export default function Consultation() {
                         ))}
                     </motion.div>
                 </div>
+            </section>
+
+            {/* ════════════════════════════════════════════════════════
+               CERTIFICATIONS — Accreditation carousel
+            ════════════════════════════════════════════════════════ */}
+            <section className="relative py-16 md:py-20 bg-black border-y border-[#F2600B]/5 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B08,transparent_70%)]" />
+
+                <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
+                    <motion.div
+                        className="text-center mb-12"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <h2 className="text-3xl md:text-4xl font-extrabold">
+                            Certifications &amp; <span className="text-[#F2600B]">Accreditations</span>
+                        </h2>
+                        <p className="text-gray-400 max-w-xl mx-auto mt-3 text-balance">
+                            Credentials that back our expertise and validate our approach.
+                        </p>
+                    </motion.div>
+                </div>
+
+                {/* Seamless auto-scrolling marquee (duplicated list for a smooth loop). */}
+                <div className="group relative w-full">
+                    <div className="flex w-max animate-cert-scroll group-hover:[animation-play-state:paused]">
+                        {[...certifications, ...certifications].map((cert, i) => (
+                            <div key={i} className="mx-4 shrink-0">
+                                <div className="w-56 h-40 rounded-xl overflow-hidden border border-[#F2600B]/20 bg-[#111] shadow-lg">
+                                    <img src={cert.src} alt={cert.alt} className="w-full h-full object-cover" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <style>{`
+                    @keyframes cert-scroll {
+                        from { transform: translateX(0); }
+                        to { transform: translateX(-50%); }
+                    }
+                    .animate-cert-scroll {
+                        animation: cert-scroll 30s linear infinite;
+                    }
+                `}</style>
             </section>
 
             {/* ════════════════════════════════════════════════════════
@@ -580,52 +626,6 @@ export default function Consultation() {
                         </motion.div>
                     </div>
                 </div>
-            </section>
-
-            {/* ════════════════════════════════════════════════════════
-               CERTIFICATIONS — Suspended Gallery
-            ════════════════════════════════════════════════════════ */}
-            <section className="relative py-20 md:py-28 bg-black border-y border-[#F2600B]/5 overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B08,transparent_70%)]" />
-
-                <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
-                    <motion.div
-                        className="text-center mb-14"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                    >
-                        <h2 className="text-3xl md:text-4xl font-extrabold">
-                            Certifications &amp; <span className="text-[#F2600B]">Accreditations</span>
-                        </h2>
-                        <p className="text-gray-400 max-w-xl mx-auto mt-3 text-balance">
-                            Credentials that back our expertise and validate our approach.
-                        </p>
-                    </motion.div>
-                </div>
-
-                {/* Seamless auto-scrolling marquee (duplicated list for a smooth loop). */}
-                <div className="group relative w-full">
-                    <div className="flex w-max animate-cert-scroll group-hover:[animation-play-state:paused]">
-                        {[...certifications, ...certifications].map((cert, i) => (
-                            <div key={i} className="mx-4 shrink-0">
-                                <div className="w-56 h-40 rounded-xl overflow-hidden border border-[#F2600B]/20 bg-[#111] shadow-lg">
-                                    <img src={cert.src} alt={cert.alt} className="w-full h-full object-cover" />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <style>{`
-                    @keyframes cert-scroll {
-                        from { transform: translateX(0); }
-                        to { transform: translateX(-50%); }
-                    }
-                    .animate-cert-scroll {
-                        animation: cert-scroll 30s linear infinite;
-                    }
-                `}</style>
             </section>
 
             {/* ════════════════════════════════════════════════════════
