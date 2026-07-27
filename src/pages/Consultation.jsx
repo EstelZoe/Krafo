@@ -30,12 +30,36 @@ import certCIOS from "../assets/images/Comptia CIOS.png";
 const CALENDLY_URL = "https://calendly.com/krafosystems";
 
 const certifications = [
-    { src: certCEH, alt: "Certified Ethical Hacker (CEH)" },
-    { src: certSecurityPlus, alt: "CompTIA Security+" },
-    { src: certNetworkPlus, alt: "CompTIA Network+" },
-    { src: certAPlus, alt: "CompTIA A+" },
-    { src: certCSIS, alt: "CompTIA Secure Infrastructure Specialist (CSIS)" },
-    { src: certCIOS, alt: "CompTIA IT Operations Specialist (CIOS)" },
+    {
+        src: certCEH,
+        alt: "Certified Ethical Hacker (CEH)",
+        desc: "A skilled professional who understands how to find weaknesses and vulnerabilities in target systems, using the same knowledge and tools as a malicious hacker — but lawfully, to assess an organisation's security posture.",
+    },
+    {
+        src: certSecurityPlus,
+        alt: "CompTIA Security+",
+        desc: "Security+ practitioners know how to identify and address potential threats, attacks, and vulnerabilities, with advanced techniques in risk management, risk mitigation, threat management, and intrusion detection.",
+    },
+    {
+        src: certNetworkPlus,
+        alt: "CompTIA Network+",
+        desc: "Network+ holders can design and implement functional networks; configure, manage, and maintain essential network devices; implement network security; and troubleshoot network problems.",
+    },
+    {
+        src: certAPlus,
+        alt: "CompTIA A+",
+        desc: "A+ recipients perform critical IT support tasks — device configuration, data backup and recovery, and OS setup — with baseline security skills to detect and remove malware, address privacy concerns, and resolve core service issues.",
+    },
+    {
+        src: certCSIS,
+        alt: "Secure Infrastructure Specialist (CSIS)",
+        desc: "Secure Infrastructure Specialists have the knowledge and skill to support hardware and software systems, and to protect an organisation's assets from internal and external threats.",
+    },
+    {
+        src: certCIOS,
+        alt: "IT Operations Specialist (CIOS)",
+        desc: "IT Operations Specialists manage the flow of a workplace and optimise day-to-day activities, with the ability to analyse business operations and identify customer needs.",
+    },
 ];
 
 const testimonials = [
@@ -429,14 +453,24 @@ export default function Consultation() {
                 <div className="group relative w-full">
                     <div className="flex w-max animate-cert-scroll group-hover:[animation-play-state:paused]">
                         {[...certifications, ...certifications].map((cert, i) => (
-                            <div key={i} className="mx-4 shrink-0">
-                                <div className="w-52 h-40 rounded-xl border border-[#F2600B]/20 bg-white/5 shadow-lg flex items-center justify-center p-5">
-                                    <img
-                                        src={cert.src}
-                                        alt={cert.alt}
-                                        title={cert.alt}
-                                        className="max-w-full max-h-full object-contain"
-                                    />
+                            <div key={i} className="mx-4 shrink-0 py-2">
+                                <div className="group/cert relative">
+                                    {/* Info tooltip — appears above the badge on hover */}
+                                    <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 rounded-xl border border-[#F2600B]/30 bg-[#0a0a0a] p-4 text-left opacity-0 translate-y-2 transition-all duration-300 group-hover/cert:opacity-100 group-hover/cert:translate-y-0 shadow-2xl shadow-black/70 z-30">
+                                        <p className="text-[#F2600B] text-sm font-semibold mb-1.5">{cert.alt}</p>
+                                        <p className="text-gray-300 text-xs leading-relaxed">{cert.desc}</p>
+                                        <span className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-[#0a0a0a]" />
+                                    </div>
+
+                                    {/* Badge tile — scales up on hover */}
+                                    <div className="w-52 h-40 rounded-xl border border-[#F2600B]/20 bg-white/5 shadow-lg flex items-center justify-center p-5 transition-all duration-300 group-hover/cert:scale-110 group-hover/cert:border-[#F2600B]/60 group-hover/cert:shadow-[#F2600B]/20">
+                                        <img
+                                            src={cert.src}
+                                            alt={cert.alt}
+                                            title={cert.alt}
+                                            className="max-w-full max-h-full object-contain"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         ))}
