@@ -20,18 +20,22 @@ import { EXPERTISE } from "./expertiseData";
 import bridge from "../assets/images/40128.jpg";
 import studyGroup from "../assets/images/studygroup2.jpg";
 
-import certPlaceholder1 from "../assets/images/cyberdefense.jpeg";
-import certPlaceholder2 from "../assets/images/africadefense.jpeg";
-import certPlaceholder3 from "../assets/images/cyberart.jpg";
-import certPlaceholder4 from "../assets/images/hacking.jpeg";
+import certCEH from "../assets/images/CEH.png";
+import certSecurityPlus from "../assets/images/Comptia Security+.png";
+import certNetworkPlus from "../assets/images/Comptia Network+.png";
+import certAPlus from "../assets/images/Comptia A+.png";
+import certCSIS from "../assets/images/Comptia CSIS.png";
+import certCIOS from "../assets/images/Comptia CIOS.png";
 
 const CALENDLY_URL = "https://calendly.com/krafosystems";
 
 const certifications = [
-    { src: certPlaceholder1, alt: "Certification 1" },
-    { src: certPlaceholder2, alt: "Certification 2" },
-    { src: certPlaceholder3, alt: "Certification 3" },
-    { src: certPlaceholder4, alt: "Certification 4" },
+    { src: certCEH, alt: "Certified Ethical Hacker (CEH)" },
+    { src: certSecurityPlus, alt: "CompTIA Security+" },
+    { src: certNetworkPlus, alt: "CompTIA Network+" },
+    { src: certAPlus, alt: "CompTIA A+" },
+    { src: certCSIS, alt: "CompTIA Secure Infrastructure Specialist (CSIS)" },
+    { src: certCIOS, alt: "CompTIA IT Operations Specialist (CIOS)" },
 ];
 
 const testimonials = [
@@ -426,8 +430,13 @@ export default function Consultation() {
                     <div className="flex w-max animate-cert-scroll group-hover:[animation-play-state:paused]">
                         {[...certifications, ...certifications].map((cert, i) => (
                             <div key={i} className="mx-4 shrink-0">
-                                <div className="w-56 h-40 rounded-xl overflow-hidden border border-[#F2600B]/20 bg-[#111] shadow-lg">
-                                    <img src={cert.src} alt={cert.alt} className="w-full h-full object-cover" />
+                                <div className="w-52 h-40 rounded-xl border border-[#F2600B]/20 bg-white/5 shadow-lg flex items-center justify-center p-5">
+                                    <img
+                                        src={cert.src}
+                                        alt={cert.alt}
+                                        title={cert.alt}
+                                        className="max-w-full max-h-full object-contain"
+                                    />
                                 </div>
                             </div>
                         ))}
