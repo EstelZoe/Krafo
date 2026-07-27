@@ -32,16 +32,16 @@ import {
 // ── Placeholder images (swap with real, topic-specific images) ───────────────
 import imgNetwork from '../assets/images/data1.jpg';
 import imgRisk from '../assets/images/data2.jpg';
-import imgPentest from '../assets/images/hacking.jpeg';
+import imgPentest from '../assets/images/penetration testing image.jpg';
 import imgTraining from '../assets/images/studygroup2.jpg';
 import imgGrc from '../assets/images/ictConst.jpg';
-import imgIncident from '../assets/images/cyberdefense.jpeg';
+import imgIncident from '../assets/images/Incident Response & Recovery.jpg';
 import imgData from '../assets/images/data3.jpg';
 import imgCloud from '../assets/images/data4.jpg';
-import imgPolicy from '../assets/images/africadefense.jpeg';
-import imgConsulting from '../assets/images/cyberart.jpg';
-import imgArchitecture from '../assets/images/hackmind.jpeg';
-import imgManaged from '../assets/images/cyberawareness.jpg';
+import imgPolicy from '../assets/images/policy management.jpg';
+import imgConsulting from '../assets/images/ict consulting and advisory.jpg';
+import imgArchitecture from '../assets/images/Security Architecture Review.jpg';
+import imgManaged from '../assets/images/Managed Security Services.jpg';
 
 export const EXPERTISE = [
   {
