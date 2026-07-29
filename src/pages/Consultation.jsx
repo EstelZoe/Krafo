@@ -440,7 +440,7 @@ export default function Consultation() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-3xl md:text-4xl font-extrabold">
+                        <h2 className="hero-display text-3xl md:text-4xl font-extrabold">
                             Certifications &amp; <span className="text-[#F2600B]">Accreditations</span>
                         </h2>
                         <p className="text-gray-400 max-w-xl mx-auto mt-3 text-balance">
@@ -455,15 +455,15 @@ export default function Consultation() {
                         {[...certifications, ...certifications].map((cert, i) => (
                             <div key={i} className="mx-4 shrink-0 py-2">
                                 <div className="group/cert relative">
-                                    {/* Info tooltip — appears above the badge on hover */}
-                                    <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 rounded-xl border border-[#F2600B]/30 bg-[#0a0a0a] p-4 text-left opacity-0 translate-y-2 transition-all duration-300 group-hover/cert:opacity-100 group-hover/cert:translate-y-0 shadow-2xl shadow-black/70 z-30">
-                                        <p className="text-[#F2600B] text-sm font-semibold mb-1.5">{cert.alt}</p>
-                                        <p className="text-gray-300 text-xs leading-relaxed">{cert.desc}</p>
-                                        <span className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-[#0a0a0a]" />
+                                    {/* Info tooltip — frosted glass bubble above the badge on hover */}
+                                    <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 rounded-xl border border-white/15 bg-black/40 backdrop-blur-xl p-4 text-left opacity-0 translate-y-2 transition-all duration-300 group-hover/cert:opacity-100 group-hover/cert:translate-y-0 shadow-2xl shadow-black/60 z-30">
+                                        <p className="text-[#ff8534] text-sm font-semibold mb-1.5">{cert.alt}</p>
+                                        <p className="text-gray-200 text-xs leading-relaxed">{cert.desc}</p>
+                                        <span className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-white/10" />
                                     </div>
 
-                                    {/* Badge tile — scales up on hover */}
-                                    <div className="w-52 h-40 rounded-xl border border-[#F2600B]/20 bg-white/5 shadow-lg flex items-center justify-center p-5 transition-all duration-300 group-hover/cert:scale-110 group-hover/cert:border-[#F2600B]/60 group-hover/cert:shadow-[#F2600B]/20">
+                                    {/* Badge tile — frosted glass, scales up on hover */}
+                                    <div className="w-52 h-40 rounded-xl border border-white/15 bg-white/10 backdrop-blur-md shadow-lg flex items-center justify-center p-5 transition-all duration-300 group-hover/cert:scale-110 group-hover/cert:border-[#F2600B]/60 group-hover/cert:bg-white/15 group-hover/cert:shadow-[#F2600B]/20">
                                         <img
                                             src={cert.src}
                                             alt={cert.alt}
@@ -501,7 +501,7 @@ export default function Consultation() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+                        <h2 className="hero-display text-3xl md:text-5xl font-extrabold tracking-tight">
                             Architectural <span className="text-[#F2600B]">Expertise</span>
                         </h2>
                         <p className="text-gray-400 max-w-2xl mx-auto mt-4 text-balance">
@@ -544,7 +544,7 @@ export default function Consultation() {
                                                 </div>
                                                 <div className="absolute -inset-1 rounded-xl bg-[#F2600B]/0 group-hover:bg-[#F2600B]/5 blur-xl transition-all duration-500" />
                                             </div>
-                                            <h3 className="text-sm md:text-base font-semibold text-white leading-tight group-hover:text-[#F2600B] transition-colors">
+                                            <h3 className="hero-display text-sm md:text-base font-semibold text-white leading-tight group-hover:text-[#F2600B] transition-colors">
                                                 {item.title}
                                             </h3>
                                             <span className="mt-2 text-[10px] font-medium text-[#F2600B]/40 uppercase tracking-wider group-hover:text-[#F2600B]/70 transition-colors">
@@ -619,7 +619,7 @@ export default function Consultation() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.7 }}
                         >
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+                            <h2 className="hero-display text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
                                 Building Cyber Resilience Through{" "}
                                 <span className="text-[#F2600B] relative">
                                     Strategic Partnership
@@ -693,7 +693,7 @@ export default function Consultation() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-3xl md:text-4xl font-extrabold">
+                        <h2 className="hero-display text-3xl md:text-4xl font-extrabold">
                             What Our <span className="text-[#F2600B]">Clients Say</span>
                         </h2>
                     </motion.div>
@@ -719,7 +719,7 @@ export default function Consultation() {
                                         </div>
                                     </div>
                                     <div>
-                                        <h4 className="text-white font-semibold">{t.name}</h4>
+                                        <h4 className="hero-display text-white font-semibold">{t.name}</h4>
                                         {t.role && <p className="text-xs text-gray-400">{t.role}</p>}
                                     </div>
                                 </div>
@@ -770,7 +770,7 @@ export default function Consultation() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-3xl md:text-4xl font-extrabold">
+                        <h2 className="hero-display text-3xl md:text-4xl font-extrabold">
                             Consultation <span className="text-[#F2600B]">FAQs</span>
                         </h2>
                     </motion.div>
@@ -846,7 +846,7 @@ export default function Consultation() {
                         transition={{ duration: 0.6 }}
                     >
 
-                        <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
+                        <h2 className="hero-display text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
                             Not sure where to{" "}
                             <span className="text-[#F2600B] relative">
                                 start?
@@ -878,7 +878,7 @@ export default function Consultation() {
 
                             <Link
                                 to="/expertise"
-                                className="inline-flex items-center gap-2 border border-[#F2600B]/30 hover:border-[#F2600B] text-white font-medium py-3.5 px-8 rounded-full transition-all duration-300 group"
+                                className="inline-flex items-center gap-2 border border-white/20 bg-white/10 backdrop-blur-md hover:bg-white/15 hover:border-[#F2600B]/60 text-white font-medium py-3.5 px-8 rounded-full shadow-lg shadow-black/20 transition-all duration-300 group"
                             >
                                 Explore Expertise
                                 <Sparkles size={16} className="text-[#F2600B] group-hover:rotate-12 transition-transform" />

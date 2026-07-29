@@ -349,6 +349,23 @@ nav{
   }
 }
 
+/* Indeterminate progress bar — the sliding accent bar used on the course cards
+   (FeaturedCourses). The bar is 50% wide and sweeps across its track. */
+@keyframes indeterminate-progress {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(310%);
+  }
+}
+
+@layer utilities {
+  .animate-indeterminate-progress {
+    animation: indeterminate-progress 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
 @keyframes networkGlow {
   0%, 100% {
     transform: translateX(-30%);

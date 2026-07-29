@@ -29,7 +29,10 @@ export default function FeaturedCourses({
 
       {/* Section Heading */}
       <div className="text-center mb-16">
-        <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+        <h2
+          className="text-4xl sm:text-5xl font-extrabold tracking-tight"
+          style={{ fontFamily: "'Proxon', sans-serif" }}
+        >
           {title}{" "}
           <span className="bg-gradient-to-r from-[#F2600B] to-orange-300 bg-clip-text text-transparent">
             {titleAccent}
