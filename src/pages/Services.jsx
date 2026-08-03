@@ -6,6 +6,7 @@ import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 import FeaturedCourses from "../components/FeaturedCourses";
 import BentoGrid from "./services/BentoGrid";
+import ProductShowcase from "./services/ProductShowcase";
 import QuoteConfigurator from "./services/QuoteConfigurator";
 import CybersecuritySection from "./services/CybersecuritySection";
 import heroImg from "../assets/images/hero 3.jpg";
@@ -129,7 +130,21 @@ export default function Services() {
                             Software <span className="text-[#F2600B]">Development</span>
                         </h2>
                         <p className="text-gray-400 max-w-2xl mx-auto mt-3">
-                            Configure your project and see a live estimate — transparent starting prices.
+                            Explore what we build — tap any product to see the full offering, or
+                            configure a live estimate below.
+                        </p>
+                    </div>
+
+                    {/* Clickable product cards → full product pages (/services/:slug) */}
+                    <ProductShowcase />
+
+                    {/* Live estimate builder */}
+                    <div className="text-center mt-16 mb-8">
+                        <h3 className="hero-display text-2xl md:text-3xl font-bold">
+                            Build a <span className="text-[#F2600B]">live estimate</span>
+                        </h3>
+                        <p className="text-gray-400 max-w-2xl mx-auto mt-3">
+                            Configure your project and see a transparent starting price.
                         </p>
                     </div>
 

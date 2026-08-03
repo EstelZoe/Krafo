@@ -31,3 +31,7 @@ package-lock.json
 
 # Personal monthly engineering work log (local only)
 WORK_LOG.md
+
+# Nested backend repo — krafo_api is its own git repository (its own remote).
+# Ignore it here so it's never accidentally staged into the frontend repo.
+krafo_api/

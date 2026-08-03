@@ -27,6 +27,7 @@ const YouthCyberEd = lazy(() => import("./pages/YouthCyberEd"));
 const Consultation = lazy(() => import("./pages/Consultation"));
 const Expertise = lazy(() => import("./pages/Expertise"));
 const Services = lazy(() => import("./pages/Services"));
+const ProductDetail = lazy(() => import("./pages/services/ProductDetail"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const CybersecuritySurvey = lazy(() => import("./pages/CybersecuritySurvey"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -104,6 +105,7 @@ function App() {
             <Route path="/consultation" element={<Consultation />} />
             <Route path="/expertise" element={<Expertise />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/services/:slug" element={<ProductDetail />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/cybersecurity-survey" element={<CybersecuritySurvey />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

@@ -26,10 +26,10 @@ export const PRICING_DATA = {
           bestFor: "Small businesses, personal brands",
           features: [
             "Up to 6 pages",
-            "Mobile responsive",
-            "Contact form",
-            "Basic SEO setup",
-            "CMS access",
+            "Mobile & tablet responsive",
+            "Contact form + WhatsApp chat",
+            "Basic SEO (get found on Google)",
+            "Content Manager — edit content yourself (no WordPress)",
           ],
         },
         {
@@ -40,10 +40,10 @@ export const PRICING_DATA = {
           bestFor: "Corporate orgs, NGOs, schools",
           features: [
             "8–15 pages",
-            "Blog / news section",
-            "Testimonials",
+            "Content Manager (blog / news you control)",
+            "Testimonials & galleries",
             "Payment integration",
-            "Performance optimized",
+            "On-page SEO + performance optimized",
           ],
         },
         {
@@ -54,7 +54,7 @@ export const PRICING_DATA = {
           best: true,
           bestFor: "Established brands competing widely",
           features: [
-            "Conversion-focused UI/UX",
+            "Bespoke, conversion-focused design",
             "CRM integrations",
             "Multi-language support",
             "Advanced SEO architecture",
@@ -183,4 +183,14 @@ export const PRICING_DATA = {
     { id: "security", label: "Advanced Security", price: 4000 },
   ],
   startingPriceNote: "Prices are starting figures and scale with scope.",
+  // Shared, cross-product notes surfaced on the product detail pages. These
+  // reflect how Krafo delivers every build (see the client offerings doc).
+  notes: {
+    ownership:
+      "You own everything — your domain, website, data, and all accounts (analytics, email, payments) are set up in your name from day one. We manage them for you, but they're always yours.",
+    care:
+      "Keep your site online, secure, backed up, and up to date with an optional Website Care plan (hosting included) — from GHS 150/month.",
+    thirdParty:
+      "Some features rely on third-party services with their own running costs (domain, hosting, professional email, transactional email, payment-processor fees). These depend on the features you choose, are billed at cost, and are always confirmed with you first.",
+  },
 };
