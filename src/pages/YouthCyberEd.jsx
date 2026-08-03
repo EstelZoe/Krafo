@@ -4,7 +4,8 @@ import Footer from "../assets/components/Footer";
 import ProgramCard from "../assets/components/ProgramCard";
 import ImpactStat from "../assets/components/ImpactStat";
 import HeroImage from "../assets/images/cyberyouthed2.png";
-import { School, Laptop, Users, GraduationCap, Shield, BriefcaseBusiness, BookOpenCheck, Globe2 } from "lucide-react";
+import cyberBytes from "../assets/images/cyberbytes.jpeg";
+import { School, Laptop, Users, GraduationCap, Shield, BriefcaseBusiness, BookOpenCheck, Globe2, Calendar, Clock, ArrowRight, Mail } from "lucide-react";
 import ProgramOptionCard from "../assets/components/ProgramOptionCard";
 import OutreachImpact from "../assets/components/OutreachImpact";
 import { motion, AnimatePresence } from "framer-motion";
@@ -346,6 +347,100 @@ export default function YouthCyberEducation() {
                                 </div>
                             </motion.div>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Featured Program — CyberBytes (Sankofa Homeschool Collective) */}
+            <section id="cyberbytes" className="relative py-20 md:py-24 px-6 bg-gradient-to-b from-black to-[#0a0503] text-white overflow-hidden">
+                {/* soft brand glow */}
+                <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_70%_15%,#F2600B1a,transparent_60%)]" />
+
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-12">
+                        <span className="inline-flex items-center gap-2 rounded-full border border-[#F2600B]/30 bg-[#F2600B]/10 px-4 py-1.5 text-xs font-semibold tracking-wider text-[#ff8534] uppercase">
+                            Featured Program
+                        </span>
+                        <h2 className="mt-4 text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-500 to-yellow-500 text-transparent bg-clip-text pb-1">
+                            CyberBytes
+                        </h2>
+                        <p className="mt-3 text-gray-300 max-w-2xl mx-auto text-lg">
+                            Empowering your kids to navigate the digital world safely — in partnership with the
+                            Sankofa Homeschool Collective.
+                        </p>
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                        {/* Flyer — clickable, opens the registration site */}
+                        <motion.a
+                            href="https://www.sankofahomeschool.org"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            initial={{ opacity: 0, scale: 0.96 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="group relative block mx-auto w-full max-w-md"
+                        >
+                            <div className="absolute -inset-4 -z-10 rounded-3xl bg-[#F2600B]/10 blur-3xl" />
+                            <img
+                                src={cyberBytes}
+                                alt="CyberBytes program flyer — Sankofa Homeschool Collective. Weekly classes start 18 September, Fridays 12:30–1:30PM EST, ages 9+, Fall Semester 2026–2027."
+                                className="w-full rounded-2xl border border-[#F2600B]/25 shadow-2xl shadow-black/60 transition-transform duration-500 group-hover:scale-[1.02]"
+                            />
+                        </motion.a>
+
+                        {/* Details + CTA */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <div className="grid sm:grid-cols-2 gap-4">
+                                {[
+                                    { Icon: Calendar, label: "Weekly class starts", value: "18 September" },
+                                    { Icon: Clock, label: "Fridays", value: "12:30 – 1:30 PM (EST)" },
+                                    { Icon: Users, label: "Age range", value: "9+" },
+                                    { Icon: GraduationCap, label: "Duration", value: "Fall Semester 2026–2027" },
+                                ].map(({ Icon, label, value }) => (
+                                    <div
+                                        key={label}
+                                        className="flex items-start gap-3 rounded-xl border border-[#F2600B]/15 bg-[#111111] p-4"
+                                    >
+                                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#F2600B]/20 bg-[#F2600B]/10 text-[#F2600B]">
+                                            <Icon size={18} />
+                                        </span>
+                                        <span>
+                                            <span className="block text-xs uppercase tracking-wide text-gray-500">{label}</span>
+                                            <span className="block text-sm font-semibold text-white">{value}</span>
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <p className="mt-6 text-gray-300 leading-relaxed">
+                                Help your scholar learn safe online habits — designed to support both children
+                                and parents.
+                            </p>
+
+                            <div className="mt-8 flex flex-wrap items-center gap-4">
+                                <a
+                                    href="https://www.sankofahomeschool.org"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 font-bold text-white bg-[#F2600B] hover:bg-[#d94f00] shadow-lg shadow-[#F2600B]/30 hover:shadow-[#F2600B]/50 transition-all duration-300 hover:scale-[1.03] active:scale-95"
+                                >
+                                    Register <ArrowRight size={18} />
+                                </a>
+                                <a
+                                    href="mailto:m.fafali@krafosystems.com?subject=CyberBytes%20Program%20Enquiry"
+                                    className="inline-flex items-center gap-2 border border-[#F2600B]/40 hover:border-[#F2600B] hover:bg-[#F2600B]/10 text-white font-semibold py-3.5 px-8 rounded-full transition-all duration-300"
+                                >
+                                    <Mail size={18} /> More info
+                                </a>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
