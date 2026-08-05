@@ -54,32 +54,9 @@ export default function Navbar() {
                     <Link to="/blog-page" className="block hover:text-orange-500" onClick={toggleMenu}>Blog</Link>
                     <Link to="/youth-cyber-ed" className="block hover:text-orange-500" onClick={toggleMenu}>Youth Cyber Ed</Link>
                     <Link to="/consultation" className="block hover:text-orange-500" onClick={toggleMenu}>Consultation</Link>
-
-                    {/* Contact Us Button Mobile */}
-                    {/* <Link
-                        to="/contact"
-                        className="block bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition"
-                        onClick={toggleMenu}
-                    >
-                        Contact Us
-                    </Link> */}
-
-                    {/* Assessment Toolkit button — hidden until the toolkit is released */}
-                    {/* <Link
-                        to="/assessment-toolkit" className="block bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition"
-                        onClick={toggleMenu}>
-                        Assessment Toolkit
-                    </Link> */}
                 </div>
             )}
-            {/* language links */}
-            {/* <div className="text-white">
-                            <span className="cursor-pointer hover:text-orange-600">ENG</span>
-                            <span className="mx-2 text-orange-600">|</span>
-                            <span className="cursor-pointer hover:text-orange-600">FR</span>
-                            <span className="mx-2 text-orange-600">|</span>
-                            <span className="cursor-pointer hover:text-orange-600">TWI</span>
-                        </div> */}
+
         </nav>
     );
 }
