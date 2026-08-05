@@ -1,394 +1,464 @@
-import React, { useState, useEffect } from "react";
-import EventCard from "../assets/components/EventCard";
+import React from "react";
+import { useState, useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
+import { Handshake, CalendarDays } from "lucide-react";
 import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
-import { motion, AnimatePresence } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { apiClient } from "../api/client";
+import { motion } from "framer-motion";
+import { Typewriter } from "react-simple-typewriter";
+import heroBg from "../assets/images/evetskrafo.jpg";
+import pic from "../assets/images/IMG-7.jpg";
+import { Lightbulb, Users, ShieldCheck } from "lucide-react";
+import pics from "../assets/images/flye2.jpeg";
 
 const EventPage = () => {
-    const [activeCategory, setActiveCategory] = useState("All");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [visibleEvents, setVisibleEvents] = useState(6);
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [filteredEvents, setFilteredEvents] = useState([]);
-    const [categories, setCategories] = useState(["All", "Technology", "Business", "Cybersecurity", "Marketing", "AI", "Education"]);
-    
-    // API state management
-    const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const banners = [
+        {
+            title: "Partner With Us For Events",
+            icon: Handshake,
+            description:
+                "Partner with KRAFO Systems to deliver impactful cybersecurity events and workshops.",
+            button: "Partner With Us",
+            bg: "bg-[#F2600B]",
+            text: "text-black",
+            button:
+                "Partner With Us",
+            buttonClass:
+                "border border-black text-black hover:bg-black hover:text-[#F2600B]",
+        },
+        {
+            title: "Book Us For Events",
+            icon: CalendarDays,
+            description:
+                "Invite KRAFO Systems to speak, train and host cybersecurity sessions for your organization or institution.",
+            button: "Book KRAFO",
+            bg: "bg-black",
+            text: "text-[#F2600B]",
+            buttonClass:
+                "border border-[#F2600B] text-[#F2600B] hover:bg-[#F2600B] hover:text-black",
+        },
+    ];
 
-    // Intersection observer for scroll animations
-    const [heroRef, heroInView] = useInView({ threshold: 0.1, triggerOnce: true });
-    const [ctaRef, ctaInView] = useInView({ threshold: 0.1, triggerOnce: true });
+    const [currentBanner, setCurrentBanner] = useState(0);
 
-    // Fetch events from API on component mount
     useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                setLoading(true);
-                setError(null);
-                const response = await apiClient.get('/events');
-                
-                // Handle different response structures
-                const eventsData = response.data.events || response.data || [];
-                setEvents(eventsData);
-            } catch (err) {
-                console.error('Error fetching events:', err);
-                setError(err.message || 'Failed to load events. Please try again later.');
-            } finally {
-                setLoading(false);
-            }
-        };
+        const timer = setInterval(() => {
+            setCurrentBanner((prev) => (prev + 1) % banners.length);
+        }, 7000);
 
-        fetchEvents();
+
+
+        return () => clearInterval(timer);
     }, []);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    useEffect(() => {
-        const filtered = events
-            .filter(event =>
-                (activeCategory === "All" || event.category === activeCategory) &&
-                (event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    event.description.toLowerCase().includes(searchQuery.toLowerCase())
-                ))
-            .slice(0, visibleEvents);
-
-        setFilteredEvents(filtered);
-    }, [activeCategory, searchQuery, visibleEvents, events]);
-
-    const loadMoreEvents = () => {
-        setVisibleEvents(prev => prev + 6);
-    };
-
-    // Animation variants
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut"
-            }
-        }
-    };
-
-    const fadeInVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                duration: 0.8,
-                ease: "easeOut"
-            }
-        }
-    };
+    const Icon = banners[currentBanner].icon;
 
     return (
-        <div className="min-h-screen bg-[#0a0a0a] text-white">
-            <Navbar scrolled={isScrolled} />
+        <div className="min-h-screen bg-black text-white">
+            <Navbar />
+            <section className="relative min-h-screen overflow-hidden flex items-center justify-center">
 
-            {/* Hero Section */}
-            <section
-                ref={heroRef}
-                className="relative overflow-hidden bg-gradient-to-br from-[#0d0d0d] to-[#1a0a00] pt-32 pb-28"
-            >
-                {/* Animated Background Elements */}
-                <div className="absolute inset-0 -z-10 overflow-hidden">
-                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiMyYTI4MjgiIHN0cm9rZS13aWR0aD0iMC41Ij48cGF0aCBkPSJNIDAgMCBMIDEwMCAwIDEwMCAxMDAgMCAxMDAgWiIvPjxwYXRoIGQ9Ik0gMjAgMjAgTCA4MCAyMCA4MCA4MCAyMCA4MCIvPjxwYXRoIGQ9Ik0gNDAgNDAgTCA2MCA0MCA2MCA2MCA0MCA2MCIvPjwvZz48L3N2Zz4=')] opacity-10"></div>
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(242,96,11,0.08)_0%,transparent_70%)]"></div>
+                {/* Background */}
+                <motion.div
+                    className="absolute inset-0"
+                    animate={{
+                        scale: [1, 1.08, 1],
+                    }}
+                    transition={{
+                        duration: 20,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                    }}
+                >
+                    <img
+                        src={heroBg}
+                        alt=""
+                        className="w-full h-full object-cover"
+                    />
+                </motion.div>
 
-                    {/* Floating Particles */}
-                    {[...Array(8)].map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute rounded-full bg-[#F2600B] opacity-[0.15]"
-                            style={{
-                                width: `${Math.random() * 10 + 5}px`,
-                                height: `${Math.random() * 10 + 5}px`,
-                                top: `${Math.random() * 100}%`,
-                                left: `${Math.random() * 100}%`,
-                            }}
-                            animate={{
-                                y: [0, (Math.random() - 0.5) * 100],
-                                x: [0, (Math.random() - 0.5) * 50],
-                                opacity: [0.1, 0.2, 0.1],
-                            }}
-                            transition={{
-                                duration: Math.random() * 10 + 10,
-                                repeat: Infinity,
-                                repeatType: "reverse",
-                                ease: "easeInOut",
-                            }}
-                        />
-                    ))}
-                </div>
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/70"></div>
 
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                {/* Orange Glow */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(242,96,11,0.18),transparent_65%)]"></div>
+
+                {/* Floating Glow */}
+                <motion.div
+                    className="absolute w-72 h-72 rounded-full bg-[#F2600B] blur-[130px]"
+                    style={{
+                        top: "15%",
+                        left: "50%",
+                        x: "-50%",
+                    }}
+                    animate={{
+                        y: [0, -25, 0],
+                        opacity: [0.2, 0.4, 0.2],
+                    }}
+                    transition={{
+                        duration: 6,
+                        repeat: Infinity,
+                    }}
+                />
+
+                {/* Content */}
+                <div className="relative z-20 max-w-5xl mx-auto px-6 text-center">
+
+                    {/* Badge */}
                     <motion.div
-                        className="text-center max-w-3xl mx-auto"
-                        initial="hidden"
-                        animate={heroInView ? "visible" : "hidden"}
-                        variants={containerVariants}
-                    >
-                        <motion.h1
-                            className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-white leading-tight"
-                            variants={itemVariants}
-                        >
-                            <span className="block">Experience the Future at</span>
-                            <span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
-                                KRAFO SYSTEMS Events
-                            </span>
-                        </motion.h1>
-
-                        <motion.p
-                            className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed"
-                            variants={itemVariants}
-                        >
-                            Join industry leaders, innovators, and cybersecurity experts at our premier events designed to inspire and educate.
-                        </motion.p>
-
-                        {/* Enhanced Search Bar */}
-                        <motion.div
-                            className="relative max-w-2xl mx-auto"
-                            variants={itemVariants}
-                        >
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg className="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                                </svg>
-                            </div>
-                            <motion.input
-                                type="text"
-                                placeholder="Search events by name, category, or keyword..."
-                                className="block w-full pl-10 pr-3 py-4 rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                whileFocus={{
-                                    boxShadow: "0 0 0 3px rgba(242, 96, 11, 0.3)",
-                                    scale: 1.01
-                                }}
-                            />
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Main Content */}
-            <section className="bg-[#0a0a0a] py-16">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
-                    {/* Enhanced Category Filter */}
-                    <motion.div
-                        className="mb-12 overflow-x-auto pb-4"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.6 }}
+                        transition={{ duration: .6 }}
                     >
-                        <div className="flex space-x-2 min-w-max">
-                            {categories.map((category) => (
-                                <motion.button
-                                    key={category}
-                                    className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center ${activeCategory === category
-                                            ? "bg-gradient-to-r from-[#F2600B] to-orange-500 text-black font-semibold shadow-lg shadow-orange-500/20"
-                                            : "bg-black/30 text-gray-300 hover:bg-white/10 hover:text-white"
-                                        }`}
-                                    onClick={() => setActiveCategory(category)}
-                                    whileHover={{
-                                        scale: 1.05,
-                                        boxShadow: activeCategory !== category ? "0 4px 15px -5px rgba(242, 96, 11, 0.3)" : "none"
-                                    }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    {category}
-                                    {activeCategory === category && (
-                                        <motion.span
-                                            className="ml-2"
-                                            initial={{ scale: 0 }}
-                                            animate={{ scale: 1 }}
-                                            transition={{ type: "spring" }}
-                                        >
-                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                            </svg>
-                                        </motion.span>
-                                    )}
-                                </motion.button>
-                            ))}
-                        </div>
+                        <span
+                            style={{ fontFamily: "Proxon" }}
+                            className="inline-flex items-center gap-2 rounded-full border border-[#F2600B]/40 bg-[#F2600B]/10 px-6 py-2 uppercase tracking-[0.2em] text-xs text-[#F2600B] backdrop-blur-md">
+
+
+                            <span className="h-2 w-2 rounded-full bg-[#F2600B] animate-pulse"></span>
+
+                            Upcoming Events
+
+                        </span>
                     </motion.div>
 
-                    {/* Loading State — Skeleton Cards */}
-                    {loading && (
-                        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                            {[...Array(6)].map((_, i) => (
-                                <div
-                                    key={i}
-                                    className="bg-black/30 rounded-xl border border-white/10 overflow-hidden animate-pulse"
+                    {/* Heading */}
+
+                    <motion.h1
+                        style={{ fontFamily: "Proxon" }}
+                        className="mt-20 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold"
+                    >
+                        The Future of
+
+                        <span className="block text-[#F2600B]">
+                            Cybersecurity
+                        </span>
+
+                        Starts Here.
+                    </motion.h1>
+
+                    {/* Typewriter */}
+
+                    <motion.div
+                        // style={{ fontFamily: "Proxon" }}
+                        className="mt-6 h-20 text-gray-300 text-base md:text-lg max-w-lg leading-relaxed"
+                    >
+                        <Typewriter
+                            words={[
+                                "Exclusive conferences are coming soon.",
+                                "World-class cybersecurity experts will be speaking.",
+                                "Hands-on workshops are almost here.",
+                                "Stay tuned... something extraordinary is on the way."
+                            ]}
+                            loop={false}
+                            cursor
+                            cursorStyle="|"
+                            typeSpeed={45}
+                            deleteSpeed={20}
+                            delaySpeed={2500}
+                        />
+                    </motion.div>
+
+                    {/* Buttons */}
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: .8 }}
+                        className="mt-12 flex flex-wrap justify-center gap-5"
+                    >
+                        <button
+                            // style={{ fontFamily: "Proxon" }}
+                            className="rounded-xl bg-[#F2600B] px-8 py-4 font-semibold ..."
+                        >
+                            Read More
+                        </button>
+
+                        <button
+                            // style={{ fontFamily: "Proxon" }}
+                            className="rounded-xl border border-white/20 px-8 py-4 font-semibold ..."
+                        >
+                            Learn More
+                        </button>
+                    </motion.div>
+
+                    {/* Scroll */}
+
+                    <motion.div
+                        animate={{
+                            y: [0, 12, 0],
+                        }}
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                        }}
+                        className="mt-20 flex flex-col items-center text-gray-400"
+                    >
+                        <span className="text-xs uppercase tracking-[0.4em]">
+                            Scroll
+                        </span>
+
+                        <svg
+                            className="mt-3 h-6 w-6"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M19 9l-7 7-7-7"
+                            />
+                        </svg>
+                    </motion.div>
+
+                </div>
+
+            </section>
+
+            {/* Banner Carousel */}
+
+            <section className="relative overflow-hidden h-24">
+                <AnimatePresence mode="sync">
+                    <motion.div
+                        key={currentBanner}
+                        initial={{ x: "100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "-100%" }}
+                        transition={{
+                            duration: 0.9,
+                            ease: [0.77, 0, 0.175, 1],
+                        }}
+                        className={`absolute inset-0 ${banners[currentBanner].bg}`}>
+                        <div className="max-w-7xl mx-auto h-full px-8 flex items-center justify-between">
+                            {/* Left Arrow */}
+                            <button
+                                onClick={() =>
+                                    setCurrentBanner(
+                                        currentBanner === 0
+                                            ? banners.length - 1
+                                            : currentBanner - 1
+                                    )
+                                }
+                                className={`${banners[currentBanner].text} text-5xl hover:scale-110 transition`}
+                            >
+                                &#8249;
+                            </button>
+
+                            <div className="hidden lg:flex items-center justify-center mx-6">
+                                <Icon
+                                    className={`w-10 h-10 ${banners[currentBanner].text}`}
+                                />
+                            </div>
+
+                            {/* Center */}
+
+                            <div className="flex-1 text-center px-8">
+                                <h2
+                                    className={`text-4xl font-bold ${banners[currentBanner].text}`}
                                 >
-                                    {/* Image skeleton */}
-                                    <div className="h-48 bg-white/5" />
-                                    {/* Content skeleton */}
-                                    <div className="p-5 space-y-3">
-                                        <div className="h-3 w-20 bg-white/10 rounded-full" />
-                                        <div className="h-5 w-3/4 bg-white/10 rounded" />
-                                        <div className="space-y-2">
-                                            <div className="h-3 w-full bg-white/5 rounded" />
-                                            <div className="h-3 w-5/6 bg-white/5 rounded" />
-                                        </div>
-                                        <div className="flex items-center gap-3 pt-2">
-                                            <div className="h-3 w-24 bg-white/5 rounded" />
-                                            <div className="h-3 w-16 bg-white/5 rounded" />
-                                        </div>
+                                    {banners[currentBanner].title}
+                                </h2>
+
+                                <p
+                                    className={`mt-2 ${banners[currentBanner].text}`}>
+                                    {banners[currentBanner].description}
+                                </p>
+                            </div>
+
+                            {/* Button */}
+                            <button
+                                className={`px-7 py-3 rounded-lg transition-all duration-300 ${banners[currentBanner].buttonClass}`}                           >
+                                {banners[currentBanner].button}
+                            </button>
+
+                            {/* Right Arrow */}
+
+                            <button
+                                onClick={() =>
+                                    setCurrentBanner(
+                                        (currentBanner + 1) % banners.length
+                                    )
+                                }
+                                className={`${banners[currentBanner].text} text-5xl ml-8 hover:scale-110 transition`}
+                            >
+                                &#8250;
+                            </button>
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
+            </section>
+
+            {/*UPCOMING EVENT */}
+
+            <section className="bg-[#050505] py-8 lg:py-10">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+
+                        {/*  LEFT CONTENT  */}
+                        <motion.div initial={{ opacity: 0, x: -60 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="order-2 lg:order-1">
+
+                            <p className="uppercase tracking-[0.35em] text-[#F2600B] text-sm font-semibold">
+                                Coming Soon
+                            </p>
+
+                            <h2 style={{ fontFamily: "Proxon" }}
+                                className="mt-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium">
+                                Something Big Is
+
+                                <span style={{ fontFamily: "Proxon" }}
+                                    className=" block text-2xl text-orange-500 sm:text-3xl md:text-4xl lg:text-5xl font-medium">
+                                    On The Horizon
+                                </span>
+
+                            </h2>
+
+                            <p className="mt-8 text-gray-400 text-lg leading-8">
+                                We are preparing an exciting cybersecurity experience
+                                designed to educate, inspire and connect professionals,
+                                students, businesses and technology enthusiasts.
+                                Be among the first to hear when we officially announce it.
+                            </p>
+                            {/* Highlights */}
+                            <div className="mt-10 space-y-6">
+                                <div className="flex items-start gap-4">
+                                    <div className="bg-[#F2600B]/10 p-3 rounded-xl">
+                                        <Lightbulb
+                                            className="text-[#F2600B]"
+                                            size={22} />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-white font-semibold">
+                                            Learn
+                                        </h4>
+                                        <p className="text-gray-400 mt-1">
+                                            Gain practical cybersecurity insights from
+                                            experienced professionals.
+                                        </p>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* Error State */}
-                    {error && !loading && (
-                        <div className="flex justify-center items-center py-20">
-                            <div className="inline-block p-8 bg-red-900/20 rounded-xl border border-red-500/30 backdrop-blur-sm max-w-md">
-                                <svg className="w-12 h-12 mx-auto text-red-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <h3 className="text-xl font-medium text-red-400 mb-2">Error Loading Events</h3>
-                                <p className="text-gray-300">{error}</p>
-                                <button
-                                    className="mt-4 px-6 py-2 bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg hover:bg-red-500/30 transition-colors duration-300"
-                                    onClick={() => window.location.reload()}
-                                >
-                                    Retry
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Event Cards Grid */}
-                    {!loading && !error && filteredEvents.length > 0 && (
-                        <>
-                            <motion.div
-                                className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
-                                variants={containerVariants}
-                                initial="hidden"
-                                animate="visible"
-                            >
-                                <AnimatePresence>
-                                    {filteredEvents.map((event, index) => (
-                                        <motion.div
-                                            key={`${event._id || event.title}-${index}`}
-                                            variants={itemVariants}
-                                            layout
-                                            whileHover={{
-                                                y: -5,
-                                                transition: { duration: 0.3 }
-                                            }}
-                                        >
-                                            <EventCard
-                                                {...event}
-                                                featured={event.featured}
-                                                className={event.featured ? "sm:col-span-2" : ""}
-                                            />
-                                        </motion.div>
-                                    ))}
-                                </AnimatePresence>
-                            </motion.div>
-
-                            {/* Load More Button */}
-                            {visibleEvents < events.length && (
-                                <div className="flex justify-center mt-16">
-                                    <motion.button
-                                        className="px-8 py-4 bg-black rounded-xl text-white font-semibold border border-white/10 relative overflow-hidden group"
-                                        onClick={loadMoreEvents}
-                                        whileHover={{
-                                            boxShadow: "0 0 30px rgba(242, 96, 11, 0.5)",
-                                            borderColor: "rgba(242, 96, 11, 0.5)"
-                                        }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        <span className="relative z-10 flex items-center">
-                                            <span className="bg-gradient-to-r from-[#F2600B] to-orange-400 bg-clip-text text-transparent font-bold">
-                                                Load More Events
-                                            </span>
-                                            <svg className="w-5 h-5 ml-2 text-[#F2600B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                        </span>
-                                    </motion.button>
+                                <div className="flex items-start gap-4">
+                                    <div className="bg-[#F2600B]/10 p-3 rounded-xl">
+                                        <Users
+                                            className="text-[#F2600B]"
+                                            size={22} />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-white font-semibold">
+                                            Connect
+                                        </h4>
+                                        <p className="text-gray-400 mt-1">
+                                            Network with industry experts, businesses,
+                                            students and innovators.
+                                        </p>
+                                    </div>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                <div className="flex items-start gap-4">
+                                    <div className="bg-[#F2600B]/10 p-3 rounded-xl">
+                                        <ShieldCheck
+                                            className="text-[#F2600B]"
+                                            size={22}
+                                        />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-white font-semibold">
+                                            Discover
+                                        </h4>
+                                        <p className="text-gray-400 mt-1">
+                                            Explore emerging cybersecurity trends,
+                                            technologies and real-world solutions.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
-                    {/* No Events Found */}
-                    {!loading && !error && filteredEvents.length === 0 && (
+                            {/* Button */}
+                            <button
+                                className="mt-12 px-8 py-4 rounded-xl bg-[#F2600B] text-black font-semibold hover:bg-orange-500 hover:scale-105 transition duration-300">
+                                I'm Interested
+                            </button>
+                        </motion.div>
+
+                        {/*RIGHT IMAGE*/}
                         <motion.div
-                            className="text-center py-20"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <div className="inline-block p-8 bg-black/30 rounded-xl border border-white/10 backdrop-blur-sm">
-                                <motion.div
-                                    animate={{
-                                        rotate: [0, 10, -10, 0],
-                                        y: [0, -5, 5, 0]
-                                    }}
-                                    transition={{
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        repeatType: "reverse"
-                                    }}
-                                >
-                                    <svg className="w-20 h-20 mx-auto text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </motion.div>
-                                <h3 className="mt-6 text-2xl font-medium text-gray-300">No events found</h3>
-                                <p className="mt-3 text-gray-500 max-w-md mx-auto">
-                                    Try adjusting your search or filter criteria. We add new events regularly!
-                                </p>
-                                <motion.button
-                                    className="mt-6 px-6 py-2.5 bg-black border border-white/10 rounded-lg font-medium"
-                                    onClick={() => {
-                                        setActiveCategory("All");
-                                        setSearchQuery("");
-                                    }}
-                                    whileHover={{ 
-                                        boxShadow: "0 0 20px rgba(242, 96, 11, 0.5)",
-                                        borderColor: "rgba(242, 96, 11, 0.5)"
-                                    }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <span className="bg-gradient-to-r from-[#F2600B] to-orange-400 bg-clip-text text-transparent">
-                                        Reset Filters
-                                    </span>
-                                </motion.button>
+                            initial={{ opacity: 0, x: 60 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="order-1 lg:order-2">
+                            <div className="relative">
+
+                                {/* Orange Glow */}
+                                <div className="absolute -inset-4 bg-[#F2600B]/20 blur-3xl rounded-3xl"></div>
+                                <img src={pics} alt="Upcoming Event"
+                                    className="relative w-full rounded-3xl shadow-2xl object-cover hover:scale-[1.02] transition duration-500"
+                                />
                             </div>
                         </motion.div>
-                    )}
+                    </div>
                 </div>
             </section>
 
+            <section className="bg-[#0a0a0a] py-24">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+                        {/* LEFT */}
+                        <div className="relative flex justify-center items-center">
+                            <div className="absolute w-[90%] h-[90%] rounded-full bg-[#F2600B]/50 blur-[120px]"></div>
+                            <div className="relative rounded-3xl overflow-hidden z-10">
+                                <img src={pic} alt=""
+                                    className="w-full h-[500px] object-cover transition duration-500 hover:scale-120" />
+                            </div>
+                        </div>
+
+                        {/* RIGHT */}
+                        <div>
+                            <p className="uppercase tracking-[0.35em] text-[#F2600B] text-sm font-semibold">
+                                Past Events
+                            </p>
+                            <h2 className="mt-4 text-5xl font-bold leading-tight text-white">
+                                Reliving Moments
+                                <span className="block text-[#F2600B]">
+                                    That Made An Impact
+                                </span>
+                            </h2>
+
+                            <h3 className="mt-10 text-2xl font-semibold text-white">
+                                Cybersecurity Summit 2025
+                            </h3>
+                            <p className="mt-5 text-gray-400 leading-8">
+                                Our cybersecurity summit brought together professionals,
+                                students and organizations to discuss emerging threats,
+                                cyber resilience and the future of digital security.
+                            </p>
+                            <div className="mt-10 space-y-4">
+                                <div className="flex items-center gap-3">📍
+                                    <span className="text-gray-300">
+                                        Accra, Ghana
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-3">👥
+                                    <span className="text-gray-300">
+                                        300+ Participants
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-3"> 🗓
+                                    <span className="text-gray-300">
+                                        March 2025
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
             <Footer />
         </div>
     );
