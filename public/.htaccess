@@ -25,3 +25,22 @@
     Header set Cache-Control "no-cache, no-store, must-revalidate"
   </FilesMatch>
 </IfModule>
+
+# ── Security headers ──────────────────────────────────────────────────────
+# Hardens the static SPA (the API sets its own headers via helmet).
+# CSP is tuned to the site's real dependencies:
+#   - script/style/font/media: same-origin (Vite build); style needs
+#     'unsafe-inline' for framer-motion inline styles + injected <style> tags.
+#   - img: self + data/blob (inline SVG/base64) + Cloudinary (CMS images) + YouTube thumbs.
+#   - connect: self + the API domain (axios/fetch).
+#   - frame: YouTube embeds only.
+# If you add a new third-party (analytics, chat widget, payment iframe, etc.),
+# extend the matching directive or it will be blocked.
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()"
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://res.cloudinary.com https://i.ytimg.com; font-src 'self'; connect-src 'self' https://api.krafosystems.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; media-src 'self' blob:; upgrade-insecure-requests"
+</IfModule>
