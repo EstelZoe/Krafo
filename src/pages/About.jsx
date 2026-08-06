@@ -6,18 +6,19 @@ import Ks from "../assets/images/ks.jpg";
 // import Sl from "../assets/images/studentlearning.png";
 import Ms from "../assets/images/ms.jpg";
 import Cl from "../assets/images/cl.jpg";
-import HeroVid from "../assets/videos/Vid2.mp4";
-import { motion } from "framer-motion";
-import { Shield, GraduationCapIcon, Lightbulb, FileText, Lock, Home, ShieldCheck, Globe, Building2, Briefcase, FactoryIcon, } from "lucide-react";
+import { useState, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Shield, GraduationCapIcon, Lightbulb, FileText, Lock, Home, ShieldCheck, Globe, Building2, Briefcase, FactoryIcon, ArrowUpRight, ArrowRight, Check, Linkedin, ChevronDown, Users, Layers, Sparkles, Code, Cloud, Compass, PenTool, LifeBuoy, Rocket, HeartHandshake } from "lucide-react";
 import { image } from "framer-motion/client";
-import pic1 from "../assets/images/origilogo.png";
-import pic2 from "../assets/images/krafoashanti.png";
-import pic3 from "../assets/images/africaoriginal.png";
-import pic4 from "../assets/images/cyberdefense.jpeg";
-import pic5 from "../assets/images/africadefense.jpeg";
 import { HashLink } from "react-router-hash-link";
-import CooPic from "../assets/images/coo.png";
-import CeoPic from "../assets/images/komla.png";
+import KomlaPic from "../assets/images/mr.komla.png";
+import AmiPic from "../assets/images/mrs.ami.png";
+import WorldPresenceMap from "./WorldPresenceMap";
+import KrafoMark from "../assets/images/krafo-mark-animated.svg";
+import vidSME from "../assets/videos/managed services.mp4";
+import vidStartup from "../assets/videos/software development.mp4";
+import vidInstitution from "../assets/videos/governance.mp4";
+import vidNGO from "../assets/videos/training and capacity building.mp4";
 
 const journeyData = [
   {
@@ -56,561 +57,962 @@ const missionImages = [
   { src: Aml, alt: "Awareness", className: "md:col-start-5 md:row-start-2", duration: 3.2 },
 ];
 
-export default function About() {
+// Co-founder card: a full-bleed photo with the name/role in a frosted-glass
+// panel overlaid on the image (like the Services cards). The full bio bullets
+// are hidden by default and revealed inside the glass panel via Read more,
+// with a strengthened ambient glow + lift on hover.
+function CoFounderCard({ member }) {
+  // Alternating editorial rows — bio always visible beside the portrait.
+  // Komla → image left / bio right; Fafali → image right / bio left.
+  const bioOnLeft = member.side === "left";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6 }}
+      className={`group relative flex flex-col gap-8 sm:items-center sm:gap-12 ${
+        bioOnLeft ? "sm:flex-row-reverse" : "sm:flex-row"
+      }`}
+    >
+      {/* ── Portrait image (smaller, fixed) ── */}
+      <div className="relative mx-auto w-full max-w-[15rem] shrink-0 sm:mx-0 sm:w-56 md:w-64">
+        {/* Ambient orange glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-2 rounded-[1.75rem] bg-[#F2600B]/10 blur-2xl opacity-50 transition-opacity duration-500 group-hover:opacity-100"
+        />
+        <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-[#F2600B]/25 bg-[#0c0705] transition-all duration-500 group-hover:-translate-y-1.5 group-hover:border-[#F2600B]/70 group-hover:shadow-[0_20px_60px_-10px_rgba(242,96,11,0.5)]">
+          <img
+            src={member.image}
+            alt={member.name}
+            className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+          />
+          {/* LinkedIn arrow */}
+          <a
+            href={member.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${member.name} on LinkedIn`}
+            className="absolute top-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white backdrop-blur-md transition-all duration-300 hover:bg-[#F2600B] hover:border-[#F2600B]"
+          >
+            <ArrowUpRight size={18} />
+          </a>
+          {/* Name chip */}
+          <div className="absolute inset-x-2 bottom-2 rounded-xl border border-white/15 bg-black/50 px-3 py-2 backdrop-blur-md">
+            <h3 className="text-base font-bold leading-tight text-white">{member.name}</h3>
+            <p className="text-[11px] text-gray-300">{member.aka}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Bio (always visible) ── */}
+      <div
+        className={`flex-1 ${bioOnLeft ? "sm:text-right" : "sm:text-left"}`}
+      >
+        <span className="text-xs font-semibold uppercase tracking-wider text-[#ff8534]">
+          {member.role}
+        </span>
+        <h4 className="hero-display mt-1 text-2xl font-bold text-[#F2600B] sm:text-3xl">
+          {member.name}
+        </h4>
+        <ul className="mt-5 space-y-3 border-t border-white/10 pt-5">
+          {member.bio.map((point) => (
+            <li
+              key={point.label}
+              className={`flex items-start gap-3 text-sm leading-relaxed text-gray-200 ${
+                bioOnLeft ? "sm:flex-row-reverse sm:text-right" : ""
+              }`}
+            >
+              <Check size={16} className="mt-0.5 shrink-0 text-[#F2600B]" />
+              <span>
+                <span className="font-semibold text-white">{point.label}:</span> {point.text}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <a
+          href={member.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-white/90 transition hover:text-[#ff8534] ${
+            bioOnLeft ? "sm:flex-row-reverse" : ""
+          }`}
+        >
+          <Linkedin size={16} /> Connect on LinkedIn
+        </a>
+      </div>
+    </motion.div>
+  );
+}
+
+// What Krafo does now — "we build it, we secure it". Shown as an interactive
+// orbit on desktop (hover a node → the core explains it) and a list on mobile.
+const CAPABILITIES = [
+  { Icon: Briefcase, title: "Consulting", short: "Advisory", text: "Strategy, risk and compliance guidance for growing teams." },
+  { Icon: Cloud, title: "SaaS Platforms", short: "SaaS", text: "Multi-tenant products engineered to scale from MVP to a serious business." },
+  { Icon: ShieldCheck, title: "Cybersecurity", short: "Security", text: "Assessments, hardening and monitoring — baked in, never bolted on." },
+  { Icon: Code, title: "Web & Apps", short: "Web", text: "Fast, secure websites and web apps that actually run your operations." },
+  { Icon: GraduationCapIcon, title: "Training", short: "Training", text: "We turn your people into your strongest first line of defence." },
+];
+
+function CapabilityOrbit() {
+  const [active, setActive] = useState(0);
+  const n = CAPABILITIES.length;
+
   return (
     <>
-      <Navbar />
+      {/* Desktop orbit */}
+      <div className="hidden md:block">
+        <div className="relative mx-auto aspect-square w-full max-w-lg">
+          <div className="absolute inset-0 animate-[spin_40s_linear_infinite] rounded-full border border-dashed border-[#F2600B]/20" />
+          <div className="absolute inset-[14%] rounded-full border border-[#F2600B]/10" />
+          <div className="pointer-events-none absolute inset-[20%] rounded-full bg-[#F2600B]/10 blur-3xl" />
 
-      <section className="text-white min-h-screen flex items-center justify-center px-4 md:px-20 relative font-body overflow-hidden">
-        {/* 🎥 Background Video */}
+          {/* Center — the KRAFO mark (brand anchor) */}
+          <div className="absolute left-1/2 top-1/2 flex h-[42%] w-[42%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#F2600B]/30 bg-[#0c0705]/90 p-8 backdrop-blur">
+            <img
+              src={KrafoMark}
+              alt="Krafo Systems mark"
+              className="h-full w-full object-contain drop-shadow-[0_0_20px_rgba(242,96,11,0.35)]"
+            />
+          </div>
+
+          {/* Orbiting nodes */}
+          {CAPABILITIES.map((c, i) => {
+            const angle = (-90 + (360 / n) * i) * (Math.PI / 180);
+            const x = 50 + 42 * Math.cos(angle);
+            const y = 50 + 42 * Math.sin(angle);
+            const isActive = i === active;
+            const NodeIcon = c.Icon;
+            return (
+              <button
+                key={c.title}
+                type="button"
+                onMouseEnter={() => setActive(i)}
+                onFocus={() => setActive(i)}
+                aria-label={c.title}
+                style={{ left: `${x}%`, top: `${y}%` }}
+                className="absolute -translate-x-1/2 -translate-y-1/2 outline-none"
+              >
+                <span
+                  className={`flex h-16 w-16 flex-col items-center justify-center rounded-2xl border bg-[#0c0705] transition-all duration-300 ${
+                    isActive
+                      ? "scale-110 border-[#F2600B] text-[#F2600B] shadow-[0_0_22px_rgba(242,96,11,0.55)]"
+                      : "border-white/10 text-gray-400 hover:border-[#F2600B]/50 hover:text-[#ff8534]"
+                  }`}
+                >
+                  <NodeIcon size={20} />
+                  <span className="mt-1 text-[10px] font-semibold leading-tight">{c.short}</span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Caption — describes the hovered capability */}
+        <div className="mx-auto mt-6 min-h-[4.5rem] max-w-md text-center">
+          <h3 className="hero-display text-lg font-bold text-[#F2600B]">{CAPABILITIES[active].title}</h3>
+          <p className="mt-1 text-sm leading-relaxed text-gray-300">{CAPABILITIES[active].text}</p>
+        </div>
+      </div>
+
+      {/* Mobile / tablet list */}
+      <div className="grid gap-4 sm:grid-cols-2 md:hidden">
+        {CAPABILITIES.map((c) => {
+          const NodeIcon = c.Icon;
+          return (
+            <div
+              key={c.title}
+              className="flex items-start gap-3 rounded-xl border border-[#F2600B]/20 bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] p-4"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#F2600B]/30 bg-[#F2600B]/10 text-[#F2600B]">
+                <NodeIcon size={18} />
+              </span>
+              <div>
+                <h3 className="text-sm font-bold text-white">{c.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-gray-300">{c.text}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
+// Who Krafo builds for now — an interactive segmented switcher.
+const AUDIENCES = [
+  {
+    key: "smes",
+    label: "SMEs & Businesses",
+    video: vidSME,
+    headline: "Grow without the growing pains",
+    pain: "You need a serious online presence and systems that just work — and one security incident shouldn't be able to undo it all.",
+    fit: [
+      "A website or web app that earns customer trust",
+      "Security hardening and monitoring built in",
+      "Team training so your staff are your first line of defence",
+    ],
+  },
+  {
+    key: "startups",
+    label: "Startups & Founders",
+    video: vidStartup,
+    headline: "Launch fast. Launch secure.",
+    pain: "You need an MVP in market quickly — but investors and early customers expect it to be safe from day one.",
+    fit: [
+      "MVP and SaaS product builds",
+      "Scalable, cloud-ready architecture",
+      "Security designed in, not bolted on later",
+    ],
+  },
+  {
+    key: "institutions",
+    label: "Institutions",
+    video: vidInstitution,
+    headline: "Modernise with confidence",
+    pain: "Legacy processes, compliance pressure, and a rising tide of threats — all at once.",
+    fit: [
+      "Custom platforms, portals and dashboards",
+      "Compliance-aware security and audits",
+      "Capacity-building programs for your people",
+    ],
+  },
+  {
+    key: "ngos",
+    label: "NGOs & Impact",
+    video: vidNGO,
+    headline: "Do more good, safely",
+    pain: "Limited budgets, sensitive beneficiary data, and real impact riding on your tools staying up.",
+    fit: [
+      "Right-sized digital tools that fit your budget",
+      "Data protection and privacy by design",
+      "Practical, affordable security",
+    ],
+  },
+];
+
+function AudienceSwitcher() {
+  const [active, setActive] = useState(0);
+  const a = AUDIENCES[active];
+  return (
+    <div>
+      <div className="mb-8 flex flex-wrap justify-center gap-2">
+        {AUDIENCES.map((aud, i) => (
+          <button
+            key={aud.key}
+            type="button"
+            onClick={() => setActive(i)}
+            className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
+              i === active
+                ? "bg-[#F2600B] text-white shadow-[0_0_20px_rgba(242,96,11,0.4)]"
+                : "border border-white/15 text-gray-300 hover:border-[#F2600B]/50 hover:text-white"
+            }`}
+          >
+            {aud.label}
+          </button>
+        ))}
+      </div>
+
+      <motion.div
+        key={a.key}
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="relative overflow-hidden rounded-2xl border border-[#F2600B]/20"
+      >
+        {/* Background video */}
         <video
-          className="absolute inset-0 w-full h-full object-cover -z-20"
+          key={a.video}
+          className="absolute inset-0 h-full w-full object-cover"
           autoPlay
           loop
           muted
           playsInline
         >
-          <source src={HeroVid} type="video/mp4" />
-          Your browser does not support the video tag.
+          <source src={a.video} type="video/mp4" />
         </video>
-
-        {/* 🌌 Black Overlay */}
-        <div className="absolute inset-0 bg-black/70 -z-10"></div>
-
-        {/* 💫 Glow */}
+        {/* Darkening overlay for contrast */}
+        <div className="absolute inset-0 bg-black/60" />
         <div
-          className="absolute inset-0 -z-10 opacity-20 blur-3xl"
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent"
+        />
+
+        {/* Glassmorphism content */}
+        <div className="relative grid gap-6 p-6 sm:p-8 md:grid-cols-2 md:gap-8 md:p-10">
+          <div className="rounded-2xl border border-white/15 bg-white/10 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+            <h3 className="hero-display text-2xl font-bold text-white md:text-3xl">{a.headline}</h3>
+            <p className="mt-4 leading-relaxed text-gray-100">{a.pain}</p>
+          </div>
+          <ul className="space-y-3 self-center rounded-2xl border border-white/15 bg-white/10 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+            {a.fit.map((f) => (
+              <li key={f} className="flex items-start gap-3 text-sm leading-relaxed text-gray-100">
+                <Check size={16} className="mt-0.5 shrink-0 text-[#F2600B]" />
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+export default function About() {
+  // Scroll-driven parallax for the hero (mirrors the Consultation page):
+  // the map lifts + scales as you scroll and the whole hero fades out.
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const mapScale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
+  const mapY = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const heroContentY = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+
+  return (
+    <>
+      <Navbar />
+
+      <section
+        ref={heroRef}
+        className="relative flex min-h-screen items-center overflow-hidden bg-black px-4 py-28 text-white font-body md:px-12 lg:px-20"
+      >
+        <style>{`.hero-display { font-family: 'Proxon', sans-serif; }`}</style>
+
+        {/* Ambient radial glows */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(circle at 30% 30%, #F2600B22, transparent 70%)",
+              "radial-gradient(60% 60% at 20% 20%, rgba(242,96,11,0.16), transparent 70%), radial-gradient(50% 50% at 85% 30%, rgba(255,133,52,0.10), transparent 70%)",
           }}
-        ></div>
+        />
+        {/* Structural grid overlay */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.05]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#F2600B 1px, transparent 1px), linear-gradient(90deg, #F2600B 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+          }}
+        />
 
-        {/* Content */}
-        <div className="max-w-7xl mx-auto flex flex-col items-center justify-center text-center gap-12 relative z-10 w-full">
-          {/* Text Side */}
-          <div className="w-full md:w-[70%] lg:w-[55%] space-y-6 text-center bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border border-orange-700/40 rounded-xl p-6 md:p-10 shadow-xl transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white">
-              What Our Name <span className="text-[#F2600B]">Represents</span>
-            </h2>
-            <p className="text-gray-300 text-base sm:text-lg md:text-xl">
-              Krafo Systems, from the Akan word “KRA” (soul), stands for unity and purpose. Our mission is to protect Africa through cybersecurity—guarding against online and offline threats. Guided by “Let’s Connect & Protect,” inspired by Ubuntu, we promote community, empathy, and shared responsibility for a safer, connected future.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <a
-                href="https://calendly.com/krafosystems"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#F2600B] text-white px-6 py-3 rounded-md text-sm sm:text-base font-medium hover:bg-[#e05600] transition w-full sm:w-auto text-center">
-                Book A Consultation
-              </a>
-
-              <HashLink
-                smooth to="/youth-cyber-ed#programs"
-                className="text-sm sm:text-base text-gray-300 hover:text-white transition underline underline-offset-4">
-                See our work →
-              </HashLink>
-
-            </div>
+        {/* Map — large background layer on desktop. It's scaled up and anchored
+            to the right so it bleeds off-screen for maximum coverage, while the
+            headline text sits on top of the dark/oceanic left half. */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.15 }}
+          style={{ y: mapY, scale: mapScale, opacity: heroOpacity }}
+          className="absolute inset-y-0 right-0 z-0 hidden w-[66%] items-center lg:flex"
+        >
+          <div className="relative w-full">
+            <div className="pointer-events-none absolute inset-0 -z-10 bg-[#F2600B]/10 blur-3xl" />
+            <WorldPresenceMap
+              accent="#F2600B"
+              dotColor="rgba(255,255,255,0.16)"
+              className="origin-right scale-[1.2]"
+            />
           </div>
-        </div>
+        </motion.div>
+
+        {/* Scrim: fades the map into the dark left side so the copy stays legible.
+            pointer-events-none keeps the map's cursor-follow + marker hovers alive. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-[1] hidden bg-gradient-to-r from-black from-30% to-transparent to-55% lg:block"
+        />
+
+        <motion.div
+          style={{ y: heroContentY, opacity: heroOpacity }}
+          className="pointer-events-none relative z-10 mx-auto w-full max-w-7xl"
+        >
+          <div className="max-w-2xl">
+            {/* Text side */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="pointer-events-auto relative"
+            >
+              <div className="absolute -left-6 top-1 bottom-1 hidden w-1 bg-[#F2600B] opacity-40 md:block" />
+              <h1 className="hero-display text-4xl font-extrabold leading-[1.06] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                Securing Africa&apos;s
+                <br />
+                <span className="text-[#F2600B]">Cyber Future</span>
+              </h1>
+              <p className="mt-6 max-w-xl text-base text-gray-300 sm:text-lg md:text-xl">
+                We&apos;re a <span className="text-white font-medium">distributed team</span> —
+                experts drawn from{" "}
+                <span className="text-white font-medium">across the globe</span>, connected by a
+                single purpose: to defend Africa&apos;s digital future. Wherever the threat, we
+                connect and protect.
+              </p>
+
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+                <a
+                  href="https://calendly.com/krafosystems"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[#F2600B] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#d94f00] sm:text-base"
+                >
+                  Book A Consultation <ArrowUpRight size={18} />
+                </a>
+              </div>
+
+            </motion.div>
+
+            {/* Map — stacked below the copy on mobile / tablet */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.9, delay: 0.15 }}
+              className="pointer-events-auto relative mt-12 lg:hidden"
+            >
+              <div className="pointer-events-none absolute inset-0 -z-10 rounded-3xl bg-[#F2600B]/10 blur-3xl" />
+              <WorldPresenceMap accent="#F2600B" dotColor="rgba(255,255,255,0.16)" />
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          style={{ opacity: scrollHintOpacity }}
+          className="pointer-events-none absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
+        >
+          <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-white/30">
+            Scroll
+          </span>
+          <div className="h-12 w-px bg-gradient-to-b from-[#F2600B]/60 to-transparent" />
+          <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#F2600B]/40" />
+        </motion.div>
       </section >
 
 
-      {/* /* Our Achievements Section */}
-      <section className="overflow-hidden pb-12 pt-20 lg:pb-16 lg:pt-24 relative bg-black">
-        {/* Pattern Background */}
-        <div className="container mx-auto px-4 relative z-10">
-          {/* Grid Layout */}
-          <div className="-mx-4 flex flex-wrap items-center">
-            {/* Image Gallery Column */}
-            <div className="w-full px-4 lg:w-6/12 mb-10 lg:mb-0">
-              <div className="-mx-3 flex flex-wrap sm:-mx-4">
-                <div className="w-full px-3 sm:px-4 md:w-1/2">
-                  <div className="py-3 sm:py-4">
-                    <div className="relative overflow-hidden rounded-2xl shadow-xl">
-                      <img
-                        src={pic1}
-                        alt="Cybersecurity training"
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"></div>
-                    </div>
-                  </div>
-                  <div className="py-3 sm:py-4">
-                    <div className="relative overflow-hidden rounded-2xl shadow-xl">
-                      <img
-                        src={pic4}
-                        alt="Krafo Systems team"
-                        className="w-full aspect-[4/3] object-cover rounded-2xl"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply"></div>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full px-3 sm:px-4 md:w-1/2">
-                  <div className="relative z-10 my-50">
-                    <div className="relative overflow-hidden rounded-2xl shadow-xl">
-                      <img
-                        src={pic5}
-                        alt="Student learning cybersecurity"
-                        className="w-full h-64 sm:h-72 md:h-80 object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#f2600b]/30 to-black/50 mix-blend-multiply">
-                      </div>
-                    </div>
-                    <span className="absolute -bottom-7 -right-7 z-[-1]">
-                      <svg
-                        width="134"
-                        height="106"
-                        viewBox="0 0 134 106"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <circle
-                          cx="1.66667"
-                          cy="104"
-                          r="1.66667"
-                          transform="rotate(-90 1.66667 104)"
-                          fill="#f2600b"
-                        />
-                        <circle
-                          cx="16.3333"
-                          cy="104"
-                          r="1.66667"
-                          transform="rotate(-90 16.3333 104)"
-                          fill="#f2600b"
-                        />
-                        <circle
-                          cx="31"
-                          cy="104"
-                          r="1.66667"
-                          transform="rotate(-90 31 104)"
-                          fill="#f2600b"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* What is Krafo Systems — centered mark flanked by meaning */}
+      <section className="relative overflow-hidden bg-black py-20 lg:py-28">
+        <style>{`.hero-display { font-family: 'Proxon', sans-serif; }`}</style>
 
-            {/* Content Column */}
-            <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
-              <div className="mt-6 lg:mt-0">
-                <span className="mb-4 block text-lg font-semibold text-[#f2600b] tracking-wider">
-                  WHAT OUR NAME REPRESENTS
-                </span>
+        {/* Ambient glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-100"
+          style={{
+            background:
+              "radial-gradient(45% 45% at 50% 40%, rgba(242,96,11,0.10), transparent 70%)",
+          }}
+        />
 
-                <h2 className="mb-5 text-2xl sm:text-3xl md:text-[40px]/[48px] font-bold text-white uppercase">
-                  PROTECTING AFRICA'S{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f2600b] to-[#ffb142]">
-                    CYBER FUTURE
-                  </span>
-                </h2>
-                <p className="mb-5 text-base text-gray-300 leading-relaxed">
-                  Krafo Systems comes from the Akan word “KRA,” meaning the soul—
-                  divine in origin, holding life, consciousness, and destiny. “KRAFO”
-                  means “Togetherness of souls,” and “Systems” symbolizes unity toward
-                  a higher goal. Our mission is to protect Africa physically and
-                  spiritually, using cybersecurity to guard against threats online and
-                  offline.
-                </p>
-                <p className="mb-8 text-base text-gray-300 leading-relaxed">
-                  Our motto, “Let’s Connect & Protect,” draws from Ubuntu: “I am
-                  because we are.” This philosophy values community over
-                  individuality, recognizing that relationships shape identity. In an
-                  increasingly divided world, we promote interdependence, empathy, and
-                  responsibility—connecting people to strengthen collective defenses
-                  for a safer, more harmonious, and sustainable future.
-                </p>
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 md:px-8">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-3xl text-center"
+          >
+            <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+            <span className="text-sm font-semibold uppercase tracking-wider text-[#ff8534]">
+              Our Name
+            </span>
+            <h2 className="hero-display mt-3 text-3xl font-extrabold tracking-tight text-white md:text-5xl">
+              What is <span className="text-[#F2600B]">Krafo Systems</span>
+            </h2>
+            <p className="mt-4 text-base text-gray-300 md:text-lg">
+              A name that carries our mission — a collection of souls, working as one
+              to develop, defend, and protect a sovereign digital future for Africa.
+            </p>
+          </motion.div>
 
-                {/* Stats Section */}
-                {/* <div className="mb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                  <div className="bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl text-center hover:transform hover:-translate-y-1 transition-all border">
-                    <h3 className="mb-2 text-3xl sm:text-4xl font-bold text-[#f2600b]">
-                      500+
-                    </h3>
-                    <p className="text-sm text-gray-400">SECURED ORGANIZATIONS</p>
-                  </div>
-                  <div className="bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl text-center hover:transform hover:-translate-y-1 transition-all border">
-                    <h3 className="mb-2 text-3xl sm:text-4xl font-bold text-[#f2600b]">
-                      92%
-                    </h3>
-                    <p className="text-sm text-gray-400">SATISFACTION RATE</p>
-                  </div>
-                  <div className="bg-[#0E0E0E] p-7 shadow-2xl ring-1 ring-[#F2600B55] rounded-xl text-center hover:transform hover:-translate-y-1 transition-all border">
-                    <h3 className="mb-2 text-3xl sm:text-4xl font-bold text-[#f2600b]">
-                      10+
-                    </h3>
-                    <p className="text-sm text-gray-400">AFRICAN COUNTRIES</p>
-                  </div>
-                </div> */}
-
-                {/* <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-[#f2600b] px-6 sm:px-7 py-3 text-center text-sm sm:text-base font-medium text-white hover:bg-[#d45509] transition-colors tracking-wider uppercase">
-                  Get Started
-                </button> */}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* Our Journey Section */}
-      < section className="relative bg-black py-24 px-4 md:px-20 text-white font-body overflow-hidden" >
-        {/* Background with fixed positioning */}
-        < div className="absolute inset-0 -z-10 overflow-hidden" >
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              background: "linear-gradient(to top right, #F2600B, rgba(242, 96, 11, 0.3))",
-              clipPath: "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-              transform: "translate3d(0, 0, 0)",
-              filter: "blur(50px)",
-            }}
-          ></div>
-        </div >
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-orange-500 via-yellow-400 to-red-500 bg-clip-text text-transparent">
-            Our Journey
-          </h2>
-
-          {/* Timeline wrapper */}
-          <div className="relative">
-            {/* Vertical Line */}
-            <div className="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 w-1 h-full bg-gradient-to-b from-orange-500 via-yellow-400 to-red-500 z-0 rounded-full"></div>
-
-            <div className="space-y-20">
+          {/* Feature layout: left items · center mark · right items */}
+          <div className="mt-14 grid grid-cols-1 items-center gap-10 lg:mt-20 lg:grid-cols-[1fr_auto_1fr] lg:gap-14">
+            {/* Left column (right-aligned toward the mark) */}
+            <div className="flex flex-col gap-10 lg:gap-14 lg:text-right">
               {[
                 {
-                  date: "March 2022",
-                  title: "Incorporated in Ghana",
-                  text: "Diacentric Data Solutions GH Ltd. - Incorporated in Ghana in March 2022",
-                  color: "bg-red-600",
+                  Icon: Sparkles,
+                  title: "The meaning of KRAFO",
+                  text: (
+                    <>
+                      In Ghana, “<strong className="font-bold text-white">KRA</strong>” means soul
+                      and “<strong className="font-bold text-white">FO</strong>” means multiple — so
+                      “KRAFO” is a collection of souls.
+                    </>
+                  ),
                 },
                 {
-                  date: "March 2023",
-                  title: "Rebranded to Krafo Systems",
-                  text: "Rebranded as Krafo Systems and Launched FREE Hacking The Human Mind Workshop (HTHM) in the Fall of 2023 ",
-                  color: "bg-orange-500",
+                  Icon: Users,
+                  title: "A collection of souls",
+                  text: "Our internal team, our external partners, our clients, and every individual whose capability, security, and confidence is strengthened through our work together.",
                 },
-                {
-                  date: "2024-Highlights(January-August)",
-                  title: "Major Achievements in Training & Capacity Building",
-                  text: "Held first in-person training: HTHM International Embassy of Suriname. Held Collaboration for Business Owners & Entrepreneurs to be Cyber Resilient.",
-                  color: "bg-yellow-400",
-                },
-                {
-                  date: "In the Fall of 2024",
-                  title: "Driving Cyber Resilience",
-                  text: " Launched In-person Cybersecurity Capacity Building Course CCBC. First CCBC Graduates.",
-                  color: "bg-orange-600",
-                },
-               
-                {
-                  date: "2025",
-                  title: "Expanding our Reach",
-                  text: "20+ Strong Partners",
-                  color: "bg-red-700",
-                },
-              ].map((item, index) => (
-                <div
-                  key={index}
-                  className={`relative flex ${index % 2 === 0 ? "justify-start" : "justify-end"}`}
+              ].map((f, i) => (
+                <motion.div
+                  key={f.title}
+                  initial={{ opacity: 0, x: -24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="group flex items-start gap-4 lg:flex-row-reverse lg:text-right"
                 >
-                  {/* Timeline Card */}
-                  <div
-                    className={`relative bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border border-orange-700/40 rounded-xl p-6 shadow-xl transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02] w-full md:w-[45%]`}
-                  >
-                    {/* Circle Marker */}
-                    <span
-                      className={`absolute top-6 ${index % 2 === 0 ? "-right-3 md:-right-3" : "-left-3 md:-left-3"
-                        } w-6 h-6 ${item.color} rounded-full border-4 border-[#0B0B0C] shadow-xl z-10`}
-                    ></span>
-
-                    <time className="text-xs font-medium text-orange-300 block mb-1">{item.date}</time>
-                    <h3 className="text-xl font-semibold text-orange-400 mb-1">{item.title}</h3>
-                    <p className="text-gray-300 text-sm leading-relaxed">{item.text}</p>
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#F2600B]/25 bg-[#F2600B]/10 text-[#F2600B] transition-colors duration-300 group-hover:border-[#F2600B]/60 group-hover:bg-[#F2600B]/20">
+                    <f.Icon size={22} />
                   </div>
-                </div>
+                  <div>
+                    <h3 className="hero-display text-lg font-semibold text-[#F2600B]">{f.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-gray-200">{f.text}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Center — the KRAFO mark */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="relative mx-auto flex items-center justify-center py-4"
+            >
+              <div className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-[#F2600B]/15 blur-3xl" />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute h-64 w-64 rounded-full border border-[#F2600B]/15 md:h-80 md:w-80"
+              />
+              <img
+                src={KrafoMark}
+                alt="Krafo Systems mark"
+                className="w-44 max-w-none object-contain drop-shadow-[0_0_35px_rgba(242,96,11,0.35)] md:w-56"
+              />
+            </motion.div>
+
+            {/* Right column (left-aligned away from the mark) */}
+            <div className="flex flex-col gap-10 lg:gap-14">
+              {[
+                {
+                  Icon: Layers,
+                  title: "Systems",
+                  text: "Separate components and elements, each distinct and purposeful, coming together to form a greater whole.",
+                },
+                {
+                  Icon: ShieldCheck,
+                  title: "For us, by us",
+                  text: "Together we develop, enhance, defend, and protect what we create — committed to the people and the sovereign future of this continent.",
+                },
+              ].map((f, i) => (
+                <motion.div
+                  key={f.title}
+                  initial={{ opacity: 0, x: 24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="group flex items-start gap-4"
+                >
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#F2600B]/25 bg-[#F2600B]/10 text-[#F2600B] transition-colors duration-300 group-hover:border-[#F2600B]/60 group-hover:bg-[#F2600B]/20">
+                    <f.Icon size={22} />
+                  </div>
+                  <div>
+                    <h3 className="hero-display text-lg font-semibold text-[#F2600B]">{f.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-gray-200">{f.text}</p>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </div>
-      </section >
+      </section>
+
+
+      {/* Our Journey Section — left-rail timeline */}
+      <section className="relative overflow-hidden bg-black py-24 px-4 md:px-20 text-white font-body">
+        <style>{`.hero-display { font-family: 'Proxon', sans-serif; }`}</style>
+
+        {/* Ambient glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(50% 40% at 15% 20%, rgba(242,96,11,0.12), transparent 70%)",
+          }}
+        />
+
+        <div className="relative z-10 mx-auto max-w-5xl">
+          {/* Heading — site style */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-16 text-center"
+          >
+            <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+            <span className="text-sm font-semibold uppercase tracking-wider text-[#ff8534]">
+              Our Story
+            </span>
+            <h2 className="hero-display mt-3 text-3xl font-extrabold tracking-tight text-white md:text-5xl">
+              Our <span className="text-[#F2600B]">Journey</span>
+            </h2>
+          </motion.div>
+
+          {/* Timeline — alternating left/right with icon nodes */}
+          <div className="relative">
+            {/* Spine: left rail on mobile, centered on desktop */}
+            <div className="absolute left-6 top-2 bottom-2 w-px bg-gradient-to-b from-[#F2600B] via-[#F2600B]/40 to-transparent md:left-1/2 md:-translate-x-1/2" />
+
+            <div className="space-y-8 md:space-y-0">
+              {[
+                {
+                  date: "March 2022",
+                  year: "22",
+                  title: "Incorporated in Ghana",
+                  text: "Diacentric Data Solutions GH Ltd. incorporated in Ghana — the foundation of what would become Krafo Systems.",
+                  Icon: Building2,
+                },
+                {
+                  date: "March 2023",
+                  year: "23",
+                  title: "Rebranded to Krafo Systems",
+                  text: "Rebranded as Krafo Systems and launched the free Hacking The Human Mind (HTHM) workshop in the Fall of 2023.",
+                  Icon: Sparkles,
+                },
+                {
+                  date: "Jan–Aug 2024",
+                  year: "24",
+                  title: "Training & Capacity Building",
+                  text: "Held our first in-person training — HTHM at the International Embassy of Suriname — plus a collaboration helping business owners and entrepreneurs become cyber resilient.",
+                  Icon: GraduationCapIcon,
+                },
+                {
+                  date: "Fall 2024",
+                  year: "24",
+                  title: "Driving Cyber Resilience",
+                  text: "Launched the in-person Cybersecurity Capacity Building Course (CCBC) and celebrated our first CCBC graduates.",
+                  Icon: ShieldCheck,
+                },
+                {
+                  date: "2025",
+                  year: "25",
+                  title: "Expanding Our Reach",
+                  text: "Growing across the continent with 20+ strong partners championing a safer digital Africa.",
+                  Icon: Globe,
+                },
+              ].map((item, index) => {
+                const Icon = item.Icon;
+                const onLeft = index % 2 === 0;
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: onLeft ? -30 : 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.5 }}
+                    className="group relative md:grid md:grid-cols-2 md:items-center md:gap-x-16"
+                  >
+                    {/* Card */}
+                    <div
+                      className={`pl-20 md:pl-0 py-2 md:py-8 ${
+                        onLeft ? "md:col-start-1 md:pr-16 md:text-right" : "md:col-start-2 md:pl-16"
+                      }`}
+                    >
+                      <div className="relative overflow-hidden rounded-xl border border-[#F2600B]/20 bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] p-5 shadow-xl transition-all duration-300 group-hover:border-[#F2600B]/50 group-hover:shadow-[0_0_30px_rgba(242,96,11,0.2)] md:p-6">
+                        {/* Large faint year watermark */}
+                        <span
+                          aria-hidden="true"
+                          className={`hero-display pointer-events-none absolute -top-4 select-none text-7xl font-extrabold leading-none text-white/[0.04] md:text-8xl ${
+                            onLeft ? "left-2" : "right-2"
+                          }`}
+                        >
+                          &apos;{item.year}
+                        </span>
+
+                        <time className="relative inline-block rounded-full border border-[#F2600B]/30 bg-[#F2600B]/10 px-3 py-1 text-xs font-semibold text-[#ff8534]">
+                          {item.date}
+                        </time>
+                        <h3 className="hero-display relative mt-3 text-lg font-bold text-white md:text-xl">
+                          {item.title}
+                        </h3>
+                        <p className="relative mt-2 text-sm leading-relaxed text-gray-300">{item.text}</p>
+                      </div>
+                    </div>
+
+                    {/* Icon node — on the spine */}
+                    <span className="absolute left-6 top-6 z-10 -translate-x-1/2 md:left-1/2 md:top-1/2 md:-translate-y-1/2">
+                      {/* pulsing halo */}
+                      <span className="absolute inset-0 rounded-2xl bg-[#F2600B]/25 blur-md transition-all duration-300 group-hover:bg-[#F2600B]/40" />
+                      <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl border border-[#F2600B]/50 bg-[#0c0705] text-[#F2600B] shadow-[0_0_18px_rgba(242,96,11,0.55)] ring-4 ring-black transition-transform duration-300 group-hover:scale-110 md:h-14 md:w-14">
+                        <Icon size={22} />
+                      </span>
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
       {/* Meet Our Team Section */}
       < section className="bg-[#000000] py-16 px-4 md:px-20 pt-0 text-white font-body relative" >
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">Meet The Co-Founders</h2>
-            <div className="h-1 w-20 bg-gradient-to-r from-orange-500 to-yellow-500 mx-auto mb-6 rounded-full"></div>
-            <p className="text-gray-400 text-lg">The two founders behind Krafo Systems, driving our mission to secure Africa's digital future.</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-3xl mx-auto">
-            {[
-
-              {
-                name: "Komla Elikem",
-                role: "CEO & Founder",
-                desc: "Visionary leader with 15+ years in tech innovation.",
-                image: CeoPic,
-                linkedin: "https://www.linkedin.com/in/komla-m-a2a915253/",
-                twitter: "#"
-              },
-              {
-                name: "Mamaga Ami Fafali Mathis",
-                role: "Co-Founder & CTO",
-                desc: "Renowned Systems Engineer and Cybersecurity Expert.",
-                image: CooPic,
-                linkedin: "https://www.linkedin.com/in/amifafali/",
-                twitter: "#"
-              },
-
-            ].map((member, idx) => (
-              <div key={idx} className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[#F2600B0D] to-[#2726261a] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-full aspect-[3/4] object-cover object-center transform group-hover:scale-105 transition duration-300 ease-in-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6">
-                  <div className="flex space-x-4">
-                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5C3.88 3.5 3 4.38 3 5.48s.88 1.98 1.98 1.98c1.1 0 1.98-.88 1.98-1.98S6.08 3.5 4.98 3.5zM3 8h4v13H3V8zm7.5 0h3.4v1.8h.05c.47-.89 1.63-1.8 3.35-1.8 3.6 0 4.27 2.37 4.27 5.45V21h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.18 0-2.52 1.7-2.52 3.45V21h-4V8z" /></svg>
-                    </a>
-                    {member.twitter && member.twitter !== '#' && (
-                      <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="bg-white text-black hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.298 1.634 4.212 3.791 4.649-.69.188-1.43.23-2.187.085.629 1.956 2.445 3.379 4.6 3.419-2.07 1.623-4.678 2.588-7.52 2.588-1.001 0-1.982-.05-2.95-.172 2.682 1.728 5.873 2.746 9.342 2.746 11.209 0 17.323-9.293 17.323-17.324 0-.264-.006-.527-.018-.788.94-.678 1.757-1.524 2.409-2.494z" /></svg>
-                      </a>
-                    )}
-                  </div>
-                </div>
-                <div className="text-center px-4 py-6">
-                  <h3 className="text-xl font-semibold text-white">{member.name}</h3>
-                  <p className="text-orange-500 font-medium">{member.role}</p>
-                  <p className="text-gray-400 mt-2 text-sm">{member.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section >
-
-      {/* Who We Serve Section */}
-      < section className="py-6 bg-brand-dark bg-black text-[#F2600B] text-brand-dark-foreground px-8 md:px-16" >
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-brand-orange">Who We Serve</h2>
-          <p className="text-xl text-muted-foreground mb-16 max-w-3xl mx-auto text-white">
-            We provide cybersecurity education and consultation to various sectors across Africa
-          </p>
-
-          <div className="grid gap-8 md:grid-cols-3">
-            {/* Card 1 */}
-            <div className="group rounded-xl border border-[#F2600B33] bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] backdrop-blur-md p-8 transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
-              <div className="flex justify-center mb-6">
-                <div className="bg-[#F2600B1A] p-4 rounded-full border border-[#F2600B33]">
-                  <GraduationCapIcon className="w-8 h-8 text-[#F2600B]" />
-                </div>
-              </div>
-              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors"> Educational Sector</h3>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                Developing cyber awareness through education from high school foundations to advanced university programs and research initiatives to build a truly security-conscious generation.
-              </p>
-            </div>
-
-            {/* Card 2 */}
-            <div className="group rounded-xl border border-[#F2600B33] bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] backdrop-blur-md p-8 transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
-              <div className="flex justify-center mb-6">
-                <div className="bg-[#F2600B1A] p-4 rounded-full border border-[#F2600B33]">
-                  <FactoryIcon className="w-8 h-8 text-brand-orange" />
-                </div>
-              </div>
-              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors">Industries</h3>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                Enterprise cybersecurity training that meets regulatory requirements while transforming employees into your strongest defense.
-              </p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="group rounded-xl border border-[#F2600B33] bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] backdrop-blur-md p-8 transition-all duration-300 hover:shadow-[0_0_30px_#F2600B33] hover:scale-[1.02]">
-              <div className="flex justify-center mb-6">
-                <div className="bg-[#F2600B1A] p-4 rounded-full border border-[#F2600B33]">
-                  <Building2 className="w-8 h-8 text-brand-orange" />
-                </div>
-              </div>
-              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#F2600B] transition-colors">  Government Institutions</h3>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                Public sector cybersecurity training that safeguards government operations and builds digital trust across Africa.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section >
-      {/* Our Mission Section */}
-      <section className="bg-black text-white py-20 px-4 md:px-20 overflow-hidden pb-0 mb-0">
-        <div className="grid grid-cols-1 md:grid-cols-6 md:grid-rows-2 gap-6 items-stretch">
-          {/* Text Block */}
-          <div className="md:col-span-3 md:row-span-2 flex flex-col justify-center items-start p-6 bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] rounded-xl shadow-lg relative overflow-hidden">
-            {/* Glow */}
-            <div className="absolute -z-10 inset-0 bg-gradient-to-tr from-[#F2600B11] via-transparent to-transparent blur-2xl" />
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-              Join Our <span className="text-[#F2600B]">Mission</span>
+            <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+            <span className="text-sm font-semibold uppercase tracking-wider text-[#ff8534]">
+              Leadership
+            </span>
+            <h2 className="hero-display mt-3 text-3xl md:text-5xl font-extrabold tracking-tight text-white">
+              Meet The <span className="text-[#F2600B]">Co-Founders</span>
             </h2>
-            <p className="text-gray-300 text-base md:text-lg mb-6 max-w-md">
-              Be part of the cybersecurity revolution. Together, we can build a safer digital world for everyone.
-            </p>
-           <a
-                href="https://calendly.com/krafosystems"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#F2600B] text-white px-6 py-3 rounded-md text-sm sm:text-base font-medium hover:bg-[#e05600] transition w-full sm:w-auto text-center">
-                Get Started Today
-              </a>
+            <p className="mt-4 text-gray-300 text-lg">The two founders behind Krafo Systems, driving our mission to secure Africa's digital future.</p>
           </div>
 
-          {/* Animated Image Tiles - Desktop */}
-          <div className="hidden md:contents">
-            {missionImages.map((image) => (
-              <motion.div
-                key={image.alt}
-                initial={{ y: -5 }}
-                animate={{ y: 5 }}
-                transition={{
-                  repeat: Infinity,
-                  duration: image.duration,
-                  repeatType: "reverse",
-                  ease: "easeInOut",
-                }}
-                className={`bg-[#1A1A1C] rounded-xl shadow-md overflow-hidden group ${image.className}`}
-              >
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </motion.div>
+          <div className="flex flex-col gap-16 md:gap-24 max-w-5xl mx-auto">
+            {[
+              {
+                name: "Mr. Komla Elikem",
+                aka: "aka Jermale D. Mathis",
+                role: "Co-Founder / CEO",
+                image: KomlaPic,
+                side: "right",
+                linkedin: "https://www.linkedin.com/in/komla-m-a2a915253/",
+                bio: [
+                  { label: "ICT/Cybersecurity Professional", text: "Over 25 years of experience with the U.S. Department of Defense and the private sector." },
+                  { label: "Global Collaborator", text: "Extensive experience in R&D, international IT projects, and education and training." },
+                  { label: "Advocate for Critical Thinking", text: "Champions problem-solving and critical thinking as essential tools for driving innovative solutions." },
+                  { label: "Initiative Creator", text: "Founded Hacking The Human Mind to emphasize the importance of protecting the mind as a critical asset." },
+                  { label: "Africa-Focused Vision", text: "Advocates for self-reliance and reducing external influences to combat insider threats." },
+                  { label: "Dedicated Leader", text: "Committed to building resilient systems shaped by extensive experience and a belief in limitless potential." },
+                ],
+              },
+              {
+                name: "Mrs. Mamaga Ami Fafali",
+                aka: "aka Marie A. Mathis",
+                role: "Co-Founder / COO",
+                image: AmiPic,
+                side: "left",
+                linkedin: "https://www.linkedin.com/in/amifafali/",
+                bio: [
+                  { label: "Cybersecurity Expert", text: "25+ years of experience with a degree in Cybersecurity and multiple certifications." },
+                  { label: "Specialized Skills", text: "Expertise in ICT audits, compliance, network defense, and policy creation." },
+                  { label: "Youth-Centric Approach", text: "Advocates for empowering young minds as the foundation of security." },
+                  { label: "Initiative Creator", text: "Founded the Cybersecurity Capacity Building Initiative to address Africa's digital challenges." },
+                  { label: "CyberBytes Leader", text: "Inspires and trains Africa's next generation of cyber defenders." },
+                  { label: "Visionary Goal", text: "Building a digitally resilient Africa led by empowered youth." },
+                ],
+              },
+            ].map((member, idx) => (
+              <CoFounderCard key={idx} member={member} />
             ))}
           </div>
+        </div>
+      </section >
 
-          {/* Animated Image Tiles - Mobile */}
-          <div className="md:hidden col-span-1 space-y-6 mt-10">
-            {missionImages.map((image, idx) => (
+      {/* What We Do — capability orbit */}
+      <section className="relative overflow-hidden bg-black py-20 px-4 md:px-20 md:py-28">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{ background: "radial-gradient(45% 45% at 80% 30%, rgba(242,96,11,0.10), transparent 70%)" }}
+        />
+        <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+            <span className="text-sm font-semibold uppercase tracking-wider text-[#ff8534]">
+              What We Do
+            </span>
+            <h2 className="hero-display mt-3 text-3xl font-extrabold tracking-tight text-white md:text-5xl">
+              We build it. <br />
+              <span className="text-[#F2600B]">We secure it.</span>
+            </h2>
+            <p className="mt-5 max-w-md text-base text-gray-300 md:text-lg">
+              Krafo is a single partner for the two things every modern business needs — the
+              digital products that grow you, and the security that protects what you&apos;ve built.
+              Hover to explore how the pieces fit together.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <CapabilityOrbit />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Who We Build For — audience switcher */}
+      <section className="relative bg-black py-20 px-4 md:px-20 md:py-24">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-12 text-center">
+            <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+            <span className="text-sm font-semibold uppercase tracking-wider text-[#ff8534]">
+              Who We Build For
+            </span>
+            <h2 className="hero-display mt-3 text-3xl font-extrabold tracking-tight text-white md:text-5xl">
+              Partners in <span className="text-[#F2600B]">every stage</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-gray-300">
+              From first-time founders to established institutions — pick where you are and see how we help.
+            </p>
+          </div>
+          <AudienceSwitcher />
+        </div>
+      </section>
+      {/* How We Work — process rail */}
+      <section className="relative overflow-hidden bg-black py-20 px-4 md:px-20 md:py-24">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{ background: "radial-gradient(45% 40% at 25% 30%, rgba(242,96,11,0.10), transparent 70%)" }}
+        />
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-14 text-center">
+            <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+            <span className="text-sm font-semibold uppercase tracking-wider text-[#ff8534]">
+              How We Work
+            </span>
+            <h2 className="hero-display mt-3 text-3xl font-extrabold tracking-tight text-white md:text-5xl">
+              From idea to <span className="text-[#F2600B]">impact</span>
+            </h2>
+          </div>
+
+          <div className="relative grid gap-6 md:grid-cols-4">
+            {/* Connecting line (desktop) */}
+            <div className="absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-[#F2600B]/40 to-transparent md:block" />
+            {[
+              { Icon: Compass, step: "01", title: "Discover", text: "We learn your business, your users and your risks — then map the fastest path to real value." },
+              { Icon: PenTool, step: "02", title: "Design", text: "Wireframes, architecture and a security model — agreed before a single line of code." },
+              { Icon: Rocket, step: "03", title: "Build & Secure", text: "We ship in focused sprints with testing and security built into every step, not the end." },
+              { Icon: LifeBuoy, step: "04", title: "Support", text: "Launch is the start. We monitor, maintain and evolve the product as you grow." },
+            ].map((s, i) => {
+              const StepIcon = s.Icon;
+              return (
+                <motion.div
+                  key={s.step}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="group relative"
+                >
+                  <span className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl border border-[#F2600B]/40 bg-[#0c0705] text-[#F2600B] shadow-[0_0_18px_rgba(242,96,11,0.4)] ring-4 ring-black transition-transform duration-300 group-hover:scale-110">
+                    <StepIcon size={24} />
+                  </span>
+                  <span className="hero-display mt-5 block text-xs font-bold tracking-widest text-[#ff8534]">
+                    {s.step}
+                  </span>
+                  <h3 className="hero-display mt-1 text-xl font-bold text-white">{s.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-300">{s.text}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+      {/* Principles — editorial big-index list */}
+      <section className="relative bg-black py-20 px-4 md:px-20 md:py-24 text-white font-body">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-12 text-center">
+            <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+            <span className="text-sm font-semibold uppercase tracking-wider text-[#ff8534]">
+              What We Stand For
+            </span>
+            <h2 className="hero-display mt-3 text-3xl md:text-5xl font-extrabold tracking-tight text-white">
+              Our <span className="text-[#F2600B]">Principles</span>
+            </h2>
+          </div>
+
+          <div className="border-t border-white/10">
+            {[
+              { title: "Afrocentricity", text: "Built for the African context — championing local capability, ownership and self-reliance." },
+              { title: "Ethical Practice", text: "Integrity in every engagement. We do what's right for your business, not just what's billable." },
+              { title: "Partnership", text: "We build long-term relationships, working alongside your team to solve hard problems together." },
+              { title: "Adaptability", text: "Flexible solutions that evolve with your business and the shifting threat landscape." },
+              { title: "Foresight", text: "Proactive, not reactive — we anticipate what's next so you're ready before it arrives." },
+            ].map((p, i) => (
               <motion.div
-                key={image.alt}
-                initial={{ y: idx % 2 === 0 ? -10 : 10 }}
-                animate={{ y: idx % 2 === 0 ? 10 : -10 }}
-                transition={{
-                  repeat: Infinity,
-                  duration: image.duration,
-                  repeatType: "reverse",
-                  ease: "easeInOut",
-                }}
-                className="bg-[#1A1A1C] rounded-xl shadow-md overflow-hidden group"
+                key={p.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.45, delay: i * 0.05 }}
+                className="group flex items-baseline gap-6 border-b border-white/10 py-6 md:gap-10 md:py-8"
               >
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-60 object-cover transition-transform duration-300 group-hover:scale-105"
-                />
+                <span className="hero-display shrink-0 text-4xl font-extrabold leading-none text-white/10 transition-colors duration-300 group-hover:text-[#F2600B]/70 md:text-6xl">
+                  0{i + 1}
+                </span>
+                <div>
+                  <h3 className="hero-display text-xl font-bold text-white transition-colors duration-300 group-hover:text-[#F2600B] md:text-2xl">
+                    {p.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-400 transition-colors duration-300 group-hover:text-gray-200 md:text-base">
+                    {p.text}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
-      {/* Core Values Section */}
-      <section className="bg-[#000000] py-20 px-4 md:px-20 text-white font-body relative">
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-orange-500 to-yellow-400 bg-clip-text text-transparent">
-            Our Core Values
+
+      {/* Closing CTA band */}
+      <section className="relative overflow-hidden border-t border-[#F2600B]/10 bg-black py-20 md:py-28">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{ background: "radial-gradient(60% 70% at 50% 0%, rgba(242,96,11,0.18), transparent 70%)" }}
+        />
+        <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
+          <h2 className="hero-display text-3xl font-extrabold tracking-tight text-white md:text-5xl">
+            Let&apos;s <span className="text-[#F2600B]">build it</span> — and{" "}
+            <span className="text-[#F2600B]">secure it.</span>
           </h2>
-          <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-12">
-            These values guide our mission to secure Africa's digital ecosystem.
+          <p className="mx-auto mt-4 max-w-xl text-gray-300 md:text-lg">
+            Whether you&apos;re launching something new or protecting what you&apos;ve built, Krafo is
+            one partner for both. Let&apos;s talk about where you&apos;re headed.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
-            {/* Card 1 - Protect */}
-            <div className="bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border-y-2 border-orange-500/40 p-6 rounded-2xl transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_#F2600B44] group">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-orange-500 flex items-center justify-center bg-black">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-orange-400 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-orange-400 group-hover:text-white transition-colors duration-300">
-                Afrocentricity
-              </h3>
-              <p className="text-gray-400 mt-2 text-sm leading-relaxed group-hover:text-white transition-colors">
-                Solutions designed with the African context in mind, supporting African development and self-reliance
-              </p>
-            </div>
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <a
+              href="https://calendly.com/krafosystems"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#F2600B] px-8 py-3.5 font-semibold text-white shadow-lg shadow-[#F2600B]/30 transition hover:bg-[#d94f00]"
+            >
+              Book a Consultation <ArrowUpRight size={18} />
+            </a>
+            <HashLink
+              smooth
+              to="/services"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-3.5 font-semibold text-white transition hover:border-[#F2600B]/60 hover:text-[#ff8534]"
+            >
+              Explore our services <ArrowRight size={18} />
+            </HashLink>
+          </div>
 
-            {/* Card 2 - Prevent */}
-            <div className="bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border-y-2 border-yellow-500/90 p-6 rounded-2xl transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_#FFC10755] group">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-yellow-400 flex items-center justify-center bg-black">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-yellow-400 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-yellow-400 group-hover:text-white transition-colors duration-300">
-                Ethical Practice
-              </h3>
-              <p className="text-gray-400 mt-2 text-sm leading-relaxed group-hover:text-white transition-colors">
-                Trust-building through consistent ethics and integrity in all business dealings
-              </p>
-            </div>
-
-            {/* Card 3 - Educate */}
-            <div className="bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border-y-2 border-red-900/90 p-6 rounded-2xl transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_#FF4D4D88] group">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-red-900 flex items-center justify-center bg-black">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-red-500 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5V4H2v16h5m10-8l-4-4m0 0l-4 4m4-4v12" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-red-900 group-hover:text-white transition-colors duration-300">
-                Collaboration
-              </h3>
-              <p className="text-gray-400 mt-2 text-sm leading-relaxed group-hover:text-white transition-colors">
-                Building long-term relationships by working together to solve complex security challenges
-              </p>
-            </div>
-
-            {/* Card 4 - Innovate */}
-            <div className="bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border-y-2 border-green-500/70 p-6 rounded-2xl transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_#22c55e55] group">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-green-500 flex items-center justify-center bg-black">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-green-500 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5V4H2v16h5m10-8l-4-4m0 0l-4 4m4-4v12" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-green-500 group-hover:text-white transition-colors duration-300">
-                Adaptability
-              </h3>
-              <p className="text-gray-400 mt-2 text-sm leading-relaxed group-hover:text-white transition-colors">
-                Responsive to changing client needs with flexible solutions that evolve with threats.
-              </p>
-            </div>
-
-            {/* Card 5 - Collaborate */}
-            <div className="bg-gradient-to-br from-[#F2600B0D] to-[#0000001A] border-y-2 border-blue-500/70 p-6 rounded-2xl transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_#3b82f655] group">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-blue-500 flex items-center justify-center bg-black">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-blue-500 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} >
-                  {/* Eye outline */}
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  {/* Pupil */}
-                  <circle cx="12" cy="12" r="3" />
-                  {/* Sparkle for foresight */}
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 3l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-blue-500 group-hover:text-white transition-colors duration-300">
-                Wisdom / Foresight
-              </h3>
-              <p className="text-gray-400 mt-2 text-sm leading-relaxed group-hover:text-white transition-colors">
-                Proactive rather than reactive security, anticipating future threats and trends
-              </p>
-            </div>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+            <span>CSA-Licensed</span>
+            <span className="text-[#F2600B]">·</span>
+            <span>DPC-Registered</span>
+            <span className="text-[#F2600B]">·</span>
+            <span>Based in Ghana</span>
+            <span className="text-[#F2600B]">·</span>
+            <span>Est. 2022</span>
           </div>
         </div>
       </section>
