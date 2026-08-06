@@ -3,14 +3,26 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import {
     ArrowRight,
+    ArrowUpRight,
     ChevronDown,
     CalendarClock,
     Shield,
+    ShieldCheck,
     Users,
     Lock,
     Award,
     Star,
     Sparkles,
+    PhoneCall,
+    Search,
+    ClipboardCheck,
+    Map as MapIcon,
+    Mail,
+    Database,
+    Globe,
+    RefreshCw,
+    FileCheck,
+    Code,
 } from "lucide-react";
 import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
@@ -26,6 +38,14 @@ import certNetworkPlus from "../assets/images/Comptia Network+.png";
 import certAPlus from "../assets/images/Comptia A+.png";
 import certCSIS from "../assets/images/Comptia CSIS.png";
 import certCIOS from "../assets/images/Comptia CIOS.png";
+import bridgeVideo from "../assets/videos/software development.mp4";
+
+// Risk-area background images
+import riskPeople from "../assets/images/hackmind.jpeg";
+import riskData from "../assets/images/data2.jpg";
+import riskWeb from "../assets/images/penetration testing image.jpg";
+import riskContinuity from "../assets/images/Incident Response & Recovery.jpg";
+import riskCompliance from "../assets/images/policy management.jpg";
 
 const CALENDLY_URL = "https://calendly.com/krafosystems";
 
@@ -143,6 +163,195 @@ const StructuralGrid = () => (
         <rect width="100%" height="100%" fill="url(#grid)" />
     </svg>
 );
+
+// ── Testimonial as a phone mockup (reused by desktop grid + mobile) ─
+const TestimonialCard = ({ t, className = "" }) => (
+    <div className={`group relative mx-auto w-full max-w-[300px] transition-transform duration-500 ${className}`}>
+        {/* Ambient glow */}
+        <div className="pointer-events-none absolute -inset-3 rounded-[3rem] bg-[#F2600B]/10 blur-2xl opacity-60 transition-opacity duration-500 group-hover:opacity-100" />
+
+        {/* Phone bezel */}
+        <div className="relative rounded-[2.5rem] border border-white/10 bg-gradient-to-b from-[#1c1c1e] to-[#0a0a0a] p-2.5 shadow-2xl shadow-black/60">
+            {/* Notch */}
+            <div className="absolute left-1/2 top-2.5 z-20 h-5 w-20 -translate-x-1/2 rounded-b-2xl bg-black" />
+
+            {/* Screen */}
+            <div className="relative flex min-h-[430px] flex-col overflow-hidden rounded-[2rem] bg-[#0c0705]">
+                {/* Status bar */}
+                <div className="flex items-center justify-between px-6 pt-4 pb-2 text-[10px] font-medium text-gray-400">
+                    <span>9:41</span>
+                    <div className="flex items-center gap-1">
+                        <span className="h-2 w-2.5 rounded-sm bg-gray-500" />
+                        <span className="h-2 w-2.5 rounded-sm bg-gray-500" />
+                        <span className="h-2 w-4 rounded-[3px] border border-gray-500" />
+                    </div>
+                </div>
+
+                {/* Chat header */}
+                <div className="flex items-center gap-3 border-b border-white/5 px-4 py-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F2600B]/15 border border-[#F2600B]/30 text-xs font-bold text-[#F2600B]">
+                        {t.avatar}
+                    </div>
+                    <div className="min-w-0">
+                        <div className="flex items-center gap-1">
+                            <h4 className="hero-display truncate text-sm font-semibold text-white">{t.name}</h4>
+                            <span className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#F2600B] text-[8px] text-white">✓</span>
+                        </div>
+                        <p className="flex items-center gap-1 text-[10px] text-green-400">
+                            <span className="h-1.5 w-1.5 rounded-full bg-green-400" /> online
+                        </p>
+                    </div>
+                </div>
+
+                {/* Body — quote as an incoming chat bubble */}
+                <div className="flex-1 space-y-3 px-4 py-5">
+                    <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={12} className="fill-[#F2600B] text-[#F2600B]" />
+                        ))}
+                    </div>
+                    <div className="max-w-[92%] rounded-2xl rounded-tl-sm border border-[#F2600B]/20 bg-[#F2600B]/10 p-3.5 text-[13px] leading-relaxed text-gray-100">
+                        &ldquo;{t.quote}&rdquo;
+                    </div>
+                    <span className="block pl-1 text-[10px] text-gray-500">Delivered · just now</span>
+                </div>
+
+                {/* Input mock */}
+                <div className="border-t border-white/5 px-3 py-3">
+                    <div className="flex items-center justify-between rounded-full bg-white/5 px-4 py-2 text-[11px] text-gray-500">
+                        Message…
+                        <span className="text-[#F2600B]">➤</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
+// ── Shared section eyebrow (matches the About page system) ─────────
+const SectionEyebrow = ({ label }) => (
+    <>
+        <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+        <span className="text-sm font-semibold uppercase tracking-wider text-[#ff8534]">{label}</span>
+    </>
+);
+
+// ── Common risks we solve — interactive switcher (About-style) ─────
+const RISK_AREAS = [
+    {
+        key: "people",
+        Icon: Mail,
+        image: riskPeople,
+        label: "Phishing & People",
+        headline: "Your people are the front line",
+        text: "Most breaches start with a convincing email, not a clever hack. We train your team to spot and stop social engineering before it lands.",
+        help: ["Phishing simulations & coaching", "Security-awareness training", "Clear reporting playbooks"],
+    },
+    {
+        key: "data",
+        Icon: Database,
+        image: riskData,
+        label: "Data & Privacy",
+        headline: "Protect what you can't afford to lose",
+        text: "Customer records, financials, IP — we help you know where sensitive data lives, who can touch it, and how it's protected under Ghana's Data Protection Act.",
+        help: ["Data mapping & access reviews", "Encryption & backup strategy", "DPC-aligned privacy practices"],
+    },
+    {
+        key: "web",
+        Icon: Globe,
+        image: riskWeb,
+        label: "Web & App Security",
+        headline: "Ship without leaving the door open",
+        text: "Your website and apps are your storefront and your attack surface. We assess and harden them against the common exploits that take businesses down.",
+        help: ["Vulnerability assessments", "Secure configuration & hardening", "Ongoing monitoring"],
+    },
+    {
+        key: "continuity",
+        Icon: RefreshCw,
+        image: riskContinuity,
+        label: "Business Continuity",
+        headline: "Bounce back, fast",
+        text: "It's not if, but when. We help you prepare so an incident is a bad day — not the end of the business — with tested backups and a response plan.",
+        help: ["Incident response planning", "Tested backup & recovery", "Tabletop exercises"],
+    },
+    {
+        key: "compliance",
+        Icon: FileCheck,
+        image: riskCompliance,
+        label: "Compliance",
+        headline: "Meet the bar with confidence",
+        text: "Regulatory and client security requirements don't have to be a scramble. We translate the requirements into a practical, prioritised plan.",
+        help: ["Gap assessments", "Policy & control development", "Audit readiness"],
+    },
+];
+
+function RiskSwitcher() {
+    const [active, setActive] = useState(0);
+    const a = RISK_AREAS[active];
+    return (
+        <div>
+            <div className="mb-8 flex flex-wrap justify-center gap-2">
+                {RISK_AREAS.map((r, i) => {
+                    const TabIcon = r.Icon;
+                    return (
+                        <button
+                            key={r.key}
+                            type="button"
+                            onClick={() => setActive(i)}
+                            className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
+                                i === active
+                                    ? "bg-[#F2600B] text-white shadow-[0_0_20px_rgba(242,96,11,0.4)]"
+                                    : "border border-white/15 text-gray-300 hover:border-[#F2600B]/50 hover:text-white"
+                            }`}
+                        >
+                            <TabIcon size={15} /> {r.label}
+                        </button>
+                    );
+                })}
+            </div>
+
+            <motion.div
+                key={a.key}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="relative overflow-hidden rounded-2xl border border-[#F2600B]/20"
+            >
+                {/* Background image */}
+                <img
+                    src={a.image}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/65" />
+                <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"
+                />
+
+                {/* Glass content */}
+                <div className="relative grid gap-6 p-6 sm:p-8 md:grid-cols-2 md:gap-8 md:p-10">
+                    <div className="rounded-2xl border border-white/15 bg-white/10 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+                        <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#F2600B]/40 bg-[#F2600B]/10 text-[#F2600B]">
+                            <a.Icon size={24} />
+                        </span>
+                        <h3 className="hero-display mt-4 text-2xl font-bold text-white md:text-3xl">{a.headline}</h3>
+                        <p className="mt-3 leading-relaxed text-gray-100">{a.text}</p>
+                    </div>
+                    <ul className="space-y-3 self-center rounded-2xl border border-white/15 bg-white/10 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+                        {a.help.map((h) => (
+                            <li key={h} className="flex items-start gap-3 text-sm leading-relaxed text-gray-100">
+                                <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#F2600B]" />
+                                {h}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </motion.div>
+        </div>
+    );
+}
 
 // ── Main Component ─────────────────────────────────────────────────
 export default function Consultation() {
@@ -349,7 +558,7 @@ export default function Consultation() {
 
                         {/* Trust indicators */}
                         <motion.div
-                            className="mt-8 flex items-center gap-6 text-xs text-gray-500"
+                            className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-gray-500"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.5 }}
@@ -363,7 +572,16 @@ export default function Consultation() {
                                 <Shield size={14} className="text-[#F2600B]" />
                                 DPC Registered
                             </span>
-
+                            <span className="w-px h-4 bg-gray-800" />
+                            <span className="flex items-center gap-1.5">
+                                <Globe size={14} className="text-[#F2600B]" />
+                                Based in Ghana
+                            </span>
+                            <span className="w-px h-4 bg-gray-800" />
+                            <span className="flex items-center gap-1.5">
+                                <CalendarClock size={14} className="text-[#F2600B]" />
+                                Est. 2022
+                            </span>
                         </motion.div>
                     </motion.div>
                 </div>
@@ -440,7 +658,8 @@ export default function Consultation() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="hero-display text-3xl md:text-4xl font-extrabold">
+                        <SectionEyebrow label="Credentials" />
+                        <h2 className="hero-display mt-3 text-3xl md:text-4xl font-extrabold">
                             Certifications &amp; <span className="text-[#F2600B]">Accreditations</span>
                         </h2>
                         <p className="text-gray-400 max-w-xl mx-auto mt-3 text-balance">
@@ -501,7 +720,8 @@ export default function Consultation() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="hero-display text-3xl md:text-5xl font-extrabold tracking-tight">
+                        <SectionEyebrow label="Our Practice" />
+                        <h2 className="hero-display mt-3 text-3xl md:text-5xl font-extrabold tracking-tight">
                             Architectural <span className="text-[#F2600B]">Expertise</span>
                         </h2>
                         <p className="text-gray-400 max-w-2xl mx-auto mt-4 text-balance">
@@ -575,6 +795,30 @@ export default function Consultation() {
             </section>
 
             {/* ════════════════════════════════════════════════════════
+               RISK AREAS — Interactive switcher
+            ════════════════════════════════════════════════════════ */}
+            <section className="relative py-20 md:py-28 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B08,transparent_60%)]" />
+                <div className="max-w-5xl mx-auto px-6 lg:px-12 relative">
+                    <motion.div
+                        className="text-center mb-12"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <SectionEyebrow label="Where We Help" />
+                        <h2 className="hero-display mt-3 text-3xl md:text-4xl font-extrabold">
+                            Common risks we <span className="text-[#F2600B]">solve</span>
+                        </h2>
+                        <p className="text-gray-400 max-w-2xl mx-auto mt-3 text-balance">
+                            Pick the area that keeps you up at night and see exactly how we help.
+                        </p>
+                    </motion.div>
+                    <RiskSwitcher />
+                </div>
+            </section>
+
+            {/* ════════════════════════════════════════════════════════
                STRATEGY — Split Architectural
             ════════════════════════════════════════════════════════ */}
             <section className="relative py-20 md:py-28 overflow-hidden">
@@ -619,7 +863,11 @@ export default function Consultation() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.7 }}
                         >
-                            <h2 className="hero-display text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+                            <div className="mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+                            <span className="text-sm font-semibold uppercase tracking-wider text-[#ff8534]">
+                                Strategy
+                            </span>
+                            <h2 className="hero-display mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
                                 Building Cyber Resilience Through{" "}
                                 <span className="text-[#F2600B] relative">
                                     Strategic Partnership
@@ -681,6 +929,60 @@ export default function Consultation() {
             </section>
 
             {/* ════════════════════════════════════════════════════════
+               PROCESS — How a consultation works
+            ════════════════════════════════════════════════════════ */}
+            <section className="relative py-20 md:py-28 overflow-hidden bg-[#0a0a0a] border-y border-[#F2600B]/5">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_30%,#F2600B08,transparent_60%)]" />
+                <div className="max-w-6xl mx-auto px-6 lg:px-12 relative">
+                    <motion.div
+                        className="text-center mb-14"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <SectionEyebrow label="What To Expect" />
+                        <h2 className="hero-display mt-3 text-3xl md:text-4xl font-extrabold">
+                            How a consultation <span className="text-[#F2600B]">works</span>
+                        </h2>
+                        <p className="text-gray-400 max-w-2xl mx-auto mt-3 text-balance">
+                            No jargon, no pressure — just a clear path from first call to a plan you can act on.
+                        </p>
+                    </motion.div>
+
+                    <div className="relative grid gap-6 md:grid-cols-4">
+                        <div className="absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-[#F2600B]/40 to-transparent md:block" />
+                        {[
+                            { Icon: CalendarClock, step: "01", title: "Book", text: "Grab a free slot that suits you. It takes under a minute and there's no commitment." },
+                            { Icon: PhoneCall, step: "02", title: "Discovery Call", text: "We listen — your setup, your worries, your goals. You do most of the talking." },
+                            { Icon: Search, step: "03", title: "Findings & Quick Wins", text: "We surface your biggest risks in plain language, plus fixes you can act on right away." },
+                            { Icon: MapIcon, step: "04", title: "Your Roadmap", text: "A prioritised plan for what to tackle next — and how we can help if you'd like us to." },
+                        ].map((s, i) => {
+                            const StepIcon = s.Icon;
+                            return (
+                                <motion.div
+                                    key={s.step}
+                                    initial={{ opacity: 0, y: 24 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                                    className="group relative"
+                                >
+                                    <span className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl border border-[#F2600B]/40 bg-[#0c0705] text-[#F2600B] shadow-[0_0_18px_rgba(242,96,11,0.4)] ring-4 ring-[#0a0a0a] transition-transform duration-300 group-hover:scale-110">
+                                        <StepIcon size={24} />
+                                    </span>
+                                    <span className="hero-display mt-5 block text-xs font-bold tracking-widest text-[#ff8534]">
+                                        {s.step}
+                                    </span>
+                                    <h3 className="hero-display mt-1 text-xl font-bold text-white">{s.title}</h3>
+                                    <p className="mt-2 text-sm leading-relaxed text-gray-400">{s.text}</p>
+                                </motion.div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            {/* ════════════════════════════════════════════════════════
                TESTIMONIALS — Illuminated Cards
             ════════════════════════════════════════════════════════ */}
             <section className="relative py-20 md:py-28 overflow-hidden">
@@ -693,66 +995,56 @@ export default function Consultation() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="hero-display text-3xl md:text-4xl font-extrabold">
+                        <SectionEyebrow label="Proof" />
+                        <h2 className="hero-display mt-3 text-3xl md:text-4xl font-extrabold">
                             What Our <span className="text-[#F2600B]">Clients Say</span>
                         </h2>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                        {testimonials.map((t, idx) => (
-                            <motion.div
-                                key={idx}
-                                className="group relative glass-card rounded-2xl p-6 md:p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#F2600B]/5"
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "0px 0px -80px 0px" }}
-                                transition={{ duration: 0.5, delay: idx * 0.08 }}
-                            >
-                                {/* Avatar */}
-                                <div className="flex items-center gap-4 mb-5">
-                                    <div className="relative">
-                                        <div className="w-12 h-12 rounded-full bg-[#F2600B]/10 border border-[#F2600B]/20 flex items-center justify-center font-bold text-[#F2600B] text-sm">
-                                            {t.avatar}
-                                        </div>
-                                        <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#F2600B]/20 border border-[#F2600B]/30 flex items-center justify-center">
-                                            <span className="text-[8px] text-[#F2600B]">★</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h4 className="hero-display text-white font-semibold">{t.name}</h4>
-                                        {t.role && <p className="text-xs text-gray-400">{t.role}</p>}
-                                    </div>
-                                </div>
-
-                                {/* Stars */}
-                                <div className="flex gap-0.5 mb-3">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star key={i} size={14} className="fill-[#F2600B] text-[#F2600B] opacity-70" />
-                                    ))}
-                                </div>
-
-                                {/* Quote */}
-                                <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">
-                                    "{t.quote}"
-                                </p>
-
-                                {/* Decorative line */}
-                                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#F2600B]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                            </motion.div>
-                        ))}
+                    {/* Desktop grid — staggered phones */}
+                    <div className="hidden md:grid grid-cols-3 gap-6 md:gap-8 items-center">
+                        {testimonials.map((t, idx) => {
+                            const tilt = idx === 0 ? "md:-rotate-3 md:translate-y-4" : idx === 2 ? "md:rotate-3 md:translate-y-4" : "md:-translate-y-2";
+                            return (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+                                    transition={{ duration: 0.5, delay: idx * 0.08 }}
+                                >
+                                    <TestimonialCard t={t} className={`${tilt} hover:rotate-0 hover:translate-y-0`} />
+                                </motion.div>
+                            );
+                        })}
                     </div>
 
-                    {/* Mobile dots */}
-                    <div className="flex justify-center gap-2 mt-8 md:hidden">
-                        {testimonials.map((_, i) => (
-                            <button
-                                key={i}
-                                onClick={() => setActiveTestimonial(i)}
-                                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                    activeTestimonial === i ? "bg-[#F2600B] w-6" : "bg-[#F2600B]/30"
-                                }`}
-                            />
-                        ))}
+                    {/* Mobile carousel — one card, driven by the dots (auto-rotates) */}
+                    <div className="md:hidden">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={activeTestimonial}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.35 }}
+                            >
+                                <TestimonialCard t={testimonials[activeTestimonial]} />
+                            </motion.div>
+                        </AnimatePresence>
+
+                        <div className="flex justify-center gap-2 mt-8">
+                            {testimonials.map((_, i) => (
+                                <button
+                                    key={i}
+                                    aria-label={`Show testimonial ${i + 1}`}
+                                    onClick={() => setActiveTestimonial(i)}
+                                    className={`h-2 rounded-full transition-all duration-300 ${
+                                        activeTestimonial === i ? "bg-[#F2600B] w-6" : "bg-[#F2600B]/30 w-2"
+                                    }`}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
@@ -770,7 +1062,8 @@ export default function Consultation() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="hero-display text-3xl md:text-4xl font-extrabold">
+                        <SectionEyebrow label="Questions" />
+                        <h2 className="hero-display mt-3 text-3xl md:text-4xl font-extrabold">
                             Consultation <span className="text-[#F2600B]">FAQs</span>
                         </h2>
                     </motion.div>
@@ -834,12 +1127,71 @@ export default function Consultation() {
             {/* ════════════════════════════════════════════════════════
                FINAL CTA — Bridge to Action
             ════════════════════════════════════════════════════════ */}
+            {/* ════════════════════════════════════════════════════════
+               BRIDGE — We build it too
+            ════════════════════════════════════════════════════════ */}
+            <section className="relative py-16 md:py-20 overflow-hidden">
+                <div className="max-w-6xl mx-auto px-6 lg:px-12">
+                    <motion.div
+                        className="relative overflow-hidden rounded-2xl border border-[#F2600B]/20 p-8 md:p-12"
+                        initial={{ opacity: 0, y: 24 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        {/* Background video */}
+                        <video
+                            className="absolute inset-0 h-full w-full object-cover"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                        >
+                            <source src={bridgeVideo} type="video/mp4" />
+                        </video>
+                        <div className="absolute inset-0 bg-black/70" />
+                        <div
+                            aria-hidden="true"
+                            className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent"
+                        />
+
+                        <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+                            <div className="max-w-xl rounded-2xl border border-white/15 bg-white/10 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+                                <div className="mb-4 flex gap-2">
+                                    <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#F2600B]/40 bg-[#F2600B]/10 text-[#F2600B]"><Code size={18} /></span>
+                                    <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#F2600B]/40 bg-[#F2600B]/10 text-[#F2600B]"><ShieldCheck size={18} /></span>
+                                </div>
+                                <h2 className="hero-display text-2xl md:text-3xl font-extrabold text-white">
+                                    We don&apos;t just secure software — <span className="text-[#F2600B]">we build it too.</span>
+                                </h2>
+                                <p className="mt-3 text-gray-100 text-balance">
+                                    Websites, web apps and SaaS platforms — designed with security baked in from
+                                    day one. One partner for building and protecting what grows your business.
+                                </p>
+                            </div>
+                            <Link
+                                to="/services"
+                                className="group inline-flex shrink-0 items-center gap-2 rounded-full border border-white/20 bg-white/10 px-7 py-3.5 font-semibold text-white shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl transition-all duration-300 hover:border-[#F2600B] hover:bg-[#F2600B]/20"
+                            >
+                                Explore our services
+                                <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                            </Link>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* ════════════════════════════════════════════════════════
+               FINAL CTA — Bridge to Action
+            ════════════════════════════════════════════════════════ */}
             <section className="relative py-20 md:py-28 overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B10,transparent_70%)]" />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_80%,#F2600B06,transparent_50%)]" />
 
-                <div className="max-w-3xl mx-auto px-6 text-center relative">
+                <div className="max-w-6xl mx-auto px-6 relative">
+                    <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
                     <motion.div
+                        className="text-center lg:text-left"
                         initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
@@ -854,13 +1206,13 @@ export default function Consultation() {
                             </span>
                         </h2>
 
-                        <p className="text-gray-400 mt-4 max-w-xl mx-auto text-balance text-base md:text-lg">
+                        <p className="text-gray-400 mt-4 max-w-xl mx-auto lg:mx-0 text-balance text-base md:text-lg">
                             Book a free consultation and we'll help you identify your biggest risks
                             and the fastest wins — no jargon, no pressure. Just clarity.
                         </p>
 
                         <motion.div
-                            className="mt-8 flex flex-wrap justify-center gap-4"
+                            className="mt-8 flex flex-wrap justify-center lg:justify-start gap-4"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -887,7 +1239,7 @@ export default function Consultation() {
 
                         {/* Trust badge */}
                         <motion.div
-                            className="mt-10 flex justify-center items-center gap-6 text-xs text-gray-500"
+                            className="mt-10 flex justify-center lg:justify-start items-center gap-6 text-xs text-gray-500"
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
@@ -909,6 +1261,53 @@ export default function Consultation() {
                             </span>
                         </motion.div>
                     </motion.div>
+
+                    {/* Creative image column */}
+                    <motion.div
+                        className="relative"
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                    >
+                        <div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-[#F2600B]/10 blur-3xl" />
+                        <div className="relative overflow-hidden rounded-2xl border border-[#F2600B]/15 card-architect">
+                            <img
+                                src={studyGroup}
+                                alt="A Krafo consultation session"
+                                className="h-[300px] w-full object-cover sm:h-[380px]"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                            {/* Structural grid overlay */}
+                            <div className="absolute inset-0">
+                                <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                                    <pattern id="grid-cta" width="30" height="30" patternUnits="userSpaceOnUse">
+                                        <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#F2600B" strokeOpacity="0.06" strokeWidth="0.5" />
+                                    </pattern>
+                                    <rect width="100%" height="100%" fill="url(#grid-cta)" />
+                                </svg>
+                            </div>
+                            {/* Corner accents */}
+                            <div className="absolute top-4 right-4 h-12 w-12 border-t-2 border-r-2 border-[#F2600B]/30" />
+                            <div className="absolute bottom-4 left-4 h-12 w-12 border-b-2 border-l-2 border-[#F2600B]/30" />
+
+                            {/* Live availability chip */}
+                            <div className="absolute top-5 left-5 flex items-center gap-2 rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-xs text-white backdrop-blur-md">
+                                <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                                Available now
+                            </div>
+
+                            {/* Floating caption card */}
+                            <div className="absolute bottom-5 left-5 right-5 rounded-xl border border-white/10 bg-black/50 p-4 backdrop-blur-md">
+                                <div className="flex items-center gap-2">
+                                    <CalendarClock size={16} className="text-[#F2600B]" />
+                                    <p className="hero-display text-sm font-semibold text-white">Free 30-minute consultation</p>
+                                </div>
+                                <p className="mt-1 text-xs text-gray-300">Talk to a real expert — no bots, no pressure.</p>
+                            </div>
+                        </div>
+                    </motion.div>
+                    </div>
                 </div>
             </section>
 
