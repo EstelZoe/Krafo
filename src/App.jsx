@@ -42,6 +42,7 @@ const LogIn = lazy(() => import("./pages/LogIn"));
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const Overview = lazy(() => import("./pages/admin/Overview"));
 const ManageEvents = lazy(() => import("./pages/admin/ManageEvents"));
+const ManageEventInterest = lazy(() => import("./pages/admin/ManageEventInterest"));
 const ManageBlogs = lazy(() => import("./pages/admin/ManageBlogs"));
 const ManagePopups = lazy(() => import("./pages/admin/ManagePopups"));
 
@@ -140,6 +141,7 @@ function App() {
             }>
               <Route index element={<Overview />} />
               <Route path="events" element={<ManageEvents />} />
+              <Route path="event-interest" element={<ManageEventInterest />} />
               <Route path="blogs" element={<ManageBlogs />} />
               <Route path="popups" element={<ManagePopups />} />
               <Route path="assessments" element={<ManageAssessments />} />

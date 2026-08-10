@@ -1,115 +1,142 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
+import { ArrowUpRight, CalendarDays, Clock, MapPin, Star } from "lucide-react";
 
-const EventCard = ({ dateRange, date, title, description, time, location, category, registrationUrl, image }) => {
-  // Support both dateRange (from API) and date (legacy)
-  const displayDate = dateRange || date;
-  const categoryColors = {
-    Technology: "from-blue-500 to-cyan-400",
-    Business: "from-purple-500 to-indigo-400",
-    Cybersecurity: "from-[#F2600B] to-orange-400",
-    Marketing: "from-pink-500 to-rose-400",
-    AI: "from-teal-500 to-emerald-400",
-    Education: "from-yellow-500 to-amber-400",
-  };
-  
-  return (
-    <motion.div 
-      className="h-full"
-      whileHover={{ 
-        y: -8,
-        transition: { duration: 0.3 }
-      }}
-    >
-      <motion.div 
-        className="h-full bg-black rounded-2xl overflow-hidden border border-white/10 flex flex-col group"
-        whileHover={{
-          boxShadow: "0 0 30px rgba(242, 96, 11, 0.2)",
-          borderColor: "rgba(242, 96, 11, 0.4)"
-        }}
-        transition={{ duration: 0.3 }}
-      >
-        {/* Image Section */}
-        <div className="relative overflow-hidden">
-          {/* Date Ribbon */}
-          <div className="absolute top-4 left-0 bg-[#F2600B] text-black font-bold px-4 py-2 rounded-r-lg z-10 shadow-lg shadow-orange-500/30">
-            {displayDate}
-          </div>
-          <motion.img 
-            src={image} 
-            alt={title} 
-            className="h-40 w-full object-cover"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.4 }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60"></div>
-        </div>
-        
-        {/* Content */}
-        <div className="p-6 flex-grow flex flex-col">
-          <div className="flex-grow">
-            <div className="flex justify-between items-start mb-4 gap-2">
-              <h3 className="text-xl font-bold text-white group-hover:text-[#F2600B] transition-colors duration-300">
-                {title}
-              </h3>
-              <span className={`text-xs font-semibold px-3 py-1.5 rounded-full bg-gradient-to-r ${categoryColors[category] || "from-gray-600 to-gray-400"} text-black whitespace-nowrap`}>
-                {category}
-              </span>
-            </div>
-            
-            <p className="text-gray-400 mb-6 text-sm leading-relaxed line-clamp-3">
-              {description}
-            </p>
-          </div>
-          
-          {/* Meta Information */}
-          <div className="border-t border-white/10 pt-4 space-y-3">
-            <div className="flex items-center text-gray-300">
-              <div className="w-8 h-8 rounded-lg bg-[#F2600B]/10 flex items-center justify-center mr-3">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#F2600B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <span className="text-sm font-medium">{time}</span>
-            </div>
-            <div className="flex items-center text-gray-300">
-              <div className="w-8 h-8 rounded-lg bg-[#F2600B]/10 flex items-center justify-center mr-3">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#F2600B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <span className="text-sm font-medium">{location}</span>
-            </div>
-          </div>
-        </div>
-        
-        {/* Footer */}
-        <div className="px-6 py-4 bg-white/5 border-t border-white/10">
-          <motion.a
-            href={registrationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-3 text-sm bg-black rounded-lg font-semibold flex items-center justify-center border border-white/10"
-            whileHover={{
-              boxShadow: "0 0 20px rgba(242, 96, 11, 0.5)",
-              borderColor: "rgba(242, 96, 11, 0.5)"
-            }}
-          >
-            <span className="bg-gradient-to-r from-[#F2600B] to-orange-400 bg-clip-text text-transparent">
-              Register Now
-            </span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2 text-[#F2600B] group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </motion.a>
-        </div>
+// Each category keeps a small colour tell (the dot on the pill) so the grid
+// stays scannable, while the pill itself stays glass + white — the brand
+// orange is reserved for Krafo's own accents.
+const categoryDot = {
+    Technology: "bg-sky-400",
+    Business: "bg-violet-400",
+    Cybersecurity: "bg-[#F2600B]",
+    Marketing: "bg-rose-400",
+    AI: "bg-emerald-400",
+    Education: "bg-amber-400",
+};
 
-        {/* Glow Effect on Hover */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_center,rgba(242,96,11,0.1),transparent_70%)] pointer-events-none"></div>
-      </motion.div>
-    </motion.div>
-  );
+const EventCard = ({
+    dateRange,
+    date,
+    title,
+    description,
+    time,
+    location,
+    category,
+    registrationUrl,
+    image,
+    featured = false,
+}) => {
+    // Support both dateRange (from API) and date (legacy)
+    const displayDate = dateRange || date;
+
+    return (
+        <div className="group relative h-full">
+            {/* Ambient glow — matches the co-founder / testimonial cards */}
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -inset-2 rounded-[1.75rem] bg-[#F2600B]/10 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+            />
+
+            <motion.article
+                className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#F2600B]/15 bg-[#0c0705] transition-colors duration-500 group-hover:border-[#F2600B]/50"
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.3 }}
+            >
+                {/* ── Image ── */}
+                <div className="relative h-44 shrink-0 overflow-hidden">
+                    {image ? (
+                        <img
+                            src={image}
+                            alt={title || "Event"}
+                            loading="lazy"
+                            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                    ) : (
+                        <div className="h-full w-full bg-gradient-to-br from-[#1a0d05] to-[#0c0705]" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0c0705] via-[#0c0705]/40 to-transparent" />
+
+                    {/* Date chip */}
+                    {displayDate && (
+                        <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
+                            <CalendarDays size={13} className="text-[#F2600B]" />
+                            {displayDate}
+                        </span>
+                    )}
+
+                    {/* Featured flag */}
+                    {featured && (
+                        <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-[#F2600B] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-lg shadow-[#F2600B]/30">
+                            <Star size={11} className="fill-white" />
+                            Featured
+                        </span>
+                    )}
+                </div>
+
+                {/* ── Body ── */}
+                <div className="flex flex-1 flex-col p-5">
+                    {category && (
+                        <span className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-gray-300">
+                            <span
+                                className={`h-1.5 w-1.5 rounded-full ${
+                                    categoryDot[category] || "bg-gray-400"
+                                }`}
+                            />
+                            {category}
+                        </span>
+                    )}
+
+                    <h3 className="hero-display text-lg font-bold leading-snug text-white transition-colors duration-300 group-hover:text-[#F2600B]">
+                        {title}
+                    </h3>
+
+                    {description && (
+                        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-gray-400">
+                            {description}
+                        </p>
+                    )}
+
+                    {/* Meta */}
+                    <div className="mt-5 space-y-2 border-t border-white/10 pt-4">
+                        {time && (
+                            <p className="flex items-center gap-2.5 text-sm text-gray-300">
+                                <Clock size={15} className="shrink-0 text-[#F2600B]" />
+                                {time}
+                            </p>
+                        )}
+                        {location && (
+                            <p className="flex items-center gap-2.5 text-sm text-gray-300">
+                                <MapPin size={15} className="shrink-0 text-[#F2600B]" />
+                                {location}
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Action — pinned to the bottom so cards line up */}
+                    <div className="mt-5 pt-1">
+                        {registrationUrl ? (
+                            <a
+                                href={registrationUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#F2600B] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-[#F2600B]/20 transition-all duration-300 hover:bg-[#d94f00] hover:shadow-[#F2600B]/40"
+                            >
+                                Register
+                                <ArrowUpRight
+                                    size={16}
+                                    className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                                />
+                            </a>
+                        ) : (
+                            <span className="inline-flex w-full items-center justify-center rounded-full border border-white/10 px-5 py-2.5 text-sm font-medium text-gray-500">
+                                Registration opening soon
+                            </span>
+                        )}
+                    </div>
+                </div>
+            </motion.article>
+        </div>
+    );
 };
 
 export default EventCard;
