@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import Starfield from "./Starfield";
 
 /**
  * The orange call-to-action band beneath the hero.
@@ -154,18 +155,10 @@ export default function EventSlider() {
             aria-roledescription="carousel"
             aria-label="Work with Krafo on an event"
         >
-            {/* Depth: the structural grid motif plus a glow rising from the
-                foot of the band, so it reads as lit rather than as a flat
-                panel — orange is the only colour doing any pointing here. */}
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 opacity-[0.06]"
-                style={{
-                    backgroundImage:
-                        "linear-gradient(#F2600B 1px, transparent 1px), linear-gradient(90deg, #F2600B 1px, transparent 1px)",
-                    backgroundSize: "52px 52px",
-                }}
-            />
+            {/* The same sky as the hero, so the band reads as a continuation
+                of it rather than a separate panel. Dimmed, because these stars
+                are behind text rather than behind empty space. */}
+            <Starfield opacity={0.55} />
             <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0"
@@ -280,17 +273,9 @@ export default function EventSlider() {
                 ))}
             </div>
 
-            {/* Autoplay progress rail — keyed on the index so it restarts with
-                each slide, and frozen while the band is paused. */}
-            <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/10">
-                <motion.div
-                    key={`${slide.key}-${paused}`}
-                    className="h-full bg-[#F2600B]"
-                    initial={{ width: paused ? "100%" : "0%" }}
-                    animate={{ width: "100%" }}
-                    transition={{ duration: paused ? 0 : ROTATE_MS / 1000, ease: "linear" }}
-                />
-            </div>
+            {/* The autoplay countdown rail used to sit here. Removed — the dots
+                already say which slide you're on, and hover still pauses the
+                rotation. */}
         </section>
     );
 }

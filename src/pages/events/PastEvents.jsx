@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, Expand, MapPin, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Images, MapPin, X } from "lucide-react";
 import { PAST_EVENTS, PAST_EVENT_YEARS } from "./eventsContent";
 
 /**
@@ -11,6 +11,8 @@ import { PAST_EVENTS, PAST_EVENT_YEARS } from "./eventsContent";
 export default function PastEvents() {
     const [year, setYear] = useState("All");
     const [openIndex, setOpenIndex] = useState(-1);
+    // Which frame within the open event's gallery is showing.
+    const [photoIndex, setPhotoIndex] = useState(0);
     const closeButtonRef = useRef(null);
     // Where focus was before the lightbox opened, so we can hand it back.
     const restoreFocusRef = useRef(null);
@@ -22,25 +24,42 @@ export default function PastEvents() {
 
     const isOpen = openIndex >= 0 && openIndex < events.length;
     const active = isOpen ? events[openIndex] : null;
+    // Older records may predate the galleries — fall back to the single cover.
+    const photos = active?.photos?.length ? active.photos : active ? [active.image] : [];
 
     const close = useCallback(() => setOpenIndex(-1), []);
-    const step = useCallback(
-        (delta) =>
-            setOpenIndex((i) => (i < 0 ? i : (i + delta + events.length) % events.length)),
+
+    /** Move between events; always restart that event's gallery at its cover. */
+    const stepEvent = useCallback(
+        (delta) => {
+            setOpenIndex((i) => (i < 0 ? i : (i + delta + events.length) % events.length));
+            setPhotoIndex(0);
+        },
         [events.length]
     );
 
-    // Keyboard: Escape closes, arrows walk the filtered set.
+    /** Move between frames of the event currently open. */
+    const stepPhoto = useCallback(
+        (delta) => setPhotoIndex((i) => (i + delta + photos.length) % photos.length),
+        [photos.length]
+    );
+
+    const openEvent = (index) => {
+        setOpenIndex(index);
+        setPhotoIndex(0);
+    };
+
+    // Keyboard: Escape closes, arrows walk the open event's photos.
     useEffect(() => {
         if (!isOpen) return undefined;
         const onKeyDown = (e) => {
             if (e.key === "Escape") close();
-            else if (e.key === "ArrowRight") step(1);
-            else if (e.key === "ArrowLeft") step(-1);
+            else if (e.key === "ArrowRight") stepPhoto(1);
+            else if (e.key === "ArrowLeft") stepPhoto(-1);
         };
         window.addEventListener("keydown", onKeyDown);
         return () => window.removeEventListener("keydown", onKeyDown);
-    }, [isOpen, close, step]);
+    }, [isOpen, close, stepPhoto]);
 
     // Freeze the page behind the lightbox, and move focus into (then back
     // out of) the dialog.
@@ -89,7 +108,7 @@ export default function PastEvents() {
                     <motion.button
                         key={event.id}
                         type="button"
-                        onClick={() => setOpenIndex(index)}
+                        onClick={() => openEvent(index)}
                         initial={{ opacity: 0, y: 24 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "0px 0px -60px 0px" }}
@@ -136,9 +155,12 @@ export default function PastEvents() {
                             </div>
                         </div>
 
-                        {/* Expand affordance */}
-                        <span className="absolute bottom-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white opacity-0 backdrop-blur-md transition-all duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
-                            <Expand size={15} />
+                        {/* Frame count — doubles as the expand affordance, so
+                            you can see there's more than one shot before you
+                            commit to opening it. */}
+                        <span className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full border border-white/20 bg-black/55 px-2.5 py-1.5 text-[11px] font-semibold text-white backdrop-blur-md transition-colors duration-300 group-hover:border-[#F2600B]/60 group-hover:text-[#ff8534]">
+                            <Images size={14} />
+                            {event.photos?.length || 1}
                         </span>
                     </motion.button>
                 ))}
@@ -177,13 +199,67 @@ export default function PastEvents() {
                             </button>
 
                             <div className="max-h-[85vh] overflow-y-auto">
-                                <div className="relative">
+                                <div className="relative bg-black">
                                     <img
-                                        src={active.image}
-                                        alt={active.title}
+                                        key={photos[photoIndex]}
+                                        src={photos[photoIndex]}
+                                        alt={`${active.title} — photo ${photoIndex + 1} of ${photos.length}`}
                                         className="max-h-[55vh] w-full bg-black object-contain"
                                     />
+
+                                    {/* Frame navigation, only when there is
+                                        more than one to move between. */}
+                                    {photos.length > 1 && (
+                                        <>
+                                            <button
+                                                type="button"
+                                                onClick={() => stepPhoto(-1)}
+                                                aria-label="Previous photo"
+                                                className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white backdrop-blur-md transition hover:border-[#F2600B] hover:bg-[#F2600B]"
+                                            >
+                                                <ArrowLeft size={17} />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => stepPhoto(1)}
+                                                aria-label="Next photo"
+                                                className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white backdrop-blur-md transition hover:border-[#F2600B] hover:bg-[#F2600B]"
+                                            >
+                                                <ArrowRight size={17} />
+                                            </button>
+                                            <span className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-white/15 bg-black/60 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-md">
+                                                {photoIndex + 1} / {photos.length}
+                                            </span>
+                                        </>
+                                    )}
                                 </div>
+
+                                {/* Thumbnail strip */}
+                                {photos.length > 1 && (
+                                    <div className="flex gap-2 overflow-x-auto border-b border-white/10 bg-black/40 px-4 py-3">
+                                        {photos.map((photo, i) => (
+                                            <button
+                                                key={photo}
+                                                type="button"
+                                                onClick={() => setPhotoIndex(i)}
+                                                aria-label={`Show photo ${i + 1}`}
+                                                aria-current={i === photoIndex}
+                                                className={`h-14 w-20 shrink-0 overflow-hidden rounded-lg border transition ${
+                                                    i === photoIndex
+                                                        ? "border-[#F2600B] opacity-100"
+                                                        : "border-white/15 opacity-55 hover:opacity-90"
+                                                }`}
+                                            >
+                                                <img
+                                                    src={photo}
+                                                    alt=""
+                                                    loading="lazy"
+                                                    className="h-full w-full object-cover"
+                                                />
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
 
                                 <div className="p-6 sm:p-8">
                                     <div className="flex flex-wrap items-center gap-2 text-xs">
@@ -204,24 +280,26 @@ export default function PastEvents() {
                                     </p>
                                     <p className="mt-4 leading-relaxed text-gray-300">{active.blurb}</p>
 
-                                    {/* Walk the filtered set */}
+                                    {/* Walk the filtered set. The arrows over
+                                        the photo move between frames; these
+                                        move between events. */}
                                     <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
                                         <button
                                             type="button"
-                                            onClick={() => step(-1)}
+                                            onClick={() => stepEvent(-1)}
                                             className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-gray-300 transition hover:border-[#F2600B]/60 hover:text-white"
                                         >
-                                            <ArrowLeft size={15} /> Previous
+                                            <ArrowLeft size={15} /> Previous event
                                         </button>
                                         <span className="text-xs text-gray-500">
                                             {openIndex + 1} / {events.length}
                                         </span>
                                         <button
                                             type="button"
-                                            onClick={() => step(1)}
+                                            onClick={() => stepEvent(1)}
                                             className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-gray-300 transition hover:border-[#F2600B]/60 hover:text-white"
                                         >
-                                            Next <ArrowRight size={15} />
+                                            Next event <ArrowRight size={15} />
                                         </button>
                                     </div>
                                 </div>

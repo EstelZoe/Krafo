@@ -54,7 +54,9 @@ const EventCard = ({
                     ) : (
                         <div className="h-full w-full bg-gradient-to-br from-[#1a0d05] to-[#0c0705]" />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0c0705] via-[#0c0705]/40 to-transparent" />
+                    {/* No scrim over the artwork — these are flyers, and the
+                        point is that they're seen. The date and featured chips
+                        each carry their own frosted backing instead. */}
 
                     {/* Date chip */}
                     {displayDate && (

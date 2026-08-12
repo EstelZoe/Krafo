@@ -16,7 +16,6 @@ import {
     MessageSquare,
     Mic,
     Search,
-    Sparkles,
     Users,
     X,
 } from "lucide-react";
@@ -27,6 +26,7 @@ import EventCard from "../assets/components/EventCard";
 import { apiClient } from "../api/client";
 
 import BlackHole from "./events/BlackHole";
+import Starfield from "./events/Starfield";
 import EventSlider from "./events/EventSlider";
 import SignaturePrograms from "./events/SignaturePrograms";
 import PlannedEvents from "./events/PlannedEvents";
@@ -365,7 +365,9 @@ export default function EventPage() {
                                 ) : (
                                     <div className="absolute inset-0 bg-gradient-to-br from-[#1a0d05] to-[#0c0705]" />
                                 )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-black/20 lg:to-black/80" />
+                                {/* Undimmed: the copy lives in its own column
+                                    beside the artwork, so nothing needs a scrim
+                                    to stay readable. */}
 
                                 <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
                                     <span className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
@@ -454,6 +456,9 @@ export default function EventPage() {
                 id="upcoming"
                 className="relative scroll-mt-20 overflow-hidden border-y border-[#F2600B]/5 bg-[#0a0a0a] py-20 md:py-24"
             >
+                {/* The same sky as the hero and the band, dimmed further —
+                    it sits behind a grid of cards here, not open space. */}
+                <Starfield opacity={0.45} shootingStars />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_25%_20%,#F2600B08,transparent_60%)]" />
 
                 <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
@@ -501,24 +506,30 @@ export default function EventPage() {
                         </div>
                     </div>
 
-                    {/* Category chips */}
-                    <div className="mb-12 flex flex-wrap justify-center gap-2">
-                        {CATEGORIES.map((category) => (
-                            <button
-                                key={category}
-                                type="button"
-                                onClick={() => setActiveCategory(category)}
-                                aria-pressed={activeCategory === category}
-                                className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
-                                    activeCategory === category
-                                        ? "bg-[#F2600B] text-white shadow-[0_0_20px_rgba(242,96,11,0.4)]"
-                                        : "border border-white/15 text-gray-300 hover:border-[#F2600B]/50 hover:text-white"
-                                }`}
-                            >
-                                {category}
-                            </button>
-                        ))}
-                    </div>
+                    {/*
+                        The category chips lived here. Hidden so every event
+                        shows by default rather than making visitors pick a
+                        category first — with a handful of events at a time,
+                        filtering was solving a problem the page doesn't have.
+
+                        The state and filter logic below are untouched, so
+                        restoring them is a matter of putting this block back:
+
+                        <div className="mb-12 flex flex-wrap justify-center gap-2">
+                            {CATEGORIES.map((category) => (
+                                <button
+                                    key={category}
+                                    type="button"
+                                    onClick={() => setActiveCategory(category)}
+                                    aria-pressed={activeCategory === category}
+                                    className={...}
+                                >
+                                    {category}
+                                </button>
+                            ))}
+                        </div>
+                    */}
+                    <div className="mb-12" />
 
                     {/* Loading */}
                     {loading && (
@@ -681,6 +692,9 @@ export default function EventPage() {
                 className="relative scroll-mt-20 overflow-hidden border-y border-[#F2600B]/5 bg-[#0a0a0a] py-20 md:py-28"
             >
                 <StructuralGrid />
+                {/* Same sky again, so the archive sits in the same world as
+                    the hero rather than reading as a separate page. */}
+                <Starfield opacity={0.45} shootingStars />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_30%,#F2600B08,transparent_60%)]" />
 
                 <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
@@ -712,7 +726,9 @@ export default function EventPage() {
                 className="relative scroll-mt-20 overflow-hidden py-20 md:py-28"
             >
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B08,transparent_60%)]" />
-                <div className="relative mx-auto max-w-5xl px-6 lg:px-12">
+                {/* Wider than the other sections — it now carries three columns
+                    rather than two. */}
+                <div className="relative mx-auto max-w-6xl px-6 lg:px-12">
                     <motion.div
                         className="mb-12 text-center"
                         initial={{ opacity: 0, y: 20 }}
@@ -888,6 +904,12 @@ export default function EventPage() {
             {/* Bookends the page: the same core that opens the hero rises back
                 out of the bottom edge here, cropped by the footer. */}
             <section className="relative overflow-hidden bg-black pt-24 md:pt-32">
+                {/* Section-wide rather than only inside the black hole's own
+                    box at the foot — that box is a couple of hundred pixels
+                    tall, so streaks confined to it would never be seen. This
+                    puts them in the open sky above the copy. */}
+                <Starfield opacity={0.5} shootingStars />
+
                 <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 24 }}
@@ -895,12 +917,7 @@ export default function EventPage() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <span className="inline-flex items-center gap-2 rounded-full border border-[#F2600B]/30 bg-[#F2600B]/10 px-4 py-1.5 text-xs font-medium text-[#ff8534] backdrop-blur-sm sm:text-sm">
-                            <Sparkles size={14} />
-                            Stay in the loop
-                        </span>
-
-                        <h2 className="hero-display glow-text mt-6 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
+                        <h2 className="hero-display glow-text text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
                             Never miss the <span className="text-[#F2600B]">next one</span>
                         </h2>
 
@@ -955,7 +972,10 @@ export default function EventPage() {
                 {/* The core, centred exactly on the section's bottom edge, so
                     only its upper arc shows and the light stops dead where the
                     footer begins. `fade` is off — the crop is the effect. */}
-                <div className="relative mt-14 h-[220px] sm:h-[280px] md:h-[340px]">
+                {/* Heights are cut to roughly the arc's own reach above the
+                    bottom edge. Any taller and the extra is pure empty sky
+                    between the copy and the light. */}
+                <div className="relative mt-4 h-[150px] sm:h-[200px] md:h-[240px]">
                     <div className="absolute bottom-0 left-1/2 w-[200%] max-w-[1600px] -translate-x-1/2 translate-y-1/2 sm:w-[150%] lg:w-[115%]">
                         <BlackHole coreScale={0.5} fade={false} className="aspect-[2/1] w-full" />
                     </div>

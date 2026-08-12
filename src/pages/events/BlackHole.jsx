@@ -1,4 +1,6 @@
 import React from "react";
+import Starfield from "./Starfield";
+import { STARFIELD_STYLES } from "./starfieldData";
 
 /**
  * The Events hero backdrop: a supernova collapsing into a black hole, rendered
@@ -17,51 +19,10 @@ import React from "react";
  * belongs to the same palette as the rest of the site.
  */
 
-// Fixed positions rather than Math.random(), so the field is identical on
-// every render and doesn't jump around when React re-renders the hero.
-const STARS = [
-    { left: 6, top: 12, size: 2, delay: 0 },
-    { left: 14, top: 34, size: 1, delay: 1.6 },
-    { left: 19, top: 8, size: 1.5, delay: 3.1 },
-    { left: 24, top: 52, size: 1, delay: 0.8 },
-    { left: 31, top: 21, size: 2, delay: 2.4 },
-    { left: 37, top: 6, size: 1, delay: 4.2 },
-    { left: 42, top: 40, size: 1.5, delay: 1.1 },
-    { left: 47, top: 15, size: 1, delay: 3.6 },
-    { left: 53, top: 29, size: 2, delay: 0.4 },
-    { left: 58, top: 9, size: 1, delay: 2.9 },
-    { left: 63, top: 45, size: 1.5, delay: 1.9 },
-    { left: 68, top: 18, size: 1, delay: 4.7 },
-    { left: 73, top: 33, size: 2, delay: 0.6 },
-    { left: 78, top: 11, size: 1, delay: 3.3 },
-    { left: 83, top: 48, size: 1.5, delay: 2.1 },
-    { left: 88, top: 24, size: 1, delay: 1.4 },
-    { left: 93, top: 7, size: 2, delay: 3.9 },
-    { left: 9, top: 61, size: 1, delay: 2.6 },
-    { left: 27, top: 72, size: 1.5, delay: 0.9 },
-    { left: 45, top: 80, size: 1, delay: 4.4 },
-    { left: 61, top: 68, size: 1, delay: 1.7 },
-    { left: 79, top: 76, size: 1.5, delay: 3.4 },
-    { left: 91, top: 63, size: 1, delay: 2.2 },
-    { left: 3, top: 41, size: 1, delay: 4.9 },
-    { left: 96, top: 38, size: 1.5, delay: 1.2 },
-];
-
 // The swirl is a conic gradient rotated behind a ring-shaped mask, so the
 // brightness sweeps around the accretion disc like orbiting matter.
 const SWIRL_MASK =
     "radial-gradient(circle, transparent 41%, #000 47%, #000 58%, transparent 68%)";
-
-// Shooting stars. Each streak is visible for only ~10% of its cycle, and the
-// cycles are deliberately co-prime-ish lengths with staggered delays, so they
-// never fall into a repeating pattern the eye can predict — you just catch one
-// occasionally out of the corner of your eye.
-const SHOOTING_STARS = [
-    { left: 12, top: 14, angle: 28, length: 130, duration: 13, delay: 1 },
-    { left: 62, top: 8, angle: 34, length: 165, duration: 17, delay: 6.5 },
-    { left: 78, top: 26, angle: 22, length: 110, duration: 21, delay: 12 },
-    { left: 34, top: 30, angle: 31, length: 145, duration: 19, delay: 16.5 },
-];
 
 /**
  * @param {string}  className — sizing for the composition box
@@ -82,10 +43,7 @@ export default function BlackHole({
     return (
         <div className={`pointer-events-none select-none ${className}`} aria-hidden="true">
             <style>{`
-                @keyframes kf-twinkle {
-                    0%, 100% { opacity: 0.15; }
-                    50%      { opacity: 0.85; }
-                }
+                ${STARFIELD_STYLES}
                 /* Animated layers only ever touch scale/rotate/opacity — the
                    centring lives on a static wrapper, so the two never fight
                    over the transform property. */
@@ -109,18 +67,7 @@ export default function BlackHole({
                     0%, 100% { opacity: 0.85; }
                     50%      { opacity: 1; }
                 }
-                /* The streak crosses in the first ~10% of the cycle and then
-                   waits out the rest off-screen — that dead time is what makes
-                   the stars feel occasional rather than looping. */
-                @keyframes kf-shoot {
-                    0%        { opacity: 0; transform: translateX(-10%) scaleX(0.2); }
-                    1.5%      { opacity: 1; }
-                    8%        { opacity: 1; }
-                    11%       { opacity: 0; transform: translateX(760%) scaleX(1); }
-                    100%      { opacity: 0; transform: translateX(760%) scaleX(1); }
-                }
 
-                .bh-star  { animation: kf-twinkle 5s ease-in-out infinite; }
                 .bh-bloom { animation: kf-bloom 7s ease-in-out infinite; }
                 .bh-flare { animation: kf-flare 5s ease-in-out infinite; }
                 .bh-arcs  { animation: kf-drift 90s linear infinite; }
@@ -129,62 +76,20 @@ export default function BlackHole({
                    never looks like a single rotating texture. */
                 .bh-swirl-a { animation: kf-spin 16s linear infinite; }
                 .bh-swirl-b { animation: kf-drift 26s linear infinite; }
-                .bh-shoot   { animation: kf-shoot linear infinite; }
 
                 /* Anyone who has asked their OS to reduce motion gets the
                    same picture, just held still. Shooting stars are hidden
                    outright — frozen mid-flight they'd just be stray lines. */
                 @media (prefers-reduced-motion: reduce) {
-                    .bh-star, .bh-bloom, .bh-flare, .bh-arcs,
+                    .bh-bloom, .bh-flare, .bh-arcs,
                     .bh-ring, .bh-swirl-a, .bh-swirl-b { animation: none; }
-                    .bh-shoot { animation: none; opacity: 0; }
                 }
             `}</style>
 
             <div className="relative h-full w-full">
-                {/* 1 — Starfield */}
-                {STARS.map((star) => (
-                    <span
-                        key={`${star.left}-${star.top}`}
-                        className="bh-star absolute rounded-full bg-white"
-                        style={{
-                            left: `${star.left}%`,
-                            top: `${star.top}%`,
-                            width: `${star.size}px`,
-                            height: `${star.size}px`,
-                            animationDelay: `${star.delay}s`,
-                        }}
-                    />
-                ))}
-
-                {/* 1b — Shooting stars.
-                   The rotation lives on the wrapper and the travel on the
-                   child, so the streak flies along its own axis without the
-                   two transforms overwriting each other. */}
-                {shootingStars &&
-                    SHOOTING_STARS.map((s) => (
-                        <span
-                            key={`${s.left}-${s.top}`}
-                            className="absolute"
-                            style={{
-                                left: `${s.left}%`,
-                                top: `${s.top}%`,
-                                transform: `rotate(${s.angle}deg)`,
-                            }}
-                        >
-                            <span
-                                className="bh-shoot block h-px origin-left rounded-full"
-                                style={{
-                                    width: `${s.length}px`,
-                                    animationDuration: `${s.duration}s`,
-                                    animationDelay: `${s.delay}s`,
-                                    background:
-                                        "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,214,160,0.5) 60%, rgba(255,255,255,0.95) 100%)",
-                                    boxShadow: "0 0 6px 1px rgba(255,214,160,0.5)",
-                                }}
-                            />
-                        </span>
-                    ))}
+                {/* 1 — Starfield (shared with the slider band, so the two
+                   surfaces read as one continuous sky) */}
+                <Starfield shootingStars={shootingStars} withStyles={false} />
 
                 {/* ── CORE GROUP (2–5) ──────────────────────────────────
                    Everything that belongs to the body of the black hole is

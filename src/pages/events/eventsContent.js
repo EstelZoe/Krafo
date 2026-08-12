@@ -36,6 +36,20 @@ import pastGdiwLaunch from "../../assets/images/flye.jpg";
 import pastGdiwPanel from "../../assets/images/gdiw25.jpeg";
 import pastCcbcClass from "../../assets/images/ccbc.png";
 import pastWorkshop from "../../assets/images/studygroup2.jpg";
+import pastExtraA from "../../assets/images/IMG-7.jpg";
+import pastExtraB from "../../assets/images/IMG-10.jpg";
+import pastExtraC from "../../assets/images/IMG-17.jpg";
+import pastExtraD from "../../assets/images/IMG-19.jpg";
+import pastExtraE from "../../assets/images/IMG-34.jpg";
+import pastExtraF from "../../assets/images/IMG-35.jpg";
+import pastExtraG from "../../assets/images/studygroup.jpg";
+import pastExtraH from "../../assets/images/flye2.jpeg";
+
+// Planned-event card media. One video and two flyers — the flyers are
+// PLACEHOLDERS borrowed from existing Krafo artwork until the real ones exist.
+import vidCapacity from "../../assets/videos/training and capacity building.mp4";
+import flyerClinic from "../../assets/images/ccbc.png";
+import flyerRoundtable from "../../assets/images/flye.jpg";
 
 // ── Hero stat band ────────────────────────────────────────────────────
 // PLACEHOLDER FIGURES — confirm against real records before launch.
@@ -125,11 +139,21 @@ export const SIGNATURE_PROGRAMS = [
 // (the stored title snapshot keeps old rows readable, but the id is the key
 // the admin screen groups by).
 //
-// Deliberately illustration-free: these haven't happened yet, so a photograph
-// would imply otherwise. Each card is drawn from its icon and gradient instead.
+// `goal` is the number of interested people it would take to commit a venue
+// and a date. It drives the progress bar, so set it to something you would
+// actually honour — the bar filling is a promise.
+//
+// `media` is what the card advertises with: { type: "video" | "image", src }.
+// PLACEHOLDER FLYERS — the two image entries currently borrow existing Krafo
+// flyers. Swap them for the real artwork when it exists.
+//
+// Kept to three so each one gets a full card rather than a cramped row. A
+// fourth would simply wrap onto the next line of the grid.
 export const PLANNED_EVENTS = [
     {
         id: "hthm-kumasi",
+        goal: 50,
+        media: { type: "video", src: vidCapacity },
         Icon: Brain,
         title: "Hacking The Human Mind — Kumasi",
         window: "Targeting Q1 2027",
@@ -141,6 +165,8 @@ export const PLANNED_EVENTS = [
     },
     {
         id: "sme-cyber-clinic",
+        goal: 30,
+        media: { type: "image", src: flyerClinic },
         Icon: Stethoscope,
         title: "Cyber Clinic for Small Businesses",
         window: "Targeting late 2026",
@@ -152,6 +178,8 @@ export const PLANNED_EVENTS = [
     },
     {
         id: "women-in-cyber",
+        goal: 25,
+        media: { type: "image", src: flyerRoundtable },
         Icon: HeartHandshake,
         title: "Women in Cyber — Roundtable",
         window: "Targeting Q2 2027",
@@ -161,17 +189,22 @@ export const PLANNED_EVENTS = [
             "A working conversation between women already in the field and women trying to get in — routes into the industry, what the work actually looks like, and who is hiring.",
         signals: ["Small group", "Mentor pairings", "Light refreshments"],
     },
-    {
-        id: "board-briefing",
-        Icon: Building2,
-        title: "Cyber Risk Briefing for Boards",
-        window: "Targeting 2027",
-        venue: "Accra · closed session",
-        format: "Breakfast briefing · Invitation only",
-        pitch:
-            "Ninety minutes for directors and executives on the questions a board should be asking its own technology team — and how to tell a real answer from a reassuring one.",
-        signals: ["Executive level", "No technical jargon", "Closed room"],
-    },
+    // Held back so the section stays at three full-width cards. Give it a
+    // `media` entry and drop it back in whenever you want a fourth — the grid
+    // wraps it onto the next row on its own.
+    // {
+    //     id: "board-briefing",
+    //     goal: 20,
+    //     media: { type: "image", src: /* flyer */ },
+    //     Icon: Building2,
+    //     title: "Cyber Risk Briefing for Boards",
+    //     window: "Targeting 2027",
+    //     venue: "Accra · closed session",
+    //     format: "Breakfast briefing · Invitation only",
+    //     pitch:
+    //         "Ninety minutes for directors and executives on the questions a board should be asking its own technology team — and how to tell a real answer from a reassuring one.",
+    //     signals: ["Executive level", "No technical jargon", "Closed room"],
+    // },
 ];
 
 // ── Past events gallery ───────────────────────────────────────────────
@@ -187,6 +220,7 @@ export const PAST_EVENTS = [
         tag: "Conference",
         stat: "Panel session",
         image: pastGdiwPanel,
+        photos: [pastGdiwPanel, pastExtraH, pastWorkshop],
         blurb:
             "Our co-founder took the Hacking The Human Mind session to GDIW's main programme, unpacking how social engineering quietly defeats good technology — and what teams can do about it on Monday morning.",
     },
@@ -199,6 +233,7 @@ export const PAST_EVENTS = [
         tag: "Ecosystem",
         stat: "Streamed live",
         image: pastGdiwLaunch,
+        photos: [pastGdiwLaunch, pastExtraH],
         blurb:
             "Krafo joined the ecosystem at the official launch of Ghana Digital & Innovation Week 2025, alongside hubs, funders and partners shaping the country's digital agenda.",
     },
@@ -211,6 +246,7 @@ export const PAST_EVENTS = [
         tag: "Youth",
         stat: "Full assemblies",
         image: pastSchoolAssembly,
+        photos: [pastSchoolAssembly, pastExtraA, pastExtraB, pastExtraC],
         blurb:
             "A term of school assemblies taking cyber-safety directly to students — digital footprints, online scams, and the habits that keep a young person safe long after the session ends.",
     },
@@ -223,6 +259,7 @@ export const PAST_EVENTS = [
         tag: "Youth",
         stat: "Small-group sessions",
         image: pastMentoring,
+        photos: [pastMentoring, pastExtraD, pastExtraE],
         blurb:
             "Beyond the assembly hall — small mentoring circles where students asked the questions they were too shy to raise in front of the whole school.",
     },
@@ -235,6 +272,7 @@ export const PAST_EVENTS = [
         tag: "Youth",
         stat: "Facilitator team",
         image: pastTeamOutreach,
+        photos: [pastTeamOutreach, pastExtraF, pastExtraA],
         blurb:
             "The facilitators, volunteers and school partners who make the outreach programme possible — on campus, in the classroom, session after session.",
     },
@@ -247,6 +285,7 @@ export const PAST_EVENTS = [
         tag: "Youth",
         stat: "Student cohort",
         image: pastStudents,
+        photos: [pastStudents, pastExtraC, pastExtraD],
         blurb:
             "Students stepping up as peer cyber ambassadors, carrying safe-online practice back into their own classrooms and hostels.",
     },
@@ -259,6 +298,7 @@ export const PAST_EVENTS = [
         tag: "Capacity Building",
         stat: "First graduates",
         image: pastCcbcClass,
+        photos: [pastCcbcClass, pastExtraG, pastWorkshop],
         blurb:
             "The first Cybersecurity Capacity Building Course cohort ran the full 16-week hybrid programme and crossed the stage as our inaugural graduates.",
     },
@@ -271,6 +311,7 @@ export const PAST_EVENTS = [
         tag: "Workshop",
         stat: "Invited audience",
         image: pastWorkshop,
+        photos: [pastWorkshop, pastExtraG],
         blurb:
             "Our first in-person HTHM delivery, hosted at the International Embassy of Suriname — a room of leaders learning how their own instincts get used against them.",
     },
@@ -283,6 +324,7 @@ export const PAST_EVENTS = [
         tag: "Workshop",
         stat: "Free & open",
         image: imgHthm,
+        photos: [imgHthm],
         blurb:
             "The workshop that started it all: a free, open session built on a simple premise — protect the mind, and you protect everything it has the keys to.",
     },
