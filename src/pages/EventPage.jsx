@@ -386,11 +386,11 @@ const EventPage = () => {
 
                         {/*RIGHT IMAGE*/}
                         <motion.div
-                            initial={{ opacity: 0, x: 60 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8 }}
+                            initial={{ opacity: 0, y: 60 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.7 }}
                             viewport={{ once: true }}
-                            className="order-1 lg:order-2">
+                            className="group relative order-1 overflow-hidden rounded-xl border border-[#F2600B33] bg-gradient-to-br from-[#1a1a1a] to-[#000000] backdrop-blur-md shadow-xl transition-transform duration-300 hover:scale-[1.02] hover:shadow-orange-600/30 lg:order-2">
                             <div className="relative">
 
                                 {/* Orange Glow */}
