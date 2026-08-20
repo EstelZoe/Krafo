@@ -32,6 +32,7 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
 const LogIn = lazy(() => import("./pages/LogIn"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 
 
 
@@ -109,6 +110,7 @@ function App() {
             
             {/* Auth Routes */}
             <Route path="/login" element={<LogIn />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             {/* Public signup is closed — admins are minted by the super admin only.
                 Anyone hitting /signup gets redirected to the login page. */}
             <Route path="/signup" element={<Navigate to="/login" replace />} />
