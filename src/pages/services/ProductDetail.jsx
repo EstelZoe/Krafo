@@ -28,6 +28,19 @@ import Footer from "../../assets/components/Footer";
 import { PRICING_DATA } from "./pricingData";
 import { PRODUCTS, SHARED_PROCESS } from "./productData";
 import { formatGHS } from "./quote";
+import WebsiteMockup from "./WebsiteMockup";
+import BeforeAfter from "./BeforeAfter";
+import ContentManagerDemo from "./ContentManagerDemo";
+import PerformanceTargets from "./PerformanceTargets";
+import WebAppMockup from "./WebAppMockup";
+import SpreadsheetToApp from "./SpreadsheetToApp";
+import WorkflowDemo from "./WorkflowDemo";
+import SaasMockup from "./SaasMockup";
+import PlanGatingDemo from "./PlanGatingDemo";
+import MvpToScale from "./MvpToScale";
+import MobileMockup from "./MobileMockup";
+import OfflineDemo from "./OfflineDemo";
+import PushDemo from "./PushDemo";
 
 const CALENDLY_URL = "https://calendly.com/krafosystems";
 
@@ -127,6 +140,28 @@ export default function ProductDetail() {
   const Icon = content.Icon;
   const tiers = category.tiers || [];
 
+  // Per-product hero artwork. Only Websites has one so far; the rest fall
+  // through to the original single-column hero rather than borrowing a visual
+  // that argues the wrong thing (a browser window sells nothing on a Mobile
+  // Apps page).
+  const isWebsites = slug === "websites";
+  const isWebApps = slug === "webapps";
+  const isSaas = slug === "saas";
+  const isMobile = slug === "mobile";
+
+  // Per-product hero artwork, each arguing that product's own headline claim:
+  // Websites reflows to prove responsive, Web Apps switches role to prove
+  // permissions, SaaS switches tenant to prove multi-tenancy, Mobile switches
+  // platform to prove one codebase reaches both stores.
+  const HERO_VISUALS = {
+    websites: WebsiteMockup,
+    webapps: WebAppMockup,
+    saas: SaasMockup,
+    mobile: MobileMockup,
+  };
+  const HeroVisual = HERO_VISUALS[slug];
+  const heroVisual = HeroVisual ? <HeroVisual /> : null;
+
   // Starting price for the hero chip (lowest numeric tier, else "Custom").
   const numericTiers = tiers.filter((t) => !t.custom);
   const startingLabel = numericTiers.length
@@ -158,7 +193,17 @@ export default function ProductDetail() {
             <ArrowLeft size={16} /> All services
           </Link>
 
-          <motion.div className="mt-6 max-w-3xl" {...fadeUp}>
+          {/* Two columns only where there's a visual to fill the second one.
+              The other products keep the original single-column hero until
+              they get artwork of their own. */}
+          <div
+            className={
+              heroVisual
+                ? "mt-6 grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16"
+                : "mt-6 max-w-3xl"
+            }
+          >
+          <motion.div className={heroVisual ? "" : "max-w-3xl"} {...fadeUp}>
             <span className="inline-flex items-center gap-2 rounded-full border border-[#F2600B]/30 bg-[#F2600B]/10 px-4 py-1.5 text-xs font-medium tracking-wide text-[#ff8534] uppercase">
               {Icon ? <Icon size={14} className="text-[#F2600B]" /> : null}
               {content.eyebrow}
@@ -188,6 +233,20 @@ export default function ProductDetail() {
               <span className="text-sm font-semibold text-[#ff8534]">{startingLabel}</span>
             </div>
           </motion.div>
+
+          {heroVisual && (
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              // Extra bottom room on small screens for the phone, which hangs
+              // past the browser's lower-left corner.
+              className="mb-12 lg:mb-0"
+            >
+              {heroVisual}
+            </motion.div>
+          )}
+          </div>
         </div>
       </section>
 
@@ -220,6 +279,115 @@ export default function ProductDetail() {
           </motion.div>
         </div>
       </section>
+
+      {/* ── WEBSITES-ONLY DEMOS ──────────────────────────────────────────
+         Three things the copy claims but can't show. They sit between the
+         overview and the pricing on purpose: this is where a visitor decides
+         whether we're worth a number, so it's the last useful moment to prove
+         anything. Rendered only for Websites — a redesign slider argues
+         nothing on a SaaS Platforms page. */}
+      {isWebsites && (
+        <>
+          {/* Before / after */}
+          <section className="bg-[#0a0503] py-16 md:py-24">
+            <div className="mx-auto max-w-5xl px-6 lg:px-12">
+              <motion.div className="mb-10 text-center" {...fadeUp}>
+                <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+                <h2 className="hero-display text-3xl font-bold md:text-4xl">
+                  The difference a rebuild <span className="text-[#F2600B]">makes</span>
+                </h2>
+                <p className="mx-auto mt-3 max-w-2xl text-gray-400">
+                  Most sites don&apos;t fail because they&apos;re ugly — they fail because a
+                  visitor can&apos;t tell what to do next. Drag the handle.
+                </p>
+              </motion.div>
+              <motion.div {...fadeUp}>
+                <BeforeAfter />
+              </motion.div>
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* ── WEB-APPS-ONLY DEMOS ──────────────────────────────────────────
+         Same idea as the Websites demos, aimed at this product's own claims:
+         the spreadsheet everyone arrives running, and the automated workflow
+         most clients don't realise they can have. */}
+      {isWebApps && (
+        <>
+          {/* Spreadsheet → app */}
+          <section className="bg-[#0a0503] py-16 md:py-24">
+            <div className="mx-auto max-w-5xl px-6 lg:px-12">
+              <motion.div className="mb-10 text-center" {...fadeUp}>
+                <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+                <h2 className="hero-display text-3xl font-bold md:text-4xl">
+                  The spreadsheet you&apos;ve <span className="text-[#F2600B]">outgrown</span>
+                </h2>
+                <p className="mx-auto mt-3 max-w-2xl text-gray-400">
+                  It worked when there were twenty rows and one person editing. Drag the
+                  handle to see what replaces it.
+                </p>
+              </motion.div>
+              <motion.div {...fadeUp}>
+                <SpreadsheetToApp />
+              </motion.div>
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* ── SAAS-ONLY DEMOS ──────────────────────────────────────────────
+         Aimed at a founder's two real questions: what am I actually selling
+         access to, and what does the smaller number buy me. */}
+      {isSaas && (
+        <>
+          {/* MVP → Scale — kept ahead of pricing because it explains the two
+              tiers a visitor is about to see. */}
+          <section className="bg-[#0a0503] py-16 md:py-24">
+            <div className="mx-auto max-w-6xl px-6 lg:px-12">
+              <motion.div className="mb-10 text-center" {...fadeUp}>
+                <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+                <h2 className="hero-display text-3xl font-bold md:text-4xl">
+                  Start focused. <span className="text-[#F2600B]">Grow into it.</span>
+                </h2>
+                <p className="mx-auto mt-3 max-w-2xl text-gray-400">
+                  The same platform at two stages — so you can see exactly what the larger
+                  investment adds, and what it doesn&apos;t replace.
+                </p>
+              </motion.div>
+              <motion.div {...fadeUp}>
+                <MvpToScale />
+              </motion.div>
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* ── MOBILE-ONLY DEMOS ────────────────────────────────────────────
+         The two things a phone can do that a website cannot: keep working
+         without a signal, and start the conversation itself. */}
+      {isMobile && (
+        <>
+          {/* Offline */}
+          <section className="bg-[#0a0503] py-16 md:py-24">
+            <div className="mx-auto max-w-6xl px-6 lg:px-12">
+              <motion.div className="mb-12 text-center" {...fadeUp}>
+                <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+                <h2 className="hero-display text-3xl font-bold md:text-4xl">
+                  What happens when the{" "}
+                  <span className="text-[#F2600B]">signal drops</span>
+                </h2>
+                <p className="mx-auto mt-3 max-w-2xl text-gray-400">
+                  Most apps stop. Cut the connection yourself and keep using this one.
+                </p>
+              </motion.div>
+              <motion.div {...fadeUp}>
+                <OfflineDemo />
+              </motion.div>
+            </div>
+          </section>
+        </>
+      )}
 
       {/* ── PRICING TIERS ────────────────────────────────────────────── */}
       <section id="pricing" className="py-16 md:py-24 bg-black scroll-mt-20">
@@ -294,6 +462,112 @@ export default function ProductDetail() {
           </div>
         </div>
       </section>
+
+      {/* ── DEMOS BELOW THE PRICE ────────────────────────────────────────
+         One demo runs before the pricing block to build the case; the rest sit
+         here. Someone who came for a number reaches it without scrolling past
+         everything, and these then reinforce the decision rather than delay
+         it. */}
+      {isWebsites && (
+        <>
+          {/* Content Manager */}
+          <section className="border-y border-[#F2600B]/10 bg-[#0a0503] py-16 md:py-24">
+            <div className="mx-auto max-w-6xl px-6 lg:px-12">
+              <motion.div className="mb-10 text-center" {...fadeUp}>
+                <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+                <h2 className="hero-display text-3xl font-bold md:text-4xl">
+                  Update it <span className="text-[#F2600B]">yourself</span>
+                </h2>
+                <p className="mx-auto mt-3 max-w-2xl text-gray-400">
+                  Every site ships with a Content Manager. Change the headline below and
+                  watch the page change — that&apos;s the whole learning curve.
+                </p>
+              </motion.div>
+              <motion.div {...fadeUp}>
+                <ContentManagerDemo />
+              </motion.div>
+            </div>
+          </section>
+
+          {/* Build targets */}
+          <section className="bg-black py-16 md:py-24">
+            <div className="mx-auto max-w-6xl px-6 lg:px-12">
+              <motion.div className="mb-12 text-center" {...fadeUp}>
+                <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+                <h2 className="hero-display text-3xl font-bold md:text-4xl">
+                  The bar every build <span className="text-[#F2600B]">has to clear</span>
+                </h2>
+                <p className="mx-auto mt-3 max-w-2xl text-gray-400">
+                  &ldquo;Fast&rdquo; and &ldquo;findable&rdquo; are easy to say. These are the
+                  minimums a site has to hit before we hand it over.
+                </p>
+              </motion.div>
+              <motion.div {...fadeUp}>
+                <PerformanceTargets />
+              </motion.div>
+            </div>
+          </section>
+        </>
+      )}
+
+      {isWebApps && (
+        <section className="border-y border-[#F2600B]/10 bg-[#0a0503] py-16 md:py-24">
+          <div className="mx-auto max-w-6xl px-6 lg:px-12">
+            <motion.div className="mb-12 text-center" {...fadeUp}>
+              <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+              <h2 className="hero-display text-3xl font-bold md:text-4xl">
+                What happens <span className="text-[#F2600B]">without you</span>
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl text-gray-400">
+                One request, start to finish. The steps marked Automatic are the ones
+                nobody on your team has to remember to do.
+              </p>
+            </motion.div>
+            <motion.div {...fadeUp}>
+              <WorkflowDemo />
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {isSaas && (
+        <section className="border-y border-[#F2600B]/10 bg-[#0a0503] py-16 md:py-24">
+          <div className="mx-auto max-w-6xl px-6 lg:px-12">
+            <motion.div className="mb-10 text-center" {...fadeUp}>
+              <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+              <h2 className="hero-display text-3xl font-bold md:text-4xl">
+                Charging for it is <span className="text-[#F2600B]">the product</span>
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl text-gray-400">
+                Plans aren&apos;t a page on your website — they&apos;re rules the platform
+                enforces on every screen. Switch plan and watch it happen.
+              </p>
+            </motion.div>
+            <motion.div {...fadeUp}>
+              <PlanGatingDemo />
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {isMobile && (
+        <section className="border-y border-[#F2600B]/10 bg-[#0a0503] py-16 md:py-24">
+          <div className="mx-auto max-w-6xl px-6 lg:px-12">
+            <motion.div className="mb-12 text-center" {...fadeUp}>
+              <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-[#F2600B]" />
+              <h2 className="hero-display text-3xl font-bold md:text-4xl">
+                In their pocket, <span className="text-[#F2600B]">not in a tab</span>
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl text-gray-400">
+                The reason to build an app rather than another page.
+              </p>
+            </motion.div>
+            <motion.div {...fadeUp}>
+              <PushDemo />
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* ── FEATURE DEEP-DIVE (alternating) ──────────────────────────── */}
       <section className="py-16 md:py-24 bg-gradient-to-b from-black via-black to-[#160b02]">
