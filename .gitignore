@@ -36,3 +36,6 @@ WORK_LOG.md
 # Ignore it here so it's never accidentally staged into the frontend repo.
 krafo_api/
 .claudeignore
+
+# Local-only vendored package (uninstalled from deps; kept locally for reference)
+react-device-mockup/

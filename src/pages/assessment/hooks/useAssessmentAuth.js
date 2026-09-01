@@ -31,7 +31,9 @@ export function useAssessmentAuth() {
     try {
       const res = await axios.post(`${BASE}/login`, data);
       if (res.data.requiresOtp) {
-        setPendingOtpEmail(res.data.email);
+        // Use the email the user actually typed for the verify-login-otp call —
+        // the server response now only returns a masked address (for display).
+        setPendingOtpEmail(data.email);
         return { ...res.data, displayEmail: res.data.maskedEmail };
       }
       storeAuth(res.data.user, res.data.token);
