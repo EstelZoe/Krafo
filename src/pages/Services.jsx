@@ -1,10 +1,11 @@
-import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useRef, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, CalendarClock } from "lucide-react";
+import { ArrowRight, CalendarClock, Award, ShieldCheck, Globe } from "lucide-react";
 import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 import FeaturedCourses from "../components/FeaturedCourses";
+import PartnershipCarousel from "../assets/components/PartnershipCarousel";
 import BentoGrid from "./services/BentoGrid";
 import ProductShowcase from "./services/ProductShowcase";
 import CybersecuritySection from "./services/CybersecuritySection";
@@ -25,6 +26,19 @@ export default function Services() {
     const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
     const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.3]);
     const heroY = useTransform(scrollYProgress, [0, 1], [0, 200]);
+
+    // Deep-link support: arriving at /services#training (e.g. "See all training"
+    // from Home) scrolls to that section. A short delay lets content render and
+    // wins over the global scroll reset.
+    const { hash } = useLocation();
+    useEffect(() => {
+        if (!hash) return undefined;
+        const id = hash.replace("#", "");
+        const timer = setTimeout(() => {
+            document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 120);
+        return () => clearTimeout(timer);
+    }, [hash]);
 
     return (
         <div className="min-h-screen bg-black text-white overflow-x-hidden">
@@ -78,6 +92,30 @@ export default function Services() {
                             <a href="#build" className="inline-flex items-center gap-2 border border-white/20 bg-white/10 backdrop-blur-md hover:bg-white/15 hover:border-[#F2600B]/60 text-white font-semibold py-3.5 px-8 rounded-full shadow-lg shadow-black/20 transition-all duration-300">
                                 View Build Services <ArrowRight size={18} />
                             </a>
+                        </div>
+
+                        {/* Credential strip — the same four facts used on the
+                            home hero, so the licensing shows before the pitch. */}
+                        <div
+                            className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-gray-400"
+                            role="group"
+                            aria-label="Krafo credentials"
+                        >
+                            <span className="flex items-center gap-1.5">
+                                <Award size={14} aria-hidden="true" className="text-[#F2600B]" /> CSA Licensed
+                            </span>
+                            <span aria-hidden="true" className="h-4 w-px bg-white/15" />
+                            <span className="flex items-center gap-1.5">
+                                <ShieldCheck size={14} aria-hidden="true" className="text-[#F2600B]" /> DPC Registered
+                            </span>
+                            <span aria-hidden="true" className="h-4 w-px bg-white/15" />
+                            <span className="flex items-center gap-1.5">
+                                <Globe size={14} aria-hidden="true" className="text-[#F2600B]" /> Based in Ghana
+                            </span>
+                            <span aria-hidden="true" className="h-4 w-px bg-white/15" />
+                            <span className="flex items-center gap-1.5">
+                                <CalendarClock size={14} aria-hidden="true" className="text-[#F2600B]" /> Est. 2022
+                            </span>
                         </div>
                     </motion.div>
                 </div>
@@ -145,6 +183,23 @@ export default function Services() {
                     titleAccent="Your Team"
                     subtitle="Upskill your personnel with practical, high-demand cybersecurity and digital training — for individuals and organisations."
                 />
+            </section>
+
+            {/* ── TESTIMONIALS — trained by Krafo, in their own words ──────── */}
+            <section className="relative overflow-hidden border-t border-[#F2600B]/10 bg-[#0a0503] py-20 md:py-24">
+                <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,#F2600B10,transparent_60%)]" />
+                <div className="relative max-w-6xl mx-auto px-6 lg:px-12">
+                    <div className="text-center mb-12">
+                        <div className="w-12 h-1 bg-[#F2600B] mx-auto mb-4 rounded-full" />
+                        <h2 className="hero-display text-3xl md:text-4xl font-bold">
+                            Trusted across the <span className="text-[#F2600B]">ecosystem</span>
+                        </h2>
+                        <p className="text-gray-400 max-w-2xl mx-auto mt-3">
+                            The people we&apos;ve trained now defend the organisations they serve — hear it from them.
+                        </p>
+                    </div>
+                    <PartnershipCarousel />
+                </div>
             </section>
 
             {/* ── CLOSING CTA ──────────────────────────────────────────────── */}

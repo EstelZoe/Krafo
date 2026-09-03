@@ -9,6 +9,36 @@ nav{
 }
 @import "tailwindcss";
 
+/* ── Brand palette ───────────────────────────────────────────────────────
+   Remap Tailwind's default orange scale to Krafo's brand orange (#F2600B) so
+   every `orange-*` utility across the app — especially the assessment toolkit,
+   which is built almost entirely on orange-500/600/400 — renders on-brand
+   without editing hundreds of class names. Pages that already use the exact
+   #F2600B arbitrary value are unaffected. */
+@theme {
+  --color-orange-300: #ff8534;
+  --color-orange-400: #ff8534;
+  --color-orange-500: #F2600B;
+  --color-orange-600: #d94f00;
+  --color-orange-700: #b33f00;
+}
+
+/* Proxon display heading, defined once globally so pages don't each redeclare
+   it in a local <style> block. */
+.hero-display { font-family: 'Proxon', sans-serif; }
+
+/* Assessment toolkit — bring it onto the same Proxon display treatment as the
+   rest of the site. Scoped to the `.toolkit-theme` wrapper in App.jsx so every
+   toolkit route and its nested components inherit it, instead of tagging each
+   heading individually across ~18 pages. `display: contents` keeps the wrapper
+   out of the layout entirely. */
+.toolkit-theme { display: contents; }
+
+.toolkit-theme h1,
+.toolkit-theme h2 {
+  font-family: 'Proxon', sans-serif;
+}
+
 /* background inimation */
 /* @keyframes zoom {
   0% {
@@ -264,22 +294,22 @@ nav{
 /* Custom Glow Effect Utilities for Assessment UI Enhancements */
 @layer utilities {
   .glow-orange-sm {
-    box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+    box-shadow: 0 0 8px rgba(242, 96, 11, 0.4);
   }
   
   .glow-orange-md {
-    box-shadow: 0 0 12px rgba(249, 115, 22, 0.5),
-                0 0 24px rgba(249, 115, 22, 0.2);
+    box-shadow: 0 0 12px rgba(242, 96, 11, 0.5),
+                0 0 24px rgba(242, 96, 11, 0.2);
   }
   
   .glow-orange-lg {
-    box-shadow: 0 0 16px rgba(249, 115, 22, 0.6),
-                0 0 32px rgba(249, 115, 22, 0.3),
-                0 0 48px rgba(249, 115, 22, 0.1);
+    box-shadow: 0 0 16px rgba(242, 96, 11, 0.6),
+                0 0 32px rgba(242, 96, 11, 0.3),
+                0 0 48px rgba(242, 96, 11, 0.1);
   }
   
   .glow-orange-ambient {
-    box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+    box-shadow: 0 0 20px rgba(242, 96, 11, 0.3);
   }
   
   .glow-green-sm {

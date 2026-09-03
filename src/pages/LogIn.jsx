@@ -98,22 +98,24 @@ export default function LogIn() {
     };
 
     return (
-        <div className="bg-white text-black">
+        <div className="min-h-screen bg-black text-white">
+            <style>{`.hero-display{font-family:'Proxon',sans-serif;}`}</style>
             <Navbar />
-            <main className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-md w-full space-y-8 p-10 bg-white shadow-lg rounded-xl">
+            <main className="relative isolate flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+                <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_20%,#F2600B14,transparent_60%)]" />
+                <div className="w-full max-w-md space-y-8 rounded-2xl border border-white/10 bg-white/5 p-10 shadow-2xl shadow-black/50 backdrop-blur-xl">
                     <div>
                         <img src={Logo} alt="logo" className="mx-auto h-12 w-auto" />
-                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        <h2 className="hero-display mt-6 text-center text-3xl font-extrabold text-white">
                             {step === 'credentials' ? 'Sign in to your account' : 'Verify it\u2019s you'}
                         </h2>
                         {step === 'credentials' ? (
-                            <p className="mt-2 text-center text-sm text-gray-600">
+                            <p className="mt-2 text-center text-sm text-gray-400">
                                 Authorized personnel only. Need access? Contact your administrator.
                             </p>
                         ) : (
-                            <p className="mt-2 text-center text-sm text-gray-600">
-                                Enter the 6-digit code sent to <span className="font-medium">{otpSession.maskedEmail}</span>
+                            <p className="mt-2 text-center text-sm text-gray-400">
+                                Enter the 6-digit code sent to <span className="font-medium text-white">{otpSession.maskedEmail}</span>
                             </p>
                         )}
                     </div>
@@ -129,7 +131,7 @@ export default function LogIn() {
                                         type="email"
                                         autoComplete="email"
                                         required
-                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                        className="block w-full appearance-none rounded-md border border-white/15 bg-white/5 px-3 py-2.5 text-white placeholder-gray-500 focus:border-[#F2600B] focus:outline-none focus:ring-2 focus:ring-[#ff8534] sm:text-sm"
                                         placeholder="Email address"
                                         value={formData.email}
                                         onChange={handleChange}
@@ -143,7 +145,7 @@ export default function LogIn() {
                                         type="password"
                                         autoComplete="current-password"
                                         required
-                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                        className="block w-full appearance-none rounded-md border border-white/15 bg-white/5 px-3 py-2.5 text-white placeholder-gray-500 focus:border-[#F2600B] focus:outline-none focus:ring-2 focus:ring-[#ff8534] sm:text-sm"
                                         placeholder="Password"
                                         value={formData.password}
                                         onChange={handleChange}
@@ -155,7 +157,7 @@ export default function LogIn() {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-60"
+                                    className="flex w-full justify-center rounded-md bg-[#F2600B] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#d94f00] focus:outline-none focus:ring-2 focus:ring-[#ff8534] focus:ring-offset-2 focus:ring-offset-black disabled:opacity-60"
                                 >
                                     {loading ? 'Signing in\u2026' : 'Sign in'}
                                 </button>
@@ -174,7 +176,7 @@ export default function LogIn() {
                                     maxLength={6}
                                     autoComplete="one-time-code"
                                     required
-                                    className="appearance-none block w-full px-3 py-3 text-center tracking-[0.5em] text-lg font-semibold border border-gray-300 placeholder-gray-400 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                                    className="block w-full appearance-none rounded-md border border-white/15 bg-white/5 px-3 py-3 text-center text-lg font-semibold tracking-[0.5em] text-white placeholder-gray-500 focus:border-[#F2600B] focus:outline-none focus:ring-2 focus:ring-[#ff8534]"
                                     placeholder="000000"
                                     value={otp}
                                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
@@ -185,7 +187,7 @@ export default function LogIn() {
                                 <button
                                     type="submit"
                                     disabled={loading || otp.length !== 6}
-                                    className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-60"
+                                    className="flex w-full justify-center rounded-md bg-[#F2600B] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#d94f00] focus:outline-none focus:ring-2 focus:ring-[#ff8534] focus:ring-offset-2 focus:ring-offset-black disabled:opacity-60"
                                 >
                                     {loading ? 'Verifying\u2026' : 'Verify and continue'}
                                 </button>
@@ -193,7 +195,7 @@ export default function LogIn() {
                                     <button
                                         type="button"
                                         onClick={resetToCredentials}
-                                        className="font-medium text-gray-600 hover:text-gray-800"
+                                        className="font-medium text-gray-400 transition-colors hover:text-white"
                                     >
                                         Use a different account
                                     </button>
@@ -201,7 +203,7 @@ export default function LogIn() {
                                         type="button"
                                         onClick={handleResendOtp}
                                         disabled={loading}
-                                        className="font-medium text-orange-600 hover:text-orange-500 disabled:opacity-60"
+                                        className="font-medium text-[#ff8534] transition-colors hover:text-[#F2600B] disabled:opacity-60"
                                     >
                                         Resend code
                                     </button>

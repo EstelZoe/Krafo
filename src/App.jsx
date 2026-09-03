@@ -18,12 +18,11 @@ function AssessmentGuard({ children }) {
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
-const Courses = lazy(() => import("./pages/Courses"));
 const CourseDetails = lazy(() => import("./pages/CourseDetails"));
 const EventPage = lazy(() => import("./pages/EventPage"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
 const BlogDetail = lazy(() => import("./pages/BlogDetail"));
-const YouthCyberEd = lazy(() => import("./pages/YouthCyberEd"));
+
 const Consultation = lazy(() => import("./pages/Consultation"));
 const Expertise = lazy(() => import("./pages/Expertise"));
 const Services = lazy(() => import("./pages/Services"));
@@ -97,12 +96,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/courses" element={<Courses />} />
+            {/* Courses listing retired — training now lives on the Services page. */}
+            <Route path="/courses" element={<Navigate to="/services#training" replace />} />
             <Route path="/courses/:slug" element={<CourseDetails />} />
             <Route path="/event-page" element={<EventPage />} />
             <Route path="/blog-page" element={<BlogPage />} />
             <Route path="/blog/:id" element={<BlogDetail />} />
-            <Route path="/youth-cyber-ed" element={<YouthCyberEd />} />
+            {/* Youth Cyber Ed archived for now — redirect any inbound links home. */}
+            <Route path="/youth-cyber-ed" element={<Navigate to="/" replace />} />
             <Route path="/consultation" element={<Consultation />} />
             <Route path="/expertise" element={<Expertise />} />
             <Route path="/services" element={<Services />} />
@@ -154,9 +155,10 @@ function App() {
             </Route>
 
             {/* Assessment Routes - wrapped in AssessmentProvider */}
-            <Route path="/assessment-toolkit" element={<AssessmentProvider><AssessmentToolkit /></AssessmentProvider>} />
+            <Route path="/assessment-toolkit" element={<AssessmentProvider><div className="toolkit-theme"><AssessmentToolkit /></div></AssessmentProvider>} />
             <Route path="/assessment-toolkit/*" element={
               <AssessmentProvider>
+                <div className="toolkit-theme">
                 <Routes>
                   <Route path="start" element={<AssessmentStart />} />
                   <Route path="signup" element={<AssessmentSignUp />} />
@@ -177,6 +179,7 @@ function App() {
                   <Route path="report/:id" element={<AssessmentGuard><AssessmentReport /></AssessmentGuard>} />
                   <Route path="dashboard" element={<AssessmentGuard><AssessmentDashboard /></AssessmentGuard>} />
                 </Routes>
+                </div>
               </AssessmentProvider>
             } />
             

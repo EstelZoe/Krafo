@@ -18,9 +18,9 @@ import { memo, useId, useMemo, useRef, useState } from "react";
    "1" = draw a dot. 120 columns x 43 rows, one cell per 3 degrees,
    spanning lon -180..180 and lat 72..-56 (poles cropped, as in the reference).
 --------------------------------------------------------------------------- */
-const GRID = { cols: 120, rows: 43, step: 3, lon0: -180, lat0: 72 };
+export const GRID = { cols: 120, rows: 43, step: 3, lon0: -180, lat0: 72 };
 
-const LAND = [
+export const LAND = [
   "110000011100000000111111111111111111100001111111111111000000000000001110000001110011111111111111111111111111111111000000",
   "110001111111111111111111111111111111111000111111111110000000000001111111110101111111111111111111111111111111111111111111",
   "111111111111111111111111111111111111111100111111110011110000000011111111111111111111111111111111111111111111111111111111",
@@ -66,13 +66,13 @@ const LAND = [
   "000000000000000000000000000000000001111000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 ].join("");
 
-const U = 10;                 // SVG units per grid cell
-const W = GRID.cols * U;      // 1200
-const H = GRID.rows * U;      // 430
+export const U = 10;          // SVG units per grid cell
+export const W = GRID.cols * U;      // 1200
+export const H = GRID.rows * U;      // 430
 const DOT_R = 1.85;           // land dot radius
 
 /** lat/lon -> SVG coordinates */
-function project(lat, lon) {
+export function project(lat, lon) {
   return {
     x: ((lon - GRID.lon0) / GRID.step + 0.5) * U,
     y: ((GRID.lat0 - lat) / GRID.step + 0.5) * U,
@@ -276,7 +276,7 @@ export default function WorldPresenceMap({
 }
 
 /* All ~2,000 land dots as a single <path> — one DOM node instead of 2,000. */
-const LandDots = memo(function LandDots({ dots, fill }) {
+export const LandDots = memo(function LandDots({ dots, fill }) {
   const d = useMemo(
     () =>
       dots

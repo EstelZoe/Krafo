@@ -21,7 +21,7 @@ describe('ToolkitNavbar - Navigation Enhancements', () => {
       const navLinks = Array.from(desktopLinks).slice(0, 4);
       
       navLinks.forEach(link => {
-        expect(link.className).toContain('hover:text-orange-500');
+        expect(link.className).toContain('hover:text-[#F2600B]');
         expect(link.className).toContain('transition-colors');
         expect(link.className).toContain('duration-200');
       });
@@ -40,7 +40,7 @@ describe('ToolkitNavbar - Navigation Enhancements', () => {
         expect(link.className).toContain('after:left-0');
         expect(link.className).toContain('after:w-0');
         expect(link.className).toContain('after:h-0.5');
-        expect(link.className).toContain('after:bg-orange-500');
+        expect(link.className).toContain('after:bg-[#F2600B]');
         expect(link.className).toContain('hover:after:w-full');
       });
     });

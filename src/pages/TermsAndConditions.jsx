@@ -1,26 +1,14 @@
 import React from "react";
-import Navbar from "../assets/components/Navbar";
-import Footer from "../assets/components/Footer";
+import LegalPageLayout from "../assets/components/LegalPageLayout";
 
 export default function TermsAndConditions() {
   return (
-    <div className="bg-black text-white font-body">
-      <Navbar />
-      <main className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
-        {/* Animated Cyber Background Grid */}
-        <div className="absolute inset-0 -z-10 opacity-10 animate-pulse bg-[radial-gradient(#F2600B22_1px,transparent_1px)] [background-size:20px_20px]" />
-
-        <div className="mx-auto max-w-4xl">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              Terms and Conditions for KrafoSystems.com
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-300">
-              Last updated: October 1, 2025
-            </p>
-          </div>
-
-          <div className="mt-16 space-y-8 text-gray-300">
+    <LegalPageLayout
+      eyebrow="Legal"
+      title="Terms & Conditions"
+      updated="October 1, 2025"
+      intro="How your use of KrafoSystems.com, our services, consultations and training is governed."
+    >
             <section>
               <p className="leading-relaxed">
                 Welcome to KrafoSystems.com, operated by Krafo Systems Ltd ("we", "our", or "us"). These
@@ -131,10 +119,6 @@ export default function TermsAndConditions() {
                 <li>Phone: (+233) 59-319-6002</li>
               </ul>
             </section>
-          </div>
-        </div>
-      </main>
-      <Footer />
-    </div>
+    </LegalPageLayout>
   );
 }

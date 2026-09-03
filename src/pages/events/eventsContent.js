@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-//  ⚠️  PLACEHOLDER CONTENT — REVIEW BEFORE LAUNCH
+//   PLACEHOLDER CONTENT — REVIEW BEFORE LAUNCH
 //
 //  The photographs below are genuine Krafo assets already committed to the
 //  repo, but every title, date, venue and attendance figure is ILLUSTRATIVE
@@ -94,7 +94,7 @@ export const SIGNATURE_PROGRAMS = [
             "Hands-on labs, not slideware",
             "Cohort community and graduation showcase",
         ],
-        cta: { label: "View the course", to: "/courses" },
+        cta: { label: "View the training", to: "/services#training" },
     },
     {
         key: "cyberbytes",
@@ -111,7 +111,7 @@ export const SIGNATURE_PROGRAMS = [
             "School assemblies and homeschool collectives",
             "Safe-online habits that stick at home",
         ],
-        cta: { label: "Explore Youth Cyber Ed", to: "/youth-cyber-ed" },
+        cta: { label: "Ask about CyberBytes", to: "/contact" },
     },
     {
         key: "community",

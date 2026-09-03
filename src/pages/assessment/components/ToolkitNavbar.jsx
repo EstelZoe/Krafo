@@ -21,33 +21,24 @@ export default function ToolkitNavbar() {
                 <div className="hidden md:flex items-center space-x-8">
                     <Link 
                         to="/assessment-toolkit" 
-                        className="text-white hover:text-orange-500 transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 after:transition-all after:duration-300 hover:after:w-full"
+                        className="text-white hover:text-[#F2600B] transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#F2600B] after:transition-all after:duration-300 hover:after:w-full"
                     >
                         Toolkit
                     </Link>
 
                     <Link 
-                        to="/assessment-toolkit/solutions" 
-                        className="text-white hover:text-orange-500 transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 after:transition-all after:duration-300 hover:after:w-full"
+                        to="/services" 
+                        className="text-white hover:text-[#F2600B] transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#F2600B] after:transition-all after:duration-300 hover:after:w-full"
                     >
-                        Solutions
+                        Services
                     </Link>
 
                     <Link 
-                        to="/assessment-toolkit/resources" 
-                        className="text-white hover:text-orange-500 transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 after:transition-all after:duration-300 hover:after:w-full"
+                        to="/contact" 
+                        className="text-white hover:text-[#F2600B] transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#F2600B] after:transition-all after:duration-300 hover:after:w-full"
                     >
-                        Resources
+                        Contact Us
                     </Link>
-
-                    {/* <Link 
-                        to="/assessment-toolkit/contact" 
-                        className="text-white hover:text-orange-500 transition-colors duration-200 ease-out relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 after:transition-all after:duration-300 hover:after:w-full"
-                    >
-                        Contact
-                    </Link> */}
-
-                    {/* My Dashboard removed — users access dashboard through login flow */}
                 </div>
 
                 {/* Mobile Button */}
@@ -76,7 +67,7 @@ export default function ToolkitNavbar() {
             `}>
                 <Link 
                     to="/assessment-toolkit" 
-                    className="block hover:text-orange-500 transition-colors duration-200"
+                    className="block hover:text-[#F2600B] transition-colors duration-200"
                     style={{ 
                         transitionDelay: open ? '0ms' : '0ms',
                         opacity: open ? 1 : 0,
@@ -88,8 +79,8 @@ export default function ToolkitNavbar() {
                 </Link>
 
                 <Link 
-                    to="/assessment-toolkit/solutions" 
-                    className="block hover:text-orange-500 transition-colors duration-200"
+                    to="/services" 
+                    className="block hover:text-[#F2600B] transition-colors duration-200"
                     style={{ 
                         transitionDelay: open ? '50ms' : '0ms',
                         opacity: open ? 1 : 0,
@@ -97,12 +88,12 @@ export default function ToolkitNavbar() {
                         transition: 'opacity 300ms, transform 300ms, color 200ms'
                     }}
                 >
-                    Solutions
+                    Services
                 </Link>
 
                 <Link 
-                    to="/assessment-toolkit/resources" 
-                    className="block hover:text-orange-500 transition-colors duration-200"
+                    to="/contact" 
+                    className="block hover:text-[#F2600B] transition-colors duration-200"
                     style={{ 
                         transitionDelay: open ? '100ms' : '0ms',
                         opacity: open ? 1 : 0,
@@ -110,20 +101,7 @@ export default function ToolkitNavbar() {
                         transition: 'opacity 300ms, transform 300ms, color 200ms'
                     }}
                 >
-                    Resources
-                </Link>
-
-                <Link 
-                    to="/assessment-toolkit/contact" 
-                    className="block hover:text-orange-500 transition-colors duration-200"
-                    style={{ 
-                        transitionDelay: open ? '150ms' : '0ms',
-                        opacity: open ? 1 : 0,
-                        transform: open ? 'translateY(0)' : 'translateY(-8px)',
-                        transition: 'opacity 300ms, transform 300ms, color 200ms'
-                    }}
-                >
-                    Contact
+                    Contact Us
                 </Link>
 
                 {/* My Dashboard removed — users access dashboard through login flow */}

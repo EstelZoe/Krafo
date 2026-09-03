@@ -1,9 +1,10 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import ToolkitNavbar from "./components/ToolkitNavbar";
 import ParticleNetwork from "./components/ParticleNetwork";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, LogIn } from "lucide-react";
 import Footer from "../../assets/components/Footer";
 
 
@@ -28,7 +29,7 @@ function MouseGlow() {
     <div
       className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
       style={{
-        background: `radial-gradient(circle at ${position.x}px ${position.y}px, rgba(255, 115, 0, 0.32), rgba(139, 92, 246, 0.22), rgba(14, 165, 233, 0.16), transparent 36%)`,
+        background: `radial-gradient(circle at ${position.x}px ${position.y}px, rgba(242, 96, 11, 0.32), rgba(139, 92, 246, 0.22), rgba(14, 165, 233, 0.16), transparent 36%)`,
       }}
     />
   );
@@ -37,11 +38,11 @@ function MouseGlow() {
 function AnimatedHeading() {
   return (
     <div className="text-center">
-      <h1 className="text-5xl md:text-6xl font-bold text-orange-500">
+      <h1 className="hero-display text-5xl md:text-6xl font-bold text-orange-500">
         Cybersecurity Risk
       </h1>
 
-      <h1 className="text-5xl md:text-6xl font-bold">
+      <h1 className="hero-display text-5xl md:text-6xl font-bold">
         Assessment Toolkit
       </h1>
 
@@ -75,7 +76,7 @@ export default function CyberAssessmentToolkitHome() {
           </div>
 
 
-<div className="relative mt-12 flex w-full justify-center lg:mt-16">
+<div className="relative mt-12 flex w-full flex-col items-center justify-center gap-4 sm:flex-row lg:mt-16">
             <motion.a
               href="/assessment-toolkit/start"
               initial={{ opacity: 0, y: 30 }}
@@ -87,13 +88,27 @@ export default function CyberAssessmentToolkitHome() {
                 opacity: { duration: 0.8, delay: 1.25 },
                 y: { duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 2 }
               }}
-              whileHover={{ scale: 1.08, y: -10, boxShadow: "0 20px 50px -10px rgba(249, 115, 22, 0.5), 0 0 40px rgba(249, 115, 22, 0.2)" }}
+              whileHover={{ scale: 1.08, y: -10, boxShadow: "0 20px 50px -10px rgba(242, 96, 11, 0.5), 0 0 40px rgba(242, 96, 11, 0.2)" }}
               whileTap={{ scale: 0.96 }}
               className="inline-flex items-center gap-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold text-lg px-10 py-4 rounded-xl shadow-lg shadow-orange-500/20 transition-colors duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
             >
               Take a Free Assessment
               <ArrowRight size={20} />
             </motion.a>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.4 }}
+            >
+              <Link
+                to="/assessment-toolkit/login"
+                className="relative inline-flex items-center gap-2 overflow-hidden rounded-xl border border-white/20 bg-white/10 px-10 py-4 text-lg font-semibold text-gray-100 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-md backdrop-saturate-150 transition-all duration-300 ease-out before:pointer-events-none before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-b before:from-white/25 before:via-white/5 before:to-transparent before:opacity-70 hover:scale-105 hover:border-orange-400/50 hover:bg-white/20 hover:text-white hover:shadow-[0_12px_40px_rgba(242,96,11,0.25)] focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black"
+              >
+                <LogIn size={20} className="relative z-10" />
+                <span className="relative z-10">Log In</span>
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>

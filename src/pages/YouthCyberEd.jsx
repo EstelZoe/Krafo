@@ -117,7 +117,8 @@ export default function YouthCyberEducation() {
     }, [isHovered, images.length]);
 
     return (
-        <div className="bg-white text-black">
+        <div className="bg-black text-white">
+            <style>{`.hero-display{font-family:'Proxon',sans-serif;}`}</style>
             <Navbar />
 
 
@@ -203,7 +204,7 @@ export default function YouthCyberEducation() {
                                 transition={{ delay: 0.5, duration: 0.8 }}
                             >
                                 <a href="https://krafocapacitybuilder.learnworlds.com/home?preview=true" target="_blank" rel="noopener noreferrer">
-                                    <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-lg transition flex items-center">
+                                    <button className="bg-[#F2600B] hover:bg-[#d94f00] text-white font-semibold px-6 py-2 rounded-lg transition flex items-center">
                                         {slides[currentSlide].cta}
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                                             <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />

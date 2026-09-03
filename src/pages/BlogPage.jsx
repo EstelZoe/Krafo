@@ -54,7 +54,8 @@ export default function BlogPage() {
     return (
         <>
             <Navbar />
-            <div className="bg-white min-h-screen text-black">
+            <div className="bg-black min-h-screen text-white">
+                <style>{`.hero-display{font-family:'Proxon',sans-serif;}`}</style>
                 {/* Hero Section */}
                 <div
                     className="relative flex items-center justify-center text-center bg-cover bg-center bg-no-repeat text-white h-[380px] md:h-[480px]"
@@ -63,7 +64,7 @@ export default function BlogPage() {
                     }}
                 >
                     <div className="relative z-10 p-4">
-                        <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 md:mb-8">
+                        <h1 className="hero-display text-3xl md:text-5xl font-bold text-white mb-6 md:mb-8">
                             Thoughts from the <span className="text-[#F2600B]">Cyber</span> Frontline
                         </h1>
                         <p className="text-base md:text-lg text-gray-300 max-w-xl mx-auto">

@@ -38,10 +38,13 @@ export default function CookieConsentBanner() {
         animate={{ y: "0%" }}
         exit={{ y: "100%" }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-md border-t border-orange-500/30 p-4 z-50"
+        // Floated off the viewport edge and frosted, rather than a solid bar
+        // welded to the bottom — it now reads as a card sitting above the page
+        // instead of a strip cutting the design off.
+        className="fixed inset-x-0 bottom-0 z-50 p-3 sm:p-5"
       >
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-gray-300 text-center sm:text-left">
+        <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 rounded-2xl border border-white/15 bg-black/45 p-4 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.9)] backdrop-blur-2xl sm:flex-row sm:p-5">
+          <p className="text-sm text-gray-200 text-center sm:text-left">
             We use cookies to enhance your browsing experience and analyze our
             traffic. By clicking "Accept", you consent to our use of cookies.
             Read our{" "}
@@ -53,16 +56,16 @@ export default function CookieConsentBanner() {
               Terms & Conditions
             </Link>.
           </p>
-          <div className="flex-shrink-0 flex gap-3">
+          <div className="flex flex-shrink-0 gap-3">
             <button
               onClick={() => handleConsent("declined")}
-              className="px-4 py-2 text-sm font-medium rounded-md text-white hover:bg-white/10 transition"
+              className="rounded-full border border-white/15 px-5 py-2 text-sm font-medium text-gray-300 transition hover:border-white/30 hover:bg-white/10 hover:text-white"
             >
               Decline
             </button>
             <button
               onClick={() => handleConsent("accepted")}
-              className="px-4 py-2 text-sm font-medium rounded-md bg-[#F2600B] text-white hover:bg-orange-600 transition"
+              className="rounded-full bg-[#F2600B] px-6 py-2 text-sm font-bold text-white shadow-lg shadow-[#F2600B]/25 transition hover:bg-[#d94f00]"
             >
               Accept
             </button>

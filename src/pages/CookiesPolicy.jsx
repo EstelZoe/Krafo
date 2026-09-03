@@ -1,27 +1,13 @@
 import React from "react";
-import Navbar from "../assets/components/Navbar";
-import Footer from "../assets/components/Footer";
-import { Link } from "react-router-dom";
+import LegalPageLayout from "../assets/components/LegalPageLayout";
 
 export default function CookiesPolicy() {
   return (
-    <div className="bg-black text-white font-body">
-      <Navbar />
-      <main className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
-        {/* Animated Cyber Background Grid */}
-        <div className="absolute inset-0 -z-10 opacity-10 animate-pulse bg-[radial-gradient(#F2600B22_1px,transparent_1px)] [background-size:20px_20px]" />
-
-        <div className="mx-auto max-w-4xl">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              Cookie Policy
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-300">
-              This Cookie Policy explains how Krafo Systems ("we", "us", "our") uses cookies and similar technologies when you visit our website (krafosystems.com).
-            </p>
-          </div>
-
-          <div className="mt-16 space-y-8 text-gray-300">
+    <LegalPageLayout
+      eyebrow="Legal"
+      title="Cookie Policy"
+      intro='How Krafo Systems ("we", "us", "our") uses cookies and similar technologies when you visit krafosystems.com.'
+    >
             <section>
               <h2 className="text-2xl font-semibold text-[#F2600B] mb-4">
                 What Are Cookies?
@@ -92,10 +78,6 @@ export default function CookiesPolicy() {
                 </a>.
               </p>
             </section>
-          </div>
-        </div>
-      </main>
-      <Footer />
-    </div>
+    </LegalPageLayout>
   );
 }

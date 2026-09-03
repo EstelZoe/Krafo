@@ -27,17 +27,12 @@ import {
 import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 import { EXPERTISE } from "./expertiseData";
+import { certifications } from "../assets/data/certifications";
 
 // ── Assets ───────────────────────────────────────────────────────────
 import bridge from "../assets/images/40128.jpg";
 import studyGroup from "../assets/images/studygroup2.jpg";
 
-import certCEH from "../assets/images/CEH.png";
-import certSecurityPlus from "../assets/images/Comptia Security+.png";
-import certNetworkPlus from "../assets/images/Comptia Network+.png";
-import certAPlus from "../assets/images/Comptia A+.png";
-import certCSIS from "../assets/images/Comptia CSIS.png";
-import certCIOS from "../assets/images/Comptia CIOS.png";
 import bridgeVideo from "../assets/videos/software development.mp4";
 
 // Risk-area background images
@@ -48,39 +43,6 @@ import riskContinuity from "../assets/images/Incident Response & Recovery.jpg";
 import riskCompliance from "../assets/images/policy management.jpg";
 
 const CALENDLY_URL = "https://calendly.com/krafosystems";
-
-const certifications = [
-    {
-        src: certCEH,
-        alt: "Certified Ethical Hacker (CEH)",
-        desc: "A skilled professional who understands how to find weaknesses and vulnerabilities in target systems, using the same knowledge and tools as a malicious hacker — but lawfully, to assess an organisation's security posture.",
-    },
-    {
-        src: certSecurityPlus,
-        alt: "CompTIA Security+",
-        desc: "Security+ practitioners know how to identify and address potential threats, attacks, and vulnerabilities, with advanced techniques in risk management, risk mitigation, threat management, and intrusion detection.",
-    },
-    {
-        src: certNetworkPlus,
-        alt: "CompTIA Network+",
-        desc: "Network+ holders can design and implement functional networks; configure, manage, and maintain essential network devices; implement network security; and troubleshoot network problems.",
-    },
-    {
-        src: certAPlus,
-        alt: "CompTIA A+",
-        desc: "A+ recipients perform critical IT support tasks — device configuration, data backup and recovery, and OS setup — with baseline security skills to detect and remove malware, address privacy concerns, and resolve core service issues.",
-    },
-    {
-        src: certCSIS,
-        alt: "Secure Infrastructure Specialist (CSIS)",
-        desc: "Secure Infrastructure Specialists have the knowledge and skill to support hardware and software systems, and to protect an organisation's assets from internal and external threats.",
-    },
-    {
-        src: certCIOS,
-        alt: "IT Operations Specialist (CIOS)",
-        desc: "IT Operations Specialists manage the flow of a workplace and optimise day-to-day activities, with the ability to analyse business operations and identify customer needs.",
-    },
-];
 
 const testimonials = [
     {

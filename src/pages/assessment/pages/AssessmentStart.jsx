@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ShieldCheck, ClipboardList, BarChart3, CalendarCheck } from 'lucide-react';
 import { useAssessmentContext } from '../context/AssessmentContext';
 import ToolkitNavbar from '../components/ToolkitNavbar';
+import Starfield from '../../events/Starfield';
 
 const STEPS = [
-  { icon: ClipboardList, label: 'Answer 37 questions', desc: 'Covering 7 NIST cybersecurity domains' },
+  { icon: ClipboardList, label: 'Answer 42 questions', desc: 'Seven short sections, scored across six NIST functions' },
   { icon: BarChart3, label: 'Get your risk score', desc: 'Instant analysis of your security posture' },
   { icon: CalendarCheck, label: 'Book a consultation', desc: 'Talk to an expert about your results' },
 ];
@@ -22,10 +23,14 @@ export default function AssessmentStart() {
   }, [token]);
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="relative min-h-screen overflow-hidden bg-black text-white">
+      {/* Shooting-star field, shared with the events pages so the two skies
+          stay identical. Decorative only — the component is aria-hidden. */}
+      <Starfield shootingStars opacity={0.5} />
+
       <ToolkitNavbar />
 
-      <div className="max-w-3xl mx-auto px-4 py-16 text-center">
+      <div className="relative z-10 max-w-3xl mx-auto px-4 py-16 text-center">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full mb-6">
           <ShieldCheck size={14} /> NIST-Based Assessment
@@ -35,8 +40,8 @@ export default function AssessmentStart() {
           Know Your <span className="text-orange-500">Cyber Risk</span> in Minutes
         </h1>
         <p className="text-gray-400 text-lg mb-12 max-w-xl mx-auto">
-          Our free cybersecurity maturity assessment evaluates your organisation across the five NIST
-          Cybersecurity Framework functions and delivers a personalised risk report.
+          Our free cybersecurity maturity assessment evaluates your organisation across the six NIST
+          Cybersecurity Framework 2.0 functions and delivers a personalised risk report.
         </p>
 
         {/* Steps */}

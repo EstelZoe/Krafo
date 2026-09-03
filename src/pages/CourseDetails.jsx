@@ -101,8 +101,8 @@ const courses = [
         currency: "GHS", 
         priceNote: "No registration • Digital certificate",
         bg: "bg-[#0A0A0A]",
-        ring: "ring-[#22D3EE44]",
-        tierColor: "text-cyan-400",
+        ring: "ring-[#F2600B55]",
+        tierColor: "text-[#ff8534]",
         badge: "BEST VALUE",
         features: [
           { icon: "video", text: "Full access to LIVE & recorded sessions", highlight: true },
@@ -123,8 +123,8 @@ const courses = [
         currency: "GHS/mo",
         priceNote: "Monthly subscription • Recorded only • Starting November",
         bg: "bg-[#0E0E0E]",
-        ring: "ring-[#65A30D44]",
-        tierColor: "text-green-400",
+        ring: "ring-[#F2600B55]",
+        tierColor: "text-[#ff8534]",
         badge: "AFFORDABLE",
         features: [
           { icon: "play-circle", text: "Access to recorded sessions only" },
@@ -238,7 +238,7 @@ function PaymentLinkButton({ href, children, disabled, className = "" }) {
   const cls = `mt-6 block rounded-lg text-center text-sm font-semibold transition-all duration-200 px-4 py-3 ${className} ${
     disabled
       ? "bg-gray-700 text-gray-300 cursor-not-allowed"
-      : "bg-[#F2600B] text-white hover:bg-orange-600 hover:shadow-lg transform hover:-translate-y-0.5"
+      : "bg-[#F2600B] text-white hover:bg-[#d94f00] hover:shadow-lg transform hover:-translate-y-0.5"
   }`;
 
   if (!href || disabled) {
@@ -268,7 +268,7 @@ export default function CourseDetails() {
           <div className="text-center p-8">
             <h1 className="text-2xl font-semibold">Course not found</h1>
             <p className="text-gray-400 mt-2">We couldn't find that course.</p>
-            <Link to="/courses" className="mt-6 inline-block px-6 py-3 bg-orange-600 rounded-lg text-black font-semibold">Back to Courses</Link>
+            <Link to="/services#training" className="mt-6 inline-block px-6 py-3 bg-[#F2600B] rounded-lg text-white font-semibold hover:bg-[#d94f00] transition-colors">Back to Training</Link>
           </div>
         </main>
         <Footer />
@@ -278,20 +278,21 @@ export default function CourseDetails() {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      <style>{`.hero-display{font-family:'Proxon',sans-serif;}`}</style>
       <Navbar />
       {/* Hero */}
       <section className="relative pt-28 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-black via-[#0b0602] to-[#1a0a00]">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold leading-tight">
+            <h1 className="hero-display text-3xl sm:text-4xl font-extrabold leading-tight">
               {course.title}
             </h1>
             <p className="text-gray-300 mt-4">{course.description}</p>
             <div className="mt-6 flex items-center gap-4">
-              <span className="px-3 py-1 rounded-full text-black font-semibold" style={{background:'#F2600B'}}>
+              <span className="px-3 py-1 rounded-full text-white font-semibold" style={{background:'#F2600B'}}>
                 {course.price}
               </span>
-              <Link to="/courses" className="text-orange-400 hover:text-orange-300 underline">Back to Courses</Link>
+              <Link to="/services#training" className="text-[#ff8534] hover:text-[#F2600B] underline">Back to Training</Link>
             </div>
           </div>
           <div>
@@ -314,7 +315,7 @@ export default function CourseDetails() {
             {/* Section Header - Reduced spacing */}
             <div className="mx-auto max-w-4xl text-center mb-12 pt-0">
               <h2 className="text-base font-semibold text-[#F2600B] tracking-wider uppercase animate-fade-up">Enrollment Options</h2>
-              <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl animate-fade-up delay-100">
+              <p className="hero-display mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl animate-fade-up delay-100">
                 Choose the right option for you
               </p>
               <p className="mx-auto mt-4 max-w-3xl text-base font-medium text-gray-400 animate-fade-up delay-200">
@@ -332,7 +333,7 @@ export default function CourseDetails() {
                   {/* Badge */}
                   {option.badge && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                      <span className="bg-gradient-to-r from-[#F2600B] to-orange-500 text-black text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
+                      <span className="bg-gradient-to-r from-[#F2600B] to-[#ff8534] text-black text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
                         {option.badge}
                       </span>
                     </div>
@@ -449,7 +450,7 @@ export default function CourseDetails() {
                 {/* Timeline Container */}
                 <div className="relative">
                   {/* Timeline Line */}
-                  <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#F2600B] via-orange-400 to-[#F2600B] opacity-30"></div>
+                  <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#F2600B] via-[#ff8534] to-[#F2600B] opacity-30"></div>
                   
                   <div className="space-y-8">
                     {/* Week 1 */}
@@ -458,103 +459,103 @@ export default function CourseDetails() {
                       <div className="flex-1 bg-black/40 rounded-xl p-6 border border-white/10">
                         <h3 className="text-lg font-bold text-[#F2600B] mb-2">State of Cybersecurity in Africa</h3>
                         <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
-                          <div className="flex items-center gap-2"><FeatureIcon icon="graduation-cap" className="text-orange-400 w-4 h-4" />Akwaaba Orientation</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-orange-400 w-4 h-4" />African cybersecurity landscape</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="graduation-cap" className="text-[#ff8534] w-4 h-4" />Akwaaba Orientation</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-[#ff8534] w-4 h-4" />African cybersecurity landscape</div>
                         </div>
                       </div>
                     </div>
 
                     {/* Weeks 2-3 */}
                     <div className="relative flex items-start gap-6">
-                      <div className="flex-shrink-0 w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center text-black font-bold text-sm">W2-3</div>
+                      <div className="flex-shrink-0 w-16 h-16 bg-[#F2600B] rounded-full flex items-center justify-center text-black font-bold text-sm">W2-3</div>
                       <div className="flex-1 bg-black/40 rounded-xl p-6 border border-white/10">
-                        <h3 className="text-lg font-bold text-orange-400 mb-2">Chapter 1: Security Principles</h3>
+                        <h3 className="text-lg font-bold text-[#F2600B] mb-2">Chapter 1: Security Principles</h3>
                         <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-300">
-                          <div className="flex items-center gap-2"><FeatureIcon icon="clipboard" className="text-orange-400 w-4 h-4" />Professional ethics</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-orange-400 w-4 h-4" />Information assurance</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="award" className="text-orange-400 w-4 h-4" />Foundation concepts</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="clipboard" className="text-[#ff8534] w-4 h-4" />Professional ethics</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-[#ff8534] w-4 h-4" />Information assurance</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="award" className="text-[#ff8534] w-4 h-4" />Foundation concepts</div>
                         </div>
                       </div>
                     </div>
 
                     {/* Weeks 4-5 */}
                     <div className="relative flex items-start gap-6">
-                      <div className="flex-shrink-0 w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center text-black font-bold text-sm">W4-5</div>
+                      <div className="flex-shrink-0 w-16 h-16 bg-[#F2600B] rounded-full flex items-center justify-center text-black font-bold text-sm">W4-5</div>
                       <div className="flex-1 bg-black/40 rounded-xl p-6 border border-white/10">
-                        <h3 className="text-lg font-bold text-yellow-400 mb-2">Chapter 2: Access Controls</h3>
+                        <h3 className="text-lg font-bold text-[#F2600B] mb-2">Chapter 2: Access Controls</h3>
                         <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
-                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-yellow-400 w-4 h-4" />Security controls implementation</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="clipboard" className="text-yellow-400 w-4 h-4" />Best practice policies</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="monitor" className="text-yellow-400 w-4 h-4" />Physical access systems</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="zap" className="text-yellow-400 w-4 h-4" />Logical access mechanisms</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-[#ff8534] w-4 h-4" />Security controls implementation</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="clipboard" className="text-[#ff8534] w-4 h-4" />Best practice policies</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="monitor" className="text-[#ff8534] w-4 h-4" />Physical access systems</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="zap" className="text-[#ff8534] w-4 h-4" />Logical access mechanisms</div>
                         </div>
                       </div>
                     </div>
 
                     {/* Weeks 5-6 */}
                     <div className="relative flex items-start gap-6">
-                      <div className="flex-shrink-0 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-black font-bold text-sm">W5-6</div>
+                      <div className="flex-shrink-0 w-16 h-16 bg-[#F2600B] rounded-full flex items-center justify-center text-black font-bold text-sm">W5-6</div>
                       <div className="flex-1 bg-black/40 rounded-xl p-6 border border-white/10">
-                        <h3 className="text-lg font-bold text-green-400 mb-2">Chapter 3: Network Security</h3>
+                        <h3 className="text-lg font-bold text-[#F2600B] mb-2">Chapter 3: Network Security</h3>
                         <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
-                          <div className="flex items-center gap-2"><FeatureIcon icon="monitor" className="text-green-400 w-4 h-4" />Networking fundamentals</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-green-400 w-4 h-4" />Security infrastructure</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="zap" className="text-green-400 w-4 h-4" />Threat landscape</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="award" className="text-green-400 w-4 h-4" />Mitigation strategies</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="monitor" className="text-[#ff8534] w-4 h-4" />Networking fundamentals</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-[#ff8534] w-4 h-4" />Security infrastructure</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="zap" className="text-[#ff8534] w-4 h-4" />Threat landscape</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="award" className="text-[#ff8534] w-4 h-4" />Mitigation strategies</div>
                         </div>
                       </div>
                     </div>
 
                     {/* Weeks 7-9 */}
                     <div className="relative flex items-start gap-6">
-                      <div className="flex-shrink-0 w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-black font-bold text-sm">W7-9</div>
+                      <div className="flex-shrink-0 w-16 h-16 bg-[#F2600B] rounded-full flex items-center justify-center text-black font-bold text-sm">W7-9</div>
                       <div className="flex-1 bg-black/40 rounded-xl p-6 border border-white/10">
-                        <h3 className="text-lg font-bold text-blue-400 mb-2">Chapter 4: Security Operations</h3>
+                        <h3 className="text-lg font-bold text-[#F2600B] mb-2">Chapter 4: Security Operations</h3>
                         <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-300">
-                          <div className="flex items-center gap-2"><FeatureIcon icon="clipboard" className="text-blue-400 w-4 h-4" />Risk management</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-blue-400 w-4 h-4" />Data protection</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="monitor" className="text-blue-400 w-4 h-4" />OS hardening</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="award" className="text-blue-400 w-4 h-4" />Governance</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="zap" className="text-blue-400 w-4 h-4" />Incident response</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="clipboard" className="text-[#ff8534] w-4 h-4" />Risk management</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-[#ff8534] w-4 h-4" />Data protection</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="monitor" className="text-[#ff8534] w-4 h-4" />OS hardening</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="award" className="text-[#ff8534] w-4 h-4" />Governance</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="zap" className="text-[#ff8534] w-4 h-4" />Incident response</div>
                         </div>
                       </div>
                     </div>
 
                     {/* Weeks 9-12 */}
                     <div className="relative flex items-start gap-6">
-                      <div className="flex-shrink-0 w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center text-black font-bold text-sm">W9-12</div>
+                      <div className="flex-shrink-0 w-16 h-16 bg-[#F2600B] rounded-full flex items-center justify-center text-black font-bold text-sm">W9-12</div>
                       <div className="flex-1 bg-black/40 rounded-xl p-6 border border-white/10">
-                        <h3 className="text-lg font-bold text-purple-400 mb-2">Chapter 5: Business Continuity</h3>
+                        <h3 className="text-lg font-bold text-[#F2600B] mb-2">Chapter 5: Business Continuity</h3>
                         <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
-                          <div className="flex items-center gap-2"><FeatureIcon icon="clipboard" className="text-purple-400 w-4 h-4" />Continuity planning</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="refresh-cw" className="text-purple-400 w-4 h-4" />Disaster recovery</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="graduation-cap" className="text-purple-400 w-4 h-4" />Group exercises</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="monitor" className="text-purple-400 w-4 h-4" />Scenario simulations</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="clipboard" className="text-[#ff8534] w-4 h-4" />Continuity planning</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="refresh-cw" className="text-[#ff8534] w-4 h-4" />Disaster recovery</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="graduation-cap" className="text-[#ff8534] w-4 h-4" />Group exercises</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="monitor" className="text-[#ff8534] w-4 h-4" />Scenario simulations</div>
                         </div>
                       </div>
                     </div>
 
                     {/* Weeks 13-14 */}
                     <div className="relative flex items-start gap-6">
-                      <div className="flex-shrink-0 w-16 h-16 bg-pink-500 rounded-full flex items-center justify-center text-black font-bold text-sm">W13-14</div>
+                      <div className="flex-shrink-0 w-16 h-16 bg-[#F2600B] rounded-full flex items-center justify-center text-black font-bold text-sm">W13-14</div>
                       <div className="flex-1 bg-black/40 rounded-xl p-6 border border-white/10">
-                        <h3 className="text-lg font-bold text-pink-400 mb-2">Specialized Modules</h3>
+                        <h3 className="text-lg font-bold text-[#F2600B] mb-2">Specialized Modules</h3>
                         <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-300">
-                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-pink-400 w-4 h-4" />Food Security</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="zap" className="text-pink-400 w-4 h-4" />Cyber & AI integration</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="book" className="text-pink-400 w-4 h-4" />Hacking The Human Mind</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="shield" className="text-[#ff8534] w-4 h-4" />Food Security</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="zap" className="text-[#ff8534] w-4 h-4" />Cyber & AI integration</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="book" className="text-[#ff8534] w-4 h-4" />Hacking The Human Mind</div>
                         </div>
                       </div>
                     </div>
 
                     {/* Week 15 */}
                     <div className="relative flex items-start gap-6">
-                      <div className="flex-shrink-0 w-16 h-16 bg-cyan-500 rounded-full flex items-center justify-center text-black font-bold text-sm">W15</div>
+                      <div className="flex-shrink-0 w-16 h-16 bg-[#F2600B] rounded-full flex items-center justify-center text-black font-bold text-sm">W15</div>
                       <div className="flex-1 bg-black/40 rounded-xl p-6 border border-white/10">
-                        <h3 className="text-lg font-bold text-cyan-400 mb-2">From Learning To Leading</h3>
+                        <h3 className="text-lg font-bold text-[#F2600B] mb-2">From Learning To Leading</h3>
                         <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
-                          <div className="flex items-center gap-2"><FeatureIcon icon="graduation-cap" className="text-cyan-400 w-4 h-4" />Career development</div>
-                          <div className="flex items-center gap-2"><FeatureIcon icon="clipboard" className="text-cyan-400 w-4 h-4" />Course Assessment</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="graduation-cap" className="text-[#ff8534] w-4 h-4" />Career development</div>
+                          <div className="flex items-center gap-2"><FeatureIcon icon="clipboard" className="text-[#ff8534] w-4 h-4" />Course Assessment</div>
                         </div>
                       </div>
                     </div>
@@ -562,7 +563,7 @@ export default function CourseDetails() {
                     {/* Week 16 */}
                     <div className="relative flex items-start gap-6">
                       <div className="flex-shrink-0 w-16 h-16 bg-[#F2600B] rounded-full flex items-center justify-center text-black font-bold text-sm">W16</div>
-                      <div className="flex-1 bg-gradient-to-r from-[#F2600B]/10 to-orange-500/10 rounded-xl p-6 border border-[#F2600B]/30">
+                      <div className="flex-1 bg-gradient-to-r from-[#F2600B]/10 to-[#ff8534]/10 rounded-xl p-6 border border-[#F2600B]/30">
                         <h3 className="text-lg font-bold text-[#F2600B] mb-2">Final Assessment & Graduation</h3>
                         <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
                           <div className="flex items-center gap-2"><FeatureIcon icon="clipboard" className="text-[#F2600B] w-4 h-4" />Comprehensive examination</div>
@@ -577,48 +578,48 @@ export default function CourseDetails() {
               {/* Assessment & Certification - Split Layout */}
               <div className="grid lg:grid-cols-2 gap-8">
                 {/* Assessment Methods */}
-                <section className="relative rounded-2xl bg-gradient-to-br from-blue-900/20 via-black to-blue-800/10 border border-blue-400/20 p-8">
+                <section className="relative rounded-2xl bg-gradient-to-br from-[#F2600B]/15 via-black to-[#F2600B]/5 border border-[#F2600B]/20 p-8">
                   <div className="flex items-center gap-3 mb-6">
-                    <FeatureIcon icon="clipboard" className="text-blue-400 w-6 h-6" />
+                    <FeatureIcon icon="clipboard" className="text-[#F2600B] w-6 h-6" />
                     <h2 className="text-2xl font-bold text-white">Assessment Methods</h2>
                   </div>
                   
                   <div className="space-y-6">
-                    <div className="bg-black/40 rounded-xl p-6 border border-blue-400/20">
-                      <h3 className="text-lg font-bold text-blue-400 mb-4">Hands-On Learning</h3>
+                    <div className="bg-black/40 rounded-xl p-6 border border-[#F2600B]/20">
+                      <h3 className="text-lg font-bold text-[#F2600B] mb-4">Hands-On Learning</h3>
                       <div className="space-y-3">
                         <div className="flex items-center gap-3 text-sm text-gray-300">
-                          <FeatureIcon icon="zap" className="text-blue-400 w-4 h-4" />
+                          <FeatureIcon icon="zap" className="text-[#ff8534] w-4 h-4" />
                           Weekly quizzes with immediate feedback
                         </div>
                         <div className="flex items-center gap-3 text-sm text-gray-300">
-                          <FeatureIcon icon="graduation-cap" className="text-blue-400 w-4 h-4" />
+                          <FeatureIcon icon="graduation-cap" className="text-[#ff8534] w-4 h-4" />
                           Group practical exercises
                         </div>
                         <div className="flex items-center gap-3 text-sm text-gray-300">
-                          <FeatureIcon icon="book" className="text-blue-400 w-4 h-4" />
+                          <FeatureIcon icon="book" className="text-[#ff8534] w-4 h-4" />
                           Research assignments with role-based responsibilities
                         </div>
                         <div className="flex items-center gap-3 text-sm text-gray-300">
-                          <FeatureIcon icon="monitor" className="text-blue-400 w-4 h-4" />
+                          <FeatureIcon icon="monitor" className="text-[#ff8534] w-4 h-4" />
                           Real-world case study analysis
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-black/40 rounded-xl p-6 border border-blue-400/20">
-                      <h3 className="text-lg font-bold text-blue-400 mb-4">Learning Support</h3>
+                    <div className="bg-black/40 rounded-xl p-6 border border-[#F2600B]/20">
+                      <h3 className="text-lg font-bold text-[#F2600B] mb-4">Learning Support</h3>
                       <div className="space-y-3">
                         <div className="flex items-center gap-3 text-sm text-gray-300">
-                          <FeatureIcon icon="calendar" className="text-blue-400 w-4 h-4" />
+                          <FeatureIcon icon="calendar" className="text-[#ff8534] w-4 h-4" />
                           Built-in preparation and study time
                         </div>
                         <div className="flex items-center gap-3 text-sm text-gray-300">
-                          <FeatureIcon icon="graduation-cap" className="text-blue-400 w-4 h-4" />
+                          <FeatureIcon icon="graduation-cap" className="text-[#ff8534] w-4 h-4" />
                           Peer discussion opportunities
                         </div>
                         <div className="flex items-center gap-3 text-sm text-gray-300">
-                          <FeatureIcon icon="clipboard" className="text-blue-400 w-4 h-4" />
+                          <FeatureIcon icon="clipboard" className="text-[#ff8534] w-4 h-4" />
                           Individual consultation availability
                         </div>
                       </div>
@@ -627,7 +628,7 @@ export default function CourseDetails() {
                 </section>
 
                 {/* Certification & Outcomes */}
-                <section className="relative rounded-2xl bg-gradient-to-br from-[#F2600B]/20 via-black to-orange-800/10 border border-[#F2600B]/20 p-8">
+                <section className="relative rounded-2xl bg-gradient-to-br from-[#F2600B]/20 via-black to-[#F2600B]/5 border border-[#F2600B]/20 p-8">
                   <div className="flex items-center gap-3 mb-6">
                     <FeatureIcon icon="award" className="text-[#F2600B] w-6 h-6" />
                     <h2 className="text-2xl font-bold text-white">Certification & Outcomes</h2>
@@ -672,20 +673,20 @@ export default function CourseDetails() {
           )}
 
           {/* Course Highlights - Feature Cards */}
-          <section className="relative rounded-2xl bg-gradient-to-br from-green-900/20 via-black to-green-800/10 border border-green-400/20 p-8">
+          <section className="relative rounded-2xl bg-gradient-to-br from-[#F2600B]/15 via-black to-[#F2600B]/5 border border-[#F2600B]/20 p-8">
             <div className="flex items-center gap-3 mb-8">
-              <FeatureIcon icon="zap" className="text-green-400 w-6 h-6" />
+              <FeatureIcon icon="zap" className="text-[#F2600B] w-6 h-6" />
               <h2 className="text-2xl font-bold text-white">Course Highlights</h2>
             </div>
             
             <div className="grid md:grid-cols-3 gap-6">
               {course.details?.map((detail, i) => {
                 const icons = ["infinity", "graduation-cap", "book-open"];
-                const colors = ["text-green-400", "text-emerald-400", "text-teal-400"];
+                const colors = ["text-[#ff8534]", "text-[#ff8534]", "text-[#ff8534]"];
                 return (
-                  <div key={i} className="bg-black/40 rounded-xl p-6 border border-green-400/20 hover:border-green-400/40 transition-all duration-300 hover:transform hover:-translate-y-1">
+                  <div key={i} className="bg-black/40 rounded-xl p-6 border border-[#F2600B]/20 hover:border-[#F2600B]/40 transition-all duration-300 hover:transform hover:-translate-y-1">
                     <div className="flex items-start gap-4">
-                      <FeatureIcon icon={icons[i] || "award"} className={`${colors[i] || "text-green-400"} w-6 h-6 mt-1 flex-shrink-0`} />
+                      <FeatureIcon icon={icons[i] || "award"} className={`${colors[i] || "text-[#ff8534]"} w-6 h-6 mt-1 flex-shrink-0`} />
                       <p className="text-gray-300 leading-relaxed">{detail}</p>
                     </div>
                   </div>

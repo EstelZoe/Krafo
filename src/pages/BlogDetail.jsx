@@ -121,6 +121,7 @@ export default function BlogDetail() {
     <>
       <Navbar />
       <div className="min-h-screen bg-black text-white">
+        <style>{`.hero-display{font-family:'Proxon',sans-serif;}`}</style>
         {/* Animated Background */}
         <div className="fixed inset-0 -z-10">
           <div className="absolute w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(242,96,11,0.08),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(242,96,11,0.05),transparent_50%)]"></div>
@@ -184,7 +185,7 @@ export default function BlogDetail() {
               </div>
 
               {/* Title */}
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight">
+              <h1 className="hero-display text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight">
                 {post.title}
               </h1>
 
