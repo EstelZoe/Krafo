@@ -35,19 +35,19 @@ import pastMentoring from "../../assets/images/IMG-30.jpg";
 import pastGdiwLaunch from "../../assets/images/flye.jpg";
 import pastGdiwPanel from "../../assets/images/gdiw25.jpeg";
 import pastCcbcClass from "../../assets/images/ccbc.png";
-import pastWorkshop from "../../assets/images/studygroup2.jpg";
+import pastWorkshop from "../../assets/images/ccbc1.jpg";
 import pastExtraA from "../../assets/images/IMG-7.jpg";
 import pastExtraB from "../../assets/images/IMG-10.jpg";
 import pastExtraC from "../../assets/images/IMG-17.jpg";
 import pastExtraD from "../../assets/images/IMG-19.jpg";
 import pastExtraE from "../../assets/images/IMG-34.jpg";
 import pastExtraF from "../../assets/images/IMG-35.jpg";
-import pastExtraG from "../../assets/images/studygroup.jpg";
+import pastExtraG from "../../assets/images/ccbc3.jpg";
 import pastExtraH from "../../assets/images/flye2.jpeg";
 
 // Planned-event card media. One video and two flyers — the flyers are
 // PLACEHOLDERS borrowed from existing Krafo artwork until the real ones exist.
-import vidCapacity from "../../assets/videos/training and capacity building.mp4";
+import vidCapacity from "../../assets/videos/hacking human mind.mp4";
 import flyerClinic from "../../assets/images/ccbc.png";
 import flyerRoundtable from "../../assets/images/flye.jpg";
 
