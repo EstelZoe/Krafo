@@ -4,7 +4,11 @@
   font-weight: normal;
   font-style: normal;
 }
-nav{
+/* The desktop bar lives in <nav>, but the mobile menu panel is a sibling of
+   it inside <header> — so an element selector alone never reaches the mobile
+   links, and they silently fell back to the system sans. */
+nav,
+.nav-type {
     font-family: 'Proxon';
 }
 @import "tailwindcss";

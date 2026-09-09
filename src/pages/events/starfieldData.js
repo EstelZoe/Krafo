@@ -71,7 +71,14 @@ export const STARFIELD_STYLES = `
         100% { opacity: 0; transform: translateX(760%) scaleX(1); }
     }
     .sf-star  { animation: kf-twinkle 5s ease-in-out infinite; }
-    .sf-shoot { animation: kf-shoot linear infinite; }
+    /* The backwards fill matters more than it looks. Every streak waits out an
+       animation-delay before it flies, and without a fill mode the element
+       shows its own styles during that wait — a fully opaque diagonal line
+       parked on the sky. The field then reads as frozen until a streak's turn
+       comes and the "frozen" line suddenly moves. Filling backwards adopts the
+       0% keyframe (opacity 0) through the delay, so a streak simply is not
+       there until it fires. */
+    .sf-shoot { animation: kf-shoot linear infinite backwards; }
 
     @media (prefers-reduced-motion: reduce) {
         .sf-star { animation: none; }

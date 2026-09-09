@@ -2,7 +2,7 @@ import React from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
-import ccbc from "../assets/images/ccbc.png";
+import ccbc from "../assets/images/optimized/ccbc-lg.webp";
 import ai from "../assets/images/AI&Cyber.png";
 import ceo from "../assets/images/ceo.png";
 

@@ -30,18 +30,18 @@ import {
 } from 'lucide-react';
 
 // ── Placeholder images (swap with real, topic-specific images) ───────────────
-import imgNetwork from '../assets/images/data1.jpg';
-import imgRisk from '../assets/images/data2.jpg';
-import imgPentest from '../assets/images/penetration testing image.jpg';
-import imgTraining from '../assets/images/studygroup2.jpg';
+import imgNetwork from '../assets/images/optimized/data1-lg.webp';
+import imgRisk from '../assets/images/optimized/data2-lg.webp';
+import imgPentest from '../assets/images/optimized/penetration-testing-image-lg.webp';
+import imgTraining from '../assets/images/optimized/studygroup2-lg.webp';
 import imgGrc from '../assets/images/ictConst.jpg';
-import imgIncident from '../assets/images/Incident Response & Recovery.jpg';
-import imgData from '../assets/images/data3.jpg';
-import imgCloud from '../assets/images/data4.jpg';
-import imgPolicy from '../assets/images/policy management.jpg';
-import imgConsulting from '../assets/images/ict consulting and advisory.jpg';
-import imgArchitecture from '../assets/images/Security Architecture Review.jpg';
-import imgManaged from '../assets/images/Managed Security Services.jpg';
+import imgIncident from '../assets/images/optimized/Incident-Response-&-Recovery-lg.webp';
+import imgData from '../assets/images/optimized/data3-lg.webp';
+import imgCloud from '../assets/images/optimized/data4-lg.webp';
+import imgPolicy from '../assets/images/optimized/policy-management-lg.webp';
+import imgConsulting from '../assets/images/optimized/ict-consulting-and-advisory-lg.webp';
+import imgArchitecture from '../assets/images/optimized/Security-Architecture-Review-lg.webp';
+import imgManaged from '../assets/images/optimized/Managed-Security-Services-lg.webp';
 
 export const EXPERTISE = [
   {

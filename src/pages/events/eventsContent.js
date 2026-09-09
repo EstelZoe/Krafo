@@ -22,34 +22,78 @@ import {
 } from "lucide-react";
 
 // Signature-program artwork
-import imgHthm from "../../assets/images/hackmind.jpeg";
-import imgCcbc from "../../assets/images/ccbc.png";
-import imgCyberBytes from "../../assets/images/cyberbytes.jpeg";
-import imgCommunity from "../../assets/images/gdiw25.jpeg";
+import imgHthm from "../../assets/images/optimized/hackmind-lg.webp";
+import imgCcbc from "../../assets/images/optimized/ccbc-lg.webp";
+import imgCyberBytes from "../../assets/images/optimized/cyberbytes-lg.webp";
+import imgCommunity from "../../assets/images/optimized/gdiw25-lg.webp";
 
 // Past-event photography
-import pastSchoolAssembly from "../../assets/images/IMG-56.jpg";
-import pastTeamOutreach from "../../assets/images/IMG-3.jpg";
-import pastStudents from "../../assets/images/IMG-15.jpg";
-import pastMentoring from "../../assets/images/IMG-30.jpg";
-import pastGdiwLaunch from "../../assets/images/flye.jpg";
-import pastGdiwPanel from "../../assets/images/gdiw25.jpeg";
-import pastCcbcClass from "../../assets/images/ccbc.png";
-import pastWorkshop from "../../assets/images/ccbc1.jpg";
-import pastExtraA from "../../assets/images/IMG-7.jpg";
-import pastExtraB from "../../assets/images/IMG-10.jpg";
-import pastExtraC from "../../assets/images/IMG-17.jpg";
-import pastExtraD from "../../assets/images/IMG-19.jpg";
-import pastExtraE from "../../assets/images/IMG-34.jpg";
-import pastExtraF from "../../assets/images/IMG-35.jpg";
-import pastExtraG from "../../assets/images/ccbc3.jpg";
-import pastExtraH from "../../assets/images/flye2.jpeg";
+import pastSchoolAssembly from "../../assets/images/optimized/IMG-56-lg.webp";
+import pastTeamOutreach from "../../assets/images/optimized/IMG-3-lg.webp";
+import pastStudents from "../../assets/images/optimized/IMG-15-lg.webp";
+import pastMentoring from "../../assets/images/optimized/IMG-30-lg.webp";
+import pastGdiwLaunch from "../../assets/images/optimized/flye-lg.webp";
+import pastGdiwPanel from "../../assets/images/optimized/gdiw25-lg.webp";
+import pastCcbcClass from "../../assets/images/optimized/ccbc-lg.webp";
+import pastWorkshop from "../../assets/images/optimized/ccbc1-lg.webp";
+import pastExtraA from "../../assets/images/optimized/IMG-7-lg.webp";
+import pastExtraB from "../../assets/images/optimized/IMG-10-lg.webp";
+import pastExtraC from "../../assets/images/optimized/IMG-17-lg.webp";
+import pastExtraD from "../../assets/images/optimized/IMG-19-lg.webp";
+import pastExtraE from "../../assets/images/optimized/IMG-34-lg.webp";
+import pastExtraF from "../../assets/images/optimized/IMG-35-lg.webp";
+import pastExtraG from "../../assets/images/optimized/ccbc3-lg.webp";
+import pastExtraH from "../../assets/images/optimized/flye2-lg.webp";
 
 // Planned-event card media. One video and two flyers — the flyers are
 // PLACEHOLDERS borrowed from existing Krafo artwork until the real ones exist.
 import vidCapacity from "../../assets/videos/hacking human mind.mp4";
-import flyerClinic from "../../assets/images/ccbc.png";
-import flyerRoundtable from "../../assets/images/flye.jpg";
+import flyerClinic from "../../assets/images/optimized/ccbc-lg.webp";
+import flyerRoundtable from "../../assets/images/optimized/flye-lg.webp";
+
+// Tile-sized variants of the same frames. The homepage mosaic draws these at
+// roughly 120px wide, so serving it the gallery-sized file meant shipping about
+// forty times the pixels it could display. Keyed by the large source so a
+// consumer can opt in without the event records changing shape.
+import thumbHackmind from "../../assets/images/optimized/hackmind-sm.webp";
+import thumbCcbc from "../../assets/images/optimized/ccbc-sm.webp";
+import thumbCyberbytes from "../../assets/images/optimized/cyberbytes-sm.webp";
+import thumbGdiw25 from "../../assets/images/optimized/gdiw25-sm.webp";
+import thumbImg56 from "../../assets/images/optimized/IMG-56-sm.webp";
+import thumbImg3 from "../../assets/images/optimized/IMG-3-sm.webp";
+import thumbImg15 from "../../assets/images/optimized/IMG-15-sm.webp";
+import thumbImg30 from "../../assets/images/optimized/IMG-30-sm.webp";
+import thumbFlye from "../../assets/images/optimized/flye-sm.webp";
+import thumbCcbc1 from "../../assets/images/optimized/ccbc1-sm.webp";
+import thumbImg7 from "../../assets/images/optimized/IMG-7-sm.webp";
+import thumbImg10 from "../../assets/images/optimized/IMG-10-sm.webp";
+import thumbImg17 from "../../assets/images/optimized/IMG-17-sm.webp";
+import thumbImg19 from "../../assets/images/optimized/IMG-19-sm.webp";
+import thumbImg34 from "../../assets/images/optimized/IMG-34-sm.webp";
+import thumbImg35 from "../../assets/images/optimized/IMG-35-sm.webp";
+import thumbCcbc3 from "../../assets/images/optimized/ccbc3-sm.webp";
+import thumbFlye2 from "../../assets/images/optimized/flye2-sm.webp";
+
+export const EVENT_PHOTO_THUMBS = Object.freeze({
+    [imgHthm]: thumbHackmind,
+    [imgCcbc]: thumbCcbc,
+    [imgCyberBytes]: thumbCyberbytes,
+    [imgCommunity]: thumbGdiw25,
+    [pastSchoolAssembly]: thumbImg56,
+    [pastTeamOutreach]: thumbImg3,
+    [pastStudents]: thumbImg15,
+    [pastMentoring]: thumbImg30,
+    [pastGdiwLaunch]: thumbFlye,
+    [pastWorkshop]: thumbCcbc1,
+    [pastExtraA]: thumbImg7,
+    [pastExtraB]: thumbImg10,
+    [pastExtraC]: thumbImg17,
+    [pastExtraD]: thumbImg19,
+    [pastExtraE]: thumbImg34,
+    [pastExtraF]: thumbImg35,
+    [pastExtraG]: thumbCcbc3,
+    [pastExtraH]: thumbFlye2,
+});
 
 // ── Hero stat band ────────────────────────────────────────────────────
 // PLACEHOLDER FIGURES — confirm against real records before launch.

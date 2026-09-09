@@ -45,7 +45,7 @@ import {
 } from "./home/industryPersonalization";
 import PartnershipCarousel from "../assets/components/PartnershipCarousel";
 import AnnouncementPopup from "../assets/components/AnnouncementPopup";
-import { PROOF_POINTS, PROOF_SINCE_YEAR } from "./home/proofStats";
+import PracticeShowcase from "./home/PracticeShowcase";
 import AudienceMosaic from "./home/AudienceMosaic";
 import BuildJourney from "./home/BuildJourney";
 import { PROCESS_NUMERAL_TILE, PROCESS_TILE_OFFSETS } from "./home/processImagery";
@@ -56,15 +56,12 @@ import toolkitDashboardShot from "../assets/images/toolkit/toolkit-dashboard.web
 import { EXPERTISE } from "./expertiseData";
 import { PRICING_DATA } from "./services/pricingData";
 import { SHARED_PROCESS } from "./services/productData";
-import { formatGHS } from "./services/quote";
 import { courses as coursesData } from "../assets/data/courses";
 import { certifications } from "../assets/data/certifications";
 
 // Card backgrounds, re-encoded to 960px / 12s / no audio. The originals were
 // 2.3 MB and 1.0 MB; these are 468 KB and 120 KB, which is what makes it
 // reasonable to autoplay two of them on the first screen after the hero.
-import secureVideo from "../assets/videos/web/card-secure.mp4";
-import buildVideo from "../assets/videos/web/card-build.mp4";
 
 const CALENDLY_URL = "https://calendly.com/krafosystems";
 // The Krafo film lives on YouTube; youtube-nocookie keeps it privacy-friendly
@@ -73,18 +70,6 @@ const CALENDLY_URL = "https://calendly.com/krafosystems";
 const FILM_EMBED_URL = "https://www.youtube-nocookie.com/embed/0ynUhZDA_D4";
 
 // Human-friendly "updated N ago" for the live threat-feed caption.
-const formatUpdatedAgo = (iso) => {
-  if (!iso) return null;
-  const then = new Date(iso).getTime();
-  if (Number.isNaN(then)) return null;
-  const secs = Math.max(0, Math.round((Date.now() - then) / 1000));
-  if (secs < 60) return "just now";
-  const mins = Math.round(secs / 60);
-  if (mins < 60) return `${mins} min ago`;
-  const hrs = Math.round(mins / 60);
-  return `${hrs} hr ago`;
-};
-
 const PATHWAYS = [
   {
     key: "consultation",
@@ -275,62 +260,6 @@ const fadeUp = {
   transition: { duration: 0.55 },
 };
 
-// Count-up that animates once when scrolled into view. Honours reduced-motion
-// (jumps straight to the final value) and tabs away cleanly.
-const CountUp = ({ to, duration = 1400, className = "" }) => {
-  const ref = useRef(null);
-  const [display, setDisplay] = useState(0);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return undefined;
-
-    const reduce =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || typeof IntersectionObserver === "undefined") {
-      setDisplay(to);
-      return undefined;
-    }
-
-    let raf = 0;
-    let started = false;
-    const run = () => {
-      const start = performance.now();
-      const tick = (now) => {
-        const p = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
-        setDisplay(Math.round(to * eased));
-        if (p < 1) raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
-    };
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting && !started) {
-          started = true;
-          run();
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.4 }
-    );
-    observer.observe(node);
-
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(raf);
-    };
-  }, [to, duration]);
-
-  return (
-    <span ref={ref} className={className}>
-      {display}
-    </span>
-  );
-};
-
 // ── Credential rail ───────────────────────────────────────────────────
 // The badges from the Consultation page, as a pill that rides in the pocket
 // carved out of the hero's bottom-right edge. The list is rendered twice, so
@@ -369,16 +298,6 @@ const CertRail = () => (
 
 // Cheapest real tier per product, so the homepage can never quote a price the
 // product page doesn't honour.
-const startingPrice = (categoryKey) => {
-  const category = PRICING_DATA.categories.find((c) => c.key === categoryKey);
-  const numeric = (category?.tiers || []).filter((t) => !t.custom);
-  if (!numeric.length) return "Custom quote";
-  return `from ${formatGHS(
-    Math.min(...numeric.map((t) => t.price)),
-    PRICING_DATA.currency
-  )}`;
-};
-
 const handoverClaim = SHARED_PROCESS.find(
   (step) => step.title === "Launch & Hand-over"
 )?.text;
@@ -406,8 +325,6 @@ export default function Home() {
   const [threatMeta, setThreatMeta] = useState(null);
   const signatureSentinelRef = useRef(null);
   const signatureCompletedRef = useRef(false);
-  const cardVideoRefs = useRef([]);
-  const videosPausedByMotionRef = useRef(new Set());
 
   useEffect(() => {
     const mediaQuery =
@@ -439,27 +356,6 @@ export default function Home() {
       }
     };
   }, []);
-
-  useEffect(() => {
-    const cardVideos = cardVideoRefs.current.filter(Boolean);
-
-    if (!documentVisible || prefersReducedMotion) {
-      cardVideos.forEach((video) => {
-        if (!video.paused) video.pause();
-        videosPausedByMotionRef.current.add(video);
-      });
-      return;
-    }
-
-    cardVideos.forEach((video) => {
-      if (!videosPausedByMotionRef.current.has(video)) return;
-      videosPausedByMotionRef.current.delete(video);
-      const playPromise = video.play();
-      playPromise?.catch(() => {
-        // Autoplay can be blocked or an optional asset can fail; the text layer remains usable.
-      });
-    });
-  }, [documentVisible, playerOpen, prefersReducedMotion]);
 
   useEffect(() => {
     if (prefersReducedMotion) setSignatureScrollActive(false);
@@ -568,7 +464,6 @@ export default function Home() {
   }, [toolkitShotsRotate]);
 
   const selectedProfile = getIndustryProfile(selectedProfileKey);
-  const cheapestBuild = startingPrice("websites");
 
   return (
     <div className="homepage-shell min-h-screen overflow-x-hidden bg-black text-white selection:bg-[#F2600B]/40">
@@ -655,15 +550,13 @@ export default function Home() {
           transition: opacity 300ms ease-out;
         }
         .signature-pathway {
-          transition: border-color 900ms ease-out, box-shadow 900ms ease-out;
+          transition: box-shadow 900ms ease-out;
         }
         .signature-pathway[data-signature-state="active"] {
-          border-top-color: rgba(242, 96, 11, 0.55);
-          box-shadow: inset 0 24px 80px rgba(242, 96, 11, 0.08);
+          box-shadow: inset 0 60px 140px -60px rgba(242, 96, 11, 0.22);
         }
         .signature-pathway[data-signature-state="complete"] {
-          border-top-color: rgba(242, 96, 11, 0.3);
-          box-shadow: inset 0 18px 64px rgba(242, 96, 11, 0.04);
+          box-shadow: inset 0 46px 120px -60px rgba(242, 96, 11, 0.1);
         }
         @keyframes signature-bridge-sweep {
           from { transform: scaleX(0.2); opacity: 0; }
@@ -693,7 +586,7 @@ export default function Home() {
         </div>
         {/* Legibility wash — strong behind the copy (left), clears well before the globe (right) */}
         <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-black from-5% via-black/45 via-40% to-transparent to-70%" />
-        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
         <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_25%_40%,#F2600B18,transparent_60%)]" />
 
         <div className="relative z-10 mx-auto flex min-h-[92vh] w-full max-w-7xl items-center px-6 pt-28 pb-24 md:min-h-screen md:px-8 lg:px-12">
@@ -783,24 +676,17 @@ export default function Home() {
               )}
             </div>
 
-            {/* Source caption — reflects live feed vs illustrative fallback */}
+            {/* The globe is a simulation, and the caption says so. The pulsing
+                dot stays because the arcs really are animating — it signals
+                motion on screen, not a live data connection. */}
             <p className="mt-4 flex items-center gap-2 text-[11px] text-white/40">
-              {threatMeta?.source === "cloudflare-radar" ? (
-                <>
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#F2600B] opacity-75" />
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#F2600B]" />
-                  </span>
-                  Live global DDoS activity
-                  {threatMeta?.count ? ` · ${threatMeta.count} active routes` : ""}
-                  {formatUpdatedAgo(threatMeta?.updatedAt)
-                    ? ` · updated ${formatUpdatedAgo(threatMeta.updatedAt)}`
-                    : ""}
-                  {" · source: Cloudflare Radar"}
-                </>
-              ) : (
-                "Illustrative visualization — not live threat data."
-              )}
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#F2600B] opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#F2600B]" />
+              </span>
+              Simulating cyber attacks across the globe
+              {threatMeta?.count ? ` · ${threatMeta.count} routes` : ""}
+              {" · illustration, not live data"}
             </p>
 
             <div className="mt-8">
@@ -869,7 +755,7 @@ export default function Home() {
 
           {/* p-3 is the gap; 34px pill radius + 12px gap = the 46px pocket
              radius, so the ring around the rail stays an even width. */}
-          <div className="rounded-t-[46px] bg-[#0a0503] p-3">
+          <div className="rounded-t-[46px] bg-black p-3">
             <div className="w-[340px] xl:w-[420px]">
               <CertRail />
             </div>
@@ -910,190 +796,11 @@ export default function Home() {
       />
 
       {/* ══════════════════════════════════════════════════════════════
-         THE FORK — two businesses, two doors
-      ══════════════════════════════════════════════════════════════ */}
-      <section
-        data-signature-pathway="true"
-        data-signature-state={
-          signatureScrollActive
-            ? "active"
-            : signatureScrollCompleted
-              ? "complete"
-              : "idle"
-        }
-        className="signature-pathway relative overflow-hidden border-y border-[#F2600B]/10 bg-[#0a0503] py-20 md:py-24"
-      >
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,#F2600B10,transparent_60%)]" />
-        <div className="relative mx-auto max-w-6xl px-6 lg:px-12">
-          <motion.div className="mb-12 text-center" {...fadeUp}>
-            <SectionEyebrow label="What We Do" />
-            {/* The order of the two clauses is the positioning. Security is
-                the practice we're licensed for and the reason a government or
-                a bank calls; the build side follows from it. */}
-            <h2 className="hero-display mt-3 text-3xl font-extrabold md:text-5xl">
-              We secure it. <span className="text-[#F2600B]">Then we build on it.</span>
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-balance text-gray-400">
-              A CSA-licensed cybersecurity practice for governments, businesses
-              and institutions — and the engineering team that builds the
-              systems worth protecting.
-            </p>
-          </motion.div>
-
-          <div className="grid gap-5 md:grid-cols-2">
-            {[
-              {
-                key: "secure",
-                eyebrow: "Secure",
-                title: "Protect what you have",
-                text: "Assessments, monitoring, policy and training from a CSA-licensed provider — practical, human-centred security scaled to your organisation.",
-                video: secureVideo,
-                points: [
-                  "Risk and vulnerability assessments",
-                  "Staff awareness training",
-                  "Policy, compliance and incident response",
-                ],
-                cta: "Explore our expertise",
-                to: "/expertise",
-                foot: "Free 30-minute consultation",
-              },
-              {
-                key: "build",
-                eyebrow: "Build",
-                title: "Start something new",
-                text: "Websites, web apps, SaaS platforms and mobile apps — designed with security baked in from day one, and handed over entirely in your name.",
-                video: buildVideo,
-                points: [
-                  buildPricingClaim,
-                  handoverClaim,
-                ].filter(Boolean),
-                cta: "See what we build",
-                to: "/services",
-                foot: cheapestBuild,
-              },
-            ].map((door, i) => (
-              <motion.div
-                key={door.key}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group relative"
-              >
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-[#F2600B]/0 blur-2xl transition-all duration-500 group-hover:bg-[#F2600B]/[0.08]"
-                />
-                <Link
-                  to={door.to}
-                  className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#F2600B]/15 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#F2600B]/50"
-                >
-                  <video
-                    ref={(element) => {
-                      cardVideoRefs.current[i] = element;
-                    }}
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src={door.video}
-                    autoPlay={!prefersReducedMotion && documentVisible}
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    aria-hidden="true"
-                    onError={(event) => event.currentTarget.pause()}
-                  />
-                  <div aria-hidden="true" className="absolute inset-0 bg-black/55" />
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"
-                  />
-
-                  {/* Frosted panel over live footage — the same treatment the
-                      Consultation and About switchers use. */}
-                  <div className="relative m-3 flex flex-1 flex-col rounded-2xl border border-white/20 bg-black/35 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl sm:p-7">
-                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#ff8534]">
-                      {door.eyebrow}
-                    </span>
-                    <h3 className="hero-display mt-2 text-2xl font-extrabold text-white md:text-3xl">
-                      {door.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-gray-200">{door.text}</p>
-
-                    <ul className="mt-6 flex-1 space-y-2.5">
-                      {door.points.map((p) => (
-                        <li key={p} className="flex items-start gap-2.5 text-sm text-gray-100">
-                          <Check size={15} className="mt-0.5 shrink-0 text-[#F2600B]" />
-                          {p}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-7 flex items-center justify-between border-t border-white/15 pt-5">
-                      <span className="text-sm font-semibold text-[#ff8534]">{door.foot}</span>
-                      <span className="inline-flex items-center gap-2 text-sm font-bold text-white">
-                        {door.cta}
-                        <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 transition-all duration-300 group-hover:border-transparent group-hover:bg-[#F2600B]">
-                          <ArrowUpRight size={16} />
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════
-         PROOF RIBBON — verifiable credibility, right after the fork. Every
-         item here is fact: years computed from the founding year, plus the
-         two formal registrations and the home base. No vanity metrics.
-      ══════════════════════════════════════════════════════════════ */}
-      <section
-        aria-label="Krafo credentials"
-        className="relative overflow-hidden border-b border-[#F2600B]/10 bg-[#0a0503] py-12 md:py-14"
-      >
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_120%,#F2600B10,transparent_60%)]" />
-        <div className="relative mx-auto max-w-6xl px-6 lg:px-12">
-          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/5 md:grid-cols-4">
-            {PROOF_POINTS.map((point) => {
-              const years = new Date().getFullYear() - PROOF_SINCE_YEAR;
-              return (
-                <motion.div
-                  key={point.label}
-                  {...fadeUp}
-                  className="flex flex-col items-center gap-1 bg-black/40 px-4 py-7 text-center backdrop-blur-sm"
-                >
-                  <span className="hero-display text-3xl font-extrabold leading-none text-[#F2600B] md:text-4xl">
-                    {point.kind === "count" ? (
-                      <>
-                        <CountUp to={years} />
-                        <span aria-hidden="true">+</span>
-                      </>
-                    ) : (
-                      point.value
-                    )}
-                  </span>
-                  <span className="mt-2 text-sm font-semibold text-white">
-                    {point.label}
-                  </span>
-                  <span className="text-[11px] leading-tight text-gray-400">
-                    {point.note}
-                  </span>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════
          HOW WE PROTECT — leads the pair. It is the licensed practice, and
          the reason a government or a bank picks up the phone.
       ══════════════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden py-20 md:py-24">
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_25%_40%,#F2600B08,transparent_60%)]" />
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_22%_15%,#F2600B0e,transparent_58%)]" />
         <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
           <motion.div className="mb-12 text-center" {...fadeUp}>
             <SectionEyebrow label="How We Protect" />
@@ -1156,10 +863,36 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
+         THE FORK — two businesses, two doors
+      ══════════════════════════════════════════════════════════════ */}
+      <section
+        data-signature-pathway="true"
+        data-signature-state={
+          signatureScrollActive
+            ? "active"
+            : signatureScrollCompleted
+              ? "complete"
+              : "idle"
+        }
+        className="signature-pathway relative overflow-hidden py-20 md:py-24"
+      >
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,#F2600B0b,transparent_62%)]"
+        />
+        <div className="relative mx-auto max-w-6xl px-6 lg:px-12">
+          <PracticeShowcase
+            prefersReducedMotion={prefersReducedMotion}
+            documentVisible={documentVisible}
+          />
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
          WHAT WE BUILD — follows from the security practice above
       ══════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden border-y border-[#F2600B]/10 bg-[#0a0503] py-20 md:py-24">
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_30%,#F2600B08,transparent_60%)]" />
+      <section className="relative overflow-hidden py-20 md:py-24">
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_82%_20%,#F2600B0d,transparent_58%)]" />
         <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
           <motion.div className="mb-12 text-center" {...fadeUp}>
             <SectionEyebrow label="What We Build" />
@@ -1181,7 +914,7 @@ export default function Home() {
          copy, a hairline between each). Data is the shared 4-step process.
       ══════════════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden py-20 md:py-24">
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,#F2600B08,transparent_60%)]" />
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_18%_85%,#F2600B0b,transparent_55%)]" />
         <div className="relative mx-auto max-w-6xl px-6 lg:px-12">
           <motion.div className="mb-12 text-center" {...fadeUp}>
             <SectionEyebrow label="How We Work" />
@@ -1244,7 +977,7 @@ export default function Home() {
          can do here are take the test and book a consultation, so both are
          given equal weight and nothing else competes with them.
       ══════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden border-y border-[#F2600B]/10 bg-[#0a0503] py-20 md:py-28">
+      <section className="relative overflow-hidden py-20 md:py-28">
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_35%,#F2600B14,transparent_62%)]"
@@ -1363,8 +1096,8 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════════
          LEARN — courses and youth
       ══════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden border-y border-[#F2600B]/10 bg-[#0a0503] py-20 md:py-24">
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,#F2600B08,transparent_60%)]" />
+      <section className="relative overflow-hidden py-20 md:py-24">
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_78%_18%,#F2600B0c,transparent_58%)]" />
         <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
           <motion.div className="mb-12 text-center" {...fadeUp}>
             <SectionEyebrow label="Learn With Us" />
@@ -1434,7 +1167,7 @@ export default function Home() {
          PROOF — the people we work with
       ══════════════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden py-20 md:py-24">
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B08,transparent_70%)]" />
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_28%_20%,#F2600B0b,transparent_60%)]" />
         <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
           <AudienceMosaic />
 

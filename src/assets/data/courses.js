@@ -1,4 +1,4 @@
-import ccbc from "../images/ccbc.png";
+import ccbc from "../images/optimized/ccbc-lg.webp";
 import ai from "../images/AI&Cyber.png";
 import ceo from "../images/ceo.png";
 

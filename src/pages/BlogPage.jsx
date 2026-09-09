@@ -5,7 +5,7 @@ import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 import FilterButton from "../assets/components/FilterButton";
 import BlogCard from "../assets/components/BlogCard";
-import BgPic from "../assets/images/gradientbackground.jpg";
+import BgPic from "../assets/images/optimized/gradientbackground-lg.webp";
 
 
 // Helper function to format author name

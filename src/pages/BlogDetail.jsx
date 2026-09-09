@@ -298,7 +298,7 @@ export default function BlogDetail() {
         {/* CTA Section */}
         <div className="relative py-20 mt-16 overflow-hidden">
           {/* Background glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(242,96,11,0.1),transparent_60%)]"></div>
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(242,96,11,0.1),transparent_60%)]"></div>
           
           <div className="relative max-w-4xl mx-auto px-4 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">

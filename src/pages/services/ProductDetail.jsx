@@ -176,7 +176,7 @@ export default function ProductDetail() {
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-b border-[#F2600B]/10 bg-black">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_20%,#F2600B18,transparent_60%)] pointer-events-none" />
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_20%,#F2600B18,transparent_60%)] pointer-events-none" />
         <div
           className="absolute inset-0 opacity-[0.04] pointer-events-none"
           style={{

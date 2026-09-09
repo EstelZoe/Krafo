@@ -12,7 +12,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Building2, Landmark, GraduationCap, HeartHandshake, ArrowUpRight } from "lucide-react";
-import { PAST_EVENTS } from "../events/eventsContent";
+import { EVENT_PHOTO_THUMBS, PAST_EVENTS } from "../events/eventsContent";
 import { INDUSTRY_PROFILES, PROFILE_KEYS } from "./industryProfiles";
 
 /**
@@ -26,33 +26,39 @@ const EVENT_PHOTOS = (() => {
     for (const src of event.photos || [event.image]) {
       if (!src || seen.has(src)) continue;
       seen.add(src);
-      out.push({ src, title: event.title });
+      // Tile-sized variant where one exists; the full frame is the fallback.
+      out.push({ src: EVENT_PHOTO_THUMBS[src] || src, title: event.title });
     }
   }
   return out;
 })();
 
 /**
- * The canopy's shape: height and vertical drop for each tile, in order.
- * Deliberately dips at index 4–6 so the heading has a clearing to sit in,
- * and the outer tiles ride lower so the band reads as an arc rather than a
- * ruler-straight row.
+ * The canopy is a masonry, not a row: each column carries one or two cards of
+ * differing heights, and the whole band dips through the middle so the heading
+ * has a clearing to sit in. `top` drops the column, `tiles` are card heights in
+ * order down that column.
  *
- * `hide` drops a tile at narrower widths — eleven tiles at phone width would
- * be eleven slivers.
+ * The outer columns are the deep ones — two stacked cards reaching well below
+ * the heading — while the middle columns hold a single short card. That is what
+ * gives the arrangement its arc.
+ *
+ * `show` controls which columns survive at each width; eleven columns on a
+ * phone would be eleven slivers, so it collapses inward to the four centre
+ * columns, keeping the shape symmetrical at every breakpoint.
  */
-const CANOPY = [
-  { h: 170, drop: 45, hide: "hidden lg:block" },
-  { h: 235, drop: 10, hide: "hidden md:block" },
-  { h: 200, drop: 60, hide: "hidden sm:block" },
-  { h: 110, drop: 30, hide: "" },
-  { h: 95, drop: 55, hide: "hidden sm:block" },
-  { h: 85, drop: 70, hide: "hidden lg:block" },
-  { h: 95, drop: 55, hide: "hidden sm:block" },
-  { h: 110, drop: 30, hide: "" },
-  { h: 200, drop: 60, hide: "hidden sm:block" },
-  { h: 235, drop: 10, hide: "hidden md:block" },
-  { h: 170, drop: 45, hide: "hidden lg:block" },
+const CANOPY_COLUMNS = [
+  { top: 28, tiles: [96, 168], show: "hidden xl:flex" },
+  { top: 0, tiles: [232], show: "hidden lg:flex" },
+  { top: 52, tiles: [120, 104], show: "hidden md:flex" },
+  { top: 12, tiles: [188], show: "flex" },
+  { top: 64, tiles: [96], show: "flex" },
+  { top: 88, tiles: [72], show: "hidden lg:flex" },
+  { top: 64, tiles: [96], show: "flex" },
+  { top: 12, tiles: [188], show: "flex" },
+  { top: 52, tiles: [120, 104], show: "hidden md:flex" },
+  { top: 0, tiles: [232], show: "hidden lg:flex" },
+  { top: 28, tiles: [96, 168], show: "hidden xl:flex" },
 ];
 
 const AUDIENCE_ICONS = {
@@ -66,35 +72,49 @@ export default function AudienceMosaic() {
   return (
     <div className="relative">
       {/* ── The canopy ──────────────────────────────────────────────── */}
-      <div className="flex items-start justify-center gap-2 sm:gap-3 md:gap-4">
-        {CANOPY.map((tile, i) => {
-          const photo = EVENT_PHOTOS[i % EVENT_PHOTOS.length];
-          if (!photo) return null;
-          return (
-            <motion.figure
-              key={`${photo.src}-${i}`}
-              initial={{ opacity: 0, y: 26 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "0px 0px -40px 0px" }}
-              transition={{ duration: 0.5, delay: Math.abs(i - 5) * 0.05 }}
-              style={{ height: tile.h, marginTop: tile.drop }}
-              className={`group relative w-[13%] shrink-0 overflow-hidden rounded-2xl sm:w-[11%] md:w-[9.5%] ${tile.hide}`}
+      {/* A running index walks the photo list across every column so no two
+          cards repeat until the list is exhausted. */}
+      <div className="flex items-start justify-center gap-2 sm:gap-3">
+        {(() => {
+          let photoIndex = 0;
+          return CANOPY_COLUMNS.map((column, ci) => (
+            <div
+              key={ci}
+              style={{ marginTop: column.top }}
+              className={`${column.show} w-[22%] shrink-0 flex-col gap-2 sm:w-[15%] sm:gap-3 md:w-[11%] lg:w-[9%] xl:w-[8%]`}
             >
-              <img
-                src={photo.src}
-                alt={`From ${photo.title}`}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              {/* Bottom fade so the band sinks into the section rather than
-                  ending on a hard edge. */}
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"
-              />
-            </motion.figure>
-          );
-        })}
+              {column.tiles.map((height, ti) => {
+                const photo = EVENT_PHOTOS[photoIndex++ % EVENT_PHOTOS.length];
+                if (!photo) return null;
+                return (
+                  <motion.figure
+                    key={`${ci}-${ti}`}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "0px 0px -40px 0px" }}
+                    transition={{
+                      duration: 0.5,
+                      delay: Math.abs(ci - 5) * 0.05 + ti * 0.04,
+                    }}
+                    style={{ height }}
+                    className="group relative overflow-hidden rounded-2xl"
+                  >
+                    <img
+                      src={photo.src}
+                      alt={`From ${photo.title}`}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"
+                    />
+                  </motion.figure>
+                );
+              })}
+            </div>
+          ));
+        })()}
       </div>
 
       {/* ── The heading, tucked into the dip ────────────────────────── */}
@@ -103,7 +123,7 @@ export default function AudienceMosaic() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.55 }}
-        className="relative z-10 -mt-6 text-center sm:-mt-12 lg:-mt-16"
+        className="relative z-10 -mt-10 text-center sm:-mt-20 lg:-mt-28"
       >
         {/* The canopy's outer tiles still reach down beside the heading, so a
             soft scrim guarantees the type reads whatever photograph lands
@@ -115,7 +135,7 @@ export default function AudienceMosaic() {
         <span className="inline-flex items-center rounded-full border border-[#F2600B]/35 bg-black/70 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#ff8534] backdrop-blur-md">
           Who We Serve
         </span>
-        <h2 className="hero-display mx-auto mt-4 max-w-2xl text-balance text-3xl font-extrabold leading-tight md:text-4xl lg:text-5xl">
+        <h2 className="hero-display mx-auto mt-4 max-w-3xl text-balance text-3xl font-extrabold leading-tight md:text-4xl lg:text-5xl">
           Trusted across sectors,{" "}
           <span className="text-[#F2600B]">from ministries to start-ups</span>
         </h2>

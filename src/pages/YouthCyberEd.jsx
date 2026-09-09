@@ -3,8 +3,8 @@ import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 import ProgramCard from "../assets/components/ProgramCard";
 import ImpactStat from "../assets/components/ImpactStat";
-import HeroImage from "../assets/images/cyberyouthed2.png";
-import cyberBytes from "../assets/images/cyberbytes.jpeg";
+import HeroImage from "../assets/images/optimized/cyberyouthed2-lg.webp";
+import cyberBytes from "../assets/images/optimized/cyberbytes-lg.webp";
 import { School, Laptop, Users, GraduationCap, Shield, BriefcaseBusiness, BookOpenCheck, Globe2, Calendar, Clock, ArrowRight, Mail } from "lucide-react";
 import ProgramOptionCard from "../assets/components/ProgramOptionCard";
 import OutreachImpact from "../assets/components/OutreachImpact";
@@ -12,27 +12,27 @@ import { motion, AnimatePresence } from "framer-motion";
 import CountUp from "react-countup";
 import ceo from "../assets/images/ceo.png";
 import ai from "../assets/images/AI&Cyber.png"
-import ccbc from "../assets/images/ccbc.png"
-import data1 from "../assets/images/data1.jpg";
-import data2 from "../assets/images/data2.jpg";
-import data3 from "../assets/images/data3.jpg";
-import data4 from "../assets/images/data4.jpg";
-import studyGroup from "../assets/images/studygroup2.jpg"
-import image2 from "../assets/images/ccbc.png";
+import ccbc from "../assets/images/optimized/ccbc-lg.webp"
+import data1 from "../assets/images/optimized/data1-lg.webp";
+import data2 from "../assets/images/optimized/data2-lg.webp";
+import data3 from "../assets/images/optimized/data3-lg.webp";
+import data4 from "../assets/images/optimized/data4-lg.webp";
+import studyGroup from "../assets/images/optimized/studygroup2-lg.webp"
+import image2 from "../assets/images/optimized/ccbc-lg.webp";
 import image3 from "../assets/images/ceo.png";
 import Video from "../assets/videos/backgroundcybered.mp4";
-import cybered from "../assets/images/cyberbyte.png";
-import img3 from "../assets/images/IMG-3.jpg";
-import img4 from "../assets/images/IMG-7.jpg";
-import img5 from "../assets/images/IMG-10.jpg";
-import img6 from "../assets/images/IMG-15.jpg";
-import img7 from "../assets/images/IMG-17.jpg";
-import img8 from "../assets/images/IMG-19.jpg";
-import img9 from "../assets/images/IMG-34.jpg";
-import img10 from "../assets/images/IMG-35.jpg";
-import img11 from "../assets/images/IMG-56.jpg";
-import img12 from "../assets/images/IMG-61.jpg";
-import img13 from "../assets/images/IMG-63.jpg";
+import cybered from "../assets/images/optimized/cyberbyte-lg.webp";
+import img3 from "../assets/images/optimized/IMG-3-lg.webp";
+import img4 from "../assets/images/optimized/IMG-7-lg.webp";
+import img5 from "../assets/images/optimized/IMG-10-lg.webp";
+import img6 from "../assets/images/optimized/IMG-15-lg.webp";
+import img7 from "../assets/images/optimized/IMG-17-lg.webp";
+import img8 from "../assets/images/optimized/IMG-19-lg.webp";
+import img9 from "../assets/images/optimized/IMG-34-lg.webp";
+import img10 from "../assets/images/optimized/IMG-35-lg.webp";
+import img11 from "../assets/images/optimized/IMG-56-lg.webp";
+import img12 from "../assets/images/optimized/IMG-61-lg.webp";
+import img13 from "../assets/images/optimized/IMG-63-lg.webp";
 
 import whatsappIcon from "../assets/images/whatsapp.png";
 import tiktokIcon from "../assets/images/tik-tok.png";
@@ -589,7 +589,7 @@ export default function YouthCyberEducation() {
                 <div className="absolute inset-0 -z-10">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-[#F2600B]/5 rounded-full blur-3xl"></div>
                     <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#F2600B]/10 rounded-full blur-2xl"></div>
-                    <div className="absolute inset-0 bg-[radial-gradient(#F2600B22_1px,transparent_1px)] [background-size:20px_20px] opacity-10"></div>
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(#F2600B22_1px,transparent_1px)] [background-size:20px_20px] opacity-10"></div>
                 </div>
 
                 <div className="max-w-6xl mx-auto">

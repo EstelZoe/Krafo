@@ -3,7 +3,7 @@ import { useInView } from "react-intersection-observer";
 import CompareSlider from "./CompareSlider";
 
 import siteBefore from "../../assets/images/site-before.webp";
-import siteAfter from "../../assets/images/site-after.webp";
+import siteAfter from "../../assets/images/optimized/site-after-lg.webp";
 
 /**
  * Krafo's own previous site against the current one.

@@ -30,17 +30,17 @@ import { EXPERTISE } from "./expertiseData";
 import { certifications } from "../assets/data/certifications";
 
 // ── Assets ───────────────────────────────────────────────────────────
-import bridge from "../assets/images/40128.jpg";
-import studyGroup from "../assets/images/studygroup2.jpg";
+import bridge from "../assets/images/optimized/40128-lg.webp";
+import studyGroup from "../assets/images/optimized/studygroup2-lg.webp";
 
 import bridgeVideo from "../assets/videos/software development.mp4";
 
 // Risk-area background images
-import riskPeople from "../assets/images/hackmind.jpeg";
-import riskData from "../assets/images/data2.jpg";
-import riskWeb from "../assets/images/penetration testing image.jpg";
-import riskContinuity from "../assets/images/Incident Response & Recovery.jpg";
-import riskCompliance from "../assets/images/policy management.jpg";
+import riskPeople from "../assets/images/optimized/hackmind-lg.webp";
+import riskData from "../assets/images/optimized/data2-lg.webp";
+import riskWeb from "../assets/images/optimized/penetration-testing-image-lg.webp";
+import riskContinuity from "../assets/images/optimized/Incident-Response-&-Recovery-lg.webp";
+import riskCompliance from "../assets/images/optimized/policy-management-lg.webp";
 
 const CALENDLY_URL = "https://calendly.com/krafosystems";
 
@@ -79,8 +79,14 @@ const faqs = [
         answer: "Yes, we offer implementation support ranging from guidance to fully managed execution, depending on your needs and resources. Our team can work alongside your internal staff or handle the entire implementation.",
     },
     {
-        question: "What industries do you specialize in?",
-        answer: "We have deep experience across financial services, healthcare, government, e-commerce, and critical infrastructure sectors, with frameworks tailored to each industry's unique risk profile and regulatory requirements.",
+        // Kept in step with INDUSTRY_PROFILES on the homepage, which is the
+        // approved audience model. The previous answer claimed deep experience
+        // in financial services, healthcare and e-commerce — sectors that
+        // appear nowhere else on the site and that we have no published work
+        // to support — while omitting schools and NGOs, two of the four
+        // audiences we actually serve.
+        question: "What kinds of organisation do you work with?",
+        answer: "Four, principally: government and public sector, businesses and SMEs, institutions and schools, and NGOs and impact organisations. We're CSA-licensed and DPC-registered here in Ghana, so engagements are shaped around your regulatory obligations and your actual risk profile rather than a template.",
     },
 ];
 
@@ -443,7 +449,7 @@ export default function Consultation() {
                         className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-[#000000]/30 via-[#000000]/60 to-[#000000]/95" />
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B15,transparent_60%)]" />
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B15,transparent_60%)]" />
                 </motion.div>
 
                 {/* Structural grid overlay */}
@@ -567,7 +573,7 @@ export default function Consultation() {
                INTRO — The Manifesto
             ════════════════════════════════════════════════════════ */}
             <section className="relative py-6 md:py-10 overflow-hidden border-t border-[#F2600B]/5">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B08,transparent_70%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B08,transparent_70%)]" />
                 <div className="max-w-4xl mx-auto px-6 text-center relative">
                     <motion.div
                         className="w-16 h-[2px] bg-[#F2600B]/40 mx-auto mb-4 rounded-full"
@@ -611,7 +617,7 @@ export default function Consultation() {
                CERTIFICATIONS — Accreditation carousel
             ════════════════════════════════════════════════════════ */}
             <section className="relative py-16 md:py-20 bg-black border-y border-[#F2600B]/5 overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B08,transparent_70%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B08,transparent_70%)]" />
 
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
                     <motion.div
@@ -760,7 +766,7 @@ export default function Consultation() {
                RISK AREAS — Interactive switcher
             ════════════════════════════════════════════════════════ */}
             <section className="relative py-20 md:py-28 overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B08,transparent_60%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B08,transparent_60%)]" />
                 <div className="max-w-5xl mx-auto px-6 lg:px-12 relative">
                     <motion.div
                         className="text-center mb-12"
@@ -784,7 +790,7 @@ export default function Consultation() {
                STRATEGY — Split Architectural
             ════════════════════════════════════════════════════════ */}
             <section className="relative py-20 md:py-28 overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,#F2600B08,transparent_60%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,#F2600B08,transparent_60%)]" />
 
                 <div className="max-w-7xl mx-auto px-6 lg:px-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -894,7 +900,7 @@ export default function Consultation() {
                PROCESS — How a consultation works
             ════════════════════════════════════════════════════════ */}
             <section className="relative py-20 md:py-28 overflow-hidden bg-[#0a0a0a] border-y border-[#F2600B]/5">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_30%,#F2600B08,transparent_60%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_75%_30%,#F2600B08,transparent_60%)]" />
                 <div className="max-w-6xl mx-auto px-6 lg:px-12 relative">
                     <motion.div
                         className="text-center mb-14"
@@ -948,7 +954,7 @@ export default function Consultation() {
                TESTIMONIALS — Illuminated Cards
             ════════════════════════════════════════════════════════ */}
             <section className="relative py-20 md:py-28 overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,#F2600B08,transparent_60%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,#F2600B08,transparent_60%)]" />
 
                 <div className="max-w-7xl mx-auto px-6 lg:px-12">
                     <motion.div
@@ -1015,9 +1021,9 @@ export default function Consultation() {
                FAQ — Mechanical Accordion
             ════════════════════════════════════════════════════════ */}
             <section className="relative py-20 md:py-28 bg-[#111111] border-t border-[#F2600B]/5 overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,#F2600B08,transparent_60%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,#F2600B08,transparent_60%)]" />
 
-                <div className="max-w-4xl mx-auto px-6">
+                <div className="relative max-w-4xl mx-auto px-6">
                     <motion.div
                         className="text-center mb-14"
                         initial={{ opacity: 0, y: 20 }}
@@ -1041,9 +1047,12 @@ export default function Consultation() {
                                 transition={{ duration: 0.4, delay: idx * 0.06 }}
                             >
                                 <button
+                                    type="button"
                                     className="flex justify-between items-center w-full p-5 md:p-6 text-left bg-[#111111] hover:bg-[#1a1a1a] transition-colors"
                                     onClick={() => setExpandedIndex(expandedIndex === idx ? -1 : idx)}
                                     aria-expanded={expandedIndex === idx}
+                                    aria-controls={`faq-panel-${idx}`}
+                                    id={`faq-trigger-${idx}`}
                                 >
                                     <div className="flex items-center gap-4">
                                         <span className="text-sm font-bold text-[#F2600B] opacity-40">
@@ -1068,6 +1077,9 @@ export default function Consultation() {
                                             exit={{ height: 0, opacity: 0 }}
                                             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                                             className="overflow-hidden"
+                                            id={`faq-panel-${idx}`}
+                                            role="region"
+                                            aria-labelledby={`faq-trigger-${idx}`}
                                         >
                                             <div className="px-5 md:px-6 pb-6 pt-2 border-t border-[#F2600B]/5">
                                                 <div className="pl-8 md:pl-12">
@@ -1147,8 +1159,8 @@ export default function Consultation() {
                FINAL CTA — Bridge to Action
             ════════════════════════════════════════════════════════ */}
             <section className="relative py-20 md:py-28 overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B10,transparent_70%)]" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_80%,#F2600B06,transparent_50%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,#F2600B10,transparent_70%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_80%,#F2600B06,transparent_50%)]" />
 
                 <div className="max-w-6xl mx-auto px-6 relative">
                     <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">

@@ -119,7 +119,7 @@ export default function Navbar() {
 
             {/* Mobile menu — matching rounded glass panel */}
             {isOpen && (
-                <div className="lg:hidden mx-auto mt-2 max-w-5xl rounded-2xl border border-white/10 bg-black/80 backdrop-blur-xl shadow-xl shadow-black/40 p-3">
+                <div className="nav-type lg:hidden mx-auto mt-2 max-w-5xl rounded-2xl border border-white/10 bg-black/80 backdrop-blur-xl shadow-xl shadow-black/40 p-3">
                     <div className="flex flex-col">
                         {NAV_ITEMS.map((item) => {
                             const active = isActive(item.to);

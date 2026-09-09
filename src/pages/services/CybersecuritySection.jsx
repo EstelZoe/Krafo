@@ -36,7 +36,7 @@ export default function CybersecuritySection() {
       `}</style>
 
       {/* Soft brand-orange radial glow over the black surface. */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,#F2600B12,transparent_65%)] pointer-events-none" />
+      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,#F2600B12,transparent_65%)] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
         {/* ── Section heading ─────────────────────────────────────── */}

@@ -9,7 +9,7 @@ import PartnershipCarousel from "../assets/components/PartnershipCarousel";
 import BentoGrid from "./services/BentoGrid";
 import ProductShowcase from "./services/ProductShowcase";
 import CybersecuritySection from "./services/CybersecuritySection";
-import heroImg from "../assets/images/hero 3.jpg";
+import heroImg from "../assets/images/optimized/hero-3-lg.webp";
 
 // Primary CTA across the site (Home, Expertise, Consultation, etc.) opens the
 // shared Calendly booking link in a new tab. Kept consistent here.
@@ -65,10 +65,10 @@ export default function Services() {
                         className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/95" />
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B15,transparent_60%)]" />
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B15,transparent_60%)]" />
                 </motion.div>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 h-full flex items-center min-h-[88vh] md:min-h-[92vh]">
+                <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 h-full flex items-center min-h-[88vh] md:min-h-[92vh] pt-28 pb-20 md:pt-24 md:pb-16">
                     <motion.div
                         className="relative max-w-2xl"
                         initial={{ opacity: 0, y: 40 }}

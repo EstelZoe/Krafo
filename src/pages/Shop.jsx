@@ -8,13 +8,13 @@ import computerGif from "../assets/videos/computer.gif";
 import exchangeGif from "../assets/videos/exchange.gif";
 
 // Use existing images as placeholders until real merch images are added
-import hoodie2 from "../assets/images/hoodie2.jpg";
-import mug from "../assets/images/cup.jpg";
-import bottle1 from "../assets/images/bottle1.jpg";
-import bottle2 from "../assets/images/bottle2.png";
-import shirt from "../assets/images/T-Shirt.jpg";
+import hoodie2 from "../assets/images/optimized/hoodie2-lg.webp";
+import mug from "../assets/images/optimized/cup-lg.webp";
+import bottle1 from "../assets/images/optimized/bottle1-lg.webp";
+import bottle2 from "../assets/images/optimized/bottle2-lg.webp";
+import shirt from "../assets/images/optimized/T-Shirt-lg.webp";
 import stickerPlaceholder from "../assets/images/AI&Cyber.png";
-import notebookPlaceholder from "../assets/images/data1.jpg";
+import notebookPlaceholder from "../assets/images/optimized/data1-lg.webp";
 import hoodie from "../assets/images/bgremover2.png"
 
 
@@ -269,7 +269,7 @@ export default function Shop() {
         {/* Background Animation */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-[#0d0d0d] to-[#1a0a00]"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(242,96,11,0.15),transparent_50%)]"></div>
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(242,96,11,0.15),transparent_50%)]"></div>
         </div>
 
         {/* Floating Icons */}

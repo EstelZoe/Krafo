@@ -432,15 +432,18 @@ export default function PlannedEvents() {
     return (
         <div>
             {/*
-                Desktop layout: the most-wanted card takes the left two-thirds
-                at full height, while the other two stack down the right column.
-                The explicit placement on the lead is what lets the other two
-                auto-flow into column three, in order.
+                Two rows at every width above a phone: the most-wanted event
+                runs the full width as a landscape banner, and the other two sit
+                side by side beneath it.
 
-                Below lg it degrades to the lead full-width with the other two
-                side by side, then a single column on phones.
+                The lead was previously a tall two-thirds column with the pair
+                stacked down the right. That made the headline card portrait —
+                a shape that fights a wide screen, and one that gave the pitch a
+                narrow measure to wrap in. Landscape gives the artwork room to
+                breathe across the card and sets the copy beside it rather than
+                under it.
             */}
-            <div className="grid gap-5 md:grid-cols-2 lg:h-[820px] lg:grid-cols-3 lg:grid-rows-2">
+            <div className="grid gap-5 md:grid-cols-2">
                 {ordered.map((event, index) => {
                     const CardIcon = event.Icon;
                     const alreadyIn = registered.includes(event.id);
@@ -453,10 +456,13 @@ export default function PlannedEvents() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "0px 0px -60px 0px" }}
                             transition={{ duration: 0.5, delay: index * 0.08 }}
-                            className={`group relative flex min-h-[420px] flex-col justify-end overflow-hidden rounded-2xl border transition-all duration-500 lg:min-h-0 ${
+                            className={`group relative flex min-h-[420px] flex-col justify-end overflow-hidden rounded-2xl border transition-all duration-500 ${
                                 isLead
-                                    ? "border-[#F2600B]/50 shadow-[0_0_50px_-15px_rgba(242,96,11,0.5)] md:col-span-2 lg:col-span-2 lg:col-start-1 lg:row-span-2 lg:row-start-1"
-                                    : "border-[#F2600B]/20 hover:border-[#F2600B]/50 lg:col-start-3"
+                                    ? // Full width, and from lg the panel moves off the
+                                      // bottom edge to sit centred against the right —
+                                      // which is what turns the card landscape.
+                                      "border-[#F2600B]/50 shadow-[0_0_50px_-15px_rgba(242,96,11,0.5)] md:col-span-2 lg:min-h-[460px] lg:items-end lg:justify-center"
+                                    : "border-[#F2600B]/20 hover:border-[#F2600B]/50 lg:min-h-[440px]"
                             }`}
                         >
                             {/* The advert itself — left at full brightness. */}
@@ -487,6 +493,17 @@ export default function PlannedEvents() {
                                 aria-hidden="true"
                                 className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/40"
                             />
+                            {/* Landscape puts the panel over the right of the
+                                artwork rather than its base, so the lead needs a
+                                horizontal scrim as well. Only from lg, and only
+                                on the lead — the stacked pair keep the vertical
+                                one they already had. */}
+                            {isLead && (
+                                <div
+                                    aria-hidden="true"
+                                    className="absolute inset-0 hidden bg-gradient-to-l from-black/70 via-black/25 to-transparent lg:block"
+                                />
+                            )}
 
                             <span
                                 className={`absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider backdrop-blur-md ${
@@ -508,7 +525,9 @@ export default function PlannedEvents() {
                                 lead, so their panel runs tighter. */}
                             <div
                                 className={`relative m-3 rounded-2xl border border-white/20 bg-black/40 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl ${
-                                    isLead ? "p-5 sm:p-6" : "p-4"
+                                    isLead
+                                        ? "p-5 sm:p-6 lg:mr-6 lg:w-[46%] lg:max-w-lg"
+                                        : "p-4"
                                 }`}
                             >
                                 <div className="flex items-start gap-3">
@@ -521,7 +540,7 @@ export default function PlannedEvents() {
                                     </span>
                                     <h3
                                         className={`hero-display font-bold leading-snug text-white ${
-                                            isLead ? "text-xl" : "text-base"
+                                            isLead ? "text-xl lg:text-2xl" : "text-base"
                                         }`}
                                     >
                                         {event.title}

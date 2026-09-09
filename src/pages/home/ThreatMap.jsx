@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { GRID, LAND } from "../WorldPresenceMap";
 import { CITIES, ARCS } from "./threatData";
 import { lookupCountry, AFRICAN_CODES } from "./countryMeta";
@@ -6,15 +6,11 @@ import { lookupCountry, AFRICAN_CODES } from "./countryMeta";
 /**
  * ThreatMap — a hand-rolled rotating 3D globe (pure canvas, no 3D dependency).
  * Dotted Earth from the shared LAND grid, auto-rotating, with great-circle
- * "attack" arcs from the /threat-feed endpoint (real Cloudflare Radar data when
- * a token is configured, illustrative otherwise). Drag to spin.
+ * "attack" arcs along a fixed, hand-authored set of routes. Drag to spin.
  *
- * The hero caption reflects whether the feed is live or illustrative.
+ * This is a simulation for illustration; it is never live telemetry, and
+ * the hero caption states so plainly.
  */
-
-const FEED_URL =
-  (import.meta.env.VITE_BASE_URL || "https://api.krafosystems.com/api") +
-  "/v1/threat-feed";
 
 const ORANGE = [242, 96, 11];
 const DEG = Math.PI / 180;
@@ -53,26 +49,18 @@ function slerp(a, b, t) {
 export default function ThreatMap({ className = "", onMeta }) {
   const canvasRef = useRef(null);
   const tooltipRef = useRef(null);
-  const [feedArcs, setFeedArcs] = useState(null);
   const dragRef = useRef({ dragging: false, lastX: 0, offset: 0, vel: 0 });
 
+  // The globe runs on a fixed, hand-authored set of routes. It used to pull
+  // live DDoS data from Cloudflare Radar; that was removed deliberately. The
+  // map is a simulation of how attacks travel, not a telemetry display, and
+  // the caption says exactly that — so a live feed added nothing but a
+  // dependency, a network round-trip, and a crash: a feed-supplied `delay`
+  // that was not a number turned the arc-head index into NaN, indexed the
+  // point list out of bounds and threw inside the animation loop, killing the
+  // globe every frame after.
   useEffect(() => {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 6000);
-    fetch(FEED_URL, { signal: controller.signal })
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data) => {
-        const arcs = Array.isArray(data?.arcs) ? data.arcs : [];
-        if (arcs.length) setFeedArcs(arcs);
-        onMeta?.({
-          source: data?.source || "illustrative",
-          updatedAt: data?.updatedAt,
-          count: arcs.length || ARCS.length,
-        });
-      })
-      .catch(() => onMeta?.({ source: "illustrative", count: ARCS.length }))
-      .finally(() => clearTimeout(timer));
-    return () => { clearTimeout(timer); controller.abort(); };
+    onMeta?.({ source: "simulated", count: ARCS.length });
   }, [onMeta]);
 
   useEffect(() => {
@@ -81,13 +69,13 @@ export default function ThreatMap({ className = "", onMeta }) {
     const ctx = canvas.getContext("2d");
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-    const source = feedArcs
-      ? feedArcs
-          .filter((a) => Array.isArray(a.from) && Array.isArray(a.to))
-          .map((a, i) => ({ from: a.from, to: a.to, delay: a.delay ?? (i * 0.6) % 6 }))
-      : ARCS.map((a, i) => ({
-          from: CITIES[a.from], to: CITIES[a.to], delay: a.delay ?? (i * 0.6) % 6,
-        })).filter((a) => a.from && a.to);
+    // `delay` is coerced rather than trusted: it feeds an index calculation,
+    // and a non-numeric value would propagate NaN into the point lookup.
+    const source = ARCS.map((a, i) => ({
+      from: CITIES[a.from],
+      to: CITIES[a.to],
+      delay: Number.isFinite(Number(a.delay)) ? Number(a.delay) : (i * 0.6) % 6,
+    })).filter((a) => a.from && a.to);
 
     const SAMPLES = 40;
     const arcs = source.map((a) => {
@@ -384,7 +372,7 @@ export default function ThreatMap({ className = "", onMeta }) {
       canvas.removeEventListener("touchstart", onTouch);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [feedArcs]);
+  }, []);
 
   return (
     <div className={`relative block h-full w-full ${className}`}>

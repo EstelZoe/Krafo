@@ -333,7 +333,7 @@ export default function EventPage() {
             ═══════════════════════════════════════════════════════════ */}
             {!loading && !error && spotlight && (
                 <section className="relative overflow-hidden py-16 md:py-20">
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,#F2600B08,transparent_60%)]" />
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,#F2600B08,transparent_60%)]" />
                     <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
                         <motion.div
                             className="mb-10 text-center"
@@ -459,7 +459,7 @@ export default function EventPage() {
                 {/* The same sky as the hero and the band, dimmed further —
                     it sits behind a grid of cards here, not open space. */}
                 <Starfield opacity={0.45} shootingStars />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_25%_20%,#F2600B08,transparent_60%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_25%_20%,#F2600B08,transparent_60%)]" />
 
                 <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
                     <motion.div
@@ -661,7 +661,7 @@ export default function EventPage() {
                 id="planning"
                 className="relative scroll-mt-20 overflow-hidden py-20 md:py-28"
             >
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B08,transparent_60%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B08,transparent_60%)]" />
                 <div className="relative mx-auto max-w-5xl px-6 lg:px-12">
                     <motion.div
                         className="mb-12 text-center"
@@ -695,7 +695,7 @@ export default function EventPage() {
                 {/* Same sky again, so the archive sits in the same world as
                     the hero rather than reading as a separate page. */}
                 <Starfield opacity={0.45} shootingStars />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_30%,#F2600B08,transparent_60%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_75%_30%,#F2600B08,transparent_60%)]" />
 
                 <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
                     <motion.div
@@ -725,7 +725,7 @@ export default function EventPage() {
                 id="programmes"
                 className="relative scroll-mt-20 overflow-hidden py-20 md:py-28"
             >
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B08,transparent_60%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,#F2600B08,transparent_60%)]" />
                 {/* Wider than the other sections — it now carries three columns
                     rather than two. */}
                 <div className="relative mx-auto max-w-6xl px-6 lg:px-12">
@@ -753,7 +753,7 @@ export default function EventPage() {
                WHY ATTEND — the process rail
             ═══════════════════════════════════════════════════════════ */}
             <section className="relative overflow-hidden py-20 md:py-28">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_30%,#F2600B08,transparent_60%)]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_30%,#F2600B08,transparent_60%)]" />
                 <div className="relative mx-auto max-w-6xl px-6 lg:px-12">
                     <motion.div
                         className="mb-14 text-center"

@@ -12,8 +12,8 @@ import malwareGif from "../assets/videos/malware.gif";
 import palmGif from "../assets/videos/palm.gif";
 import dataGif from "../assets/videos/data.gif";
 import Vid1 from "../assets/videos/Vid2.mp4";
-import vr from "../assets/images/vr.jpg";
-import studyGroup from "../assets/images/studygroup.jpg";
+import vr from "../assets/images/optimized/vr-lg.webp";
+import studyGroup from "../assets/images/optimized/studygroup-lg.webp";
 import { motion, AnimatePresence } from "framer-motion";
 // Images come from centralized course catalog; local demo imports removed
 import { Link } from "react-router-dom";
@@ -420,7 +420,7 @@ export default function Course() {
             <section className="relative bg-[#000000] text-white py-28 px-4 sm:px-6 overflow-hidden">
                 {/* Cyber Grid Background */}
                 <div className="absolute inset-0 -z-10">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(31,41,55,0.1)_0%,rgba(0,0,0,0)_70%)]"></div>
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(31,41,55,0.1)_0%,rgba(0,0,0,0)_70%)]"></div>
                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiMzNzQxNTAiIHN0cm9rZS13aWR0aD0iMC41Ij48cGF0aCBkPSJNIDAgMCBMIDYwIDAgNjAgNjAgMCA2MCBaIi8+PGxpbmUgeDE9IjAiIHkxPSIwIiB4Mj0iNjAiIHkyPSI2MCIvPjxsaW5lIHgxPSI2MCIgeTE9IjAiIHgyPSIwIiB5Mj0iNjAiLz48L2c+PC9zdmc+')] opacity-20"></div>
                 </div>
 
@@ -577,7 +577,7 @@ export default function Course() {
             <section className="bg-[#000000] py-28 px-4 sm:px-6 relative overflow-hidden">
                 {/* Cyber Defense Grid Background */}
                 <div className="absolute inset-0 -z-10">
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(242,96,11,0.03)_0%,transparent_70%)]"></div>
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(242,96,11,0.03)_0%,transparent_70%)]"></div>
                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiMzNzQxNTAiIHN0cm9rZS13aWR0aD0iMC41Ij48cGF0aCBkPSJNIDAgMCBMIDEwMCAwIDEwMCAxMDAgMCAxMDAgWiIvPjxwYXRoIGQ9Ik0gMjAgMjAgTCA4MCAyMCA4MCA4MCAyMCA4MCIvPjxwYXRoIGQ9Ik0gNDAgNDAgTCA2MCA0MCA2MCA2MCA0MCA2MCIvPjwvZz48L3N2Zz4=')] opacity-5"></div>
                 </div>
 
@@ -690,7 +690,7 @@ export default function Course() {
                             </div>
 
                             {/* Holographic Effect */}
-                            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(242,96,11,0.05)_0%,transparent_70%)] rounded-xl pointer-events-none -z-10"></div>
+                            <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(242,96,11,0.05)_0%,transparent_70%)] rounded-xl pointer-events-none -z-10"></div>
                         </motion.div>
                     ))}
                 </div>
