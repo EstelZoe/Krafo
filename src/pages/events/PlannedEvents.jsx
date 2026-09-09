@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, Flame, Loader2, Sparkles, X } from "lucide-react";
 import { apiClient } from "../../api/client";
-import { PLANNED_EVENTS } from "./eventsContent";
+import { usePlannedEvents } from "./useEventsSource";
 
 /**
  * "Events We're Planning" — demand signals before we commit a venue and a date.
@@ -380,6 +380,9 @@ function DemandMeter({ count, goal, size = "lead" }) {
 }
 
 export default function PlannedEvents() {
+    // API records when they exist, the built-in list until then.
+    const { plannedEvents } = usePlannedEvents();
+
     const [activeEvent, setActiveEvent] = useState(null);
     const [registered, setRegistered] = useState([]);
     // null until the counts endpoint answers. Stays null if it can't be
@@ -423,9 +426,9 @@ export default function PlannedEvents() {
     // exist (or if they can't be fetched) the first entry leads, so the layout
     // never collapses.
     const ordered = useMemo(() => {
-        if (!counts) return PLANNED_EVENTS;
-        return [...PLANNED_EVENTS].sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0));
-    }, [counts]);
+        if (!counts) return plannedEvents;
+        return [...plannedEvents].sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0));
+    }, [counts, plannedEvents]);
 
     const leadId = ordered[0]?.id;
 

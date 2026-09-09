@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Images, MapPin, X } from "lucide-react";
-import { PAST_EVENTS, PAST_EVENT_YEARS } from "./eventsContent";
+import { usePastEvents } from "./useEventsSource";
 
 /**
  * The archive. A year-filtered editorial grid where the first tile runs
@@ -9,6 +9,9 @@ import { PAST_EVENTS, PAST_EVENT_YEARS } from "./eventsContent";
  * full frame, the story, and arrow-key navigation through the filtered set.
  */
 export default function PastEvents() {
+    // API records when they exist, the built-in list until then.
+    const { pastEvents, years } = usePastEvents();
+
     const [year, setYear] = useState("All");
     const [openIndex, setOpenIndex] = useState(-1);
     // Which frame within the open event's gallery is showing.
@@ -18,7 +21,7 @@ export default function PastEvents() {
     const restoreFocusRef = useRef(null);
 
     const events = useMemo(
-        () => (year === "All" ? PAST_EVENTS : PAST_EVENTS.filter((e) => e.year === year)),
+        () => (year === "All" ? pastEvents : pastEvents.filter((e) => e.year === year)),
         [year]
     );
 
@@ -85,7 +88,7 @@ export default function PastEvents() {
         <div>
             {/* ── Year filter ── */}
             <div className="mb-10 flex flex-wrap justify-center gap-2">
-                {["All", ...PAST_EVENT_YEARS].map((value) => (
+                {["All", ...years].map((value) => (
                     <button
                         key={value}
                         type="button"

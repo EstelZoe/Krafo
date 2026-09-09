@@ -68,6 +68,15 @@ const AdminLayout = () => {
       ),
     },
     {
+      name: 'Announcement Bar',
+      path: '/admin/announcements',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+        </svg>
+      ),
+    },
+    {
       name: 'Events',
       path: '/admin/events',
       icon: (
@@ -85,12 +94,33 @@ const AdminLayout = () => {
         </svg>
       ),
     },
+    // ── Retired with the public blog ─────────────────────────────────
+    // Nothing on the site links to the blog, so the dashboard should not
+    // offer a screen for it. Kept commented rather than deleted.
+    // {
+    // name: 'Blog Posts',
+    // path: '/admin/blogs',
+    // icon: (
+    // <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    // <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+    // </svg>
+    // ),
+    // },
     {
-      name: 'Blog Posts',
-      path: '/admin/blogs',
+      name: 'Planned Events',
+      path: '/admin/planned-events',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      ),
+    },
+    {
+      name: 'Past Events',
+      path: '/admin/past-events',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       ),
     },
@@ -236,8 +266,8 @@ const AdminLayout = () => {
   };
 
   return (
-    <div 
-      className="min-h-screen transition-colors duration-300"
+    <div
+      className="admin-type min-h-screen transition-colors duration-300"
       style={{ backgroundColor: colors.bg }}
     >
       {/* Mobile Overlay */}

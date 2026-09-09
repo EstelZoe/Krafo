@@ -99,7 +99,6 @@ export default function LogIn() {
 
     return (
         <div className="min-h-screen bg-black text-white">
-            <style>{`.hero-display{font-family:'Proxon',sans-serif;}`}</style>
             <Navbar />
             <main className="relative isolate flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
                 <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_20%,#F2600B14,transparent_60%)]" />

@@ -107,18 +107,21 @@ const Overview = () => {
       color: 'text-blue-500',
       bgColor: 'bg-blue-500/10',
     },
-    {
-      title: 'Create Blog Post',
-      description: 'Write a new article',
-      path: '/admin/blogs',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-        </svg>
-      ),
-      color: 'text-emerald-500',
-      bgColor: 'bg-emerald-500/10',
-    },
+    // ── Retired with the public blog ─────────────────────────────────
+    // Kept commented rather than deleted so it can be restored.
+    // {
+    // title: 'Create Blog Post',
+    // description: 'Write a new article',
+    // path: '/admin/blogs',
+    // icon: (
+    // <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    // <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+    // </svg>
+    // ),
+    // color: 'text-emerald-500',
+    // bgColor: 'bg-emerald-500/10',
+    // },
+
     {
       title: 'Create Popup',
       description: 'Add an announcement',
@@ -148,20 +151,23 @@ const Overview = () => {
       bgLight: 'bg-blue-50',
       bgDark: 'bg-blue-500/10',
     },
-    {
-      title: 'Blog Posts',
-      total: stats.blogs.total,
-      active: stats.blogs.active,
-      path: '/admin/blogs',
-      icon: (
-        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-        </svg>
-      ),
-      iconColor: 'text-emerald-500',
-      bgLight: 'bg-emerald-50',
-      bgDark: 'bg-emerald-500/10',
-    },
+    // ── Retired with the public blog ─────────────────────────────────
+    // Kept commented rather than deleted so it can be restored.
+    // {
+    // title: 'Blog Posts',
+    // total: stats.blogs.total,
+    // active: stats.blogs.active,
+    // path: '/admin/blogs',
+    // icon: (
+    // <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    // <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+    // </svg>
+    // ),
+    // iconColor: 'text-emerald-500',
+    // bgLight: 'bg-emerald-50',
+    // bgDark: 'bg-emerald-500/10',
+    // },
+
     {
       title: 'Popups',
       total: stats.popups.total,
@@ -180,7 +186,8 @@ const Overview = () => {
 
   const tabs = [
     { id: 'events', label: 'Events' },
-    { id: 'blogs', label: 'Blogs' },
+    // Retired with the public blog.
+    // { id: 'blogs', label: 'Blogs' },
     { id: 'popups', label: 'Popups' },
   ];
 

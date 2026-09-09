@@ -169,7 +169,7 @@ const courses = [
   {
     id: "cyber-ceo",
     slug: "cyber-ceo",
-    title: "Cyber CEO",
+    title: "CyberBoss",
     description: "Equip yourself with the strategic knowledge to lead your organization through complex cyber challenges and manage digital risk effectively.",
     image: ceo,
     price: "Free",

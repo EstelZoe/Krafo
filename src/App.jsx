@@ -20,8 +20,13 @@ const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const CourseDetails = lazy(() => import("./pages/CourseDetails"));
 const EventPage = lazy(() => import("./pages/EventPage"));
-const BlogPage = lazy(() => import("./pages/BlogPage"));
-const BlogDetail = lazy(() => import("./pages/BlogDetail"));
+// ── Retired, not deleted ──────────────────────────────────────────────
+// Commented out rather than removed so it can be restored by uncommenting.
+// The blog is no longer part of the site: nothing links to it from any
+// page, nav or footer. Retiring the routes also keeps the 223KB
+// ManageBlogs chunk out of the build.
+// const BlogPage = lazy(() => import("./pages/BlogPage"));
+// const BlogDetail = lazy(() => import("./pages/BlogDetail"));
 
 const Consultation = lazy(() => import("./pages/Consultation"));
 const Expertise = lazy(() => import("./pages/Expertise"));
@@ -32,7 +37,8 @@ const Services = lazy(() => import("./pages/Services"));
 const ProjectBrief = lazy(() => import("./pages/services/ProjectBrief"));
 const ProductDetail = lazy(() => import("./pages/services/ProductDetail"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
-const CybersecuritySurvey = lazy(() => import("./pages/CybersecuritySurvey"));
+// Retired: routed but never linked from anywhere on the site.
+// const CybersecuritySurvey = lazy(() => import("./pages/CybersecuritySurvey"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
@@ -46,7 +52,12 @@ const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const Overview = lazy(() => import("./pages/admin/Overview"));
 const ManageEvents = lazy(() => import("./pages/admin/ManageEvents"));
 const ManageEventInterest = lazy(() => import("./pages/admin/ManageEventInterest"));
-const ManageBlogs = lazy(() => import("./pages/admin/ManageBlogs"));
+const ManagePlannedEvents = lazy(() => import("./pages/admin/ManagePlannedEvents"));
+const ManagePastEvents = lazy(() => import("./pages/admin/ManagePastEvents"));
+const ManageAnnouncements = lazy(() => import("./pages/admin/ManageAnnouncements"));
+// Retired with the public blog — the dashboard should not offer a screen
+// for content no visitor can reach.
+// const ManageBlogs = lazy(() => import("./pages/admin/ManageBlogs"));
 const ManagePopups = lazy(() => import("./pages/admin/ManagePopups"));
 
 
@@ -104,8 +115,9 @@ function App() {
             <Route path="/courses" element={<Navigate to="/services#training" replace />} />
             <Route path="/courses/:slug" element={<CourseDetails />} />
             <Route path="/event-page" element={<EventPage />} />
+            {/* Retired — see the commented imports above.
             <Route path="/blog-page" element={<BlogPage />} />
-            <Route path="/blog/:id" element={<BlogDetail />} />
+            <Route path="/blog/:id" element={<BlogDetail />} /> */}
             {/* Youth Cyber Ed archived for now — redirect any inbound links home. */}
             <Route path="/youth-cyber-ed" element={<Navigate to="/" replace />} />
             <Route path="/consultation" element={<Consultation />} />
@@ -114,7 +126,8 @@ function App() {
             <Route path="/services/start-a-project" element={<ProjectBrief />} />
             <Route path="/services/:slug" element={<ProductDetail />} />
             <Route path="/contact" element={<ContactUs />} />
-            <Route path="/cybersecurity-survey" element={<CybersecuritySurvey />} />
+            {/* Retired — never linked from the site.
+            <Route path="/cybersecurity-survey" element={<CybersecuritySurvey />} /> */}
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/cookies-policy" element={<CookiesPolicy />} />
@@ -148,7 +161,11 @@ function App() {
               <Route index element={<Overview />} />
               <Route path="events" element={<ManageEvents />} />
               <Route path="event-interest" element={<ManageEventInterest />} />
-              <Route path="blogs" element={<ManageBlogs />} />
+              <Route path="planned-events" element={<ManagePlannedEvents />} />
+              <Route path="past-events" element={<ManagePastEvents />} />
+              <Route path="announcements" element={<ManageAnnouncements />} />
+              {/* Retired with the public blog.
+              <Route path="blogs" element={<ManageBlogs />} /> */}
               <Route path="popups" element={<ManagePopups />} />
               <Route path="assessments" element={<ManageAssessments />} />
               <Route path="promo-codes" element={<ManagePromoCodes />} />

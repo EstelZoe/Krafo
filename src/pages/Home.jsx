@@ -47,6 +47,7 @@ import PartnershipCarousel from "../assets/components/PartnershipCarousel";
 import AnnouncementPopup from "../assets/components/AnnouncementPopup";
 import PracticeShowcase from "./home/PracticeShowcase";
 import AudienceMosaic from "./home/AudienceMosaic";
+import CyberBytesBridge from "./home/CyberBytesBridge";
 import BuildJourney from "./home/BuildJourney";
 import { PROCESS_NUMERAL_TILE, PROCESS_TILE_OFFSETS } from "./home/processImagery";
 import toolkitReportShot from "../assets/images/toolkit/toolkit-report.webp";
@@ -1160,6 +1161,21 @@ export default function Home() {
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
+         CYBERBYTES — the children's platform. Placed straight after the
+         training section because that is where the thought naturally leads:
+         literacy has to start earlier than a professional course.
+      ══════════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden py-20 md:py-24">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_75%_30%,#F2600B0d,transparent_58%)]"
+        />
+        <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
+          <CyberBytesBridge />
         </div>
       </section>
 

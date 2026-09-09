@@ -3,6 +3,7 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { Menu, X, ShieldCheck } from "lucide-react";
 import krafoLogo from "../images/krafo-logo1.png";
+import AnnouncementBar from "./AnnouncementBar";
 
 const NAV_ITEMS = [
     { to: "/services", label: "Services" },
@@ -34,7 +35,12 @@ export default function Navbar() {
         location.pathname === to || location.pathname.startsWith(to + "/");
 
     return (
-        <header className="fixed inset-x-0 top-0 z-50 px-4 pt-3 sm:pt-4">
+        <header className="fixed inset-x-0 top-0 z-50">
+            {/* Sitewide announcement. Renders nothing when none is live, so the
+                nav sits at the top exactly as before whenever the bar is off. */}
+            <AnnouncementBar />
+
+            <div className="px-4 pt-3 sm:pt-4">
             {/* Floating glass pill */}
             <nav
                 aria-label="Primary navigation"
@@ -149,6 +155,7 @@ export default function Navbar() {
                     </div>
                 </div>
             )}
+            </div>
         </header>
     );
 }
