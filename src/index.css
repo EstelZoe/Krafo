@@ -506,3 +506,40 @@ nav,
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ── Announcement bar marquee ─────────────────────────────────────────
+   The strip above the navbar scrolls its message right-to-left. Two
+   identical copies sit side by side and the track travels exactly half its
+   own width, so the moment the first copy leaves the frame the second is
+   sitting where it started and the loop is seamless.
+
+   The duration is set per-announcement from the message length, so a long
+   notice does not race past at the same speed as a three-word one. */
+@keyframes krafo-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+.krafo-marquee-track {
+    animation: krafo-marquee var(--marquee-duration, 24s) linear infinite;
+}
+
+/* Stop on hover so a passing message can actually be read, and on
+   focus-within so a keyboard user tabbing to the link is not chasing it. */
+.krafo-marquee:hover .krafo-marquee-track,
+.krafo-marquee:focus-within .krafo-marquee-track {
+    animation-play-state: paused;
+}
+
+/* Scrolling text is a genuine accessibility problem for some readers, so
+   honour the system setting: one static, centred copy and no movement. */
+@media (prefers-reduced-motion: reduce) {
+    .krafo-marquee-track {
+        animation: none;
+        width: 100%;
+        justify-content: center;
+    }
+    .krafo-marquee-track > [data-marquee-clone] {
+        display: none;
+    }
+}

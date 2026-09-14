@@ -90,7 +90,11 @@ export default function ManagePlannedEvents() {
         .forEach((k) => form[k] !== '' && payload.append(k, form[k]));
       if (mediaFile) {
         payload.append('image', mediaFile);
-        payload.append('mediaType', mediaFile.type.startsWith('video') ? 'video' : 'image');
+        // The file decides the type — picking a video makes it a video whatever
+        // the dropdown said. `set`, not `append`: the loop above has already put
+        // a mediaType in, and appending a second one sends both, which reaches
+        // the API as an array and fails to cast.
+        payload.set('mediaType', mediaFile.type.startsWith('video') ? 'video' : 'image');
       }
 
       if (editing) {

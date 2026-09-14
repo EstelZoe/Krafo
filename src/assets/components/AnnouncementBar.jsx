@@ -7,7 +7,14 @@ import { apiClient } from "../../api/client";
  * The thin bar above the navbar. One live announcement at a time, chosen by
  * the API; nothing renders when there is none.
  *
- * Two behaviours worth knowing:
+ * Behaviours worth knowing:
+ *
+ *   - The message scrolls right-to-left, and stops the moment a pointer is
+ *     over the bar. A moving message catches the eye; a moving message that
+ *     cannot be stopped is just something to be annoyed by.
+ *
+ *   - The whole strip is the link, not just the label at the end. Chasing a
+ *     small moving target with a cursor is a bad way to spend an afternoon.
  *
  *   - It is dismissible, and the dismissal is remembered per announcement id.
  *     A visitor who closed October's offer should not see it again on every
@@ -19,6 +26,12 @@ import { apiClient } from "../../api/client";
  */
 
 const DISMISSED_KEY = "krafo.announcement.dismissed";
+
+// A short message would whip past in a couple of seconds at a fixed duration,
+// so the pace is derived from the length instead: roughly a constant reading
+// speed, with a floor so nothing is ever frantic.
+const SECONDS_PER_CHARACTER = 0.32;
+const MINIMUM_SECONDS = 18;
 
 const readDismissed = () => {
     try {
@@ -67,47 +80,93 @@ export default function AnnouncementBar() {
     const { message, linkUrl, linkLabel } = announcement;
     const external = linkUrl && /^https?:\/\//i.test(linkUrl);
 
-    const cta = linkUrl && (
-        external ? (
-            <a
-                href={linkUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex shrink-0 items-center gap-1 font-bold underline underline-offset-2 hover:no-underline"
+    const duration = Math.max(
+        MINIMUM_SECONDS,
+        (message.length + (linkLabel?.length || 0)) * SECONDS_PER_CHARACTER
+    );
+
+    // One run of the message. Rendered twice inside the track; the clone is
+    // hidden from assistive technology so the notice is announced once.
+    const segment = (clone) => (
+        <span
+            data-marquee-clone={clone || undefined}
+            aria-hidden={clone || undefined}
+            className="flex shrink-0 items-center gap-2 whitespace-nowrap px-8 text-[13px] leading-none sm:text-sm"
+        >
+            <Megaphone size={14} className="shrink-0 opacity-80" aria-hidden="true" />
+            <span>{message}</span>
+            {linkUrl && (
+                <span className="inline-flex items-center gap-1 font-bold underline underline-offset-2">
+                    {linkLabel || "Find out more"}
+                    <ArrowRight size={13} />
+                </span>
+            )}
+        </span>
+    );
+
+    const track = (
+        <div className="krafo-marquee overflow-hidden py-2.5">
+            <div
+                className="krafo-marquee-track flex w-max items-center"
+                style={{ "--marquee-duration": `${duration}s` }}
             >
-                {linkLabel || "Find out more"}
-                <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
-            </a>
-        ) : (
-            <Link
-                to={linkUrl}
-                className="group inline-flex shrink-0 items-center gap-1 font-bold underline underline-offset-2 hover:no-underline"
-            >
-                {linkLabel || "Find out more"}
-                <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
-            </Link>
-        )
+                {segment(false)}
+                {segment(true)}
+            </div>
+        </div>
+    );
+
+    // The whole strip is the click target when there is somewhere to go.
+    // Without a link it stays a plain div rather than a button that does
+    // nothing.
+    const body = !linkUrl ? (
+        track
+    ) : external ? (
+        <a
+            href={linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${message} — ${linkLabel || "Find out more"}`}
+            className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white"
+        >
+            {track}
+        </a>
+    ) : (
+        <Link
+            to={linkUrl}
+            aria-label={`${message} — ${linkLabel || "Find out more"}`}
+            className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white"
+        >
+            {track}
+        </Link>
     );
 
     return (
         <div
             role="region"
             aria-label="Site announcement"
-            className="relative z-[60] bg-[#F2600B] text-white"
+            className="relative z-[60] overflow-hidden bg-[#F2600B] text-white"
         >
-            <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2.5 pr-10 sm:px-6">
-                <Megaphone size={15} className="hidden shrink-0 opacity-80 sm:block" aria-hidden="true" />
-                <p className="flex flex-1 flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-center text-[13px] leading-snug sm:text-sm">
-                    <span>{message}</span>
-                    {cta}
-                </p>
-            </div>
+            {body}
+
+            {/* Edge fades, so the message slides in and out rather than being
+                clipped at a hard line — and so it disappears cleanly behind the
+                dismiss button. Both must stay click-through: an overlay that
+                swallows pointer events is what made the FAQ accordion dead. */}
+            <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-[#F2600B] to-transparent"
+            />
+            <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#F2600B] via-[#F2600B] to-transparent"
+            />
 
             <button
                 type="button"
                 onClick={dismiss}
                 aria-label="Dismiss announcement"
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1.5 opacity-75 transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full p-1.5 opacity-75 transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
                 <X size={15} />
             </button>
