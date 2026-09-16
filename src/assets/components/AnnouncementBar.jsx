@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Megaphone, X } from "lucide-react";
+import { ArrowRight, Megaphone, } from "lucide-react";
 import { apiClient } from "../../api/client";
 
 /**
@@ -25,7 +25,7 @@ import { apiClient } from "../../api/client";
  *     than one that appears a moment late.
  */
 
-const DISMISSED_KEY = "krafo.announcement.dismissed";
+// const DISMISSED_KEY = "krafo.announcement.dismissed";
 
 // A short message would whip past in a couple of seconds at a fixed duration,
 // so the pace is derived from the length instead: roughly a constant reading
@@ -33,15 +33,15 @@ const DISMISSED_KEY = "krafo.announcement.dismissed";
 const SECONDS_PER_CHARACTER = 0.32;
 const MINIMUM_SECONDS = 18;
 
-const readDismissed = () => {
-    try {
-        return localStorage.getItem(DISMISSED_KEY);
-    } catch {
-        // Private windows and hardened browsers throw on access. Not being able
-        // to remember a dismissal is not a reason to hide the announcement.
-        return null;
-    }
-};
+// const readDismissed = () => {
+//     try {
+//         return localStorage.getItem(DISMISSED_KEY);
+//     } catch {
+//         // Private windows and hardened browsers throw on access. Not being able
+//         // to remember a dismissal is not a reason to hide the announcement.
+//         return null;
+//     }
+// };
 
 export default function AnnouncementBar() {
     const [announcement, setAnnouncement] = useState(null);
@@ -53,7 +53,7 @@ export default function AnnouncementBar() {
             .get("/announcements/active")
             .then(({ data }) => {
                 if (cancelled || !data?.message) return;
-                if (readDismissed() === String(data.id)) return;
+                // if (readDismissed() === String(data.id)) return;
                 setAnnouncement(data);
             })
             .catch(() => {
@@ -68,14 +68,14 @@ export default function AnnouncementBar() {
 
     if (!announcement) return null;
 
-    const dismiss = () => {
-        try {
-            localStorage.setItem(DISMISSED_KEY, String(announcement.id));
-        } catch {
-            // Nothing to do — it will simply reappear next visit.
-        }
-        setAnnouncement(null);
-    };
+    // const dismiss = () => {
+    //     try {
+    //         localStorage.setItem(DISMISSED_KEY, String(announcement.id));
+    //     } catch {
+    //         // Nothing to do — it will simply reappear next visit.
+    //     }
+    //     setAnnouncement(null);
+    // };
 
     const { message, linkUrl, linkLabel } = announcement;
     const external = linkUrl && /^https?:\/\//i.test(linkUrl);
@@ -161,15 +161,6 @@ export default function AnnouncementBar() {
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#F2600B] via-[#F2600B] to-transparent"
             />
-
-            <button
-                type="button"
-                onClick={dismiss}
-                aria-label="Dismiss announcement"
-                className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full p-1.5 opacity-75 transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-            >
-                <X size={15} />
-            </button>
         </div>
     );
 }
