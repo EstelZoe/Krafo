@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
+import { UpcomingEventPreview } from './EventPreviews';
 import { SkeletonCards } from '../../components/Skeleton';
 
 const EMPTY_FORM = {
@@ -18,7 +19,7 @@ const EMPTY_FORM = {
 };
 
 const ManageEvents = () => {
-  const { isDark, colors } = useTheme();
+  const { colors } = useTheme();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -456,7 +457,7 @@ const ManageEvents = () => {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border"
+              className="rounded-2xl shadow-xl max-w-5xl w-full max-h-[90vh] overflow-y-auto border"
               style={{ backgroundColor: colors.bgCard, borderColor: colors.border }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -464,6 +465,9 @@ const ManageEvents = () => {
                 <h2 className="text-2xl font-bold mb-6" style={{ color: colors.text }}>
                   {editingEvent ? 'Edit Event' : 'Create New Event'}
                 </h2>
+                {/* Fields left, live preview right. The preview is sticky so it
+                    stays in view while the description is written further down. */}
+                <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-1" style={{ color: colors.textSecondary }}>
@@ -687,6 +691,19 @@ const ManageEvents = () => {
                     </button>
                   </div>
                 </form>
+
+                <div className="lg:sticky lg:top-0 lg:self-start">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider"
+                     style={{ color: colors.textMuted }}>
+                    Live preview
+                  </p>
+                  <UpcomingEventPreview form={formData} file={imageFile} />
+                  <p className="mt-2 text-xs" style={{ color: colors.textMuted }}>
+                    Close to the spotlight card on the events page. The real one
+                    puts the artwork beside the copy on a wide screen.
+                  </p>
+                </div>
+                </div>
               </div>
             </motion.div>
           </motion.div>

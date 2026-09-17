@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { History, Plus, Trash2, Images } from 'lucide-react';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
+import { PastEventPreview } from './EventPreviews';
 import EmptyState from '../../components/EmptyState';
 import { SkeletonCards } from '../../components/Skeleton';
 
@@ -34,6 +35,9 @@ export default function ManagePastEvents() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [files, setFiles] = useState([]);
+  // Galleries go up several megabytes at a time, so the wait needs a number
+  // on it rather than a spinner that could mean anything.
+  const [uploadPct, setUploadPct] = useState(null);
   const [removeIds, setRemoveIds] = useState([]);
   const [submitting, setSubmitting] = useState(false);
 
@@ -76,14 +80,22 @@ export default function ManagePastEvents() {
       files.forEach((f) => payload.append('images', f));
       if (removeIds.length) payload.append('removePhotoIds', removeIds.join(','));
 
+      const config = {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: files.length
+          ? (e) => e.total && setUploadPct(Math.round((e.loaded / e.total) * 100))
+          : undefined,
+      };
+      const added = files.length
+        ? ` — ${files.length} photo${files.length === 1 ? '' : 's'} uploaded`
+        : '';
+
       if (editing) {
-        await apiClient.patch(`/admin/content/past-events/${editing.id}`, payload,
-          { headers: { 'Content-Type': 'multipart/form-data' } });
-        toast.success('Past event updated');
+        await apiClient.patch(`/admin/content/past-events/${editing.id}`, payload, config);
+        toast.success(`Past event updated${added}`);
       } else {
-        await apiClient.post('/admin/content/past-events', payload,
-          { headers: { 'Content-Type': 'multipart/form-data' } });
-        toast.success('Past event created');
+        await apiClient.post('/admin/content/past-events', payload, config);
+        toast.success(`Past event created${added}`);
       }
       setShowForm(false);
       fetchEvents();
@@ -91,6 +103,7 @@ export default function ManagePastEvents() {
       toast.error(err.response?.data?.error || 'Could not save');
     } finally {
       setSubmitting(false);
+      setUploadPct(null);
     }
   };
 
@@ -219,11 +232,15 @@ export default function ManagePastEvents() {
             onClick={() => setShowForm(false)}>
             <motion.form initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()} onSubmit={submit}
-              className="w-full max-w-2xl rounded-2xl border p-6 flex flex-col gap-4"
+              className="w-full max-w-5xl rounded-2xl border p-6"
               style={{ backgroundColor: colors.bgCard, borderColor: colors.border }}>
               <h3 className="text-xl font-bold" style={{ color: colors.text }}>
                 {editing ? 'Edit past event' : 'New past event'}
               </h3>
+
+              {/* Fields left, live preview right. */}
+              <div className="mt-4 grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+                <div className="flex flex-col gap-4">
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {field('Title', 'title')}
@@ -257,6 +274,16 @@ export default function ManagePastEvents() {
                                    opacity: going ? 0.4 : 1 }}
                           title={going ? 'Will be removed on save — click to keep' : 'Click to remove on save'}>
                           <img src={p.url} alt="" className="h-full w-full object-cover" />
+                          {/* Which photo is the card image was invisible here, so
+                              adding a photo and seeing the card thumbnail stay put
+                              read as a failed upload rather than as the documented
+                              behaviour it is. */}
+                          {p.url === editing.image && !going && (
+                            <span className="absolute inset-x-0 bottom-0 py-0.5 text-center text-[9px] font-bold uppercase tracking-wide text-white"
+                                  style={{ backgroundColor: colors.primary }}>
+                              Cover
+                            </span>
+                          )}
                           {going && (
                             <span className="absolute inset-0 flex items-center justify-center"
                               style={{ backgroundColor: colors.errorBg }}>
@@ -282,20 +309,84 @@ export default function ManagePastEvents() {
                 <input type="file" accept="image/*" multiple
                   onChange={(e) => setFiles(Array.from(e.target.files || []))}
                   className="text-sm" style={{ color: colors.textSecondary }} />
+                {/* Nothing has uploaded yet — the files only leave the browser on
+                    save — so this counts what is staged, not what landed. */}
+                {files.length > 0 && (
+                  <div className="flex flex-col gap-1 rounded-lg border px-3 py-2"
+                       style={{ borderColor: colors.primary, backgroundColor: colors.bgTertiary }}>
+                    <span className="text-xs font-semibold" style={{ color: colors.text }}>
+                      {files.length} file{files.length === 1 ? '' : 's'} ready to upload on save
+                      {files.length > 10 && (
+                        <span style={{ color: colors.warning }}> · only the first 10 are accepted</span>
+                      )}
+                    </span>
+                    {files.map((f) => (
+                      <span key={f.name + f.size} className="truncate text-xs"
+                            style={{ color: colors.textMuted }}>
+                        {f.name} — {(f.size / 1024 / 1024).toFixed(2)} MB
+                        {f.size > 5 * 1024 * 1024 && ' · over the 5MB limit'}
+                      </span>
+                    ))}
+                    <button type="button" onClick={() => setFiles([])}
+                      className="self-start rounded text-xs font-semibold"
+                      style={{ color: colors.textMuted }}>
+                      Clear selection
+                    </button>
+                  </div>
+                )}
+
+                {uploadPct !== null && (
+                  <div className="flex flex-col gap-1">
+                    <div className="h-1.5 overflow-hidden rounded-full"
+                         style={{ backgroundColor: colors.bgTertiary }}>
+                      <div className="h-full rounded-full transition-all duration-200"
+                           style={{ width: `${uploadPct}%`, backgroundColor: colors.primary }} />
+                    </div>
+                    <span className="text-xs" style={{ color: colors.textMuted }}>
+                      {uploadPct < 100 ? `Uploading ${uploadPct}%` : 'Processing on the server…'}
+                    </span>
+                  </div>
+                )}
+
                 <p className="text-xs" style={{ color: colors.textMuted }}>
                   Up to 10 at a time. These are added to the gallery, not replacing it.
-                  {!editing && ' The first becomes the card image.'}
+                  {editing
+                    ? ' The card image stays as it is — delete the one marked Cover if you want a different one.'
+                    : ' The first becomes the card image.'}
                 </p>
               </div>
+                </div>
 
-              <div className="flex justify-end gap-3 border-t pt-4" style={{ borderColor: colors.borderLight }}>
+                <div className="lg:sticky lg:top-0 lg:self-start">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider"
+                     style={{ color: colors.textMuted }}>
+                    Live preview
+                  </p>
+                  <PastEventPreview
+                    form={form}
+                    coverFile={editing?.image ? null : files[0] || null}
+                    storedImage={editing?.image}
+                    photoCount={(editing?.photos?.length || 0) - removeIds.length + files.length}
+                  />
+                  <p className="mt-2 text-xs" style={{ color: colors.textMuted }}>
+                    Close to how it appears on the events page. The first card in
+                    the grid is drawn larger than this.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-4 flex justify-end gap-3 border-t pt-4" style={{ borderColor: colors.borderLight }}>
                 <button type="button" onClick={() => setShowForm(false)}
                   className="rounded-lg px-4 py-2 text-sm font-semibold"
                   style={{ backgroundColor: colors.bgTertiary, color: colors.text }}>Cancel</button>
                 <button type="submit" disabled={submitting}
                   className="rounded-lg px-5 py-2 text-sm font-semibold text-white disabled:opacity-60"
                   style={{ backgroundColor: colors.primary }}>
-                  {submitting ? 'Saving…' : editing ? 'Save changes' : 'Create'}
+                  {submitting
+                    ? uploadPct !== null && uploadPct < 100
+                      ? `Uploading ${uploadPct}%`
+                      : 'Saving…'
+                    : editing ? 'Save changes' : 'Create'}
                 </button>
               </div>
             </motion.form>

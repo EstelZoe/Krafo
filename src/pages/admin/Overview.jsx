@@ -16,6 +16,9 @@ const Overview = () => {
     events: { total: 0, active: 0 },
     blogs: { total: 0, active: 0 },
     popups: { total: 0, active: 0 },
+    // Interest signups have no active/inactive state — the second number is
+    // how many distinct planned events those signups are spread across.
+    eventInterest: { total: 0, events: 0 },
   });
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -32,15 +35,28 @@ const Overview = () => {
     try {
       if (silent) setRefreshing(true);
       else setLoading(true);
-      const [eventsRes, blogsRes, popupsRes] = await Promise.all([
+      // allSettled, not all: one endpoint erroring should cost that card its
+      // number, not blank every card on the dashboard.
+      const [eventsRes, blogsRes, popupsRes, interestRes] = await Promise.allSettled([
         apiClient.get('/admin/content/events'),
         apiClient.get('/admin/content/blogs'),
         apiClient.get('/admin/content/popups'),
+        apiClient.get('/admin/content/event-interest'),
       ]);
 
-      const eventsData = Array.isArray(eventsRes.data) ? eventsRes.data : [];
-      const blogsData = Array.isArray(blogsRes.data) ? blogsRes.data : [];
-      const popupsData = Array.isArray(popupsRes.data) ? popupsRes.data : [];
+      const rowsOf = (result) => {
+        if (result.status !== 'fulfilled') {
+          console.error('Dashboard fetch failed:', result.reason);
+          return [];
+        }
+        const body = result.value?.data;
+        return Array.isArray(body) ? body : [];
+      };
+
+      const eventsData = rowsOf(eventsRes);
+      const blogsData = rowsOf(blogsRes);
+      const popupsData = rowsOf(popupsRes);
+      const interestData = rowsOf(interestRes);
 
       setAllData({ events: eventsData, blogs: blogsData, popups: popupsData });
 
@@ -56,6 +72,10 @@ const Overview = () => {
         popups: {
           total: popupsData.length,
           active: popupsData.filter((p) => p.isActive === true).length,
+        },
+        eventInterest: {
+          total: interestData.length,
+          events: new Set(interestData.map((s) => s.plannedEventId)).size,
         },
       });
     } catch (error) {
@@ -181,6 +201,24 @@ const Overview = () => {
       iconColor: 'text-purple-500',
       bgLight: 'bg-purple-50',
       bgDark: 'bg-purple-500/10',
+    },
+    {
+      title: 'Event Interest',
+      total: stats.eventInterest.total,
+      // No active/inactive state here, so the badge says what the number is
+      // spread across rather than repeating a meaningless "0 active".
+      badge: `across ${stats.eventInterest.events} ${
+        stats.eventInterest.events === 1 ? 'event' : 'events'
+      }`,
+      path: '/admin/event-interest',
+      icon: (
+        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+      iconColor: 'text-amber-500',
+      bgLight: 'bg-amber-50',
+      bgDark: 'bg-amber-500/10',
     },
   ];
 
@@ -357,7 +395,7 @@ const Overview = () => {
                       }}
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-current mr-1.5" />
-                      {loading ? '...' : `${card.active} active`}
+                      {loading ? '...' : card.badge ?? `${card.active} active`}
                     </span>
                   </div>
                 </div>

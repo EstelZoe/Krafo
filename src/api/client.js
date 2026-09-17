@@ -13,12 +13,36 @@ export const apiClient = axios.create({
     baseURL,
 });
 
+/**
+ * Admin reads must never come from a cache.
+ *
+ * The host's nginx caches API responses, and it keys on the full URL while
+ * ignoring both the Authorization header and a no-cache request header. The
+ * practical effect on the dashboard was brutal: an admin saves a record,
+ * the list refetches, nginx returns the body it stored minutes earlier, and
+ * the change looks like it never happened. Every save looked like a failure.
+ *
+ * The origin should be sending Cache-Control: no-store, and does in the code.
+ * This is deliberately belt-and-braces on top of that: a unique query
+ * parameter makes every admin read its own cache key, so no intermediary —
+ * the host, a CDN, a corporate proxy, or the browser — can serve a stale one.
+ *
+ * Scoped to /admin/ on purpose. Public reads stay cacheable, which is the
+ * behaviour that makes the site fast for visitors.
+ */
+const isAdminRead = (config) =>
+    (config.method || 'get').toLowerCase() === 'get' &&
+    String(config.url || '').includes('/admin/');
+
 // Attach the auth token to every request.
 apiClient.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
+        }
+        if (isAdminRead(config)) {
+            config.params = { ...config.params, _ts: Date.now() };
         }
         return config;
     },

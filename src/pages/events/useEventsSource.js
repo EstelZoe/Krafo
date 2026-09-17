@@ -15,16 +15,18 @@
 
 import { useEffect, useState } from "react";
 import { apiClient } from "../../api/client";
-import * as Icons from "lucide-react";
+import { iconFromName } from "../../constants/eventIcons";
 import { PAST_EVENTS, PAST_EVENT_YEARS, PLANNED_EVENTS } from "./eventsContent";
 
 /**
- * A stored record carries an icon *name*; the page needs a component. An
- * unknown or missing name resolves to Sparkles rather than throwing, so a typo
- * in the dashboard can never blank the section.
+ * A stored record carries an icon *name*; the page needs a component.
+ *
+ * Resolving that used to mean a namespace import of lucide-react, which pinned
+ * the entire icon library into the bundle — see constants/eventIcons.js.
+ * Re-exported from here because this module is where consumers already look
+ * for it.
  */
-export const iconFromName = (name) =>
-    (name && Icons[name]) || Icons.Sparkles;
+export { iconFromName };
 
 /** Reshape an API planned event into what the existing components expect. */
 const adaptPlanned = (e) => ({

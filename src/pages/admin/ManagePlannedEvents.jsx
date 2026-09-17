@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { CalendarClock, Plus, Users } from 'lucide-react';
 import { apiClient } from '../../api/client';
 import { useTheme } from '../../context/ThemeContext';
+import { EVENT_ICON_NAMES } from '../../constants/eventIcons';
+import { PlannedEventPreview } from './EventPreviews';
 import EmptyState from '../../components/EmptyState';
 import { SkeletonCards } from '../../components/Skeleton';
 
@@ -18,12 +20,10 @@ import { SkeletonCards } from '../../components/Skeleton';
  * take.
  */
 
-// Offered as a short list rather than free text: the value must match a lucide
-// export or the public page falls back to a generic icon.
-const ICONS = [
-  'Brain', 'Stethoscope', 'HeartHandshake', 'Building2', 'Users',
-  'GraduationCap', 'ShieldCheck', 'Landmark', 'Rocket', 'Sparkles',
-];
+// Offered as a short list rather than free text, and read from the same module
+// the public page resolves against — so the picker cannot offer an icon that
+// does not ship. See constants/eventIcons.js for why that set is closed.
+const ICONS = EVENT_ICON_NAMES;
 
 const EMPTY = {
   slug: '', title: '', goal: 30, iconName: 'Sparkles',
@@ -43,6 +43,9 @@ export default function ManagePlannedEvents() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [mediaFile, setMediaFile] = useState(null);
+  // null when idle. A 5MB flyer over a Ghanaian mobile connection is a long
+  // silence otherwise, and silence is indistinguishable from failure.
+  const [uploadPct, setUploadPct] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
   const fetchEvents = async () => {
@@ -72,7 +75,11 @@ export default function ManagePlannedEvents() {
       slug: e.slug, title: e.title, goal: e.goal, iconName: e.iconName || 'Sparkles',
       window: e.window || '', venue: e.venue || '', format: e.format || '',
       pitch: e.pitch || '', signals: (e.signals || []).join(', '),
-      mediaUrl: e.mediaUrl || '', mediaType: e.mediaType || 'image',
+      // Deliberately blank when the artwork is one we uploaded: the field is
+      // for pointing at media hosted elsewhere, and showing our own URL in it
+      // invites an edit that would detach the record from its Cloudinary asset.
+      mediaUrl: e.mediaCloudinaryId ? '' : e.mediaUrl || '',
+      mediaType: e.mediaType || 'image',
     });
     setMediaFile(null);
     setShowForm(true);
@@ -97,14 +104,21 @@ export default function ManagePlannedEvents() {
         payload.set('mediaType', mediaFile.type.startsWith('video') ? 'video' : 'image');
       }
 
+      // Only meaningful when a file is attached; without one the body is a
+      // few hundred bytes and the bar would flash past at 100%.
+      const config = {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: mediaFile
+          ? (e) => e.total && setUploadPct(Math.round((e.loaded / e.total) * 100))
+          : undefined,
+      };
+
       if (editing) {
-        await apiClient.patch(`/admin/content/planned-events/${editing.id}`, payload,
-          { headers: { 'Content-Type': 'multipart/form-data' } });
-        toast.success('Planned event updated');
+        await apiClient.patch(`/admin/content/planned-events/${editing.id}`, payload, config);
+        toast.success(mediaFile ? 'Saved — artwork uploaded' : 'Planned event updated');
       } else {
-        await apiClient.post('/admin/content/planned-events', payload,
-          { headers: { 'Content-Type': 'multipart/form-data' } });
-        toast.success('Planned event created');
+        await apiClient.post('/admin/content/planned-events', payload, config);
+        toast.success(mediaFile ? 'Created — artwork uploaded' : 'Planned event created');
       }
       setShowForm(false);
       fetchEvents();
@@ -112,6 +126,7 @@ export default function ManagePlannedEvents() {
       toast.error(err.response?.data?.error || 'Could not save');
     } finally {
       setSubmitting(false);
+      setUploadPct(null);
     }
   };
 
@@ -219,9 +234,31 @@ export default function ManagePlannedEvents() {
             <motion.div
               key={e.id}
               layout
-              className="rounded-xl border p-5 flex flex-col gap-3"
+              className="overflow-hidden rounded-xl border flex flex-col"
               style={{ backgroundColor: colors.bgCard, borderColor: colors.border }}
             >
+              {/* The artwork was missing from this list entirely, which made a
+                  replaced image look like a failed upload: there was simply
+                  nowhere on the screen for it to appear. The cache-busting
+                  parameter is for the browser, not the API — a replaced asset
+                  gets a new Cloudinary URL, but this costs nothing and removes
+                  any doubt about what is being looked at. */}
+              {e.mediaUrl ? (
+                e.mediaType === 'video' ? (
+                  <video src={e.mediaUrl} muted loop autoPlay playsInline
+                    className="h-28 w-full object-cover" />
+                ) : (
+                  <img src={`${e.mediaUrl}?v=${e.updatedAt || ''}`} alt=""
+                    className="h-28 w-full object-cover" loading="lazy" />
+                )
+              ) : (
+                <div className="flex h-28 w-full items-center justify-center text-xs"
+                     style={{ backgroundColor: colors.bgTertiary, color: colors.textMuted }}>
+                  No artwork
+                </div>
+              )}
+
+              <div className="flex flex-col gap-3 p-5">
               <div className="flex items-start justify-between gap-3">
                 <h3 className="font-semibold leading-snug" style={{ color: colors.text }}>{e.title}</h3>
                 <span
@@ -269,6 +306,7 @@ export default function ManagePlannedEvents() {
                   className="rounded-lg px-3 py-1.5 text-xs font-semibold"
                   style={{ backgroundColor: colors.errorBg, color: colors.error }}>Delete</button>
               </div>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -285,12 +323,18 @@ export default function ManagePlannedEvents() {
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()}
               onSubmit={submit}
-              className="w-full max-w-2xl rounded-2xl border p-6 flex flex-col gap-4"
+              className="w-full max-w-5xl rounded-2xl border p-6"
               style={{ backgroundColor: colors.bgCard, borderColor: colors.border }}
             >
               <h3 className="text-xl font-bold" style={{ color: colors.text }}>
                 {editing ? 'Edit planned event' : 'New planned event'}
               </h3>
+
+              {/* Fields left, live preview right. The preview is sticky so it
+                  stays in view while the pitch is being written near the
+                  bottom of a long form. */}
+              <div className="mt-4 grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+                <div className="flex flex-col gap-4">
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {field('Title', 'title')}
@@ -316,10 +360,28 @@ export default function ManagePlannedEvents() {
                 placeholder: 'Free to attend, Open to everyone, Limited seats',
                 help: 'Comma separated. Shown as small chips on the card.' })}
 
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 <label className="text-sm font-medium" style={{ color: colors.textSecondary }}>
-                  Artwork {editing?.mediaUrl && <span style={{ color: colors.textMuted }}>(replaces the current one)</span>}
+                  Artwork
                 </label>
+
+                {/* What is on the record now. Without this the only way to know
+                    whether an event already has artwork is to go and look at the
+                    site. */}
+                {editing?.mediaUrl && !mediaFile && (
+                  <div className="flex items-center gap-3 rounded-lg border p-2"
+                       style={{ borderColor: colors.borderLight }}>
+                    {editing.mediaType === 'video' ? (
+                      <video src={editing.mediaUrl} muted className="h-12 w-16 rounded object-cover" />
+                    ) : (
+                      <img src={editing.mediaUrl} alt="" className="h-12 w-16 rounded object-cover" />
+                    )}
+                    <span className="text-xs" style={{ color: colors.textMuted }}>
+                      Current artwork. Choosing a file below replaces it.
+                    </span>
+                  </div>
+                )}
+
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/webp,image/gif"
@@ -327,32 +389,103 @@ export default function ManagePlannedEvents() {
                   className="text-sm"
                   style={{ color: colors.textSecondary }}
                 />
+
+                {/* Nothing has left the browser yet at this point — the file only
+                    uploads on save — so this says "ready to upload", not
+                    "uploaded". Claiming the latter here would be a lie that only
+                    surfaces when the save fails. */}
+                {mediaFile && (
+                  <div className="flex items-center justify-between gap-3 rounded-lg border px-3 py-2"
+                       style={{ borderColor: colors.primary, backgroundColor: colors.bgTertiary }}>
+                    <span className="min-w-0 text-xs" style={{ color: colors.text }}>
+                      <span className="block truncate font-semibold">{mediaFile.name}</span>
+                      <span style={{ color: colors.textMuted }}>
+                        {(mediaFile.size / 1024 / 1024).toFixed(2)} MB — ready to upload on save
+                        {mediaFile.size > 5 * 1024 * 1024 && ' · over the 5MB limit'}
+                      </span>
+                    </span>
+                    <button type="button" onClick={() => setMediaFile(null)}
+                      className="shrink-0 rounded px-2 py-1 text-xs font-semibold"
+                      style={{ color: colors.textMuted }}>
+                      Remove
+                    </button>
+                  </div>
+                )}
+
+                {uploadPct !== null && (
+                  <div className="flex flex-col gap-1">
+                    <div className="h-1.5 overflow-hidden rounded-full"
+                         style={{ backgroundColor: colors.bgTertiary }}>
+                      <div className="h-full rounded-full transition-all duration-200"
+                           style={{ width: `${uploadPct}%`, backgroundColor: colors.primary }} />
+                    </div>
+                    <span className="text-xs" style={{ color: colors.textMuted }}>
+                      {uploadPct < 100 ? `Uploading ${uploadPct}%` : 'Processing on the server…'}
+                    </span>
+                  </div>
+                )}
+
                 <p className="text-xs" style={{ color: colors.textMuted }}>
                   JPEG, PNG, WebP or GIF, up to 5MB. Optional — the card works
                   without one.
                 </p>
               </div>
 
-              {/* Uploads are restricted to images on purpose: the file filter
-                  that enforces that is shared with courses, blogs and popups,
-                  and widening it here would widen it everywhere. A card that
-                  needs video points at an already-hosted file instead. */}
-              <div className="grid gap-4 sm:grid-cols-[1fr_auto]">
-                {field('Or link to hosted media', 'mediaUrl', {
-                  placeholder: 'https://res.cloudinary.com/...',
-                  help: 'Use this for video — uploads accept images only.',
-                })}
-                {field('Media type', 'mediaType', { options: ['image', 'video'] })}
+              {/* Uploads are restricted to images on purpose: the file filter that
+                  enforces that is shared with courses, blogs and popups, and
+                  widening it here would widen it everywhere. A card that needs
+                  video points at an already-hosted file instead — which is the
+                  only reason this field still exists. It stays empty for artwork
+                  we host ourselves. */}
+              <details className="rounded-lg border px-3 py-2" style={{ borderColor: colors.borderLight }}>
+                <summary className="cursor-pointer text-xs font-semibold" style={{ color: colors.textSecondary }}>
+                  Use video, or media hosted elsewhere
+                </summary>
+                <div className="mt-3 grid gap-4 sm:grid-cols-[1fr_auto]">
+                  {field('Link to hosted media', 'mediaUrl', {
+                    placeholder: 'https://…/flyer.mp4',
+                    help: 'Uploads accept images only, so a video goes here as a URL.',
+                  })}
+                  {field('Media type', 'mediaType', { options: ['image', 'video'] })}
+                </div>
+              </details>
+                </div>
+
+                <div className="lg:sticky lg:top-0 lg:self-start">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider"
+                     style={{ color: colors.textMuted }}>
+                    Live preview
+                  </p>
+                  {/* storedMediaUrl is passed separately because the form field is
+                      deliberately blank for artwork we host ourselves — without it,
+                      an event with a perfectly good image previews as "No artwork
+                      yet", which is exactly the wrong signal. */}
+                  <PlannedEventPreview
+                    form={form}
+                    file={mediaFile}
+                    storedMediaUrl={editing?.mediaUrl}
+                    storedMediaType={editing?.mediaType}
+                    interestCount={editing?.interestCount ?? 0}
+                  />
+                  <p className="mt-2 text-xs" style={{ color: colors.textMuted }}>
+                    Close to how it appears on the events page. The real card
+                    changes size depending on which event has the most interest.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex justify-end gap-3 border-t pt-4" style={{ borderColor: colors.borderLight }}>
+              <div className="mt-4 flex justify-end gap-3 border-t pt-4" style={{ borderColor: colors.borderLight }}>
                 <button type="button" onClick={() => setShowForm(false)}
                   className="rounded-lg px-4 py-2 text-sm font-semibold"
                   style={{ backgroundColor: colors.bgTertiary, color: colors.text }}>Cancel</button>
                 <button type="submit" disabled={submitting}
                   className="rounded-lg px-5 py-2 text-sm font-semibold text-white disabled:opacity-60"
                   style={{ backgroundColor: colors.primary }}>
-                  {submitting ? 'Saving…' : editing ? 'Save changes' : 'Create'}
+                  {submitting
+                    ? uploadPct !== null && uploadPct < 100
+                      ? `Uploading ${uploadPct}%`
+                      : 'Saving…'
+                    : editing ? 'Save changes' : 'Create'}
                 </button>
               </div>
             </motion.form>
