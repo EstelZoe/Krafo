@@ -22,7 +22,7 @@ export default function PastEvents() {
 
     const events = useMemo(
         () => (year === "All" ? pastEvents : pastEvents.filter((e) => e.year === year)),
-        [year]
+        [year, pastEvents]
     );
 
     const isOpen = openIndex >= 0 && openIndex < events.length;
