@@ -384,15 +384,15 @@ export default function Home() {
             {
               title: "Cyber Boss Master Class",
               originalPrice: "¢3,000",
-              discount: "5% OFF",
-              price: "¢2,500",
+              discount: "50% OFF",
+              price: "¢1,500",
               tierColor: "text-[#F2600B]",
               bg: "bg-[#0E0E0E]",
               ring: "ring-[#F2600B55]",
              
               features: [
                 "Governance and Compliance For Business Owners.",
-                "Avoid Ghana Data Protection Act fines of up to ¢60,000 with the right cybersecurity solution.",
+                "Enjoy 50% off our CYBERBOSS Masterclass this October — now GHS 1500 instead of GHS 3000.",
                 "2026 is Ghana's year of ENFORCEMENT.Get solution NOW.",
               ],
               icon: "",
@@ -414,7 +414,7 @@ export default function Home() {
               icon: "",
             },
             {
-              title: "Cyber Elite",
+              title: "Dangers of Oversharing On AI",
               price: "Coming soon",
               tierColor: "text-orange-300",
               bg: "bg-[#131313]",
@@ -467,7 +467,7 @@ export default function Home() {
               <Link
                 to={
                   index === 0
-                    ? "https://egotickets.com/events/cyber-boss-masterclass"
+                    ? "https://egotickets.com/events/cyber-boss-masterclass-3bd29200"
                     : "/courses#cybersecurity-course"
                 }
                 target={index === 0 ? "_blank" : ""}

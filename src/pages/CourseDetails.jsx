@@ -4,7 +4,7 @@ import Navbar from "../assets/components/Navbar";
 import Footer from "../assets/components/Footer";
 import ccbc from "../assets/images/ccbc.png";
 import ai from "../assets/images/AI&Cyber.png";
-import ceo from "../assets/images/ceo.png";
+import cyber from "../assets/images/Cyberbossss.jpeg";
 
 // Consolidated course data with enrollment options - matching Home.jsx styling patterns
 const COURSE_PAYMENT_LINKS = {
@@ -140,6 +140,9 @@ const courses = [
       },
     ],
   },
+
+  // AI COURSE
+
   {
     id: "ai-cybersecurity-course",
     slug: "ai-and-cybersecurity",
@@ -166,12 +169,14 @@ const courses = [
       },
     ],
   },
+
+  // cyberbosss
   {
-    id: "cyber-ceo",
-    slug: "cyber-ceo",
-    title: "Cyber CEO",
-    description: "Equip yourself with the strategic knowledge to lead your organization through complex cyber challenges and manage digital risk effectively.",
-    image: ceo,
+    id: "cyber-boss",
+    slug: "cyber-boss",
+    title: "Cyber boss",
+    description: "Governance and compliance for business owners. Adapting to the future of digital security. Designed for CEO, CIO & Excuetive Board Members The Cybersecurity Awareness offer for OCTOBER is 50% for CYBERBOSS MASTERCLASS 3000ghs to 1500ghs. Only 10 SEATS Available!!.",
+    image: cyber,
     price: "Free",
     details: [
       "Develop a robust cybersecurity strategy.",
