@@ -16,11 +16,8 @@ import pic3 from "../assets/images/africaoriginal.png";
 import pic4 from "../assets/images/cyberdefense.jpeg";
 import pic5 from "../assets/images/africadefense.jpeg";
 import { HashLink } from "react-router-hash-link";
-import BenPic from "../assets/images/benkrafopic2.jpeg";
-import RuthPic from "../assets/images/Ruth.jpeg";
 import CooPic from "../assets/images/coo.png";
 import CeoPic from "../assets/images/komla.png";
-import Corwin from "../assets/images/corwinfrancis.jpg";
 
 const journeyData = [
   {
@@ -348,12 +345,12 @@ export default function About() {
       < section className="bg-[#000000] py-16 px-4 md:px-20 pt-0 text-white font-body relative" >
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">Meet The Leadership</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">Meet The Co-Founders</h2>
             <div className="h-1 w-20 bg-gradient-to-r from-orange-500 to-yellow-500 mx-auto mb-6 rounded-full"></div>
-            <p className="text-gray-400 text-lg">We're a dynamic group of cybersecurity advocates working to secure Africa's digital future.</p>
+            <p className="text-gray-400 text-lg">The two founders behind Krafo Systems, driving our mission to secure Africa's digital future.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-3xl mx-auto">
             {[
 
               {
@@ -370,30 +367,6 @@ export default function About() {
                 desc: "Renowned Systems Engineer and Cybersecurity Expert.",
                 image: CooPic,
                 linkedin: "https://www.linkedin.com/in/amifafali/",
-                twitter: "#"
-              },
-              {
-                name: "Corwin Francis",
-                role: "Cyber Engineer Lead",
-                desc: "Has Profound Cyber Engineer Experience.",
-                image: Corwin,
-                linkedin: "https://www.linkedin.com/in/corwinfrancis/",
-                twitter: "#"
-              },
-              {
-                name: "Benjamin Derek E",
-                role: "Executive Partnership Consultant",
-                desc: "Experienced Business Development Executive.",
-                image: BenPic,
-                linkedin: "https://www.linkedin.com/in/benjamin-e-58913b61?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
-                twitter: "#"
-              },
-              {
-                name: "Ruth D. Amponsah",
-                role: "Executive Administrative Assistant",
-                desc: "Virtual Assistant & Data Analyst.",
-                image: RuthPic,
-                linkedin: "https://www.linkedin.com/in/benjamin-e-58913b61?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
                 twitter: "#"
               },
 

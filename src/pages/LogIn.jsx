@@ -151,7 +151,7 @@ export default function LogIn() {
                                 </div>
                             </div>
 
-                            <div>
+                            <div className="space-y-3">
                                 <button
                                     type="submit"
                                     disabled={loading}
@@ -159,6 +159,14 @@ export default function LogIn() {
                                 >
                                     {loading ? 'Signing in\u2026' : 'Sign in'}
                                 </button>
+                                <p className="text-center text-sm">
+                                    <Link
+                                        to="/forgot-password"
+                                        className="font-medium text-orange-600 hover:text-orange-500"
+                                    >
+                                        Forgot your password?
+                                    </Link>
+                                </p>
                             </div>
                         </form>
                     ) : (
